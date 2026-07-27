@@ -9,8 +9,8 @@ param location = readEnvironmentVariable('RUSHD_AZURE_LOCATION', 'uaenorth')
 
 param postgresAdministratorLogin = 'rushdpgadmin'
 param postgresAdministratorPassword = readEnvironmentVariable('RUSHD_POSTGRES_ADMIN_PASSWORD')
-param postgresSkuName = 'Standard_B2s'
-param postgresStorageSizeGB = 64
+param postgresSkuName = 'Standard_B1ms'
+param postgresStorageSizeGB = 32
 param postgresBackupRetentionDays = 14
 param storageSkuName = 'Standard_LRS'
 param logAnalyticsDailyQuotaGb = 1
