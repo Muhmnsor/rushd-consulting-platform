@@ -20,5 +20,4 @@ bench set-config --global redis_cache "${REDIS_CACHE}"
 bench set-config --global redis_queue "${REDIS_QUEUE}"
 bench set-config --global redis_socketio "${REDIS_QUEUE}"
 bench set-config --global --parse socketio_port "${SOCKETIO_PORT}"
-bench set-config --global --parse serve_default_site true
-
+bench set-config --global --parse serve_default_site True
