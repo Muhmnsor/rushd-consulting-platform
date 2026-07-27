@@ -1,0 +1,193 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:service_code",
+ "creation": "2026-07-26 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "service_name",
+  "service_code",
+  "category",
+  "active",
+  "column_break_1",
+  "duration_minutes",
+  "delivery_modes",
+  "requires_supervisor_approval",
+  "session_limit",
+  "section_break_1",
+  "description",
+  "eligibility_rules",
+  "follow_up_policy",
+  "section_break_2",
+  "pre_assessment_template",
+  "post_assessment_template",
+  "report_template",
+  "consent_template",
+  "price_optional"
+ ],
+ "fields": [
+  {
+   "fieldname": "service_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Service Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "service_code",
+   "fieldtype": "Data",
+   "label": "Service Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Category"
+  },
+  {
+   "default": "1",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "60",
+   "fieldname": "duration_minutes",
+   "fieldtype": "Int",
+   "label": "Duration (minutes)"
+  },
+  {
+   "default": "Both",
+   "fieldname": "delivery_modes",
+   "fieldtype": "Select",
+   "label": "Delivery Modes",
+   "options": "Online\nIn Person\nBoth"
+  },
+  {
+   "default": "0",
+   "fieldname": "requires_supervisor_approval",
+   "fieldtype": "Check",
+   "label": "Requires Supervisor Approval"
+  },
+  {
+   "fieldname": "session_limit",
+   "fieldtype": "Int",
+   "label": "Session Limit"
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Definition"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "eligibility_rules",
+   "fieldtype": "Small Text",
+   "label": "Eligibility Rules"
+  },
+  {
+   "fieldname": "follow_up_policy",
+   "fieldtype": "Small Text",
+   "label": "Follow-up Policy"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Templates"
+  },
+  {
+   "description": "Will become a Link to Assessment Template once that doctype is built (Phase 5).",
+   "fieldname": "pre_assessment_template",
+   "fieldtype": "Data",
+   "label": "Pre-Assessment Template"
+  },
+  {
+   "description": "Will become a Link to Assessment Template once that doctype is built (Phase 5).",
+   "fieldname": "post_assessment_template",
+   "fieldtype": "Data",
+   "label": "Post-Assessment Template"
+  },
+  {
+   "description": "Will become a Link to Report Template once that doctype is built (Phase 6).",
+   "fieldname": "report_template",
+   "fieldtype": "Data",
+   "label": "Report Template"
+  },
+  {
+   "description": "Will become a Link to Consent Template once that doctype is built.",
+   "fieldname": "consent_template",
+   "fieldtype": "Data",
+   "label": "Consent Template"
+  },
+  {
+   "fieldname": "price_optional",
+   "fieldtype": "Currency",
+   "label": "Price (Optional)"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Consultation Service",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Center Director",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Consultation Supervisor"
+  },
+  {
+   "read": 1,
+   "role": "Case Coordinator"
+  },
+  {
+   "read": 1,
+   "role": "Consultant"
+  },
+  {
+   "read": 1,
+   "role": "Auditor"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

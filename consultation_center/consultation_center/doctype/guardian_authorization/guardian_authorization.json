@@ -1,0 +1,248 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-07-27 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "guardian",
+  "beneficiary",
+  "relationship",
+  "authorization_status",
+  "section_validity",
+  "effective_from",
+  "effective_to",
+  "column_proof",
+  "authorized_by",
+  "accepted_at",
+  "section_scope",
+  "can_view_profile",
+  "can_view_requests",
+  "can_view_case",
+  "column_scope",
+  "can_manage_appointments",
+  "can_view_reports",
+  "section_internal",
+  "internal_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "GAUTH-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "guardian",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Guardian",
+   "options": "Guardian",
+   "reqd": 1
+  },
+  {
+   "fieldname": "beneficiary",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Beneficiary",
+   "options": "Beneficiary",
+   "reqd": 1
+  },
+  {
+   "fieldname": "relationship",
+   "fieldtype": "Select",
+   "label": "Relationship",
+   "options": "Father\nMother\nLegal Guardian\nAuthorized Representative\nOther",
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "authorization_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Authorization Status",
+   "options": "Pending\nActive\nRevoked\nExpired",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_validity",
+   "fieldtype": "Section Break",
+   "label": "Validity"
+  },
+  {
+   "default": "Today",
+   "fieldname": "effective_from",
+   "fieldtype": "Date",
+   "label": "Effective From",
+   "reqd": 1
+  },
+  {
+   "fieldname": "effective_to",
+   "fieldtype": "Date",
+   "label": "Effective To"
+  },
+  {
+   "fieldname": "column_proof",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "authorized_by",
+   "fieldtype": "Link",
+   "label": "Authorized By",
+   "options": "User"
+  },
+  {
+   "fieldname": "accepted_at",
+   "fieldtype": "Datetime",
+   "label": "Accepted At"
+  },
+  {
+   "fieldname": "section_scope",
+   "fieldtype": "Section Break",
+   "label": "Authorization Scope"
+  },
+  {
+   "default": "1",
+   "fieldname": "can_view_profile",
+   "fieldtype": "Check",
+   "label": "Can View Profile"
+  },
+  {
+   "default": "1",
+   "fieldname": "can_view_requests",
+   "fieldtype": "Check",
+   "label": "Can View Requests"
+  },
+  {
+   "default": "1",
+   "fieldname": "can_view_case",
+   "fieldtype": "Check",
+   "label": "Can View Case"
+  },
+  {
+   "fieldname": "column_scope",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "can_manage_appointments",
+   "fieldtype": "Check",
+   "label": "Can Manage Appointments"
+  },
+  {
+   "default": "0",
+   "fieldname": "can_view_reports",
+   "fieldtype": "Check",
+   "label": "Can View Reports"
+  },
+  {
+   "fieldname": "section_internal",
+   "fieldtype": "Section Break",
+   "label": "Internal",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "internal_notes",
+   "fieldtype": "Small Text",
+   "label": "Internal Notes",
+   "permlevel": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-07-27 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Guardian Authorization",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Center Director",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Center Director",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Consultation Supervisor",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Consultation Supervisor",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "permlevel": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Case Coordinator",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Case Coordinator",
+   "write": 1
+  },
+  {
+   "permlevel": 0,
+   "read": 1,
+   "role": "Guardian"
+  },
+  {
+   "permlevel": 0,
+   "read": 1,
+   "role": "Auditor"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

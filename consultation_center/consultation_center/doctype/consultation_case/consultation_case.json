@@ -1,0 +1,278 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-07-26 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "beneficiary",
+  "service",
+  "case_status",
+  "column_break_1",
+  "priority",
+  "confidentiality_level",
+  "opened_on",
+  "section_break_1",
+  "case_owner",
+  "supervisor",
+  "primary_consultant",
+  "secondary_consultants",
+  "column_break_2",
+  "branch",
+  "program",
+  "section_break_2",
+  "goal_summary",
+  "planned_sessions",
+  "completed_sessions",
+  "column_break_3",
+  "next_action",
+  "next_action_due",
+  "section_break_3",
+  "closure_reason",
+  "closed_on",
+  "outcome_status"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "CASE-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "beneficiary",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Beneficiary",
+   "options": "Beneficiary",
+   "reqd": 1
+  },
+  {
+   "fieldname": "service",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Service",
+   "options": "Consultation Service",
+   "reqd": 1
+  },
+  {
+   "default": "New",
+   "fieldname": "case_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Case Status",
+   "options": "New\nScreening\nAwaiting Assignment\nAssigned\nAwaiting Appointment\nActive\nOn Hold\nAwaiting Report\nUnder Supervisor Review\nFollow-up\nReady to Close\nClosed\nReopened\nCancelled"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Normal",
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "Low\nNormal\nHigh\nUrgent"
+  },
+  {
+   "default": "Standard",
+   "fieldname": "confidentiality_level",
+   "fieldtype": "Select",
+   "label": "Confidentiality Level",
+   "options": "Standard\nHigh\nRestricted"
+  },
+  {
+   "default": "Today",
+   "fieldname": "opened_on",
+   "fieldtype": "Date",
+   "label": "Opened On"
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Assignment"
+  },
+  {
+   "fieldname": "case_owner",
+   "fieldtype": "Link",
+   "label": "Case Owner",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "supervisor",
+   "fieldtype": "Link",
+   "label": "Supervisor",
+   "options": "User"
+  },
+  {
+   "fieldname": "primary_consultant",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Primary Consultant",
+   "options": "Consultant"
+  },
+  {
+   "description": "Comma-separated consultant codes for MVP.",
+   "fieldname": "secondary_consultants",
+   "fieldtype": "Small Text",
+   "label": "Secondary Consultants"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Data",
+   "label": "Branch"
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Data",
+   "label": "Program"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Progress"
+  },
+  {
+   "fieldname": "goal_summary",
+   "fieldtype": "Small Text",
+   "label": "Goal Summary"
+  },
+  {
+   "fieldname": "planned_sessions",
+   "fieldtype": "Int",
+   "label": "Planned Sessions"
+  },
+  {
+   "default": "0",
+   "fieldname": "completed_sessions",
+   "fieldtype": "Int",
+   "label": "Completed Sessions",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "next_action",
+   "fieldtype": "Small Text",
+   "label": "Next Action"
+  },
+  {
+   "fieldname": "next_action_due",
+   "fieldtype": "Date",
+   "label": "Next Action Due"
+  },
+  {
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break",
+   "label": "Closure"
+  },
+  {
+   "depends_on": "eval:doc.case_status=='Closed' || doc.case_status=='Cancelled'",
+   "fieldname": "closure_reason",
+   "fieldtype": "Small Text",
+   "label": "Closure Reason"
+  },
+  {
+   "depends_on": "eval:doc.case_status=='Closed'",
+   "fieldname": "closed_on",
+   "fieldtype": "Date",
+   "label": "Closed On"
+  },
+  {
+   "default": "Not Assessed",
+   "fieldname": "outcome_status",
+   "fieldtype": "Select",
+   "label": "Outcome Status",
+   "options": "Not Assessed\nImproved\nNo Change\nDeteriorated\nUnknown"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Consultation Case",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Center Director",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Consultation Supervisor",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Case Coordinator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Consultant",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Quality Reviewer"
+  },
+  {
+   "read": 1,
+   "role": "Auditor"
+  },
+  {
+   "read": 1,
+   "role": "Beneficiary"
+  },
+  {
+   "read": 1,
+   "role": "Guardian"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

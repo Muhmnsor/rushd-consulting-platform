@@ -1,0 +1,147 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-07-27 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "guardian_name",
+  "status",
+  "portal_user",
+  "section_contact",
+  "mobile",
+  "email",
+  "column_identity",
+  "id_type",
+  "id_number_encrypted"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "GDN-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "guardian_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Guardian Name",
+   "reqd": 1
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nInactive\nArchived",
+   "reqd": 1
+  },
+  {
+   "fieldname": "portal_user",
+   "fieldtype": "Link",
+   "label": "Portal User",
+   "options": "User",
+   "unique": 1
+  },
+  {
+   "fieldname": "section_contact",
+   "fieldtype": "Section Break",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "column_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "id_type",
+   "fieldtype": "Select",
+   "label": "ID Type",
+   "options": "National ID\nIqama\nPassport\nOther"
+  },
+  {
+   "description": "Encrypted by Frappe; never exposed in lists or reports.",
+   "fieldname": "id_number_encrypted",
+   "fieldtype": "Password",
+   "label": "ID Number"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-07-27 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Guardian",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Center Director",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Consultation Supervisor",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Case Coordinator",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Guardian"
+  },
+  {
+   "read": 1,
+   "role": "Auditor"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

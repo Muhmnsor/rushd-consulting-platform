@@ -1,0 +1,78 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"rushd_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\"><b>رُشد للاستشارات الشبابية</b></span>\",\"col\":12}},{\"id\":\"rushd_requests\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"طلبات الاستشارة\",\"col\":3}},{\"id\":\"rushd_cases\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الحالات الاستشارية\",\"col\":3}},{\"id\":\"rushd_appointments\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المواعيد\",\"col\":3}},{\"id\":\"rushd_beneficiaries\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المستفيدون\",\"col\":3}},{\"id\":\"rushd_guardians\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"أولياء الأمور\",\"col\":3}},{\"id\":\"rushd_consultants\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المستشارون\",\"col\":3}},{\"id\":\"rushd_services\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الخدمات\",\"col\":3}}]",
+ "creation": "2026-07-27 00:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "heart-handshake",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Rushd",
+ "links": [],
+ "modified": "2026-07-27 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Rushd",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "Center Director"
+  },
+  {
+   "role": "Consultation Supervisor"
+  },
+  {
+   "role": "Case Coordinator"
+  },
+  {
+   "role": "Consultant"
+  }
+ ],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "label": "طلبات الاستشارة",
+   "link_to": "Consultation Request",
+   "type": "DocType"
+  },
+  {
+   "label": "الحالات الاستشارية",
+   "link_to": "Consultation Case",
+   "type": "DocType"
+  },
+  {
+   "label": "المواعيد",
+   "link_to": "Consultation Appointment",
+   "type": "DocType"
+  },
+  {
+   "label": "المستفيدون",
+   "link_to": "Beneficiary",
+   "type": "DocType"
+  },
+  {
+   "label": "أولياء الأمور",
+   "link_to": "Guardian",
+   "type": "DocType"
+  },
+  {
+   "label": "المستشارون",
+   "link_to": "Consultant",
+   "type": "DocType"
+  },
+  {
+   "label": "الخدمات",
+   "link_to": "Consultation Service",
+   "type": "DocType"
+  }
+ ],
+ "title": "رُشد",
+ "type": "Workspace"
+}

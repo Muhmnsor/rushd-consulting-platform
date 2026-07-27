@@ -1,0 +1,101 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<div dir="rtl" style="max-width: 640px; margin: 0 auto; font-family: 'Noto Kufi Arabic', sans-serif;">
+	<h2>حجز موعد استشارة</h2>
+
+	{% if not cases %}
+	<p class="text-muted">لا توجد لديك حالة نشطة جاهزة لحجز موعد حاليًا. سيتم التواصل معك بعد معالجة طلبك.</p>
+	{% else %}
+	<div class="form-group">
+		<label>الحالة</label>
+		<select id="case-select" class="form-control">
+			<option value="">-- اختر --</option>
+			{% for case in cases %}
+			<option value="{{ case.name }}" data-service="{{ case.service }}" data-consultant="{{ case.primary_consultant }}">
+				{% if is_guardian %}{{ case.beneficiary_name }} — {% endif %}{{ case.service_name }} — مع {{ case.consultant_name }} ({{ case.name }})
+			</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label>التاريخ</label>
+		<input type="date" id="date-select" class="form-control">
+	</div>
+
+	<button id="load-slots" class="btn btn-primary">عرض الأوقات المتاحة</button>
+
+	<div id="slots-container" style="margin-top: 20px;"></div>
+	<div id="booking-message" style="margin-top: 15px;"></div>
+	{% endif %}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+	const caseSelect = document.getElementById("case-select");
+	const dateSelect = document.getElementById("date-select");
+	const loadBtn = document.getElementById("load-slots");
+	const slotsContainer = document.getElementById("slots-container");
+	const messageBox = document.getElementById("booking-message");
+
+	if (!loadBtn) return;
+
+	const today = new Date().toISOString().split("T")[0];
+	dateSelect.min = today;
+	dateSelect.value = today;
+
+	loadBtn.addEventListener("click", function () {
+		const option = caseSelect.selectedOptions[0];
+		if (!option || !option.value) {
+			messageBox.textContent = "الرجاء اختيار حالة أولًا";
+			return;
+		}
+		const consultant = option.getAttribute("data-consultant");
+		const service = option.getAttribute("data-service");
+		const date = dateSelect.value;
+
+		slotsContainer.innerHTML = "جاري التحميل...";
+		messageBox.textContent = "";
+
+		frappe.call({
+			method: "consultation_center.api.scheduling.get_available_slots",
+			args: { consultant: consultant, service: service, date: date },
+			callback: function (r) {
+				const slots = r.message || [];
+				if (!slots.length) {
+					slotsContainer.innerHTML = "لا توجد أوقات متاحة في هذا اليوم.";
+					return;
+				}
+				slotsContainer.innerHTML = "";
+				slots.forEach(function (slot) {
+					const btn = document.createElement("button");
+					btn.className = "btn btn-default";
+					btn.style.margin = "4px";
+					btn.textContent = slot.start_datetime.split(" ")[1].substring(0, 5);
+					btn.addEventListener("click", function () {
+						bookSlot(caseSelect.value, slot.start_datetime);
+					});
+					slotsContainer.appendChild(btn);
+				});
+			},
+		});
+	});
+
+	function bookSlot(caseName, startDatetime) {
+		messageBox.textContent = "جاري الحجز...";
+		frappe.call({
+			method: "consultation_center.api.scheduling.book_appointment",
+			args: { case: caseName, start_datetime: startDatetime },
+			callback: function (r) {
+				messageBox.textContent = "تم الحجز بنجاح: " + r.message;
+				slotsContainer.innerHTML = "";
+			},
+			error: function (r) {
+				messageBox.textContent = "تعذر الحجز، الرجاء اختيار وقت آخر.";
+			},
+		});
+	}
+});
+</script>
+{% endblock %}

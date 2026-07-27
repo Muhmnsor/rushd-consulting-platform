@@ -1,8 +1,8 @@
 app_name = "consultation_center"
-app_title = "Consultation Center"
-app_publisher = "Consultation Center"
-app_description = "منصة إدارة مركز الاستشارات"
-app_email = "admin@consultation-center.local"
+app_title = "رُشد"
+app_publisher = "رُشد"
+app_description = "منصة رُشد للاستشارات الشبابية"
+app_email = "admin@rushd.local"
 app_license = "mit"
 
 # Apps
@@ -11,25 +11,23 @@ app_license = "mit"
 # required_apps = []
 
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "consultation_center",
-# 		"logo": "/assets/consultation_center/logo.png",
-# 		"title": "Consultation Center",
-# 		"route": "/consultation_center",
-# 		"has_permission": "consultation_center.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": "consultation_center",
+		"title": "رُشد",
+		"route": "/app/rushd",
+	}
+]
 
 # Includes in <head>
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/consultation_center/css/consultation_center.css"
+app_include_css = "/assets/consultation_center/css/fonts.css"
 # app_include_js = "/assets/consultation_center/js/consultation_center.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/consultation_center/css/consultation_center.css"
+web_include_css = "/assets/consultation_center/css/fonts.css"
 # web_include_js = "/assets/consultation_center/js/consultation_center.js"
 
 # include custom scss in every website theme (without file extension ".scss")
@@ -83,7 +81,8 @@ app_license = "mit"
 # ------------
 
 # before_install = "consultation_center.install.before_install"
-# after_install = "consultation_center.install.after_install"
+after_install = "consultation_center.setup.install.after_install"
+after_migrate = "consultation_center.setup.install.after_migrate"
 
 # Uninstallation
 # ------------
@@ -117,13 +116,29 @@ app_license = "mit"
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
+permission_query_conditions = {
+	"Beneficiary": "consultation_center.permissions.beneficiary_query",
+	"Guardian": "consultation_center.permissions.guardian_query",
+	"Guardian Authorization": "consultation_center.permissions.guardian_authorization_query",
+	"Consultant": "consultation_center.permissions.consultant_query",
+	"Consultant Availability Rule": "consultation_center.permissions.availability_query",
+	"Consultant Time Off": "consultation_center.permissions.time_off_query",
+	"Consultation Request": "consultation_center.permissions.request_query",
+	"Consultation Case": "consultation_center.permissions.case_query",
+	"Consultation Appointment": "consultation_center.permissions.appointment_query",
+}
+
+has_permission = {
+	"Beneficiary": "consultation_center.permissions.has_permission",
+	"Guardian": "consultation_center.permissions.has_permission",
+	"Guardian Authorization": "consultation_center.permissions.has_permission",
+	"Consultant": "consultation_center.permissions.has_permission",
+	"Consultant Availability Rule": "consultation_center.permissions.has_permission",
+	"Consultant Time Off": "consultation_center.permissions.has_permission",
+	"Consultation Request": "consultation_center.permissions.has_permission",
+	"Consultation Case": "consultation_center.permissions.has_permission",
+	"Consultation Appointment": "consultation_center.permissions.has_permission",
+}
 
 # DocType Class
 # ---------------
@@ -207,26 +222,18 @@ app_license = "mit"
 # User Data Protection
 # --------------------
 
-# user_data_fields = [
-# 	{
-# 		"doctype": "{doctype_1}",
-# 		"filter_by": "{filter_by}",
-# 		"redact_fields": ["{field_1}", "{field_2}"],
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_2}",
-# 		"filter_by": "{filter_by}",
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_3}",
-# 		"strict": False,
-# 	},
-# 	{
-# 		"doctype": "{doctype_4}"
-# 	}
-# ]
+user_data_fields = [
+	{
+		"doctype": "Beneficiary",
+		"filter_by": "email",
+		"redact_fields": ["beneficiary_name", "mobile", "id_number_encrypted"],
+	},
+	{
+		"doctype": "Guardian",
+		"filter_by": "email",
+		"redact_fields": ["guardian_name", "mobile", "id_number_encrypted"],
+	},
+]
 
 # Authentication and authorization
 # --------------------------------
@@ -246,4 +253,3 @@ app_license = "mit"
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

@@ -1,0 +1,70 @@
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-Thin.ttf') format('truetype');
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-ExtraLight.ttf') format('truetype');
+	font-weight: 200;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-SemiBold.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-ExtraBold.ttf') format('truetype');
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Noto Kufi Arabic';
+	src: url('/assets/consultation_center/fonts/noto-kufi-arabic/NotoKufiArabic-Black.ttf') format('truetype');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+html[dir="rtl"],
+html[dir="rtl"] body,
+html[lang="ar"],
+html[lang="ar"] body {
+	font-family: 'Noto Kufi Arabic', 'Inter', sans-serif !important;
+}
