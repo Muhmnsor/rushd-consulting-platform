@@ -3,7 +3,11 @@ from frappe.translate import set_default_language
 
 RUSHD_APP_NAME = "Rushd"
 RUSHD_ARABIC_NAME = "رُشد"
-RUSHD_BRAND_HTML = f'<span class="rushd-brand-wordmark">{RUSHD_ARABIC_NAME}</span>'
+RUSHD_LOGO_URL = "/assets/consultation_center/images/rushd-logo.svg"
+RUSHD_BRAND_HTML = (
+	f'<span class="rushd-brand-wordmark"><img class="rushd-brand-symbol" src="{RUSHD_LOGO_URL}" alt="">'
+	f"<span>{RUSHD_ARABIC_NAME}</span></span>"
+)
 
 DESK_ROLES = [
 	"Center Director",
@@ -59,7 +63,7 @@ def configure_site_identity():
 		"app_name": RUSHD_APP_NAME,
 		"title_prefix": RUSHD_APP_NAME,
 		"brand_html": RUSHD_BRAND_HTML,
-		"favicon": "/assets/consultation_center/images/rushd-favicon.svg",
+		"favicon": RUSHD_LOGO_URL,
 		"show_footer_on_login": 0,
 	}
 

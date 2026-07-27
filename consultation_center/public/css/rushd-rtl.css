@@ -185,10 +185,22 @@ table td,
 .rushd-brand-wordmark {
 	display: inline-flex;
 	align-items: center;
+	gap: 0.45rem;
 	direction: rtl;
 	font-family: var(--rushd-font-family);
 	font-weight: 700;
 	letter-spacing: 0;
+}
+
+.rushd-brand-symbol {
+	width: 1.75rem;
+	height: 1.75rem;
+	flex: 0 0 auto;
+	object-fit: contain;
+}
+
+.app-logo[src*='rushd-logo.svg'] {
+	object-fit: contain;
 }
 
 .footer-powered {

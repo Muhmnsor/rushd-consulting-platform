@@ -1,6 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="180" height="48" viewBox="0 0 180 48" role="img" aria-labelledby="title">
-  <title id="title">Rushd</title>
-  <rect width="48" height="48" rx="14" fill="#176B5B"/>
-  <path d="M15 14h10c6.2 0 10 3.1 10 8.2 0 3.7-2 6.3-5.5 7.4L36 38h-7.2l-5.4-7.4H21V38h-6V14Zm6 5v6.7h4c2.6 0 4-1.1 4-3.4S27.6 19 25 19h-4Z" fill="#fff"/>
-  <text x="60" y="33" fill="#173A34" font-family="Arial, sans-serif" font-size="26" font-weight="700">Rushd</text>
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="rushd-logo-title">
+  <title id="rushd-logo-title">رُشد</title>
+  <g transform="translate(150, 150) rotate(-22.5)">
+    <path d="M -10,-120 L 10,-120 L 10,-35 A 10 10 0 0 1 -10,-35 Z" fill="#939598" transform="rotate(315)"/>
+    <path d="M -10,-120 L 10,-120 L 10,-35 A 10 10 0 0 1 -10,-35 Z" fill="#939598" transform="rotate(0)"/>
+    <path d="M -10,-120 L 10,-120 L 10,-35 A 10 10 0 0 1 -10,-35 Z" fill="#939598" transform="rotate(45)"/>
+    <path d="M -10,-120 L 10,-120 L 10,-35 A 10 10 0 0 1 -10,-35 Z" fill="#939598" transform="rotate(90)"/>
+    <path d="M -10,-120 L 10,-120 L 10,-35 A 10 10 0 0 1 -10,-35 Z" fill="#939598" transform="rotate(135)"/>
+    <path d="M -10,-120 L 10,-120 L 10,-35 A 10 10 0 0 1 -10,-35 Z" fill="#939598" transform="rotate(180)"/>
+    <path d="M -10,-120 L 10,-120 L 10,-35 A 10 10 0 0 1 -10,-35 Z" fill="#939598" transform="rotate(225)"/>
+    <path d="M -10,-120 L 10,-120 L 10,-35 A 10 10 0 0 1 -10,-35 Z" fill="#939598" transform="rotate(270)"/>
+  </g>
 </svg>
