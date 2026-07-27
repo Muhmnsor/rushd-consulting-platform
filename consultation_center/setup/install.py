@@ -77,6 +77,7 @@ def configure_site_identity():
 		"title_prefix": RUSHD_APP_NAME,
 		"brand_html": RUSHD_BRAND_HTML,
 		"favicon": RUSHD_LOGO_URL,
+		"home_page": "index",
 		"show_footer_on_login": 0,
 	}
 
