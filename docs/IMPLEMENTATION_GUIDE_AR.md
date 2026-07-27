@@ -756,18 +756,33 @@ Redis ليس مصدر حقيقة، ولا تحفظ فيه الحالة الرس�
 - تخفيض PostgreSQL في Staging إلى `Standard_B1ms` و32GB لتقليل استهلاك المنحة.
 - التحقق من أن شبكة رُشد `10.42.0.0/16` لا تتعارض مع الشبكة الحالية
   `10.0.0.0/16` في الاشتراك.
+- نشر Azure Staging foundation بنجاح في 27 يوليو 2026، واستغرق النشر
+  `PT6M57S`.
+- إنشاء Resource Group باسم `rushd-staging-rg` في `UAE North`.
+- وصول PostgreSQL 16 إلى `Ready` مع تعطيل Public Access ونسخ احتياطي 14 يومًا.
+- إنشاء Storage خاص وحاويتي `private-files` و`backup-exports` مع تعطيل
+  Public Blob Access وShared Key Access.
+- إنشاء Key Vault خاص مع RBAC وPurge Protection وSoft Delete لمدة 90 يومًا.
+- حفظ كلمة PostgreSQL الأولية في Key Vault كسر `postgres-admin-password`
+  ونسخة استرداد مشفرة في macOS Keychain.
+- إنشاء ACR Premium خاص مع تعطيل Admin User.
+- نجاح واعتماد Private Endpoints الثلاثة لـStorage وKey Vault وACR.
+- التحقق من أدوار هوية رُشد: `Key Vault Secrets User` و
+  `Storage Blob Data Contributor` و`AcrPull` فقط.
 
-### معلق قبل إنشاء موارد Azure
+### معلق قبل طبقة تشغيل التطبيق
 
-- مراجعة التقدير الأولي البالغ نحو 91 USD شهريًا قبل السجلات، ولا يشمل
-  Container Apps أو Redis.
 - تحديد ميزانية وتنبيه تكلفة يتناسبان مع رصيد منحة Microsoft Azure ومدتها.
-- اعتماد النشر الفعلي لبيئة Staging.
+- تقدير Container Apps وRedis قبل إنشائهما.
+- إضافة Azure Managed Redis وContainer Apps Environment إلى Bicep.
+- بناء صورة رُشد ودفعها إلى ACR من مسار يملك وصولًا خاصًا.
+- إنشاء موقع Staging على PostgreSQL وتشغيل اختبارات التطبيق.
 
 ### الخطوة التالية بعد الاعتماد
 
-1. نشر أساس Staging فقط.
-2. اختبار Private DNS والاتصال من داخل VNet.
+1. تحديد Budget وتنبيهات المنحة.
+2. تقدير واعتماد تكلفة Redis وContainer Apps.
 3. إضافة Azure Managed Redis وContainer Apps Environment.
-4. بناء صورة رُشد المثبتة الإصدارات ودفعها إلى Registry.
-5. إنشاء موقع Staging على PostgreSQL وتشغيل الاختبارات.
+4. اختبار Private DNS والاتصال من داخل VNet.
+5. بناء صورة رُشد المثبتة الإصدارات ودفعها إلى Registry.
+6. إنشاء موقع Staging على PostgreSQL وتشغيل الاختبارات.
