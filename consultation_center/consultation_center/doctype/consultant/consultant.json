@@ -4,6 +4,7 @@
  "autoname": "field:code",
  "creation": "2026-07-26 00:00:00.000000",
  "doctype": "DocType",
+ "description": "الملف المهني للمستشار وتخصصاته وخدماته وإعدادات جدوله.",
  "engine": "InnoDB",
  "field_order": [
   "consultant_name",

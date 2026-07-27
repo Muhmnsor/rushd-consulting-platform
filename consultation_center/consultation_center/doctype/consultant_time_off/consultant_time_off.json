@@ -4,6 +4,7 @@
  "autoname": "hash",
  "creation": "2026-07-26 00:00:00.000000",
  "doctype": "DocType",
+ "description": "فترات عدم توفر المستشار المعتمدة لمنع الحجز خلالها.",
  "engine": "InnoDB",
  "field_order": [
   "consultant",

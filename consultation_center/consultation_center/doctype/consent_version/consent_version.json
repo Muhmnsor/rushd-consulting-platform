@@ -4,6 +4,7 @@
  "autoname": "naming_series:",
  "creation": "2026-07-27 00:00:00.000000",
  "doctype": "DocType",
+ "description": "نسخة مؤرخة من نص الموافقة المبسط والكامل مع بصمة المحتوى.",
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
@@ -127,4 +128,3 @@
  "states": [],
  "track_changes": 1
 }
-

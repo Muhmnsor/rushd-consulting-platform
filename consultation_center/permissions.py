@@ -7,6 +7,12 @@ UNRESTRICTED_ROLES = {"System Manager", "Center Director"}
 OPERATIONS_ROLES = {"Consultation Supervisor"}
 
 
+def has_admin_app_access() -> bool:
+	"""Keep the Desk administration app separate from role-specific web portals."""
+	user = frappe.session.user
+	return user == "Administrator" or bool(_roles(user) & UNRESTRICTED_ROLES)
+
+
 def _user(user: str | None) -> str:
 	return user or frappe.session.user
 

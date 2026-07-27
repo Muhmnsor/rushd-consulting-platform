@@ -24,3 +24,299 @@ Auditor,المدقق
 Frappe,رُشد
 Frappe Framework,رُشد
 Login to Frappe,تسجيل الدخول إلى رُشد
+Rushd,رُشد
+Consultation Center,إدارة رُشد
+Operations Officer,موظف التشغيل
+Intake Coordinator,منسق الاستقبال
+Content Manager,مدير المحتوى
+About,حول المنصة
+Apps,التطبيقات
+Begin typing for results.,ابدأ الكتابة لعرض النتائج.
+Build,البناء والتطوير
+Components to build your app,مكونات بناء التطبيق
+Delete,حذف
+Documents,المستندات
+Duplicate,تكرار
+Edit,تعديل
+Events,الأحداث
+Frappe Support,دعم رُشد
+Get started,ابدأ الإعداد
+Help,المساعدة
+Hide,إخفاء
+Integrations,التكاملات
+Keyboard Shortcuts,اختصارات لوحة المفاتيح
+Log out,تسجيل الخروج
+My Profile,ملفي الشخصي
+My Settings,إعداداتي
+Navigate to main content,الانتقال إلى المحتوى الرئيسي
+New,جديد
+No New notifications,لا توجد إشعارات جديدة
+No Upcoming Events,لا توجد أحداث قادمة
+No new notifications,لا توجد إشعارات جديدة
+Nothing New,لا يوجد جديد
+Notifications,الإشعارات
+Personal,شخصي
+Public,عام
+Reload,إعادة تحميل
+Reports & Masters,التقارير والبيانات الأساسية
+Session Defaults,إعدادات الجلسة
+Toggle Full Width,تبديل العرض الكامل
+Toggle Theme,تبديل المظهر
+Tools,الأدوات
+Users,المستخدمون
+View Website,عرض الموقع
+Website,الموقع
+What's New,ما الجديد
+You have unseen notifications,لديك إشعارات غير مقروءة
+Your Shortcuts,اختصاراتك
+Add New,إضافة جديد
+Add/Update Filter,إضافة أو تعديل عامل التصفية
+Loading...,جارٍ التحميل...
+No Data...,لا توجد بيانات...
+Refresh List,تحديث القائمة
+View List,عرض القائمة
+Save,حفظ
+Consultation Request,طلب استشارة
+Consultation Case,حالة استشارية
+Consultation Appointment,موعد استشاري
+Consultation Service,خدمة استشارية
+Consent Record,سجل موافقة
+Consent Template,قالب موافقة
+Consent Version,إصدار موافقة
+Consultant Availability Rule,قاعدة توفر مستشار
+Consultant Time Off,إجازة مستشار
+Naming Series,تسلسل الترقيم
+Beneficiary Name,اسم المستفيد
+Status,الحالة
+Active,نشط
+Inactive,غير نشط
+Archived,مؤرشف
+ID Type,نوع الهوية
+ID Number,رقم الهوية
+National ID,الهوية الوطنية
+Iqama,الإقامة
+Passport,جواز السفر
+Other,أخرى
+Date of Birth,تاريخ الميلاد
+Contact,بيانات التواصل
+Mobile,رقم الجوال
+Email,البريد الإلكتروني
+Preferred Language,اللغة المفضلة
+Arabic,العربية
+English,الإنجليزية
+City,المدينة
+Portal User,مستخدم البوابة
+Guardian Required,يتطلب ولي أمر
+Privacy,الخصوصية
+Confidentiality Level,مستوى السرية
+Standard,عادي
+High,مرتفع
+Restricted,مقيد
+Consent Status,حالة الموافقة
+Not Requested,لم تُطلب
+Pending,معلقة
+Granted,ممنوحة
+Withdrawn,مسحوبة
+Consent Role,دور صاحب الموافقة
+Grant and Withdrawal,المنح والسحب
+Granted By,مُنحت بواسطة
+Granted At,تاريخ المنح
+Grant Method,طريقة المنح
+Web,الموقع الإلكتروني
+OTP,رمز تحقق
+Phone,الهاتف
+Staff Recorded,سجلها الموظف
+Withdrawn At,تاريخ السحب
+Withdrawal Reason,سبب السحب
+Template Code,رمز القالب
+Template Title,عنوان القالب
+Consent Scope,نطاق الموافقة
+General,عام
+Service,الخدمة
+Data Sharing,مشاركة البيانات
+Minor Protection,حماية القاصر
+Requires Beneficiary Consent,يتطلب موافقة المستفيد
+Requires Guardian Consent,يتطلب موافقة ولي الأمر
+Version Label,رقم الإصدار
+Published,منشور
+Retired,متقاعد
+Title,العنوان
+Simplified Text,النص المبسط
+Full Text,النص الكامل
+Content Hash,بصمة المحتوى
+Consultant Name,اسم المستشار
+Code,الرمز
+User,المستخدم
+Supervisor,المشرف
+Branch,الفرع
+Meeting Provider,مزود الاجتماع
+Zoom,زووم
+Microsoft Teams,مايكروسوفت تيمز
+Google Meet,جوجل ميت
+Jitsi,جيتسي
+Manual Link,رابط يدوي
+Calendar Integration,تكامل التقويم
+None,بدون
+Google Calendar,تقويم جوجل
+Microsoft 365,مايكروسوفت 365
+Profile,الملف المهني
+Specializations,التخصصات
+Languages,اللغات
+Services,الخدمات
+Scheduling Defaults,إعدادات الجدولة الافتراضية
+Default Duration (minutes),المدة الافتراضية بالدقائق
+Buffer Before (minutes),فاصل قبل الموعد بالدقائق
+Buffer After (minutes),فاصل بعد الموعد بالدقائق
+Maximum Daily Sessions,الحد الأعلى للجلسات اليومية
+Weekday,يوم الأسبوع
+Sunday,الأحد
+Monday,الاثنين
+Tuesday,الثلاثاء
+Wednesday,الأربعاء
+Thursday,الخميس
+Friday,الجمعة
+Saturday,السبت
+Start Time,وقت البداية
+End Time,وقت النهاية
+Slot Duration (minutes),مدة الفترة بالدقائق
+Scope,النطاق
+Delivery Mode,نمط التقديم
+Online,عن بُعد
+In Person,حضوري
+Both,حضوري أو عن بُعد
+Capacity,السعة
+From,من
+To,إلى
+Reason,السبب
+Approved By,اعتمد بواسطة
+Case,الحالة الاستشارية
+Confirmation Status,حالة التأكيد
+Confirmed,مؤكد
+Declined,مرفوض
+Attendance Status,حالة الحضور
+Not Recorded,غير مسجل
+Attended,حضر
+No Show,لم يحضر
+Late,متأخر
+Start Datetime,تاريخ ووقت البداية
+End Datetime,تاريخ ووقت النهاية
+Timezone,المنطقة الزمنية
+Meeting,الاجتماع
+Location,الموقع
+Meeting Reference,مرجع الاجتماع
+Booking Source,مصدر الحجز
+Portal,البوابة
+Staff,الموظفون
+Cancellation Reason,سبب الإلغاء
+Rescheduled From,أعيدت جدولته من
+Created Session,الجلسة المنشأة
+Draft,مسودة
+Pending Approval,بانتظار الاعتماد
+Rescheduled,أعيدت الجدولة
+Completed,مكتمل
+Cancelled by Beneficiary,ألغاه المستفيد
+Cancelled by Center,ألغاه المركز
+Expired,منتهي
+Case Status,حالة الحالة الاستشارية
+Screening,الفحص الأولي
+Awaiting Assignment,بانتظار الإسناد
+Assigned,مسندة
+Awaiting Appointment,بانتظار الموعد
+On Hold,معلقة مؤقتًا
+Awaiting Report,بانتظار التقرير
+Under Supervisor Review,تحت مراجعة المشرف
+Follow-up,متابعة
+Ready to Close,جاهزة للإغلاق
+Closed,مغلقة
+Reopened,أعيد فتحها
+Cancelled,ملغاة
+Priority,الأولوية
+Low,منخفضة
+Normal,عادية
+Urgent,عاجلة
+Opened On,تاريخ الفتح
+Assignment,الإسناد
+Case Owner,مسؤول الحالة
+Primary Consultant,المستشار الأساسي
+Secondary Consultants,المستشارون المساندون
+Program,البرنامج
+Progress,التقدم
+Goal Summary,ملخص الهدف
+Planned Sessions,الجلسات المخططة
+Completed Sessions,الجلسات المكتملة
+Next Action,الإجراء التالي
+Next Action Due,موعد الإجراء التالي
+Closure,الإغلاق
+Closure Reason,سبب الإغلاق
+Closed On,تاريخ الإغلاق
+Outcome Status,حالة النتيجة
+Not Assessed,لم تُقيّم
+Improved,تحسنت
+No Change,دون تغيير
+Deteriorated,تراجعت
+Requested Service,الخدمة المطلوبة
+Workflow State,مرحلة سير العمل
+Source,المصدر
+Walk-in,حضور مباشر
+Referral,إحالة
+Request Datetime,تاريخ ووقت الطلب
+Urgency,درجة الاستعجال
+Details,تفاصيل الطلب
+Summary,الملخص
+Preferred Mode,النمط المفضل
+Either,لا فرق
+Preferred Times,الأوقات المفضلة
+Eligibility Status,حالة الأهلية
+Unknown,غير محددة
+Eligible,مؤهل
+Not Eligible,غير مؤهل
+Screening Status,حالة الفحص
+In Progress,قيد التنفيذ
+Assigned Coordinator,المنسق المسند
+Operations Note,ملاحظة التشغيل
+Beneficiary Action Note,ملاحظة إجراء المستفيد
+Triage Decision,قرار الفرز
+Internal Triage Note,ملاحظة الفرز الداخلية
+Decision By,اتخذ القرار
+Decision On,تاريخ القرار
+Rejection Reason,سبب عدم القبول
+Linked Case,الحالة المرتبطة
+Submitted,مقدم
+Under Completeness Review,تحت مراجعة الاكتمال
+Awaiting Beneficiary Information,بانتظار معلومات المستفيد
+Ready for Triage,جاهز للفرز
+Awaiting Consent,بانتظار الموافقة
+Ready for Assignment,جاهز للإسناد
+Converted to Case,تحول إلى حالة
+Service Name,اسم الخدمة
+Service Code,رمز الخدمة
+Category,التصنيف
+Duration (minutes),المدة بالدقائق
+Delivery Modes,أنماط التقديم
+Requires Supervisor Approval,يتطلب اعتماد المشرف
+Session Limit,الحد الأعلى للجلسات
+Definition,تعريف الخدمة
+Description,الوصف
+Eligibility Rules,قواعد الأهلية
+Follow-up Policy,سياسة المتابعة
+Templates,القوالب
+Pre-Assessment Template,قالب التقييم القبلي
+Post-Assessment Template,قالب التقييم البعدي
+Report Template,قالب التقرير
+Price (Optional),السعر اختياري
+Validity,صلاحية التفويض
+Internal,داخلي
+Internal Notes,ملاحظات داخلية
+Authorized Representative,ممثل مفوض
+Father,الأب
+Mother,الأم
+Legal Guardian,ولي أمر قانوني
+Revoked,ملغي
+You need to create these first:,يجب إنشاء العناصر التالية أولًا:
+Set Filters for {0},تعيين عوامل التصفية لـ {0}
+Customize,تخصيص
+Count,العدد
+Filter,تصفية
+Login,تسجيل الدخول
+Forgot Password,نسيت كلمة المرور
+Sign Up,إنشاء حساب

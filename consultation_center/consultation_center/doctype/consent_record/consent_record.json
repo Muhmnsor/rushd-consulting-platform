@@ -4,6 +4,7 @@
  "autoname": "naming_series:",
  "creation": "2026-07-27 00:00:00.000000",
  "doctype": "DocType",
+ "description": "سجل قابل للتدقيق لمنح الموافقة أو سحبها ومن قام بالإجراء.",
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
@@ -170,4 +171,3 @@
  "states": [],
  "track_changes": 1
 }
-

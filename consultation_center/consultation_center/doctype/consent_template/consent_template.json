@@ -4,6 +4,7 @@
  "autoname": "field:template_code",
  "creation": "2026-07-27 00:00:00.000000",
  "doctype": "DocType",
+ "description": "قالب يحدد نطاق الموافقة والأطراف المطلوبة والخدمة المرتبطة.",
  "engine": "InnoDB",
  "field_order": [
   "template_code",
@@ -110,4 +111,3 @@
  "states": [],
  "track_changes": 1
 }
-

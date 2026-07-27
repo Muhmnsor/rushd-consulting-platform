@@ -1,7 +1,7 @@
 (function () {
 	"use strict";
 
-	const RUSHD_NAME = "Rushd";
+	const RUSHD_NAME = "رُشد";
 	const ARABIC_LANGUAGE = "ar";
 
 	function applyRushdIdentity() {
@@ -16,7 +16,11 @@
 		}
 
 		if (document.title) {
-			document.title = document.title.replace(/Frappe(?: Framework)?/gi, RUSHD_NAME);
+			document.title = document.title
+				.replace(/Frappe(?: Framework)?|Rushd/gi, RUSHD_NAME)
+				.replace(/\bLogin\b/g, "تسجيل الدخول")
+				.replace(/\bSign Up\b/g, "إنشاء حساب")
+				.replace(/\bForgot Password\b/g, "نسيت كلمة المرور");
 		}
 
 		const applicationName = document.querySelector('meta[name="application-name"]');

@@ -23,6 +23,7 @@ add_to_apps_screen = [
 		"name": "consultation_center",
 		"title": "رُشد",
 		"route": "/app/rushd",
+		"has_permission": "consultation_center.permissions.has_admin_app_access",
 	}
 ]
 

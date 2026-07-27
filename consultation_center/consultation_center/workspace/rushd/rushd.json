@@ -1,18 +1,245 @@
 {
  "charts": [],
- "content": "[{\"id\":\"rushd_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\"><b>رُشد للاستشارات الشبابية</b></span>\",\"col\":12}},{\"id\":\"rushd_requests\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"طلبات الاستشارة\",\"col\":3}},{\"id\":\"rushd_cases\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الحالات الاستشارية\",\"col\":3}},{\"id\":\"rushd_appointments\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المواعيد\",\"col\":3}},{\"id\":\"rushd_beneficiaries\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المستفيدون\",\"col\":3}},{\"id\":\"rushd_guardians\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"أولياء الأمور\",\"col\":3}},{\"id\":\"rushd_consultants\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المستشارون\",\"col\":3}},{\"id\":\"rushd_services\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الخدمات\",\"col\":3}}]",
+ "content": "[{\"id\":\"rushd_welcome\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\"><b>لوحة إدارة رُشد</b></span>\",\"col\":12}},{\"id\":\"rushd_intro\",\"type\":\"paragraph\",\"data\":{\"text\":\"تابع رحلة الاستشارة من الطلب الأول حتى إغلاق الحالة، وانتقل مباشرة إلى العمل الذي يحتاج تدخلك.\",\"col\":12}},{\"id\":\"rushd_now_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>مؤشرات العمل الآن</b></span>\",\"col\":12}},{\"id\":\"rushd_needs_review\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"طلبات تحتاج مراجعة\",\"col\":3}},{\"id\":\"rushd_ready_triage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"جاهزة للفرز\",\"col\":3}},{\"id\":\"rushd_waiting_info\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"بانتظار معلومات المستفيد\",\"col\":3}},{\"id\":\"rushd_ready_assignment\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"جاهزة للإسناد\",\"col\":3}},{\"id\":\"rushd_active_cases\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الحالات النشطة\",\"col\":3}},{\"id\":\"rushd_upcoming_appointments\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المواعيد القادمة\",\"col\":3}},{\"id\":\"rushd_pending_consents\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الموافقات المعلقة\",\"col\":3}},{\"id\":\"rushd_active_consultants\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المستشارون النشطون\",\"col\":3}},{\"id\":\"rushd_queue_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_queue_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>قوائم تحتاج متابعة</b></span>\",\"col\":12}},{\"id\":\"rushd_intake_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"طلبات الاستقبال\",\"col\":6}},{\"id\":\"rushd_triage_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"طلبات الفرز المهني\",\"col\":6}},{\"id\":\"rushd_management_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_management_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>إدارة المنصة</b></span>\",\"col\":12}},{\"id\":\"rushd_journey_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الرحلة الاستشارية\",\"col\":4}},{\"id\":\"rushd_people_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الأشخاص والصلاحيات\",\"col\":4}},{\"id\":\"rushd_consultants_card\",\"type\":\"card\",\"data\":{\"card_name\":\"تشغيل المستشارين\",\"col\":4}},{\"id\":\"rushd_services_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الخدمات والموافقات\",\"col\":4}},{\"id\":\"rushd_settings_card\",\"type\":\"card\",\"data\":{\"card_name\":\"إعداد المنصة\",\"col\":4}},{\"id\":\"rushd_portals_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_portals_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>واجهات العمل</b></span>\",\"col\":12}},{\"id\":\"rushd_operations_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"واجهة الاستقبال والتشغيل\",\"col\":4}},{\"id\":\"rushd_supervisor_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"واجهة الإشراف والفرز\",\"col\":4}},{\"id\":\"rushd_public_site\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الموقع العام لرُشد\",\"col\":4}}]",
  "creation": "2026-07-27 00:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
- "hide_custom": 0,
+ "hide_custom": 1,
  "icon": "heart-handshake",
  "idx": 0,
  "is_hidden": 0,
- "label": "Rushd",
- "links": [],
- "modified": "2026-07-27 00:00:00.000000",
+ "label": "رُشد",
+ "links": [
+  {
+   "description": "إدارة انتقال الطلب من الاستقبال إلى الحالة والمواعيد.",
+   "hidden": 0,
+   "icon": "workflow",
+   "is_query_report": 0,
+   "label": "الرحلة الاستشارية",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "طلبات الاستشارة",
+   "link_count": 0,
+   "link_to": "Consultation Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "الحالات الاستشارية",
+   "link_count": 0,
+   "link_to": "Consultation Case",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "المواعيد",
+   "link_count": 0,
+   "link_to": "Consultation Appointment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "ملفات المستفيدين وأولياء الأمور وحدود الوصول.",
+   "hidden": 0,
+   "icon": "users",
+   "is_query_report": 0,
+   "label": "الأشخاص والصلاحيات",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "المستفيدون",
+   "link_count": 0,
+   "link_to": "Beneficiary",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "أولياء الأمور",
+   "link_count": 0,
+   "link_to": "Guardian",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "تفويضات أولياء الأمور",
+   "link_count": 0,
+   "link_to": "Guardian Authorization",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "ملفات المستشارين والتوفر والإجازات.",
+   "hidden": 0,
+   "icon": "calendar",
+   "is_query_report": 0,
+   "label": "تشغيل المستشارين",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "المستشارون",
+   "link_count": 0,
+   "link_to": "Consultant",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Consultant",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "قواعد التوفر",
+   "link_count": 0,
+   "link_to": "Consultant Availability Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Consultant",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "إجازات المستشارين",
+   "link_count": 0,
+   "link_to": "Consultant Time Off",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "تعريف الخدمات وإصدارات الموافقة وسجلاتها.",
+   "hidden": 0,
+   "icon": "file",
+   "is_query_report": 0,
+   "label": "الخدمات والموافقات",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "الخدمات الاستشارية",
+   "link_count": 0,
+   "link_to": "Consultation Service",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "قوالب الموافقات",
+   "link_count": 0,
+   "link_to": "Consent Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Consent Template",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "إصدارات الموافقات",
+   "link_count": 0,
+   "link_to": "Consent Version",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Consent Template",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "سجلات الموافقات",
+   "link_count": 0,
+   "link_to": "Consent Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "إدارة المستخدمين والأدوار وهوية الموقع.",
+   "hidden": 0,
+   "icon": "setting",
+   "is_query_report": 0,
+   "label": "إعداد المنصة",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "المستخدمون",
+   "link_count": 0,
+   "link_to": "User",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "الأدوار",
+   "link_count": 0,
+   "link_to": "Role",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "إعدادات الموقع",
+   "link_count": 0,
+   "link_to": "Website Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-07-27 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "Consultation Center",
  "name": "Rushd",
@@ -20,59 +247,109 @@
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
- "quick_lists": [],
+ "quick_lists": [
+  {
+   "document_type": "Consultation Request",
+   "label": "طلبات الاستقبال",
+   "quick_list_filter": "[[\"Consultation Request\",\"workflow_state\",\"in\",[\"Submitted\",\"Under Completeness Review\"],false]]"
+  },
+  {
+   "document_type": "Consultation Request",
+   "label": "طلبات الفرز المهني",
+   "quick_list_filter": "[[\"Consultation Request\",\"workflow_state\",\"=\",\"Ready for Triage\",false]]"
+  }
+ ],
+ "restrict_to_domain": "",
  "roles": [
   {
+   "role": "System Manager"
+  },
+  {
    "role": "Center Director"
-  },
-  {
-   "role": "Consultation Supervisor"
-  },
-  {
-   "role": "Case Coordinator"
-  },
-  {
-   "role": "Consultant"
   }
  ],
  "sequence_id": 1.0,
  "shortcuts": [
   {
-   "label": "طلبات الاستشارة",
+   "color": "Orange",
+   "format": "{} طلب",
+   "label": "طلبات تحتاج مراجعة",
    "link_to": "Consultation Request",
+   "stats_filter": "{\"workflow_state\":[\"in\",[\"Submitted\",\"Under Completeness Review\"]]}",
    "type": "DocType"
   },
   {
-   "label": "الحالات الاستشارية",
+   "color": "Blue",
+   "format": "{} طلب",
+   "label": "جاهزة للفرز",
+   "link_to": "Consultation Request",
+   "stats_filter": "{\"workflow_state\":[\"=\",\"Ready for Triage\"]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "format": "{} طلب",
+   "label": "بانتظار معلومات المستفيد",
+   "link_to": "Consultation Request",
+   "stats_filter": "{\"workflow_state\":[\"=\",\"Awaiting Beneficiary Information\"]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "format": "{} طلب",
+   "label": "جاهزة للإسناد",
+   "link_to": "Consultation Request",
+   "stats_filter": "{\"workflow_state\":[\"=\",\"Ready for Assignment\"]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "format": "{} حالة",
+   "label": "الحالات النشطة",
    "link_to": "Consultation Case",
+   "stats_filter": "{\"case_status\":[\"in\",[\"Assigned\",\"Awaiting Appointment\",\"Active\",\"On Hold\",\"Awaiting Report\",\"Under Supervisor Review\",\"Follow-up\"]]}",
    "type": "DocType"
   },
   {
-   "label": "المواعيد",
+   "color": "Blue",
+   "format": "{} موعد",
+   "label": "المواعيد القادمة",
    "link_to": "Consultation Appointment",
+   "stats_filter": "{\"status\":[\"in\",[\"Pending Approval\",\"Confirmed\",\"Rescheduled\"]]}",
    "type": "DocType"
   },
   {
-   "label": "المستفيدون",
-   "link_to": "Beneficiary",
+   "color": "Orange",
+   "format": "{} موافقة",
+   "label": "الموافقات المعلقة",
+   "link_to": "Consent Record",
+   "stats_filter": "{\"status\":[\"=\",\"Pending\"]}",
    "type": "DocType"
   },
   {
-   "label": "أولياء الأمور",
-   "link_to": "Guardian",
-   "type": "DocType"
-  },
-  {
-   "label": "المستشارون",
+   "color": "Green",
+   "format": "{} مستشار",
+   "label": "المستشارون النشطون",
    "link_to": "Consultant",
+   "stats_filter": "{\"active\":[\"=\",1]}",
    "type": "DocType"
   },
   {
-   "label": "الخدمات",
-   "link_to": "Consultation Service",
-   "type": "DocType"
+   "label": "واجهة الاستقبال والتشغيل",
+   "type": "URL",
+   "url": "/operations"
+  },
+  {
+   "label": "واجهة الإشراف والفرز",
+   "type": "URL",
+   "url": "/supervisor"
+  },
+  {
+   "label": "الموقع العام لرُشد",
+   "type": "URL",
+   "url": "/"
   }
  ],
- "title": "رُشد",
+ "title": "لوحة إدارة رُشد",
  "type": "Workspace"
 }

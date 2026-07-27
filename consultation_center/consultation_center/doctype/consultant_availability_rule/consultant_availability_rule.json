@@ -4,6 +4,7 @@
  "autoname": "hash",
  "creation": "2026-07-26 00:00:00.000000",
  "doctype": "DocType",
+ "description": "قواعد الأيام والأوقات والسعة المتاحة لحجز جلسات المستشار.",
  "engine": "InnoDB",
  "field_order": [
   "consultant",

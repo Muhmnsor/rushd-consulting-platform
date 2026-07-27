@@ -4,6 +4,7 @@
  "autoname": "naming_series:",
  "creation": "2026-07-26 00:00:00.000000",
  "doctype": "DocType",
+ "description": "الملف الأساسي للمستفيد وبيانات التواصل والخصوصية والموافقة.",
  "engine": "InnoDB",
  "field_order": [
   "naming_series",

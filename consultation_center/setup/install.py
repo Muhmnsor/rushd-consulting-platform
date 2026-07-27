@@ -1,8 +1,8 @@
 import frappe
 from frappe.translate import set_default_language
 
-RUSHD_APP_NAME = "Rushd"
 RUSHD_ARABIC_NAME = "رُشد"
+RUSHD_APP_NAME = RUSHD_ARABIC_NAME
 RUSHD_LOGO_URL = "/assets/consultation_center/images/rushd-logo.svg"
 RUSHD_BRAND_HTML = (
 	f'<span class="rushd-brand-wordmark"><img class="rushd-brand-symbol" src="{RUSHD_LOGO_URL}" alt="">'
@@ -76,6 +76,7 @@ def configure_site_identity():
 		"app_name": RUSHD_APP_NAME,
 		"title_prefix": RUSHD_APP_NAME,
 		"brand_html": RUSHD_BRAND_HTML,
+		"footer_powered": RUSHD_ARABIC_NAME,
 		"favicon": RUSHD_LOGO_URL,
 		"home_page": "index",
 		"disable_signup": 0,
@@ -109,5 +110,16 @@ def configure_site_identity():
 				"ar",
 				update_modified=False,
 			)
+
+	if frappe.db.exists("Workspace", "Rushd"):
+		frappe.db.set_value(
+			"Workspace",
+			"Rushd",
+			{
+				"label": RUSHD_ARABIC_NAME,
+				"title": "لوحة إدارة رُشد",
+			},
+			update_modified=False,
+		)
 
 	frappe.clear_cache()
