@@ -9,6 +9,7 @@
 
 - [الدليل التنفيذي لمنصة رُشد](docs/IMPLEMENTATION_GUIDE_AR.md)
 - [القرارات المعمارية](docs/adr)
+- [بنية Azure وطريقة التحقق والنشر](infra/README_AR.md)
 
 ### Installation
 
