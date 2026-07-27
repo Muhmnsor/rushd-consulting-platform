@@ -11,10 +11,11 @@ RUN /home/frappe/frappe-bench/env/bin/pip install \
     && printf '\nconsultation_center\n' >> /home/frappe/frappe-bench/sites/apps.txt \
     && sort -u /home/frappe/frappe-bench/sites/apps.txt \
       -o /home/frappe/frappe-bench/sites/apps.txt \
+    && ln -sfn \
+      /home/frappe/frappe-bench/apps/consultation_center/consultation_center/public \
+      /home/frappe/frappe-bench/assets/consultation_center \
     && chmod 0755 \
       /home/frappe/frappe-bench/apps/consultation_center/docker/configure-runtime.sh \
       /home/frappe/frappe-bench/apps/consultation_center/docker/create-site.sh
 
 USER frappe
-
-RUN bench build --app consultation_center
