@@ -15,7 +15,7 @@ param postgresStorageSizeGB = 32
 param postgresBackupRetentionDays = 14
 param storageSkuName = 'Standard_LRS'
 param logAnalyticsDailyQuotaGb = 1
-param applicationImageTag = readEnvironmentVariable('RUSHD_APPLICATION_IMAGE_TAG', '0.1.0-bb837147e386')
+param applicationImageTag = readEnvironmentVariable('RUSHD_APPLICATION_IMAGE_TAG', '0.1.0-027f02799133')
 param siteName = 'rushd-staging.internal'
 param bootstrapMode = bool(readEnvironmentVariable('RUSHD_BOOTSTRAP_MODE', 'false'))
 

@@ -18,6 +18,16 @@
 - Azure Key Vault يعمل بـRBAC ودون Public Access.
 - سر `postgres-admin-password` محفوظ داخل Key Vault أثناء النشر.
 - Azure Container Registry من فئة Premium ودون Public Access.
+- Azure Container Apps Environment متصل بالشبكة الخاصة، ويشغّل نسخة واحدة
+  متعددة الحاويات تضم:
+  - Nginx للويب.
+  - Frappe Web/API.
+  - WebSocket.
+  - Worker.
+  - Scheduler.
+  - Redis مستقل للـCache وآخر للـQueue داخل بيئة Staging.
+- Azure Files خاصة لحفظ `sites` وملفات الموقع بين إصدارات الحاويات، مع
+  Private Endpoint مستقل.
 - User Assigned Managed Identity لتطبيق رُشد.
 - صلاحيات محدودة للهوية:
   - قراءة أسرار Key Vault.
@@ -27,8 +37,20 @@
 - Private DNS Zones وروابطها بالشبكة.
 - Diagnostic Settings للخدمات الحساسة.
 
-لم تُضف Container Apps أو Redis بعد؛ تضاف في خطوة تشغيل التطبيق بعد اعتماد
-الـRegion ونجاح `what-if` لهذه الطبقة.
+حالة Staging الحالية في 27 يوليو 2026:
+
+- موقع Frappe الداخلي: `rushd-staging.internal`.
+- الصورة: `rushd:0.1.0-027f02799133`.
+- Frappe `16.20.0` وصورة ERPNext `v16.22.0`.
+- الرابط المؤقت:
+  `https://rushd-staging-web.mangocliff-2f187d1b.uaenorth.azurecontainerapps.io`.
+- أسرار إنشاء الموقع غير معروضة لحاوية التطبيق في التشغيل المعتاد
+  (`bootstrapMode=false`).
+- نجحت اختبارات عزل سجلات المستفيد وولي الأمر والمستشار، ونجح اختبار
+  `/api/method/ping` وصفحة `/login`.
+
+Redis داخل Container App في Staging مؤقت وغير دائم، وهو ليس مصدر حقيقة.
+قبل Production يجب اعتماد Azure Managed Redis أو خدمة مُدارة مكافئة.
 
 ## لماذا Container Registry من فئة Premium؟
 
@@ -49,7 +71,9 @@ infra/
 │   ├── network.bicep
 │   ├── postgresql.bicep
 │   ├── registry.bicep
+│   ├── runtime.bicep
 │   ├── security.bicep
+│   ├── sites-storage.bicep
 │   └── storage.bicep
 └── scripts/
     ├── deploy.sh
@@ -181,8 +205,10 @@ Budget وتنبيهات عند نسب مناسبة من الرصيد، ومرا�
 متوقعًا. Storage transactions وKey Vault operations وPrivate Link data
 processing تضاف حسب الاستخدام.
 
-لا يشمل هذا التقدير Container Apps أو Redis لأنهما لم يضافا بعد. يجب إعادة
-تقدير التكلفة قبل إضافتهما.
+لا يشمل هذا التقدير Container Apps أو Azure Files الخاصة بالموقع. Redis
+الحالي حاويتان داخل مخصصات Container Apps ولا يملك فاتورة خدمة Redis منفصلة.
+يجب إضافة استهلاك Container Apps وAzure Files الفعلي إلى تنبيهات الميزانية،
+ثم تقدير Redis المُدار قبل Production.
 
 ## النشر
 
@@ -197,26 +223,50 @@ cd infra
 
 هذا ينشئ موارد مدفوعة داخل اشتراك Azure المحدد.
 
+## تشغيل موقع جديد لأول مرة
+
+وضع التأسيس مغلق افتراضيًا. يفتح فقط لإنشاء موقع جديد، ثم يغلق في نشر تالٍ:
+
+```bash
+export RUSHD_BOOTSTRAP_MODE='true'
+export RUSHD_APPLICATION_IMAGE_TAG='ضع-وسم-الصورة'
+export RUSHD_SITE_ADMIN_PASSWORD='كلمة-قوية-من-مسار-أسرار-آمن'
+```
+
+بعد نجاح `docker/create-site.sh` واختبارات الموقع:
+
+```bash
+export RUSHD_BOOTSTRAP_MODE='false'
+```
+
+لا تكتب القيم السرية في ملفات Bicep أو أوامر محفوظة في Git.
+
 ## ما لا تفعله هذه الطبقة
 
 - لا تنقل بيانات Supabase.
-- لا تنشر تطبيق رُشد بعد.
-- لا تنشئ مستخدم تطبيق PostgreSQL النهائي.
-- لا تضع أسرارًا داخل Key Vault؛ الوصول العام للقبو مغلق، وتعبئة الأسرار ستتم
-  من مسار خاص أو Pipeline معتمد، باستثناء كلمة مرور PostgreSQL الأولية التي
-  ينشئها القالب مباشرة كسر `postgres-admin-password`.
-- لا تفتح قواعد Firewall مؤقتة لجهاز مطور.
 - لا تنشئ Production من معلمات Staging.
+- لا تنشئ نطاقات `portal` و`staff` و`admin` أو WAF.
+- لا تنشئ Redis مُدارًا.
+- لا تنفذ اختبار استعادة PostgreSQL أو Azure Files تلقائيًا.
+- لا تفتح قواعد Firewall مؤقتة لجهاز مطور.
 
-## بوابة الأمان قبل المرحلة التالية
+## ملاحظة PostgreSQL
 
-لا نضيف Container Apps أو Redis حتى يتحقق الآتي:
+Frappe 16 يعرض تحذيرًا صريحًا بأن دعم PostgreSQL ما زال تجريبيًا. نجح إنشاء
+الموقع والترحيل واختبارات رُشد الحالية على PostgreSQL 16، لكن هذا لا يلغي
+المخاطرة. قبل Production يلزم:
 
-- نجاح Build للقالب بلا أخطاء.
-- اعتماد Subscription وRegion.
-- مراجعة `what-if`.
-- اعتماد نطاقات الشبكة.
-- تأكيد ميزانية موارد Staging.
-- نجاح نشر الأساس.
-- إثبات DNS الخاص والوصول من داخل VNet.
-- تسجيل نتيجة النشر في سجل التنفيذ.
+- فترة تشغيل Staging واختبارات أوسع لكل مسارات العمل.
+- اختبار نسخ احتياطي واستعادة فعلي.
+- اختبار كل ترقية Frappe على نسخة منقحة من البيانات.
+- قرار معماري موثق بالاستمرار على PostgreSQL أو الانتقال إلى MariaDB مُدارة
+  ذاتيًا قبل الإطلاق.
+
+## بوابة الأمان قبل Production
+
+- Budget وتنبيهات تتناسب مع رصيد المنحة ومدتها.
+- نطاقات وTLS وWAF وفصل `portal` و`staff` و`admin`.
+- Redis مُدار وخطة لاستمرار قوائم المهام.
+- اختبار Restore موثق لـPostgreSQL وAzure Files.
+- مراقبة وتنبيهات وRunbook وRollback.
+- مراجعة أمن وخصوصية وUAT واعتماد مالك المنتج.

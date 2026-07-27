@@ -71,8 +71,21 @@ Development Database: Local MariaDB
 Application Source: rushd-app
 ```
 
-البيئة المحلية ليست تصميم الإنتاج النهائي. سيعاد إنشاء موقع Staging على
-PostgreSQL في Azure قبل التوسع في الميزات.
+بيئة Staging المنشورة:
+
+```text
+Region: UAE North
+Runtime: Azure Container Apps
+Framework: Frappe 16.20.0
+Base image: frappe/erpnext:v16.22.0
+Database: Azure Database for PostgreSQL Flexible Server 16
+Site: rushd-staging.internal
+Public URL: https://rushd-staging-web.mangocliff-2f187d1b.uaenorth.azurecontainerapps.io
+```
+
+البيئة المحلية ليست تصميم الإنتاج النهائي. وبيئة Staging إثبات تشغيل وليست
+اعتماد Production؛ ما زال يلزم بناء الواجهات المنفصلة، واختبار الاستعادة،
+والأمن، وUAT.
 
 ## 4. بنية Azure المستهدفة
 
@@ -90,10 +103,10 @@ Azure Subscription
     │   ├── Scheduler
     │   └── Realtime / WebSocket
     ├── Azure Database for PostgreSQL Flexible Server
-    ├── Azure Managed Redis
+    ├── Azure Managed Redis (مطلوب قبل Production)
     ├── Azure Storage
     │   ├── Private Files
-    │   ├── Public Assets
+    │   ├── Private Azure Files لمجلد sites
     │   └── Backup Exports
     ├── Azure Key Vault
     ├── Log Analytics / Application Insights
@@ -102,6 +115,10 @@ Azure Subscription
 
 يمكن استخدام Azure VM بدل Container Apps إذا أثبت اختبار التشغيل أن ذلك أبسط
 وأكثر موثوقية لـFrappe. يجب تسجيل الاختيار النهائي في ADR قبل الإنتاج.
+
+تنفيذ Staging الحالي يضع Redis Cache وQueue داخل Container App لتقليل تكلفة
+الإثبات. هما مؤقتان وغير دائمين، ولا يخزنان أي سجل رسمي. هذا الترتيب غير
+معتمد لـProduction.
 
 ### 4.1 قاعدة البيانات
 
@@ -134,6 +151,10 @@ Azure Database for PostgreSQL Flexible Server
 - ينفذ تصدير منطقي دوري مستقل باستخدام `pg_dump`.
 - يختبر Restore فعليًا قبل الإطلاق وبشكل دوري.
 - لا تستخدم قاعدة الإنتاج للتطوير أو الاختبارات.
+
+مخاطرة معلومة: Frappe 16 ما زال يصنف دعم PostgreSQL بأنه تجريبي. نجحت
+الترحيلات واختبارات رُشد الحالية عليه، لكن يلزم تشغيل Staging مطول واختبار
+استعادة وتغطية أوسع قبل قرار Production.
 
 ### 4.2 المرفقات والملفات
 
@@ -720,16 +741,18 @@ Redis ليس مصدر حقيقة، ولا تحفظ فيه الحالة الرس�
 
 ## 19. الخطوة التالية المعتمدة
 
-البدء بالمرحلة الأولى والثانية:
+اكتملت مراحل Landing Zone ومنصة البيانات وتشغيل Staging الأولي. الخطوة
+التالية هي تثبيت التشغيل ثم بناء Backend MVP والواجهات المنفصلة:
 
-1. اعتماد Subscription وRegion والنطاقات.
-2. إنشاء Infrastructure as Code لـAzure.
-3. إنشاء Staging.
-4. تشغيل PostgreSQL وStorage وKey Vault وRedis.
-5. تثبيت رُشد على Staging.
-6. تشغيل اختبارات الصلاحيات والحجز والنسخ والاستعادة.
+1. إنشاء Budget وتنبيهات المنحة.
+2. تنفيذ اختبار Backup/Restore موثق.
+3. توسيع اختبارات PostgreSQL والحجز والمسارات الوظيفية.
+4. إكمال Backend MVP وعقود API.
+5. بناء `portal` و`staff` و`admin` كواجهات منفصلة.
+6. إضافة نطاقات TLS وWAF وهوية الموظفين وRedis مُدار قبل Production.
 
-لا يبدأ بناء الواجهات النهائية قبل نجاح تشغيل رُشد على PostgreSQL في Staging.
+نجح تشغيل رُشد على PostgreSQL في Staging، لذلك يمكن بدء بناء الواجهات مع
+بقاء بوابات Production أعلاه إلزامية.
 
 ## 20. سجل التنفيذ
 
@@ -766,23 +789,39 @@ Redis ليس مصدر حقيقة، ولا تحفظ فيه الحالة الرس�
 - حفظ كلمة PostgreSQL الأولية في Key Vault كسر `postgres-admin-password`
   ونسخة استرداد مشفرة في macOS Keychain.
 - إنشاء ACR Premium خاص مع تعطيل Admin User.
-- نجاح واعتماد Private Endpoints الثلاثة لـStorage وKey Vault وACR.
+- نجاح واعتماد Private Endpoints لـStorage وAzure Files وKey Vault وACR.
 - التحقق من أدوار هوية رُشد: `Key Vault Secrets User` و
   `Storage Blob Data Contributor` و`AcrPull` فقط.
+- إضافة Azure Container Apps Environment وAzure Files الخاصة بالموقع إلى
+  Bicep.
+- بناء صورة رُشد المثبتة على `frappe/erpnext:v16.22.0` ودفعها إلى ACR الخاص.
+- نشر حاويات Web/API وNginx وWebSocket وWorker وScheduler وRedis Cache وQueue.
+- إنشاء موقع `rushd-staging.internal` على PostgreSQL وتثبيت
+  `consultation_center 0.1.0`.
+- معالجة توافق أصول Frappe مع Azure Files عبر تحويل الروابط الرمزية إلى ملفات
+  فعلية مرة واحدة لكل وسم صورة.
+- نجاح صفحة `/login` برمز 200 و`/api/method/ping` بالاستجابة `pong`.
+- نجاح اختبارات عزل السجلات الثلاثة على Azure للمستفيد وولي الأمر والمستشار.
+- تعطيل `allow_tests` بعد الاختبارات.
+- إغلاق وضع التأسيس وإزالة كلمات مرور إنشاء القاعدة والموقع من متغيرات حاوية
+  التطبيق الدائمة.
+- تثبيت ACR وPostgreSQL وStorage وKey Vault دون Public Access بعد النشر.
+- تسجيل مخاطرة أن PostgreSQL ما زال مصنفًا تجريبيًا في Frappe 16.
 
-### معلق قبل طبقة تشغيل التطبيق
+### معلق قبل Production
 
 - تحديد ميزانية وتنبيه تكلفة يتناسبان مع رصيد منحة Microsoft Azure ومدتها.
-- تقدير Container Apps وRedis قبل إنشائهما.
-- إضافة Azure Managed Redis وContainer Apps Environment إلى Bicep.
-- بناء صورة رُشد ودفعها إلى ACR من مسار يملك وصولًا خاصًا.
-- إنشاء موقع Staging على PostgreSQL وتشغيل اختبارات التطبيق.
+- تنفيذ اختبار Backup/Restore فعلي وتوثيق RPO وRTO.
+- اعتماد Redis مُدار بدل Redis المؤقت داخل Container App.
+- إنشاء النطاقات المنفصلة وTLS وWAF وسياسة وصول الإدارة.
+- توسيع الاختبارات الوظيفية والأمنية وإجراء UAT.
+- حسم قرار PostgreSQL بعد فترة Staging واختبارات الترقية والاستعادة.
 
 ### الخطوة التالية بعد الاعتماد
 
 1. تحديد Budget وتنبيهات المنحة.
-2. تقدير واعتماد تكلفة Redis وContainer Apps.
-3. إضافة Azure Managed Redis وContainer Apps Environment.
-4. اختبار Private DNS والاتصال من داخل VNet.
-5. بناء صورة رُشد المثبتة الإصدارات ودفعها إلى Registry.
-6. إنشاء موقع Staging على PostgreSQL وتشغيل الاختبارات.
+2. تنفيذ Restore Test.
+3. توسيع Backend MVP واختبارات الحجز والجلسات والموافقات.
+4. بناء API رُشد المحدد بدل كشف REST العام لـFrappe.
+5. بدء واجهات `portal` و`staff` و`admin` المنفصلة.
+6. اعتماد Redis المُدار والنطاقات وWAF قبل Production.

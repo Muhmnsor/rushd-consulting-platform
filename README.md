@@ -11,6 +11,10 @@
 - [القرارات المعمارية](docs/adr)
 - [بنية Azure وطريقة التحقق والنشر](infra/README_AR.md)
 
+بيئة Staging الحالية:
+
+`https://rushd-staging-web.mangocliff-2f187d1b.uaenorth.azurecontainerapps.io`
+
 ### Installation
 
 You can install this app using the [bench](https://github.com/frappe/bench) CLI:
