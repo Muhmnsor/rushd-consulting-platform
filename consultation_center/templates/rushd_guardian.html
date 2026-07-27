@@ -1,0 +1,47 @@
+{% extends "templates/base.html" %}
+
+{% block head_include %}
+<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css">
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="rushd-portal-shell" dir="rtl">
+	<aside class="rushd-sidebar">
+		<a class="rushd-sidebar__brand" href="/guardian">
+			<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
+			<span><strong>رُشد</strong><small>بوابة ولي الأمر</small></span>
+		</a>
+		<nav class="rushd-sidebar__nav">
+			<a class="rushd-nav-link {% if active_nav == 'guardian-dashboard' %}is-active{% endif %}" href="/guardian"><span class="rushd-nav-icon">⌂</span><span>الرئيسية</span></a>
+			<a class="rushd-nav-link {% if active_nav == 'guardian-dependents' %}is-active{% endif %}" href="/guardian/dependents"><span class="rushd-nav-icon">◎</span><span>المستفيدون المرتبطون</span></a>
+			<a class="rushd-nav-link {% if active_nav == 'guardian-consents' %}is-active{% endif %}" href="/guardian/consents"><span class="rushd-nav-icon">✓</span><span>الموافقات</span></a>
+			<a class="rushd-nav-link {% if active_nav == 'guardian-access' %}is-active{% endif %}" href="/guardian/access"><span class="rushd-nav-icon">◇</span><span>صلاحيات الوصول</span></a>
+			<span class="rushd-nav-link is-disabled"><span class="rushd-nav-icon">◷</span><span>المواعيد</span><small>قريبًا</small></span>
+		</nav>
+		<div class="rushd-sidebar__support"><p>خصوصية المستفيد أولًا</p><span>يعرض لك رُشد فقط ما تسمح به العلاقة والعمر والتفويض والسياسة.</span></div>
+		<a class="rushd-sidebar__logout" href="/?cmd=web_logout"><span>↪</span>تسجيل الخروج</a>
+	</aside>
+	<div class="rushd-portal-main">
+		<header class="rushd-topbar">
+			<a class="rushd-mobile-brand" href="/guardian"><img src="/assets/consultation_center/images/rushd-logo.svg" alt=""><strong>رُشد</strong></a>
+			<div class="rushd-topbar__actions">
+				<div class="rushd-user-chip"><span class="rushd-user-chip__avatar">{{ display_name[:1] }}</span><span><strong>{{ display_name }}</strong><small>ولي أمر</small></span></div>
+			</div>
+		</header>
+		<main class="rushd-portal-content">{% block guardian_content %}{% endblock %}</main>
+		<nav class="rushd-mobile-nav">
+			<a class="{% if active_nav == 'guardian-dashboard' %}is-active{% endif %}" href="/guardian"><span>⌂</span>الرئيسية</a>
+			<a class="{% if active_nav == 'guardian-dependents' %}is-active{% endif %}" href="/guardian/dependents"><span>◎</span>المستفيدون</a>
+			<a class="{% if active_nav == 'guardian-consents' %}is-active{% endif %}" href="/guardian/consents"><span>✓</span>الموافقات</a>
+			<a class="{% if active_nav == 'guardian-access' %}is-active{% endif %}" href="/guardian/access"><span>◇</span>الوصول</a>
+			<span class="is-disabled"><span>◷</span>المواعيد</span>
+		</nav>
+	</div>
+</div>
+{% endblock %}
+

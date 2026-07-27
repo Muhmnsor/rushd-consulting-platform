@@ -117,6 +117,39 @@ def guardian_authorization_query(user: str | None = None) -> str:
 	return "1=0"
 
 
+def consent_record_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user) or roles & OPERATIONS_ROLES:
+		return ""
+
+	conditions = []
+	if "Beneficiary" in roles:
+		conditions.append(
+			f"""exists (
+				select 1 from `tabBeneficiary` rushd_beneficiary
+				where rushd_beneficiary.name = `tabConsent Record`.beneficiary
+					and rushd_beneficiary.portal_user = {_escape(user)}
+			)"""
+		)
+	if "Guardian" in roles:
+		conditions.append(
+			f"""exists (
+				select 1
+				from `tabGuardian` rushd_guardian
+				inner join `tabGuardian Authorization` rushd_auth
+					on rushd_auth.guardian = rushd_guardian.name
+				where rushd_guardian.name = `tabConsent Record`.guardian
+					and rushd_guardian.portal_user = {_escape(user)}
+					and rushd_auth.beneficiary = `tabConsent Record`.beneficiary
+					and rushd_auth.authorization_status = 'Active'
+					and rushd_auth.effective_from <= current_date
+					and (rushd_auth.effective_to is null or rushd_auth.effective_to >= current_date)
+			)"""
+		)
+	return _or_conditions(conditions)
+
+
 def consultant_query(user: str | None = None) -> str:
 	user = _user(user)
 	roles = _roles(user)
@@ -236,6 +269,7 @@ QUERY_BY_DOCTYPE: dict[str, Callable[[str | None], str]] = {
 	"Beneficiary": beneficiary_query,
 	"Guardian": guardian_query,
 	"Guardian Authorization": guardian_authorization_query,
+	"Consent Record": consent_record_query,
 	"Consultant": consultant_query,
 	"Consultant Availability Rule": availability_query,
 	"Consultant Time Off": time_off_query,
@@ -311,6 +345,7 @@ def _beneficiary_can_access(doc, user: str) -> bool:
 		"Consultation Request",
 		"Consultation Case",
 		"Consultation Appointment",
+		"Consent Record",
 	}:
 		return doc.beneficiary == beneficiary
 	return False
@@ -369,6 +404,12 @@ def _guardian_can_access(doc, user: str) -> bool:
 		return doc.name == guardian or doc.portal_user == user
 	if doc.doctype == "Guardian Authorization":
 		return doc.guardian == guardian
+	if doc.doctype == "Consent Record":
+		return doc.guardian == guardian and _has_active_guardian_scope(
+			guardian,
+			doc.beneficiary,
+			"can_view_profile",
+		)
 
 	scope_by_doctype = {
 		"Beneficiary": "can_view_profile",

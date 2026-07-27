@@ -1,0 +1,113 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:template_code",
+ "creation": "2026-07-27 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "template_code",
+  "template_title",
+  "consent_scope",
+  "active",
+  "column_break_1",
+  "requires_beneficiary",
+  "requires_guardian",
+  "service"
+ ],
+ "fields": [
+  {
+   "fieldname": "template_code",
+   "fieldtype": "Data",
+   "label": "Template Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "template_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template Title",
+   "reqd": 1
+  },
+  {
+   "default": "General",
+   "fieldname": "consent_scope",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Consent Scope",
+   "options": "General\nPrivacy\nService\nMinor Protection\nData Sharing"
+  },
+  {
+   "default": "1",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "requires_beneficiary",
+   "fieldtype": "Check",
+   "label": "Requires Beneficiary Consent"
+  },
+  {
+   "default": "0",
+   "fieldname": "requires_guardian",
+   "fieldtype": "Check",
+   "label": "Requires Guardian Consent"
+  },
+  {
+   "fieldname": "service",
+   "fieldtype": "Link",
+   "label": "Consultation Service",
+   "options": "Consultation Service"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-07-27 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Consent Template",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Center Director",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Consultation Supervisor"
+  },
+  {
+   "read": 1,
+   "role": "Quality Reviewer"
+  },
+  {
+   "read": 1,
+   "role": "Auditor"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
+

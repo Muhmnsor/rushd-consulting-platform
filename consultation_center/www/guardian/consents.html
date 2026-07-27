@@ -1,0 +1,44 @@
+{% extends "consultation_center/templates/rushd_guardian.html" %}
+
+{% block guardian_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">الموافقات والإقرارات</span>
+		<h1>موافقات ولي الأمر</h1>
+		<p>كل موافقة مرتبطة بنسخة نص محددة، ويحفظ تاريخها وطريقة تسجيلها دون استبدال النسخة القديمة.</p>
+	</div>
+</section>
+
+<section class="rushd-consent-list">
+	{% for consent in consents %}
+	<article class="rushd-card rushd-consent-card" data-consent-card="{{ consent.name }}">
+		<header>
+			<div><span class="rushd-page-heading__eyebrow">{{ consent.beneficiary_name }} — الإصدار {{ consent.version_label }}</span><h2>{{ consent.title }}</h2></div>
+			<span class="rushd-status rushd-status--{{ consent.status_tone }}">{{ consent.status_label }}</span>
+		</header>
+		<div class="rushd-consent-card__summary">{{ consent.simplified_text }}</div>
+		<details>
+			<summary>عرض النص الكامل</summary>
+			<div class="rushd-consent-card__full">{{ consent.full_text }}</div>
+		</details>
+		{% if consent.status == "Pending" and consent.version_status == "Published" %}
+		<label class="rushd-checkbox">
+			<input type="checkbox" data-consent-confirmed>
+			<span>قرأت النص المبسط والنص الكامل، وأفهم أن هذه الموافقة تخص الإصدار {{ consent.version_label }}.</span>
+		</label>
+		<button class="rushd-button rushd-button--primary" type="button" data-grant-consent>تسجيل الموافقة</button>
+		<div class="rushd-form-message" data-form-message role="status" aria-live="polite"></div>
+		{% elif consent.granted_at_label %}
+		<div class="rushd-consent-card__granted">تم تسجيل الموافقة بتاريخ {{ consent.granted_at_label }}</div>
+		{% endif %}
+	</article>
+	{% else %}
+	<article class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد موافقات مطلوبة</h2><p>ستظهر هنا أي موافقة تحتاج إلى إجراء ولي الأمر.</p></div></article>
+	{% endfor %}
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-consent-actions.js"></script>
+{% endblock %}
+

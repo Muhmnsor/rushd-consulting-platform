@@ -1,0 +1,33 @@
+{% extends "consultation_center/templates/rushd_guardian.html" %}
+
+{% block guardian_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">العلاقة والتفويض</span>
+		<h1>المستفيدون المرتبطون</h1>
+		<p>كل مستفيد مرتبط بتفويض مستقل له مدة ونطاق وصول محددان.</p>
+	</div>
+</section>
+
+<section class="rushd-guardian-grid">
+	{% for authorization in authorizations %}
+	<article class="rushd-card rushd-dependent-card" id="{{ authorization.name }}">
+		<header>
+			<span class="rushd-dependent-avatar">{{ authorization.beneficiary_profile.beneficiary_name[:1] }}</span>
+			<div><h2>{{ authorization.beneficiary_profile.beneficiary_name }}</h2><p>{{ authorization.relationship_label }}</p></div>
+			<span class="rushd-status rushd-status--{{ authorization.status_tone }}">{{ authorization.status_label }}</span>
+		</header>
+		<div class="rushd-dependent-card__body">
+			<div><span>المدينة</span><strong>{{ authorization.beneficiary_profile.city or 'غير مسجلة' }}</strong></div>
+			<div><span>حالة الملف</span><strong>{{ authorization.beneficiary_profile.status }}</strong></div>
+			<div><span>بداية التفويض</span><strong>{{ authorization.effective_from_label }}</strong></div>
+			<div><span>نهاية التفويض</span><strong>{{ authorization.effective_to_label }}</strong></div>
+		</div>
+		<footer><strong>نطاق الوصول:</strong> {{ authorization.scope_labels | join("، ") or "لا توجد صلاحيات فعالة" }}</footer>
+	</article>
+	{% else %}
+	<article class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">◎</span><h2>لا يوجد مستفيد مرتبط</h2><p>إنشاء الربط يحتاج إثبات العلاقة ومراجعة فريق رُشد.</p></div></article>
+	{% endfor %}
+</section>
+{% endblock %}
+

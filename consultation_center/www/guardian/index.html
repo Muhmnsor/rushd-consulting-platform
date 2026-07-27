@@ -1,0 +1,55 @@
+{% extends "consultation_center/templates/rushd_guardian.html" %}
+
+{% block guardian_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">بوابة ولي الأمر</span>
+		<h1>أهلًا، {{ display_name }}</h1>
+		<p>تابع ما يسمح به التفويض لكل مستفيد، وأكمل الموافقات المطلوبة دون الاطلاع على الملاحظات المهنية الخاصة.</p>
+	</div>
+</section>
+
+{% if not guardian %}
+<section class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">!</span><h2>ملف ولي الأمر غير مرتبط</h2><p>تواصل مع فريق رُشد لاستكمال ربط الحساب.</p></div></section>
+{% else %}
+<section class="rushd-grid rushd-grid--stats">
+	<article class="rushd-card rushd-stat-card"><span class="rushd-stat-card__label">المستفيدون المرتبطون</span><strong>{{ active_authorizations | length }}</strong><small>بتفويض نشط حاليًا</small></article>
+	<article class="rushd-card rushd-stat-card"><span class="rushd-stat-card__label">الموافقات المطلوبة</span><strong>{{ pending_consents | length }}</strong><small>تحتاج إلى قراءتك وإجراءك</small></article>
+	<article class="rushd-card rushd-stat-card"><span class="rushd-stat-card__label">الطلبات المسموحة</span><strong>{{ total_requests }}</strong><small>وفق نطاق كل تفويض</small></article>
+</section>
+
+<section class="rushd-grid rushd-grid--dashboard">
+	<article class="rushd-card">
+		<div class="rushd-card__header"><h2>المستفيدون المرتبطون</h2><a href="/guardian/dependents">عرض التفاصيل</a></div>
+		{% if active_authorizations %}
+		<div class="rushd-request-list">
+			{% for authorization in active_authorizations %}
+			<a class="rushd-request-row" href="/guardian/dependents#{{ authorization.name }}">
+				<span class="rushd-request-row__main">
+					<strong>{{ authorization.beneficiary_profile.beneficiary_name }}</strong>
+					<span class="rushd-request-row__meta"><span>{{ authorization.relationship_label }}</span><span>{{ authorization.scope_labels | join("، ") }}</span></span>
+				</span>
+				<span class="rushd-status rushd-status--green">تفويض نشط</span>
+			</a>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">◎</span><h2>لا يوجد مستفيد مرتبط</h2><p>يظهر المستفيد بعد اعتماد طلب الربط والتفويض.</p></div></div>
+		{% endif %}
+	</article>
+
+	<article class="rushd-card rushd-next-card">
+		<span class="rushd-next-card__label">الإجراء الأقرب</span>
+		{% if pending_consents %}
+		<h2>موافقة تحتاج إجراءك</h2>
+		<p>{{ pending_consents[0].title }} للمستفيد {{ pending_consents[0].beneficiary_name }}.</p>
+		<a class="rushd-button rushd-button--secondary" href="/guardian/consents" style="margin-top: 24px;">عرض الموافقة</a>
+		{% else %}
+		<h2>لا يوجد إجراء مطلوب</h2>
+		<p>ستظهر هنا الموافقات أو الطلبات الجديدة التي تحتاج إلى تدخلك.</p>
+		{% endif %}
+	</article>
+</section>
+{% endif %}
+{% endblock %}
+
