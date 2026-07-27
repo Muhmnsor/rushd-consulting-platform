@@ -30,19 +30,12 @@ if [[ -f "${assets_marker}" ]]; then
 fi
 
 if [[ "${installed_asset_version}" != "${RUSHD_ASSET_VERSION}" ]]; then
-  echo "Materializing Frappe assets for ${RUSHD_ASSET_VERSION}."
+  echo "Installing Frappe asset manifests for ${RUSHD_ASSET_VERSION}."
   mkdir -p "${assets_dir}"
 
-  # Locale catalogs contain thousands of small files and exceed the Container
-  # Apps init timeout on Azure Files. Runtime translations are loaded from the
-  # apps themselves; Nginx only needs manifests, bundles, and public app files.
+  # Gunicorn reads manifests from sites/assets. Nginx serves the actual static
+  # files directly from the immutable image, avoiding slow Azure Files copies.
   cp -f assets/assets.json assets/assets-rtl.json "${assets_dir}/"
-  cp -RL assets/css assets/js "${assets_dir}/"
-  cp -RL assets/frappe assets/consultation_center "${assets_dir}/"
-
-  if [[ -e assets/erpnext ]]; then
-    cp -RL assets/erpnext "${assets_dir}/"
-  fi
 
   printf '%s\n' "${RUSHD_ASSET_VERSION}" > "${assets_marker}"
 fi

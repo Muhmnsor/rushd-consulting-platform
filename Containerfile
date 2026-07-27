@@ -4,6 +4,7 @@ FROM ${FRAPPE_IMAGE}
 USER root
 
 COPY --chown=frappe:frappe . /home/frappe/frappe-bench/apps/consultation_center
+COPY docker/frappe-nginx.conf.template /templates/nginx/frappe.conf.template
 
 RUN /home/frappe/frappe-bench/env/bin/pip install \
       --no-cache-dir \

@@ -798,8 +798,8 @@ Redis ليس مصدر حقيقة، ولا تحفظ فيه الحالة الرس�
 - نشر حاويات Web/API وNginx وWebSocket وWorker وScheduler وRedis Cache وQueue.
 - إنشاء موقع `rushd-staging.internal` على PostgreSQL وتثبيت
   `consultation_center 0.1.0`.
-- معالجة توافق أصول Frappe مع Azure Files عبر تحويل الروابط الرمزية إلى ملفات
-  فعلية مرة واحدة لكل وسم صورة.
+- معالجة توافق أصول Frappe مع Azure Files بتقديم `/assets` مباشرة من صورة
+  التطبيق الثابتة، مع حفظ بيانات الموقع فقط على Azure Files.
 - نجاح صفحة `/login` برمز 200 و`/api/method/ping` بالاستجابة `pong`.
 - نجاح اختبارات عزل السجلات الثلاثة على Azure للمستفيد وولي الأمر والمستشار.
 - تعطيل `allow_tests` بعد الاختبارات.
