@@ -1,0 +1,13 @@
+.DS_Store
+.git
+.github
+.idea
+.vscode
+*.egg-info
+*.py[cod]
+__pycache__
+.pytest_cache
+.ruff_cache
+node_modules
+work
+
