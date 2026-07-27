@@ -11,6 +11,10 @@ bench_dir="/home/frappe/frappe-bench"
 cd "${bench_dir}"
 
 mkdir -p sites
+if [[ ! -f sites/common_site_config.json ]]; then
+  printf '{}\n' > sites/common_site_config.json
+fi
+
 find apps -mindepth 1 -maxdepth 1 -type d -exec basename {} \; \
   | sort -u > sites/apps.txt
 
