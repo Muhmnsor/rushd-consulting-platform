@@ -60,10 +60,10 @@ param logAnalyticsDailyQuotaGb int = 1
 param applicationImageTag string
 
 @description('Frappe site name used internally by the reverse proxy.')
-param siteName string = 'staging.rushd.internal'
+param siteName string = 'rushd-staging.internal'
 
 @description('Expose database bootstrap secrets only while creating the first site.')
-param bootstrapMode bool = true
+param bootstrapMode bool = false
 
 @description('Extra Azure resource tags.')
 param additionalTags object = {}

@@ -35,6 +35,10 @@ var commonEnvironment = [
     name: 'DB_PORT'
     value: '5432'
   }
+  {
+    name: 'RUSHD_ASSET_VERSION'
+    value: applicationImageTag
+  }
 ]
 var sitesVolumeMount = [
   {
