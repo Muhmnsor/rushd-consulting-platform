@@ -1,0 +1,45 @@
+{% extends "consultation_center/templates/rushd_portal.html" %}
+
+{% block portal_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">طلبات الاستشارة</span>
+		<h1>طلباتي</h1>
+		<p>تعرف على حالة كل طلب والخطوة القادمة دون الحاجة إلى التواصل للاستفسار.</p>
+	</div>
+	<a class="rushd-button rushd-button--primary" href="/beneficiary/requests/new">＋ طلب جديد</a>
+</section>
+
+<section class="rushd-card">
+	{% if requests %}
+		{% for request in requests %}
+		<article class="rushd-request-detail" id="{{ request.name }}">
+			<div class="rushd-request-detail__top">
+				<div>
+					<h2>{{ request.service_name }}</h2>
+					<div class="rushd-request-detail__meta">
+						<span>الرقم المرجعي: {{ request.name }}</span>
+						<span>تاريخ الطلب: {{ request.request_date_label }}</span>
+					</div>
+				</div>
+				<span class="rushd-status rushd-status--{{ request.status_tone }}">{{ request.status_label }}</span>
+			</div>
+			<div class="rushd-request-detail__next">
+				<strong>الخطوة التالية:</strong>
+				{{ request.next_step }}
+			</div>
+		</article>
+		{% endfor %}
+	{% else %}
+	<div class="rushd-empty-state">
+		<div>
+			<span class="rushd-empty-state__mark">◫</span>
+			<h2>لا توجد طلبات حتى الآن</h2>
+			<p>عند تقديم طلب استشارة ستظهر حالته هنا، وستعرف دائمًا الخطوة التالية.</p>
+			<a class="rushd-button rushd-button--primary" href="/beneficiary/requests/new">تقديم أول طلب</a>
+		</div>
+	</div>
+	{% endif %}
+</section>
+{% endblock %}
+

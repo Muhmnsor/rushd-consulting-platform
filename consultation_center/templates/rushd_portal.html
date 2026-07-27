@@ -1,0 +1,91 @@
+{% extends "templates/base.html" %}
+
+{% block head_include %}
+<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css">
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="rushd-portal-shell" dir="rtl">
+	<aside class="rushd-sidebar" aria-label="التنقل الرئيسي">
+		<a class="rushd-sidebar__brand" href="/beneficiary" aria-label="رُشد — الرئيسية">
+			<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
+			<span>
+				<strong>رُشد</strong>
+				<small>للاستشارات الشبابية</small>
+			</span>
+		</a>
+
+		<nav class="rushd-sidebar__nav">
+			<a class="rushd-nav-link {% if active_nav == 'dashboard' %}is-active{% endif %}" href="/beneficiary">
+				<span class="rushd-nav-icon" aria-hidden="true">⌂</span>
+				<span>الرئيسية</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'requests' %}is-active{% endif %}" href="/beneficiary/requests">
+				<span class="rushd-nav-icon" aria-hidden="true">◫</span>
+				<span>طلباتي</span>
+			</a>
+			<a class="rushd-nav-link" href="/book-appointment">
+				<span class="rushd-nav-icon" aria-hidden="true">◷</span>
+				<span>المواعيد</span>
+			</a>
+			<a class="rushd-nav-link is-disabled" href="#" aria-disabled="true">
+				<span class="rushd-nav-icon" aria-hidden="true">✓</span>
+				<span>المهام</span>
+				<small>قريبًا</small>
+			</a>
+			<a class="rushd-nav-link is-disabled" href="#" aria-disabled="true">
+				<span class="rushd-nav-icon" aria-hidden="true">◎</span>
+				<span>خطة المتابعة</span>
+				<small>قريبًا</small>
+			</a>
+		</nav>
+
+		<div class="rushd-sidebar__support">
+			<p>تحتاج إلى مساعدة؟</p>
+			<span>فريق رُشد موجود لمساعدتك في استخدام المنصة.</span>
+			<span class="rushd-sidebar__support-link">مركز الدعم قريبًا</span>
+		</div>
+
+		<a class="rushd-sidebar__logout" href="/?cmd=web_logout">
+			<span aria-hidden="true">↪</span>
+			تسجيل الخروج
+		</a>
+	</aside>
+
+	<div class="rushd-portal-main">
+		<header class="rushd-topbar">
+			<a class="rushd-mobile-brand" href="/beneficiary">
+				<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
+				<strong>رُشد</strong>
+			</a>
+			<div class="rushd-topbar__actions">
+				<span class="rushd-icon-button is-disabled" aria-label="الإشعارات — قريبًا">◌</span>
+				<div class="rushd-user-chip">
+					<span class="rushd-user-chip__avatar">{{ display_name[:1] }}</span>
+					<span>
+						<strong>{{ display_name }}</strong>
+						<small>مستفيد</small>
+					</span>
+				</div>
+			</div>
+		</header>
+
+		<main class="rushd-portal-content">
+			{% block portal_content %}{% endblock %}
+		</main>
+
+		<nav class="rushd-mobile-nav" aria-label="التنقل على الجوال">
+			<a class="{% if active_nav == 'dashboard' %}is-active{% endif %}" href="/beneficiary"><span>⌂</span>الرئيسية</a>
+			<a class="{% if active_nav == 'requests' %}is-active{% endif %}" href="/beneficiary/requests"><span>◫</span>طلباتي</a>
+			<a class="rushd-mobile-nav__primary" href="/beneficiary/requests/new"><span>＋</span>طلب جديد</a>
+			<a href="/book-appointment"><span>◷</span>المواعيد</a>
+			<span class="is-disabled" aria-label="حسابي — قريبًا"><span>○</span>حسابي</span>
+		</nav>
+	</div>
+</div>
+{% endblock %}

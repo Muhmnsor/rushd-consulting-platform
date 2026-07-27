@@ -1,0 +1,127 @@
+{% extends "consultation_center/templates/rushd_portal.html" %}
+
+{% block portal_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">طلب جديد</span>
+		<h1>كيف نستطيع مساعدتك؟</h1>
+		<p>اكتب ما ترتاح لمشاركته الآن. سيطلع على الطلب الفريق المختص فقط.</p>
+	</div>
+	<a class="rushd-button rushd-button--secondary" href="/beneficiary/requests">العودة إلى طلباتي</a>
+</section>
+
+{% if not beneficiary %}
+<section class="rushd-card rushd-empty-state">
+	<div>
+		<span class="rushd-empty-state__mark">!</span>
+		<h2>يلزم استكمال ملف المستفيد</h2>
+		<p>لا يمكن إنشاء طلب قبل ربط حسابك بملف مستفيد نشط.</p>
+	</div>
+</section>
+{% elif not services %}
+<section class="rushd-card rushd-empty-state">
+	<div>
+		<span class="rushd-empty-state__mark">◫</span>
+		<h2>الخدمات قيد الإعداد</h2>
+		<p>لا توجد خدمة استشارية متاحة للتقديم حاليًا. يرجى العودة لاحقًا.</p>
+	</div>
+</section>
+{% else %}
+<form class="rushd-card rushd-form-card" data-rushd-request-form novalidate>
+	<section class="rushd-form-section">
+		<div class="rushd-form-section__heading">
+			<span class="rushd-form-section__number">١</span>
+			<div>
+				<h2>مجال الاستشارة</h2>
+				<p>اختر المجال الأقرب لاحتياجك، ويمكن للفريق تعديله بعد المراجعة.</p>
+			</div>
+		</div>
+		<div class="rushd-form-grid">
+			<div class="rushd-field rushd-field--full">
+				<label for="requested-service">الخدمة المطلوبة</label>
+				<select id="requested-service" name="requested_service" required>
+					<option value="">اختر مجال الاستشارة</option>
+					{% for service in services %}
+					<option value="{{ service.name }}">{{ service.service_name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+	</section>
+
+	<section class="rushd-form-section">
+		<div class="rushd-form-section__heading">
+			<span class="rushd-form-section__number">٢</span>
+			<div>
+				<h2>وصف الاحتياج</h2>
+				<p>لا يلزم كتابة معلومات شديدة الحساسية في هذه المرحلة.</p>
+			</div>
+		</div>
+		<div class="rushd-form-grid">
+			<div class="rushd-field rushd-field--full">
+				<label for="request-summary">ما الذي ترغب بالحصول على مساعدة فيه؟</label>
+				<textarea id="request-summary" name="summary" maxlength="2000" placeholder="اكتب وصفًا مختصرًا وواضحًا..." required></textarea>
+				<span class="rushd-field__counter" data-summary-counter>0 / 2000</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="rushd-form-section">
+		<div class="rushd-form-section__heading">
+			<span class="rushd-form-section__number">٣</span>
+			<div>
+				<h2>طريقة ووقت الاستشارة</h2>
+				<p>هذه تفضيلات أولية، وسيتم تأكيد الموعد لاحقًا.</p>
+			</div>
+		</div>
+		<div class="rushd-form-grid">
+			<fieldset class="rushd-field rushd-field--full">
+				<legend>الطريقة المناسبة</legend>
+				<div class="rushd-choice-grid">
+					<label class="rushd-choice">
+						<input type="radio" name="preferred_mode" value="Either" checked>
+						<span>لا فرق لدي</span>
+					</label>
+					<label class="rushd-choice">
+						<input type="radio" name="preferred_mode" value="Online">
+						<span>عن بُعد</span>
+					</label>
+					<label class="rushd-choice">
+						<input type="radio" name="preferred_mode" value="In Person">
+						<span>حضوري</span>
+					</label>
+				</div>
+			</fieldset>
+			<div class="rushd-field rushd-field--full">
+				<label for="preferred-times">الأيام والأوقات المناسبة</label>
+				<textarea id="preferred-times" name="preferred_times" maxlength="500" placeholder="مثال: من الأحد إلى الثلاثاء، بعد الساعة 5 مساءً"></textarea>
+				<span class="rushd-field__hint">يمكنك ترك هذا الحقل فارغًا وتحديد الموعد لاحقًا.</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="rushd-form-section">
+		<div class="rushd-notice">
+			<strong aria-hidden="true">!</strong>
+			<span>رُشد خدمة استشارية وليست خدمة طوارئ. إذا كنت أنت أو شخص آخر في خطر مباشر، تواصل فورًا مع خدمات الطوارئ المحلية المناسبة.</span>
+		</div>
+		<label class="rushd-checkbox">
+			<input id="emergency-acknowledged" type="checkbox">
+			<span>أؤكد أن هذا الطلب ليس حالة طارئة، وأن المعلومات التي كتبتها مناسبة للمراجعة الأولية.</span>
+		</label>
+	</section>
+
+	<div class="rushd-form-message" data-form-message role="status" aria-live="polite"></div>
+
+	<div class="rushd-form-actions">
+		<button class="rushd-button rushd-button--secondary" type="button" data-submit-action="draft">حفظ كمسودة</button>
+		<button class="rushd-button rushd-button--primary" type="button" data-submit-action="submit">إرسال الطلب</button>
+	</div>
+</form>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-request-form.js"></script>
+{% endblock %}
+

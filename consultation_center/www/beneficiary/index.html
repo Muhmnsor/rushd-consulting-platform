@@ -1,0 +1,101 @@
+{% extends "consultation_center/templates/rushd_portal.html" %}
+
+{% block portal_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">مساء الخير، {{ display_name }}</span>
+		<h1>رحلتك مع رُشد، بخطوات واضحة</h1>
+		<p>تابع طلبك وموعدك والخطوة التالية من مكان واحد، مع الحفاظ على خصوصية معلوماتك.</p>
+	</div>
+	<a class="rushd-button rushd-button--primary" href="/beneficiary/requests/new">
+		<span aria-hidden="true">＋</span>
+		طلب استشارة جديد
+	</a>
+</section>
+
+{% if not beneficiary %}
+<section class="rushd-card rushd-empty-state">
+	<div>
+		<span class="rushd-empty-state__mark">○</span>
+		<h2>ملف المستفيد غير مكتمل</h2>
+		<p>حسابك موجود، لكن لا يوجد ملف مستفيد نشط مرتبط به. تواصل مع فريق رُشد لاستكمال الربط.</p>
+	</div>
+</section>
+{% else %}
+<section class="rushd-grid rushd-grid--stats" aria-label="ملخص الحساب">
+	<article class="rushd-card rushd-stat-card">
+		<span class="rushd-stat-card__label">الطلبات الحالية</span>
+		<strong>{{ requests | length }}</strong>
+		<small>آخر الطلبات المسجلة في حسابك</small>
+	</article>
+	<article class="rushd-card rushd-stat-card">
+		<span class="rushd-stat-card__label">الموعد القادم</span>
+		<strong>{% if next_appointment %}{{ next_appointment.time_label }}{% else %}—{% endif %}</strong>
+		<small>{% if next_appointment %}{{ next_appointment.date_label }}{% else %}لا يوجد موعد محجوز حاليًا{% endif %}</small>
+	</article>
+	<article class="rushd-card rushd-stat-card">
+		<span class="rushd-stat-card__label">اكتمال الملف</span>
+		<strong>{{ profile_completion }}٪</strong>
+		<div class="rushd-progress" aria-label="اكتمال الملف {{ profile_completion }} بالمئة">
+			<span style="width: {{ profile_completion }}%"></span>
+		</div>
+	</article>
+</section>
+
+<section class="rushd-grid rushd-grid--dashboard">
+	<article class="rushd-card">
+		<div class="rushd-card__header">
+			<h2>آخر الطلبات</h2>
+			<a href="/beneficiary/requests">عرض الكل</a>
+		</div>
+		{% if requests %}
+		<div class="rushd-request-list">
+			{% for request in requests %}
+			<a class="rushd-request-row" href="/beneficiary/requests?request={{ request.name }}">
+				<span class="rushd-request-row__main">
+					<strong>{{ request.service_name }}</strong>
+					<span class="rushd-request-row__meta">
+						<span>{{ request.name }}</span>
+						<span>{{ request.request_date_label }}</span>
+					</span>
+				</span>
+				<span class="rushd-status rushd-status--{{ request.status_tone }}">{{ request.status_label }}</span>
+			</a>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="rushd-empty-state">
+			<div>
+				<span class="rushd-empty-state__mark">＋</span>
+				<h2>ابدأ بطلبك الأول</h2>
+				<p>اختر مجال الاستشارة وأخبرنا باختصار بما تحتاجه، ويمكنك حفظ الطلب كمسودة.</p>
+				<a class="rushd-button rushd-button--secondary" href="/beneficiary/requests/new">إنشاء طلب</a>
+			</div>
+		</div>
+		{% endif %}
+	</article>
+
+	<article class="rushd-card rushd-next-card">
+		<span class="rushd-next-card__label">الخطوة التالية</span>
+		{% if next_appointment %}
+		<h2>{{ next_appointment.service_name }}</h2>
+		<p>موعدك القادم {{ next_appointment.delivery_label }}. ستظهر تعليمات الجلسة في الوقت المناسب.</p>
+		<div class="rushd-next-card__date">
+			<span aria-hidden="true">◷</span>
+			<div>
+				<strong>{{ next_appointment.date_label }} — {{ next_appointment.time_label }}</strong>
+				<span>بتوقيت الرياض</span>
+			</div>
+		</div>
+		{% elif requests %}
+		<h2>{{ requests[0].status_label }}</h2>
+		<p>{{ requests[0].next_step }}</p>
+		{% else %}
+		<h2>قدّم طلب استشارة</h2>
+		<p>بعد إرسال الطلب سيظهر هنا آخر تحديث وما تحتاج إلى فعله في كل مرحلة.</p>
+		{% endif %}
+	</article>
+</section>
+{% endif %}
+{% endblock %}
+
