@@ -3,6 +3,10 @@ param keyVaultName string
 param privateEndpointSubnetId string
 param virtualNetworkId string
 param applicationPrincipalId string
+
+@secure()
+param postgresAdministratorPassword string
+
 param logAnalyticsWorkspaceId string
 param tags object
 
@@ -43,6 +47,17 @@ resource applicationSecretsUser 'Microsoft.Authorization/roleAssignments@2022-04
     principalId: applicationPrincipalId
     principalType: 'ServicePrincipal'
     roleDefinitionId: secretsUserRoleDefinitionId
+  }
+}
+
+resource postgresAdministratorPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2025-05-01' = {
+  parent: keyVault
+  name: 'postgres-admin-password'
+  properties: {
+    attributes: {
+      enabled: true
+    }
+    value: postgresAdministratorPassword
   }
 }
 

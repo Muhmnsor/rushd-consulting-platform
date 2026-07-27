@@ -16,6 +16,7 @@
   - `backup-exports`.
   - Versioning وحماية حذف لمدة 30 يومًا.
 - Azure Key Vault يعمل بـRBAC ودون Public Access.
+- سر `postgres-admin-password` محفوظ داخل Key Vault أثناء النشر.
 - Azure Container Registry من فئة Premium ودون Public Access.
 - User Assigned Managed Identity لتطبيق رُشد.
 - صلاحيات محدودة للهوية:
@@ -202,7 +203,8 @@ cd infra
 - لا تنشر تطبيق رُشد بعد.
 - لا تنشئ مستخدم تطبيق PostgreSQL النهائي.
 - لا تضع أسرارًا داخل Key Vault؛ الوصول العام للقبو مغلق، وتعبئة الأسرار ستتم
-  من مسار خاص أو Pipeline معتمد.
+  من مسار خاص أو Pipeline معتمد، باستثناء كلمة مرور PostgreSQL الأولية التي
+  ينشئها القالب مباشرة كسر `postgres-admin-password`.
 - لا تفتح قواعد Firewall مؤقتة لجهاز مطور.
 - لا تنشئ Production من معلمات Staging.
 

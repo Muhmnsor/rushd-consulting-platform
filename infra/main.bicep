@@ -112,6 +112,7 @@ module security 'modules/security.bicep' = {
     privateEndpointSubnetId: network.outputs.privateEndpointSubnetId
     virtualNetworkId: network.outputs.virtualNetworkId
     applicationPrincipalId: applicationIdentity.outputs.principalId
+    postgresAdministratorPassword: postgresAdministratorPassword
     logAnalyticsWorkspaceId: monitoring.outputs.logAnalyticsWorkspaceId
     tags: commonTags
   }
