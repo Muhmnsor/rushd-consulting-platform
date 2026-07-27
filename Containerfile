@@ -1,4 +1,4 @@
-ARG FRAPPE_IMAGE=frappe/erpnext:v15.116.0
+ARG FRAPPE_IMAGE=frappe/erpnext:v16.22.0
 FROM ${FRAPPE_IMAGE}
 
 USER root
