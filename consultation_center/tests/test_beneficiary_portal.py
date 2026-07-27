@@ -1,7 +1,10 @@
 import frappe
 from frappe.tests.utils import FrappeTestCase
 
-from consultation_center.api.beneficiary_portal import save_consultation_request
+from consultation_center.api.beneficiary_portal import (
+	save_consultation_request,
+	update_beneficiary_profile,
+)
 
 
 class TestBeneficiaryPortal(FrappeTestCase):
@@ -93,4 +96,21 @@ class TestBeneficiaryPortal(FrappeTestCase):
 				summary="لا يجب إنشاء هذا الطلب دون ملف مستفيد.",
 				preferred_mode="Either",
 			)
+
+	def test_profile_update_is_bound_to_signed_in_beneficiary(self):
+		frappe.set_user(self.user)
+		update_beneficiary_profile(
+			beneficiary_name="Portal Owner Updated",
+			mobile="0501234567",
+			email="rushd.portal.owner@example.com",
+			city="Riyadh",
+			date_of_birth="2001-02-03",
+			preferred_language="Arabic",
+		)
+
+		self.beneficiary.reload()
+		self.other_beneficiary.reload()
+		self.assertEqual(self.beneficiary.beneficiary_name, "Portal Owner Updated")
+		self.assertEqual(self.beneficiary.city, "Riyadh")
+		self.assertEqual(self.other_beneficiary.beneficiary_name, "Portal Other")
 

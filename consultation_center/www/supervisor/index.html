@@ -1,0 +1,39 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">الإشراف المهني</span>
+		<h1>طلبات تحتاج قرارك</h1>
+		<p>راجع ملاءمة الخدمة وحدد القرار، مع إبقاء المبررات المهنية منفصلة عن التوضيح العام للمستفيد.</p>
+	</div>
+	<a class="rushd-button rushd-button--primary" href="/supervisor/triage">فتح طابور الفرز</a>
+</section>
+
+<section class="rushd-staff-kpis">
+	<article class="rushd-card rushd-staff-kpi"><span>بانتظار الفرز</span><strong>{{ counts["Ready for Triage"] }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>مناسبة للخدمة</span><strong>{{ counts["Eligible"] }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>تحتاج استكمالًا</span><strong>{{ counts["Awaiting Beneficiary Information"] }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>غير مناسبة</span><strong>{{ counts["Not Eligible"] }}</strong></article>
+</section>
+
+<section class="rushd-card" style="margin-top: 20px;">
+	<div class="rushd-card__header"><h2>أولوية الفرز</h2><a href="/supervisor/triage">عرض الكل</a></div>
+	{% if requests %}
+	<div class="rushd-request-list">
+		{% for request in requests %}
+		<a class="rushd-request-row" href="/supervisor/triage?request={{ request.name }}">
+			<span class="rushd-request-row__main">
+				<strong>{{ request.beneficiary_name }} — {{ request.service_name }}</strong>
+				<span class="rushd-request-row__meta"><span>{{ request.name }}</span><span>{{ request.request_date_label }}</span></span>
+			</span>
+			<span class="rushd-status rushd-status--blue">جاهز للفرز</span>
+		</a>
+		{% endfor %}
+	</div>
+	{% else %}
+	<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد طلبات بانتظار الفرز</h2><p>ستظهر الطلبات هنا بعد اكتمال مراجعة الاستقبال.</p></div></div>
+	{% endif %}
+</section>
+{% endblock %}
+

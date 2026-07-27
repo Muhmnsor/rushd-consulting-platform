@@ -1,0 +1,36 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">الاستقبال والتشغيل</span>
+		<h1>إدارة طلبات الخدمة</h1>
+		<p>تحقق من اكتمال المعلومات، اطلب الاستكمال عند الحاجة، ثم حوّل الطلب المكتمل إلى الفرز.</p>
+	</div>
+</section>
+
+<section class="rushd-queue-layout">
+	<aside class="rushd-card rushd-queue-list">
+		<div class="rushd-card__header"><h2>الطابور</h2><span class="rushd-status">{{ requests | length }} طلب</span></div>
+		<div class="rushd-queue-list__body">
+			{% for request in requests %}
+			<a class="rushd-queue-item {% if selected_request and selected_request.name == request.name %}is-active{% endif %}" href="/operations/requests?request={{ request.name }}">
+				<span class="rushd-queue-item__top">
+					<strong>{{ request.beneficiary_name }}</strong>
+					<span class="rushd-status rushd-status--{{ request.status_tone }}">{{ request.status_label }}</span>
+				</span>
+				<small>{{ request.service_name }} — {{ request.request_date_label }}</small>
+			</a>
+			{% else %}
+			<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>الطابور فارغ</h2></div></div>
+			{% endfor %}
+		</div>
+	</aside>
+	{% include "consultation_center/templates/includes/staff_request_detail.html" %}
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-staff-actions.js"></script>
+{% endblock %}
+

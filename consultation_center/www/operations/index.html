@@ -1,0 +1,44 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">الاستقبال والتشغيل</span>
+		<h1>صباح الخير، {{ display_name }}</h1>
+		<p>راجع اكتمال الطلبات، ووجّه كل طلب إلى الخطوة الصحيحة دون الاطلاع على أي ملاحظات مهنية للجلسات.</p>
+	</div>
+	<a class="rushd-button rushd-button--primary" href="/operations/requests">فتح طابور الطلبات</a>
+</section>
+
+<section class="rushd-staff-kpis">
+	<article class="rushd-card rushd-staff-kpi"><span>طلبات جديدة</span><strong>{{ counts["Submitted"] }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>تحت المراجعة</span><strong>{{ counts["Under Completeness Review"] }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>بانتظار المستفيد</span><strong>{{ counts["Awaiting Beneficiary Information"] }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>وصلت للفرز</span><strong>{{ counts["Ready for Triage"] }}</strong></article>
+</section>
+
+<section class="rushd-card" style="margin-top: 20px;">
+	<div class="rushd-card__header">
+		<h2>آخر الطلبات التي تحتاج متابعة</h2>
+		<a href="/operations/requests">عرض الطابور</a>
+	</div>
+	{% if requests %}
+	<div class="rushd-request-list">
+		{% for request in requests %}
+		<a class="rushd-request-row" href="/operations/requests?request={{ request.name }}">
+			<span class="rushd-request-row__main">
+				<strong>{{ request.beneficiary_name }} — {{ request.service_name }}</strong>
+				<span class="rushd-request-row__meta">
+					<span>{{ request.name }}</span><span>{{ request.request_date_label }}</span>
+				</span>
+			</span>
+			<span class="rushd-status rushd-status--{{ request.status_tone }}">{{ request.status_label }}</span>
+		</a>
+		{% endfor %}
+	</div>
+	{% else %}
+	<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد طلبات معلقة</h2><p>كل طلبات الاستقبال الحالية انتقلت إلى خطواتها التالية.</p></div></div>
+	{% endif %}
+</section>
+{% endblock %}
+

@@ -1,6 +1,7 @@
 from urllib.parse import urlencode
 
 import frappe
+import frappe.sessions
 from frappe.utils import format_date, format_time, get_datetime, now_datetime
 
 
@@ -19,6 +20,11 @@ REQUEST_STATUS = {
 		"label": "تحت مراجعة الاكتمال",
 		"tone": "blue",
 		"next_step": "لا يلزمك إجراء حاليًا، وسنبلغك إذا احتجنا معلومات إضافية.",
+	},
+	"Ready for Triage": {
+		"label": "جاهز للفرز",
+		"tone": "blue",
+		"next_step": "يراجع المشرف المختص ملاءمة الخدمة والخطوة الأنسب.",
 	},
 	"Awaiting Beneficiary Information": {
 		"label": "بانتظار استكمال البيانات",
@@ -80,6 +86,7 @@ def get_beneficiary_for_user(user: str | None = None):
 			"date_of_birth",
 			"consent_status",
 			"guardian_required",
+			"preferred_language",
 		],
 		as_dict=True,
 	)
@@ -87,6 +94,8 @@ def get_beneficiary_for_user(user: str | None = None):
 
 def build_portal_context(context, active_nav: str, title: str):
 	user = require_portal_login()
+	frappe.sessions.get_csrf_token()
+	frappe.db.commit()
 	beneficiary = get_beneficiary_for_user(user)
 	display_name = (
 		beneficiary.beneficiary_name
@@ -118,6 +127,7 @@ def get_beneficiary_requests(beneficiary: str, limit: int | None = None):
 			"workflow_state",
 			"request_datetime",
 			"preferred_mode",
+			"beneficiary_action_note",
 			"modified",
 		],
 		order_by="modified desc",
@@ -165,4 +175,3 @@ def calculate_profile_completion(beneficiary) -> int:
 	fields = ("beneficiary_name", "mobile", "email", "city", "date_of_birth")
 	completed = sum(bool(beneficiary.get(field)) for field in fields)
 	return round((completed / len(fields)) * 100)
-

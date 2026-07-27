@@ -27,6 +27,9 @@
 			<div class="rushd-request-detail__next">
 				<strong>الخطوة التالية:</strong>
 				{{ request.next_step }}
+				{% if request.beneficiary_action_note %}
+				<div class="rushd-beneficiary-note">{{ request.beneficiary_action_note }}</div>
+				{% endif %}
 			</div>
 		</article>
 		{% endfor %}
@@ -42,4 +45,3 @@
 	{% endif %}
 </section>
 {% endblock %}
-

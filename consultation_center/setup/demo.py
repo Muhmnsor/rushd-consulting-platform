@@ -1,6 +1,8 @@
 import frappe
 
 DEMO_USER = "beneficiary.demo@rushd.local"
+DEMO_OPERATIONS_USER = "operations.demo@rushd.local"
+DEMO_SUPERVISOR_USER = "supervisor.demo@rushd.local"
 
 DEMO_SERVICES = (
 	{
@@ -32,13 +34,29 @@ def create_local_beneficiary_demo(password: str):
 		frappe.throw("Use a local demo password with at least 12 characters")
 
 	user = _ensure_demo_user(password)
+	operations_user = _ensure_staff_user(
+		DEMO_OPERATIONS_USER,
+		"نورة",
+		"الاستقبال",
+		"Intake Coordinator",
+		password,
+	)
+	supervisor_user = _ensure_staff_user(
+		DEMO_SUPERVISOR_USER,
+		"خالد",
+		"المشرف",
+		"Consultation Supervisor",
+		password,
+	)
 	services = [_ensure_service(values) for values in DEMO_SERVICES]
 	beneficiary = _ensure_beneficiary(user)
-	_ensure_sample_request(beneficiary, services[0])
+	_ensure_sample_requests(beneficiary, services)
 	frappe.db.commit()
 
 	return {
 		"user": user,
+		"operations_user": operations_user,
+		"supervisor_user": supervisor_user,
 		"beneficiary": beneficiary,
 		"services": services,
 		"portal": "/beneficiary",
@@ -65,6 +83,35 @@ def _ensure_demo_user(password: str) -> str:
 	user.new_password = password
 	user.save(ignore_permissions=True)
 	user.add_roles("Beneficiary")
+	return user.name
+
+
+def _ensure_staff_user(
+	email: str,
+	first_name: str,
+	last_name: str,
+	role: str,
+	password: str,
+) -> str:
+	if frappe.db.exists("User", email):
+		user = frappe.get_doc("User", email)
+		user.enabled = 1
+	else:
+		user = frappe.get_doc(
+			{
+				"doctype": "User",
+				"email": email,
+				"first_name": first_name,
+				"last_name": last_name,
+				"enabled": 1,
+				"send_welcome_email": 0,
+				"user_type": "Website User",
+			}
+		).insert(ignore_permissions=True)
+
+	user.new_password = password
+	user.save(ignore_permissions=True)
+	user.add_roles(role)
 	return user.name
 
 
@@ -105,30 +152,50 @@ def _ensure_beneficiary(user: str) -> str:
 	return doc.name
 
 
-def _ensure_sample_request(beneficiary: str, service: str) -> str:
-	existing = frappe.db.get_value(
-		"Consultation Request",
-		{
-			"beneficiary": beneficiary,
-			"requested_service": service,
-			"summary": ["like", "طلب تجريبي للعرض المحلي%"],
-		},
-		"name",
+def _ensure_sample_requests(beneficiary: str, services: list[str]) -> list[str]:
+	samples = (
+		(
+			services[0],
+			"Under Completeness Review",
+			"طلب تجريبي للعرض المحلي لمسار المستفيد في منصة رُشد.",
+		),
+		(
+			services[1],
+			"Submitted",
+			"أرغب في ترتيب خياراتي الدراسية والمهنية ومعرفة الخطوة الأنسب لي.",
+		),
+		(
+			services[2],
+			"Ready for Triage",
+			"أحتاج إلى مساعدة في تحسين التواصل ووضع حدود صحية في علاقاتي الأسرية.",
+		),
 	)
-	if existing:
-		return existing
+	names = []
+	for service, workflow_state, summary in samples:
+		existing = frappe.db.get_value(
+			"Consultation Request",
+			{
+				"beneficiary": beneficiary,
+				"requested_service": service,
+				"summary": summary,
+			},
+			"name",
+		)
+		if existing:
+			names.append(existing)
+			continue
 
-	doc = frappe.get_doc(
-		{
-			"doctype": "Consultation Request",
-			"beneficiary": beneficiary,
-			"requested_service": service,
-			"workflow_state": "Under Completeness Review",
-			"source": "Portal",
-			"summary": "طلب تجريبي للعرض المحلي لمسار المستفيد في منصة رُشد.",
-			"preferred_mode": "Either",
-			"preferred_times": "بعد الساعة الخامسة مساءً",
-		}
-	).insert(ignore_permissions=True)
-	return doc.name
-
+		doc = frappe.get_doc(
+			{
+				"doctype": "Consultation Request",
+				"beneficiary": beneficiary,
+				"requested_service": service,
+				"workflow_state": workflow_state,
+				"source": "Portal",
+				"summary": summary,
+				"preferred_mode": "Either",
+				"preferred_times": "بعد الساعة الخامسة مساءً",
+			}
+		).insert(ignore_permissions=True)
+		names.append(doc.name)
+	return names

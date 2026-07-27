@@ -1,0 +1,88 @@
+{% extends "consultation_center/templates/rushd_portal.html" %}
+
+{% block portal_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">حسابي</span>
+		<h1>بيانات المستفيد</h1>
+		<p>حافظ على تحديث معلومات التواصل الأساسية. لن نطلب منك إعادة البيانات المحفوظة في الطلبات القادمة.</p>
+	</div>
+	<div class="rushd-profile-completion">
+		<strong>{{ profile_completion }}٪</strong>
+		<span>اكتمال الملف</span>
+	</div>
+</section>
+
+{% if not beneficiary %}
+<section class="rushd-card rushd-empty-state">
+	<div>
+		<span class="rushd-empty-state__mark">!</span>
+		<h2>لا يوجد ملف مستفيد مرتبط</h2>
+		<p>تواصل مع فريق رُشد لاستكمال ربط الحساب قبل تحديث البيانات.</p>
+	</div>
+</section>
+{% else %}
+<form class="rushd-card rushd-form-card" data-rushd-profile-form>
+	<section class="rushd-form-section">
+		<div class="rushd-form-section__heading">
+			<span class="rushd-form-section__number">١</span>
+			<div>
+				<h2>المعلومات الأساسية</h2>
+				<p>تستخدم هذه البيانات للتعريف بملفك والتواصل معك عند الحاجة.</p>
+			</div>
+		</div>
+		<div class="rushd-form-grid">
+			<div class="rushd-field">
+				<label for="beneficiary-name">الاسم الكامل</label>
+				<input id="beneficiary-name" type="text" maxlength="140" value="{{ beneficiary.beneficiary_name or '' }}" required>
+			</div>
+			<div class="rushd-field">
+				<label for="beneficiary-birth-date">تاريخ الميلاد</label>
+				<input id="beneficiary-birth-date" type="date" value="{{ beneficiary.date_of_birth or '' }}">
+			</div>
+			<div class="rushd-field">
+				<label for="beneficiary-city">المدينة</label>
+				<input id="beneficiary-city" type="text" maxlength="140" value="{{ beneficiary.city or '' }}">
+			</div>
+			<div class="rushd-field">
+				<label for="preferred-language">اللغة المفضلة</label>
+				<select id="preferred-language">
+					<option value="Arabic" {% if beneficiary.preferred_language == 'Arabic' %}selected{% endif %}>العربية</option>
+					<option value="English" {% if beneficiary.preferred_language == 'English' %}selected{% endif %}>الإنجليزية</option>
+				</select>
+			</div>
+		</div>
+	</section>
+
+	<section class="rushd-form-section">
+		<div class="rushd-form-section__heading">
+			<span class="rushd-form-section__number">٢</span>
+			<div>
+				<h2>بيانات التواصل</h2>
+				<p>لن تتضمن الرسائل الخارجية تفاصيل حساسة عن الاستشارة.</p>
+			</div>
+		</div>
+		<div class="rushd-form-grid">
+			<div class="rushd-field">
+				<label for="beneficiary-mobile">رقم الجوال</label>
+				<input id="beneficiary-mobile" type="tel" maxlength="30" value="{{ beneficiary.mobile or '' }}">
+			</div>
+			<div class="rushd-field">
+				<label for="beneficiary-email">البريد الإلكتروني</label>
+				<input id="beneficiary-email" type="email" maxlength="140" value="{{ beneficiary.email or '' }}">
+			</div>
+		</div>
+	</section>
+
+	<div class="rushd-form-message" data-form-message role="status" aria-live="polite"></div>
+	<div class="rushd-form-actions">
+		<button class="rushd-button rushd-button--primary" type="submit" data-profile-submit>حفظ التغييرات</button>
+	</div>
+</form>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-profile-form.js"></script>
+{% endblock %}
+

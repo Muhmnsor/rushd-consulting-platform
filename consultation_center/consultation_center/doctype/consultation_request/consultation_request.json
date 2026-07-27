@@ -22,6 +22,12 @@
   "eligibility_status",
   "screening_status",
   "assigned_coordinator",
+  "operations_note",
+  "beneficiary_action_note",
+  "triage_section",
+  "triage_note",
+  "decision_by",
+  "decision_on",
   "rejection_reason",
   "linked_case"
  ],
@@ -57,7 +63,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Workflow State",
-   "options": "Draft\nSubmitted\nUnder Completeness Review\nAwaiting Beneficiary Information\nEligible\nNot Eligible\nAwaiting Consent\nReady for Assignment\nConverted to Case\nCancelled"
+   "options": "Draft\nSubmitted\nUnder Completeness Review\nAwaiting Beneficiary Information\nReady for Triage\nEligible\nNot Eligible\nAwaiting Consent\nReady for Assignment\nConverted to Case\nCancelled"
   },
   {
    "fieldname": "column_break_1",
@@ -127,6 +133,39 @@
    "fieldtype": "Link",
    "label": "Assigned Coordinator",
    "options": "User"
+  },
+  {
+   "fieldname": "operations_note",
+   "fieldtype": "Small Text",
+   "label": "Operations Note"
+  },
+  {
+   "fieldname": "beneficiary_action_note",
+   "fieldtype": "Small Text",
+   "label": "Beneficiary Action Note"
+  },
+  {
+   "fieldname": "triage_section",
+   "fieldtype": "Section Break",
+   "label": "Triage Decision"
+  },
+  {
+   "fieldname": "triage_note",
+   "fieldtype": "Small Text",
+   "label": "Internal Triage Note"
+  },
+  {
+   "fieldname": "decision_by",
+   "fieldtype": "Link",
+   "label": "Decision By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decision_on",
+   "fieldtype": "Datetime",
+   "label": "Decision On",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.eligibility_status=='Not Eligible' || doc.workflow_state=='Cancelled'",

@@ -1,0 +1,36 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">الإشراف المهني</span>
+		<h1>طابور الفرز</h1>
+		<p>حدد ملاءمة الخدمة أو أعد الطلب للاستكمال. لا يعتمد أي قرار حساس على درجة آلية وحدها.</p>
+	</div>
+</section>
+
+<section class="rushd-queue-layout">
+	<aside class="rushd-card rushd-queue-list">
+		<div class="rushd-card__header"><h2>بانتظار القرار</h2><span class="rushd-status">{{ requests | length }} طلب</span></div>
+		<div class="rushd-queue-list__body">
+			{% for request in requests %}
+			<a class="rushd-queue-item {% if selected_request and selected_request.name == request.name %}is-active{% endif %}" href="/supervisor/triage?request={{ request.name }}">
+				<span class="rushd-queue-item__top">
+					<strong>{{ request.beneficiary_name }}</strong>
+					<span class="rushd-status rushd-status--blue">جاهز للفرز</span>
+				</span>
+				<small>{{ request.service_name }} — {{ request.request_date_label }}</small>
+			</a>
+			{% else %}
+			<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد طلبات</h2></div></div>
+			{% endfor %}
+		</div>
+	</aside>
+	{% include "consultation_center/templates/includes/staff_request_detail.html" %}
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-staff-actions.js"></script>
+{% endblock %}
+

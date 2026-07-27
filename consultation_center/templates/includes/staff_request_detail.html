@@ -1,0 +1,123 @@
+{% if selected_request %}
+<article class="rushd-card rushd-record">
+	<header class="rushd-record-header">
+		<div>
+			<h2>{{ selected_request.beneficiary_name }}</h2>
+			<p>{{ selected_request.name }} — {{ selected_request.service_name }}</p>
+		</div>
+		<span class="rushd-status rushd-status--{{ selected_request.status_tone }}">{{ selected_request.status_label }}</span>
+	</header>
+
+	<div class="rushd-record-body">
+		<section class="rushd-record-section">
+			<h3>بيانات الطلب</h3>
+			<div class="rushd-record-meta">
+				<span>تاريخ الطلب: {{ selected_request.request_date_label }}</span>
+				<span>طريقة التقديم: {{ selected_request.mode_label }}</span>
+				<span>المصدر: {{ selected_request.source or 'غير محدد' }}</span>
+				{% if selected_request.beneficiary_profile and selected_request.beneficiary_profile.age is not none %}
+				<span>العمر: {{ selected_request.beneficiary_profile.age }} سنة</span>
+				{% endif %}
+				{% if selected_request.beneficiary_profile %}
+				<span>المدينة: {{ selected_request.beneficiary_profile.city or 'غير مسجلة' }}</span>
+				<span>يتطلب ولي أمر: {{ 'نعم' if selected_request.beneficiary_profile.guardian_required else 'لا' }}</span>
+				{% endif %}
+			</div>
+		</section>
+
+		<section class="rushd-record-section">
+			<h3>وصف الاحتياج</h3>
+			<p class="rushd-record-text">{{ selected_request.summary or 'لم يكتب المستفيد وصفًا.' }}</p>
+		</section>
+
+		{% if selected_request.preferred_times %}
+		<section class="rushd-record-section">
+			<h3>الأوقات المناسبة</h3>
+			<p class="rushd-record-text">{{ selected_request.preferred_times }}</p>
+		</section>
+		{% endif %}
+
+		{% if selected_request.operations_note or selected_request.triage_note %}
+		<section class="rushd-record-section">
+			<h3>الملاحظات الداخلية</h3>
+			{% if selected_request.operations_note %}
+			<p class="rushd-record-text"><strong>الاستقبال:</strong> {{ selected_request.operations_note }}</p>
+			{% endif %}
+			{% if selected_request.triage_note %}
+			<p class="rushd-record-text"><strong>الفرز:</strong> {{ selected_request.triage_note }}</p>
+			{% endif %}
+		</section>
+		{% endif %}
+
+		{% if action_type == "operations" and selected_request.workflow_state in ["Submitted", "Under Completeness Review"] %}
+		<section
+			class="rushd-action-panel"
+			data-staff-action-panel
+			data-action-type="operations"
+			data-request-name="{{ selected_request.name }}"
+		>
+			<h3>إجراء الاستقبال</h3>
+			<div class="rushd-staff-fields">
+				<div class="rushd-staff-field rushd-staff-field--full">
+					<label for="operations-note">ملاحظة داخلية لفريق رُشد</label>
+					<textarea id="operations-note" data-internal-note placeholder="لا تظهر هذه الملاحظة للمستفيد">{{ selected_request.operations_note or '' }}</textarea>
+				</div>
+				<div class="rushd-staff-field rushd-staff-field--full">
+					<label for="operations-public-note">توضيح للمستفيد عند طلب الاستكمال</label>
+					<textarea id="operations-public-note" data-beneficiary-note placeholder="اكتب المطلوب بلغة واضحة ومن دون معلومات داخلية"></textarea>
+				</div>
+			</div>
+			<div class="rushd-action-buttons">
+				{% if selected_request.workflow_state == "Submitted" %}
+				<button class="rushd-button rushd-button--primary" type="button" data-staff-action="start_review">بدء المراجعة</button>
+				{% endif %}
+				{% if selected_request.workflow_state == "Under Completeness Review" %}
+				<button class="rushd-button rushd-button--success" type="button" data-staff-action="send_to_triage">تحويل إلى الفرز</button>
+				{% endif %}
+				<button class="rushd-button rushd-button--warning" type="button" data-staff-action="request_information">طلب استكمال</button>
+			</div>
+			<div class="rushd-form-message" data-form-message role="status" aria-live="polite"></div>
+		</section>
+		{% elif action_type == "triage" and selected_request.workflow_state == "Ready for Triage" %}
+		<section
+			class="rushd-action-panel"
+			data-staff-action-panel
+			data-action-type="triage"
+			data-request-name="{{ selected_request.name }}"
+		>
+			<h3>قرار الفرز</h3>
+			<div class="rushd-staff-fields">
+				<div class="rushd-staff-field rushd-staff-field--full">
+					<label for="triage-note">المبررات المهنية الداخلية</label>
+					<textarea id="triage-note" data-internal-note placeholder="لا تظهر هذه الملاحظة للمستفيد"></textarea>
+				</div>
+				<div class="rushd-staff-field rushd-staff-field--full">
+					<label for="triage-public-note">التوضيح العام للمستفيد</label>
+					<textarea id="triage-public-note" data-beneficiary-note placeholder="يلزم عند طلب الاستكمال أو عدم ملاءمة الخدمة"></textarea>
+				</div>
+			</div>
+			<div class="rushd-action-buttons">
+				<button class="rushd-button rushd-button--success" type="button" data-staff-action="eligible">مناسب للخدمة</button>
+				<button class="rushd-button rushd-button--warning" type="button" data-staff-action="request_information">طلب معلومات</button>
+				<button class="rushd-button rushd-button--danger" type="button" data-staff-action="not_eligible">غير مناسب للخدمة</button>
+			</div>
+			<div class="rushd-form-message" data-form-message role="status" aria-live="polite"></div>
+		</section>
+		{% else %}
+		<section class="rushd-action-panel">
+			<h3>حالة الإجراء</h3>
+			<p class="rushd-record-text">{{ selected_request.next_step }}</p>
+		</section>
+		{% endif %}
+	</div>
+</article>
+{% else %}
+<article class="rushd-card rushd-empty-state">
+	<div>
+		<span class="rushd-empty-state__mark">◫</span>
+		<h2>اختر طلبًا من الطابور</h2>
+		<p>ستظهر تفاصيل الطلب والإجراءات المسموحة هنا.</p>
+	</div>
+</article>
+{% endif %}
+

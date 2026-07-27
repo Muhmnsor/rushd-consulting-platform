@@ -9,14 +9,20 @@ RUSHD_BRAND_HTML = (
 	f"<span>{RUSHD_ARABIC_NAME}</span></span>"
 )
 
-DESK_ROLES = [
+ADMIN_ROLES = [
 	"Center Director",
+]
+
+STAFF_ROLES = [
 	"Consultation Supervisor",
 	"Consultant",
 	"Case Coordinator",
+	"Intake Coordinator",
+	"Operations Officer",
 	"Assessment Manager",
 	"Quality Reviewer",
 	"Auditor",
+	"Content Manager",
 ]
 
 PORTAL_ROLES = [
@@ -26,15 +32,22 @@ PORTAL_ROLES = [
 
 
 def create_roles():
-	for role_name in DESK_ROLES:
+	for role_name in ADMIN_ROLES:
 		_create_role(role_name, desk_access=1)
 
-	for role_name in PORTAL_ROLES:
+	for role_name in STAFF_ROLES + PORTAL_ROLES:
 		_create_role(role_name, desk_access=0)
 
 
 def _create_role(role_name, desk_access):
 	if frappe.db.exists("Role", role_name):
+		frappe.db.set_value(
+			"Role",
+			role_name,
+			"desk_access",
+			desk_access,
+			update_modified=False,
+		)
 		return
 	role = frappe.new_doc("Role")
 	role.role_name = role_name

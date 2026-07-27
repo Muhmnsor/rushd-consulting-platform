@@ -1,10 +1,18 @@
 import frappe
 from frappe import _
-from frappe.utils import cint, strip_html_tags
+from frappe.utils import (
+	cint,
+	getdate,
+	nowdate,
+	strip_html_tags,
+	validate_email_address,
+	validate_phone_number,
+)
 
 from consultation_center.portal import get_beneficiary_for_user, require_portal_login
 
 ALLOWED_DELIVERY_MODES = {"Online", "In Person", "Either"}
+ALLOWED_LANGUAGES = {"Arabic", "English"}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -78,3 +86,55 @@ def save_consultation_request(
 		"message": "تم إرسال طلبك بنجاح" if should_submit else "تم حفظ المسودة",
 	}
 
+
+@frappe.whitelist(methods=["POST"])
+def update_beneficiary_profile(
+	beneficiary_name: str,
+	mobile: str,
+	email: str,
+	city: str,
+	date_of_birth: str | None = None,
+	preferred_language: str = "Arabic",
+):
+	"""Update only the safe self-service fields on the signed-in beneficiary profile."""
+	user = require_portal_login()
+	beneficiary = get_beneficiary_for_user(user)
+	if not beneficiary:
+		frappe.throw(_("No active beneficiary profile is linked to this account"), frappe.PermissionError)
+
+	beneficiary_name = strip_html_tags(beneficiary_name or "").strip()
+	mobile = strip_html_tags(mobile or "").strip()
+	email = strip_html_tags(email or "").strip()
+	city = strip_html_tags(city or "").strip()
+
+	if not beneficiary_name or len(beneficiary_name) > 140:
+		frappe.throw(_("Please enter a valid beneficiary name"))
+	if mobile and not validate_phone_number(mobile):
+		frappe.throw(_("Please enter a valid mobile number"))
+	if email and not validate_email_address(email):
+		frappe.throw(_("Please enter a valid email address"))
+	if len(city) > 140:
+		frappe.throw(_("The city name is too long"))
+	if preferred_language not in ALLOWED_LANGUAGES:
+		frappe.throw(_("Invalid preferred language"))
+
+	birth_date = getdate(date_of_birth) if date_of_birth else None
+	if birth_date and birth_date > getdate(nowdate()):
+		frappe.throw(_("Date of birth cannot be in the future"))
+
+	doc = frappe.get_doc("Beneficiary", beneficiary.name)
+	if doc.portal_user != user:
+		frappe.throw(_("You are not permitted to update this profile"), frappe.PermissionError)
+
+	doc.beneficiary_name = beneficiary_name
+	doc.mobile = mobile
+	doc.email = email
+	doc.city = city
+	doc.date_of_birth = birth_date
+	doc.preferred_language = preferred_language
+	doc.save(ignore_permissions=True)
+
+	return {
+		"name": doc.name,
+		"message": "تم تحديث بياناتك بنجاح",
+	}

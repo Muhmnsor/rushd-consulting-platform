@@ -1,0 +1,82 @@
+{% extends "templates/base.html" %}
+
+{% block head_include %}
+<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-staff.css">
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="rushd-portal-shell rushd-staff-shell" dir="rtl">
+	<aside class="rushd-sidebar" aria-label="تنقل فريق رُشد">
+		<a class="rushd-sidebar__brand" href="/{{ staff_section }}">
+			<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
+			<span>
+				<strong>رُشد</strong>
+				<small>{{ role_label }}</small>
+			</span>
+		</a>
+
+		{% if staff_section == "operations" %}
+		<nav class="rushd-sidebar__nav">
+			<a class="rushd-nav-link {% if active_nav == 'operations-dashboard' %}is-active{% endif %}" href="/operations">
+				<span class="rushd-nav-icon">⌂</span><span>لوحة التشغيل</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'operations-requests' %}is-active{% endif %}" href="/operations/requests">
+				<span class="rushd-nav-icon">◫</span><span>طلبات الخدمة</span>
+			</a>
+			<span class="rushd-nav-link is-disabled">
+				<span class="rushd-nav-icon">◷</span><span>إدارة المواعيد</span><small>قريبًا</small>
+			</span>
+			<span class="rushd-nav-link is-disabled">
+				<span class="rushd-nav-icon">○</span><span>خدمة المستفيد</span><small>قريبًا</small>
+			</span>
+		</nav>
+		{% else %}
+		<nav class="rushd-sidebar__nav">
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-dashboard' %}is-active{% endif %}" href="/supervisor">
+				<span class="rushd-nav-icon">⌂</span><span>لوحة المشرف</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-triage' %}is-active{% endif %}" href="/supervisor/triage">
+				<span class="rushd-nav-icon">◇</span><span>طابور الفرز</span>
+			</a>
+			<span class="rushd-nav-link is-disabled">
+				<span class="rushd-nav-icon">⇄</span><span>توزيع الحالات</span><small>قريبًا</small>
+			</span>
+			<span class="rushd-nav-link is-disabled">
+				<span class="rushd-nav-icon">◫</span><span>الحالات</span><small>قريبًا</small>
+			</span>
+		</nav>
+		{% endif %}
+
+		<div class="rushd-sidebar__support">
+			<p>واجهة مستقلة وآمنة</p>
+			<span>تظهر هنا البيانات اللازمة لدورك فقط، وتسجل التغييرات على الطلب.</span>
+		</div>
+		<a class="rushd-sidebar__logout" href="/?cmd=web_logout"><span>↪</span>تسجيل الخروج</a>
+	</aside>
+
+	<div class="rushd-portal-main">
+		<header class="rushd-topbar">
+			<a class="rushd-mobile-brand" href="/{{ staff_section }}">
+				<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
+				<strong>رُشد</strong>
+			</a>
+			<div class="rushd-topbar__actions">
+				<div class="rushd-user-chip">
+					<span class="rushd-user-chip__avatar">{{ display_name[:1] }}</span>
+					<span><strong>{{ display_name }}</strong><small>{{ role_label }}</small></span>
+				</div>
+			</div>
+		</header>
+		<main class="rushd-portal-content rushd-staff-content">
+			{% block staff_content %}{% endblock %}
+		</main>
+	</div>
+</div>
+{% endblock %}
+

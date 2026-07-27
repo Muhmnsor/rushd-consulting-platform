@@ -33,6 +33,10 @@
 				<span class="rushd-nav-icon" aria-hidden="true">◷</span>
 				<span>المواعيد</span>
 			</a>
+			<a class="rushd-nav-link {% if active_nav == 'profile' %}is-active{% endif %}" href="/beneficiary/profile">
+				<span class="rushd-nav-icon" aria-hidden="true">○</span>
+				<span>بياناتي</span>
+			</a>
 			<a class="rushd-nav-link is-disabled" href="#" aria-disabled="true">
 				<span class="rushd-nav-icon" aria-hidden="true">✓</span>
 				<span>المهام</span>
@@ -84,7 +88,7 @@
 			<a class="{% if active_nav == 'requests' %}is-active{% endif %}" href="/beneficiary/requests"><span>◫</span>طلباتي</a>
 			<a class="rushd-mobile-nav__primary" href="/beneficiary/requests/new"><span>＋</span>طلب جديد</a>
 			<a href="/book-appointment"><span>◷</span>المواعيد</a>
-			<span class="is-disabled" aria-label="حسابي — قريبًا"><span>○</span>حسابي</span>
+			<a class="{% if active_nav == 'profile' %}is-active{% endif %}" href="/beneficiary/profile"><span>○</span>حسابي</a>
 		</nav>
 	</div>
 </div>
