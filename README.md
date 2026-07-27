@@ -5,6 +5,11 @@
 هذا المستودع هو التطبيق المستقل المملوك لرُشد. يعتمد على Frappe Framework
 كطبقة تشغيل، ولا يغيّر نواة Frappe.
 
+المرجع التنفيذي للمشروع:
+
+- [الدليل التنفيذي لمنصة رُشد](docs/IMPLEMENTATION_GUIDE_AR.md)
+- [القرارات المعمارية](docs/adr)
+
 ### Installation
 
 You can install this app using the [bench](https://github.com/frappe/bench) CLI:
