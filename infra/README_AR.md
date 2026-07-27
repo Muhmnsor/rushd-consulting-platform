@@ -40,7 +40,7 @@
 حالة Staging الحالية في 27 يوليو 2026:
 
 - موقع Frappe الداخلي: `rushd-staging.internal`.
-- الصورة: `rushd:0.1.0-06414f75bcde`.
+- الصورة: `rushd:0.1.0-6b0c4fea997f`.
 - Frappe `16.20.0` وصورة ERPNext `v16.22.0`.
 - الرابط المؤقت:
   `https://rushd-staging-web.mangocliff-2f187d1b.uaenorth.azurecontainerapps.io`.
