@@ -1,0 +1,224 @@
+:root {
+	--rushd-font-family: 'Noto Kufi Arabic', 'Inter', sans-serif;
+}
+
+html,
+html body,
+html.rushd-rtl,
+html.rushd-rtl body {
+	direction: rtl !important;
+	text-align: right;
+}
+
+body,
+input,
+select,
+textarea,
+button,
+.form-control,
+.control-input,
+.control-value,
+.ql-editor,
+.awesomplete,
+.modal,
+.dropdown-menu,
+.popover,
+.tooltip,
+.frappe-control,
+.page-container,
+.web-page-content {
+	font-family: var(--rushd-font-family) !important;
+}
+
+body,
+.page-container,
+.page-body,
+.page-content,
+.layout-main,
+.layout-main-section,
+.layout-side-section,
+.desk-sidebar,
+.standard-sidebar,
+.workspace-container,
+.form-layout,
+.form-section,
+.section-body,
+.list-row-container,
+.report-wrapper,
+.query-report,
+.modal,
+.dropdown-menu,
+.popover {
+	direction: rtl !important;
+	text-align: right;
+}
+
+.navbar,
+.navbar .container,
+.page-head,
+.page-head-content,
+.page-actions,
+.breadcrumb-container,
+.layout-main,
+.layout-main-section-wrapper,
+.list-row,
+.list-row-head,
+.level,
+.form-column,
+.form-page,
+.form-dashboard,
+.form-tabs-list,
+.nav,
+.nav-tabs,
+.pagination,
+.modal-header,
+.modal-footer,
+.dropdown-menu {
+	direction: rtl !important;
+}
+
+label,
+.control-label,
+.section-head,
+.form-section .section-head,
+.page-title,
+.page-title .title-text,
+.list-subject,
+.list-row-col,
+.sidebar-item-label,
+.widget-title,
+.widget-head,
+.widget-body,
+.shortcut-widget-box,
+.onboarding-widget-box,
+.indicator-pill,
+.alert,
+.msgprint,
+.toast-message,
+.modal-title,
+.dropdown-item,
+.menu-item-label,
+.ql-editor {
+	text-align: right !important;
+}
+
+input,
+textarea,
+select,
+.form-control,
+.input-with-feedback,
+.awesomplete > input,
+.ql-editor {
+	direction: rtl !important;
+	text-align: right !important;
+}
+
+input[type='email'],
+input[type='url'],
+input[type='tel'],
+input[type='number'],
+.text-monospace,
+.code,
+code,
+pre,
+kbd {
+	direction: ltr !important;
+	text-align: left !important;
+	unicode-bidi: embed;
+}
+
+table,
+.table,
+.table-responsive,
+.grid,
+.grid-body,
+.grid-row,
+.grid-heading-row,
+.datatable,
+.dt-scrollable,
+.dt-header,
+.dt-row,
+.dt-cell,
+.report-table {
+	direction: rtl !important;
+}
+
+table th,
+table td,
+.table th,
+.table td,
+.grid-row .data-row,
+.grid-row .row-index,
+.grid-heading-row .data-row,
+.dt-cell__content,
+.dt-cell__content--header,
+.report-table th,
+.report-table td {
+	text-align: right !important;
+}
+
+.table-responsive,
+.grid-body,
+.dt-scrollable {
+	overflow-x: auto;
+}
+
+.dropdown-menu {
+	inset-inline-start: auto;
+	inset-inline-end: 0;
+}
+
+.modal-header .btn-modal-close,
+.modal-header .close {
+	margin-inline-start: auto;
+	margin-inline-end: 0;
+}
+
+.form-message,
+.help-box,
+.help,
+.text-muted,
+.small {
+	text-align: right;
+}
+
+.rushd-brand-wordmark {
+	display: inline-flex;
+	align-items: center;
+	direction: rtl;
+	font-family: var(--rushd-font-family);
+	font-weight: 700;
+	letter-spacing: 0;
+}
+
+.footer-powered {
+	font-size: 0 !important;
+}
+
+.footer-powered::after {
+	content: 'رُشد';
+	font-family: var(--rushd-font-family);
+	font-size: 0.8rem;
+}
+
+@media (max-width: 767px) {
+	.page-actions,
+	.modal-footer,
+	.form-footer {
+		direction: rtl !important;
+		text-align: right;
+	}
+}
+
+@media print {
+	html,
+	body,
+	.print-format,
+	.print-format table,
+	.print-format th,
+	.print-format td {
+		direction: rtl !important;
+		text-align: right !important;
+		font-family: var(--rushd-font-family) !important;
+	}
+}

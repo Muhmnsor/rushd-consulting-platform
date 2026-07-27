@@ -4,6 +4,8 @@ app_publisher = "رُشد"
 app_description = "منصة رُشد للاستشارات الشبابية"
 app_email = "admin@rushd.local"
 app_license = "mit"
+app_logo_url = "/assets/consultation_center/images/rushd-logo.svg"
+brand_html = '<span class="rushd-brand-wordmark">رُشد</span>'
 
 # Apps
 # ------------------
@@ -23,12 +25,18 @@ add_to_apps_screen = [
 # ------------------
 
 # include js, css files in header of desk.html
-app_include_css = "/assets/consultation_center/css/fonts.css"
-# app_include_js = "/assets/consultation_center/js/consultation_center.js"
+app_include_css = [
+	"/assets/consultation_center/css/fonts.css",
+	"/assets/consultation_center/css/rushd-rtl.css",
+]
+app_include_js = "/assets/consultation_center/js/rushd-rtl.js"
 
 # include js, css files in header of web template
-web_include_css = "/assets/consultation_center/css/fonts.css"
-# web_include_js = "/assets/consultation_center/js/consultation_center.js"
+web_include_css = [
+	"/assets/consultation_center/css/fonts.css",
+	"/assets/consultation_center/css/rushd-rtl.css",
+]
+web_include_js = "/assets/consultation_center/js/rushd-rtl.js"
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "consultation_center/public/scss/website"
