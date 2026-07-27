@@ -7,6 +7,9 @@ param applicationPrincipalId string
 @secure()
 param postgresAdministratorPassword string
 
+@secure()
+param siteAdministratorPassword string
+
 param logAnalyticsWorkspaceId string
 param tags object
 
@@ -58,6 +61,17 @@ resource postgresAdministratorPasswordSecret 'Microsoft.KeyVault/vaults/secrets@
       enabled: true
     }
     value: postgresAdministratorPassword
+  }
+}
+
+resource siteAdministratorPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2025-05-01' = {
+  parent: keyVault
+  name: 'site-admin-password'
+  properties: {
+    attributes: {
+      enabled: true
+    }
+    value: siteAdministratorPassword
   }
 }
 

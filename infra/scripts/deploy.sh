@@ -6,6 +6,7 @@ infra_dir="$(cd "${script_dir}/.." && pwd)"
 
 : "${RUSHD_AZURE_SUBSCRIPTION_ID:?Set RUSHD_AZURE_SUBSCRIPTION_ID first.}"
 : "${RUSHD_POSTGRES_ADMIN_PASSWORD:?Set RUSHD_POSTGRES_ADMIN_PASSWORD first.}"
+: "${RUSHD_SITE_ADMIN_PASSWORD:?Set RUSHD_SITE_ADMIN_PASSWORD first.}"
 
 if [[ "${RUSHD_CONFIRM_DEPLOY:-}" != "staging" ]]; then
   echo "Deployment stopped. Set RUSHD_CONFIRM_DEPLOY=staging only after reviewing the what-if output." >&2

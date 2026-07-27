@@ -9,6 +9,11 @@ if [[ -z "${RUSHD_POSTGRES_ADMIN_PASSWORD:-}" ]]; then
   exit 1
 fi
 
+if [[ -z "${RUSHD_SITE_ADMIN_PASSWORD:-}" ]]; then
+  echo "Set RUSHD_SITE_ADMIN_PASSWORD before validating staging parameters." >&2
+  exit 1
+fi
+
 if [[ -n "${RUSHD_BICEP_BIN:-}" ]]; then
   "${RUSHD_BICEP_BIN}" --version
   "${RUSHD_BICEP_BIN}" build "${infra_dir}/main.bicep" --stdout >/dev/null

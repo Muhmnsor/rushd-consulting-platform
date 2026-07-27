@@ -27,6 +27,11 @@ param postgresAdministratorLogin string = 'rushdpgadmin'
 @minLength(12)
 param postgresAdministratorPassword string
 
+@description('Initial Frappe Administrator password for the staging site. Supply it from RUSHD_SITE_ADMIN_PASSWORD; never commit it.')
+@secure()
+@minLength(12)
+param siteAdministratorPassword string
+
 @description('PostgreSQL compute SKU.')
 param postgresSkuName string = 'Standard_B2s'
 
@@ -50,6 +55,15 @@ param storageSkuName string = 'Standard_LRS'
 
 @description('Maximum Log Analytics ingestion per day in GiB. Use -1 for no cap.')
 param logAnalyticsDailyQuotaGb int = 1
+
+@description('Immutable Rushd application image tag already present in Azure Container Registry.')
+param applicationImageTag string
+
+@description('Frappe site name used internally by the reverse proxy.')
+param siteName string = 'staging.rushd.internal'
+
+@description('Expose database bootstrap secrets only while creating the first site.')
+param bootstrapMode bool = true
 
 @description('Extra Azure resource tags.')
 param additionalTags object = {}
@@ -113,6 +127,7 @@ module security 'modules/security.bicep' = {
     virtualNetworkId: network.outputs.virtualNetworkId
     applicationPrincipalId: applicationIdentity.outputs.principalId
     postgresAdministratorPassword: postgresAdministratorPassword
+    siteAdministratorPassword: siteAdministratorPassword
     logAnalyticsWorkspaceId: monitoring.outputs.logAnalyticsWorkspaceId
     tags: commonTags
   }
@@ -165,6 +180,40 @@ module database 'modules/postgresql.bicep' = {
   }
 }
 
+module sitesStorage 'modules/sites-storage.bicep' = {
+  name: 'sites-storage-${environment}'
+  scope: resourceGroup
+  params: {
+    location: location
+    storageAccountName: take('fs${compactName}', 24)
+    privateEndpointSubnetId: network.outputs.privateEndpointSubnetId
+    virtualNetworkId: network.outputs.virtualNetworkId
+    tags: commonTags
+  }
+}
+
+module runtime 'modules/runtime.bicep' = {
+  name: 'runtime-${environment}'
+  scope: resourceGroup
+  params: {
+    location: location
+    namePrefix: namePrefix
+    applicationSubnetId: network.outputs.applicationSubnetId
+    applicationIdentityId: applicationIdentity.outputs.identityId
+    registryLoginServer: registry.outputs.loginServer
+    applicationImageTag: applicationImageTag
+    keyVaultName: security.outputs.keyVaultName
+    postgresFullyQualifiedDomainName: database.outputs.fullyQualifiedDomainName
+    postgresAdministratorLogin: postgresAdministratorLogin
+    logAnalyticsWorkspaceName: monitoring.outputs.logAnalyticsWorkspaceName
+    sitesStorageAccountName: sitesStorage.outputs.storageAccountName
+    sitesFileShareName: sitesStorage.outputs.fileShareName
+    siteName: siteName
+    bootstrapMode: bootstrapMode
+    tags: commonTags
+  }
+}
+
 output environmentName string = environment
 output resourceGroupName string = resourceGroup.name
 output virtualNetworkName string = network.outputs.virtualNetworkName
@@ -176,3 +225,7 @@ output postgresServerName string = database.outputs.serverName
 output postgresFullyQualifiedDomainName string = database.outputs.fullyQualifiedDomainName
 output logAnalyticsWorkspaceName string = monitoring.outputs.logAnalyticsWorkspaceName
 output applicationInsightsName string = monitoring.outputs.applicationInsightsName
+output sitesStorageAccountName string = sitesStorage.outputs.storageAccountName
+output containerAppsEnvironmentName string = runtime.outputs.managedEnvironmentName
+output applicationName string = runtime.outputs.applicationName
+output applicationUrl string = runtime.outputs.applicationUrl

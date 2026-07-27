@@ -6,6 +6,7 @@ infra_dir="$(cd "${script_dir}/.." && pwd)"
 
 : "${RUSHD_AZURE_SUBSCRIPTION_ID:?Set RUSHD_AZURE_SUBSCRIPTION_ID first.}"
 : "${RUSHD_POSTGRES_ADMIN_PASSWORD:?Set RUSHD_POSTGRES_ADMIN_PASSWORD first.}"
+: "${RUSHD_SITE_ADMIN_PASSWORD:?Set RUSHD_SITE_ADMIN_PASSWORD first.}"
 
 if ! command -v az >/dev/null 2>&1; then
   echo "Azure CLI is required. Install it, then rerun this script." >&2
