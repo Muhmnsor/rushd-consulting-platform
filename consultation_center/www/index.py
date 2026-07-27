@@ -3,6 +3,10 @@ from frappe.utils import strip_html_tags
 
 no_cache = 1
 
+REQUEST_PATH = "/beneficiary/requests/new"
+ADMIN_PORTAL_ROLES = {"System Manager", "Center Director"}
+OPERATIONS_PORTAL_ROLES = {"Intake Coordinator", "Operations Officer", "Case Coordinator"}
+
 
 def get_context(context):
 	context.title = "رُشد للاستشارات الشبابية"
@@ -28,23 +32,40 @@ def get_context(context):
 			"Both": "حضوري أو عن بُعد",
 		}.get(service.delivery_modes, "حسب الخدمة")
 
-	context.is_logged_in = frappe.session.user != "Guest"
-	context.portal_url = _get_portal_url() if context.is_logged_in else "/login"
-	context.portal_label = "الذهاب إلى بوابتي" if context.is_logged_in else "تسجيل الدخول"
-
-
-def _get_portal_url():
 	user = frappe.session.user
+	roles = set() if user == "Guest" else set(frappe.get_roles(user))
+	context.is_logged_in = user != "Guest"
+	context.portal_url = _get_portal_url(user, roles) if context.is_logged_in else "/login"
+	context.portal_label = "الذهاب إلى بوابتي" if context.is_logged_in else "تسجيل الدخول"
+	context.can_request_consultation = (
+		not context.is_logged_in or context.portal_url == "/beneficiary"
+	)
+	context.request_url = (
+		REQUEST_PATH
+		if context.is_logged_in
+		else f"/login?redirect-to={REQUEST_PATH}"
+	)
+	context.primary_action_url = (
+		context.request_url if context.can_request_consultation else context.portal_url
+	)
+	context.primary_action_label = (
+		"ابدأ طلب الاستشارة"
+		if context.can_request_consultation
+		else "الذهاب إلى بوابتي"
+	)
+
+
+def _get_portal_url(user: str, roles: set[str]):
 	if user == "Administrator":
 		return "/app/rushd"
-	roles = set(frappe.get_roles(user))
+	if roles & ADMIN_PORTAL_ROLES:
+		return "/app/rushd"
+	if "Consultation Supervisor" in roles:
+		return "/supervisor"
+	if roles & OPERATIONS_PORTAL_ROLES:
+		return "/operations"
 	if "Beneficiary" in roles:
 		return "/beneficiary"
 	if "Guardian" in roles:
 		return "/guardian"
-	if roles & {"Intake Coordinator", "Operations Officer", "Case Coordinator"}:
-		return "/operations"
-	if "Consultation Supervisor" in roles:
-		return "/supervisor"
-	return "/login"
-
+	return "/"

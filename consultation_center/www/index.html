@@ -25,7 +25,9 @@
 			</nav>
 			<div class="rushd-public-header__actions">
 				<a class="rushd-public-link" href="{{ portal_url }}">{{ portal_label }}</a>
-				<a class="rushd-public-button rushd-public-button--small" href="/beneficiary/requests/new">اطلب استشارة</a>
+				{% if can_request_consultation %}
+				<a class="rushd-public-button rushd-public-button--small" href="{{ request_url }}">اطلب استشارة</a>
+				{% endif %}
 			</div>
 		</div>
 	</header>
@@ -38,7 +40,7 @@
 					<h1>نستمع إليك،<br><em>ونمشي معك.</em></h1>
 					<p>منصة رُشد تربط الشباب بمستشارين مختصين في رحلة تحترم الخصوصية، وتوضح لك دائمًا حالتك والخطوة التالية.</p>
 					<div class="rushd-hero__actions">
-						<a class="rushd-public-button" href="/beneficiary/requests/new">ابدأ طلب الاستشارة <span>←</span></a>
+						<a class="rushd-public-button" href="{{ primary_action_url }}">{{ primary_action_label }} <span>←</span></a>
 						<a class="rushd-public-button rushd-public-button--ghost" href="#journey">تعرف على الرحلة</a>
 					</div>
 					<div class="rushd-hero__trust">
@@ -175,7 +177,7 @@
 			<div class="rushd-public-container rushd-public-cta__inner">
 				<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
 				<div><span>خطوة صغيرة قد تصنع فرقًا</span><h2>ابدأ بما تستطيع قوله اليوم.</h2><p>يمكنك حفظ الطلب كمسودة والعودة إليه في الوقت المناسب.</p></div>
-				<a class="rushd-public-button rushd-public-button--light" href="/beneficiary/requests/new">ابدأ طلبك الآن <span>←</span></a>
+				<a class="rushd-public-button rushd-public-button--light" href="{{ primary_action_url }}">{{ primary_action_label }} <span>←</span></a>
 			</div>
 		</section>
 	</main>
@@ -185,7 +187,7 @@
 			<div class="rushd-public-footer__top">
 				<a class="rushd-public-brand rushd-public-brand--footer" href="/"><img src="/assets/consultation_center/images/rushd-logo.svg" alt=""><span><strong>رُشد</strong><small>للاستشارات الشبابية</small></span></a>
 				<p>منصة لإدارة رحلة الاستشارة الشبابية بوضوح وخصوصية ومسؤولية.</p>
-				<div><a href="/login">تسجيل الدخول</a><a href="#services">الخدمات</a><a href="#privacy">الخصوصية</a><a href="#faq">الأسئلة الشائعة</a></div>
+				<div><a href="{{ portal_url }}">{{ portal_label }}</a><a href="#services">الخدمات</a><a href="#privacy">الخصوصية</a><a href="#faq">الأسئلة الشائعة</a></div>
 			</div>
 			<div class="rushd-public-footer__bottom">
 				<span>© {{ frappe.utils.now_datetime().year }} رُشد. جميع الحقوق محفوظة.</span>
@@ -195,4 +197,3 @@
 	</footer>
 </div>
 {% endblock %}
-
