@@ -38,6 +38,8 @@ class TestPublicPage(FrappeTestCase):
 			guest_context.request_url,
 			"/login?redirect-to=/beneficiary/requests/new",
 		)
+		self.assertEqual(guest_context.header_action_label, "اطلب استشارة")
+		self.assertEqual(guest_context.header_action_url, guest_context.request_url)
 
 		beneficiary_context = self._build_context(
 			"beneficiary@example.com",
@@ -45,6 +47,8 @@ class TestPublicPage(FrappeTestCase):
 		)
 		self.assertTrue(beneficiary_context.can_request_consultation)
 		self.assertEqual(beneficiary_context.request_url, "/beneficiary/requests/new")
+		self.assertEqual(beneficiary_context.header_action_label, "حسابي")
+		self.assertEqual(beneficiary_context.header_action_url, "/beneficiary")
 
 		admin_context = self._build_context(
 			"Administrator",
@@ -52,6 +56,8 @@ class TestPublicPage(FrappeTestCase):
 		)
 		self.assertFalse(admin_context.can_request_consultation)
 		self.assertEqual(admin_context.primary_action_url, "/app/rushd")
+		self.assertEqual(admin_context.header_action_label, "حسابي")
+		self.assertEqual(admin_context.header_action_url, "/app/rushd")
 
 	def test_every_public_navigation_anchor_has_a_target_section(self):
 		template_path = Path(__file__).parents[1] / "www" / "index.html"

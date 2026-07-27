@@ -78,6 +78,7 @@ def configure_site_identity():
 		"brand_html": RUSHD_BRAND_HTML,
 		"favicon": RUSHD_LOGO_URL,
 		"home_page": "index",
+		"disable_signup": 0,
 		"show_footer_on_login": 0,
 	}
 

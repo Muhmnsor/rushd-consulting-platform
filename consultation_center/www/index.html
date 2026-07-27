@@ -24,10 +24,10 @@
 				<a href="#faq">الأسئلة الشائعة</a>
 			</nav>
 			<div class="rushd-public-header__actions">
+				{% if not is_logged_in %}
 				<a class="rushd-public-link" href="{{ portal_url }}">{{ portal_label }}</a>
-				{% if can_request_consultation %}
-				<a class="rushd-public-button rushd-public-button--small" href="{{ request_url }}">اطلب استشارة</a>
 				{% endif %}
+				<a class="rushd-public-button rushd-public-button--small" href="{{ header_action_url }}">{{ header_action_label }}</a>
 			</div>
 		</div>
 	</header>

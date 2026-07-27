@@ -41,7 +41,10 @@ web_include_css = [
 	"/assets/consultation_center/css/fonts.css",
 	"/assets/consultation_center/css/rushd-rtl.css",
 ]
-web_include_js = "/assets/consultation_center/js/rushd-rtl.js"
+web_include_js = [
+	"/assets/consultation_center/js/rushd-rtl.js",
+	"/assets/consultation_center/js/rushd-auth.js",
+]
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "consultation_center/public/scss/website"
@@ -69,6 +72,8 @@ web_include_js = "/assets/consultation_center/js/rushd-rtl.js"
 
 # application home page (will override Website Settings)
 home_page = "index"
+
+signup_form_template = "consultation_center/templates/includes/rushd_signup.html"
 
 # website user home page (by Role)
 # role_home_page = {
@@ -204,9 +209,9 @@ has_permission = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "consultation_center.event.get_events"
-# }
+override_whitelisted_methods = {
+	"frappe.core.doctype.user.user.sign_up": "consultation_center.api.auth.sign_up",
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,

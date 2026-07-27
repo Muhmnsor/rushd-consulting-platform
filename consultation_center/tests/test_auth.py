@@ -1,0 +1,36 @@
+from unittest.mock import patch
+
+import frappe
+from frappe.auth import check_password
+from frappe.tests.utils import FrappeTestCase
+
+from consultation_center.api.auth import sign_up
+
+
+class TestRushdSignUp(FrappeTestCase):
+	def test_signup_creates_beneficiary_account_and_profile(self):
+		email = f"rushd-signup-{frappe.generate_hash(length=8)}@example.com"
+		password = "Rushd_Test_2026!"
+		frappe.utils.set_request(path="/login")
+
+		with patch(
+			"frappe.core.doctype.user.user.is_signup_disabled",
+			return_value=False,
+		):
+			result = sign_up(email, "مستفيد جديد", "/beneficiary", password)
+
+		self.assertIn(result[0], (1, 2))
+		self.assertTrue(frappe.db.exists("User", email))
+		self.assertEqual(check_password(email, password), email)
+		self.assertIn("Beneficiary", frappe.get_roles(email))
+
+		beneficiary = frappe.db.get_value(
+			"Beneficiary",
+			{"portal_user": email},
+			["beneficiary_name", "email", "status"],
+			as_dict=True,
+		)
+		self.assertIsNotNone(beneficiary)
+		self.assertEqual(beneficiary.beneficiary_name, "مستفيد جديد")
+		self.assertEqual(beneficiary.email, email)
+		self.assertEqual(beneficiary.status, "Active")

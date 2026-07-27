@@ -45,6 +45,8 @@ def get_context(context):
 		if context.is_logged_in
 		else f"/login?redirect-to={REQUEST_PATH}"
 	)
+	context.header_action_url = context.portal_url if context.is_logged_in else context.request_url
+	context.header_action_label = "حسابي" if context.is_logged_in else "اطلب استشارة"
 	context.primary_action_url = (
 		context.request_url if context.can_request_consultation else context.portal_url
 	)
