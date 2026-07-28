@@ -225,6 +225,39 @@ cd infra
 
 هذا ينشئ موارد مدفوعة داخل اشتراك Azure المحدد.
 
+## النشر الآلي من GitHub
+
+ملف `.github/workflows/deploy-staging.yml` ينشر فرع `develop` تلقائيًا إلى
+بيئة Staging. يعتمد الربط على OpenID Connect وهوية Azure مخصصة؛ لا تُحفظ كلمة
+مرور Azure أو كلمات مرور قاعدة البيانات داخل GitHub.
+
+كل عملية نشر:
+
+1. تبني صورة غير قابلة للتبديل بوسم يحتوي SHA الخاص بالـCommit داخل ACR.
+2. تنسخ آخر Revision وتحدّث صورة حاويات رُشد فقط.
+3. تترك حاويات Redis والبيانات الدائمة وإعدادات الشبكة دون تغيير.
+4. تنتظر حتى تصبح الـRevision الجديدة سليمة.
+5. تختبر `/api/method/ping` وصفحة `/login`.
+
+متغيرات بيئة GitHub المطلوبة:
+
+| المتغير | الغرض |
+| --- | --- |
+| `AZURE_CLIENT_ID` | Client ID لهوية نشر GitHub |
+| `AZURE_TENANT_ID` | Tenant الخاص بالاشتراك |
+| `AZURE_SUBSCRIPTION_ID` | اشتراك Azure المستهدف |
+| `AZURE_RESOURCE_GROUP` | `rushd-staging-rg` |
+| `AZURE_ACR_NAME` | اسم Azure Container Registry |
+| `AZURE_CONTAINER_APP` | اسم Container App |
+
+يجب أن تقيد الـFederated Credential بالموضوع:
+
+```text
+repo:Muhmnsor/rushd-consulting-platform:environment:staging
+```
+
+ويجب ألا تمنح هوية النشر صلاحيات على PostgreSQL أو Key Vault أو Storage.
+
 ## تشغيل موقع جديد لأول مرة
 
 وضع التأسيس مغلق افتراضيًا. يفتح فقط لإنشاء موقع جديد، ثم يغلق في نشر تالٍ:

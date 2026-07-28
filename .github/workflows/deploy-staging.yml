@@ -1,0 +1,67 @@
+name: نشر بيئة Staging
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+concurrency:
+  group: rushd-staging
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    name: بناء ونشر رُشد
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: ${{ steps.release.outputs.application_url }}
+
+    steps:
+      - name: جلب الكود
+        uses: actions/checkout@v4
+
+      - name: التحقق من إعداد الربط
+        env:
+          AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+          AZURE_ACR_NAME: ${{ vars.AZURE_ACR_NAME }}
+          AZURE_CONTAINER_APP: ${{ vars.AZURE_CONTAINER_APP }}
+        run: |
+          set -euo pipefail
+          for variable_name in \
+            AZURE_CLIENT_ID \
+            AZURE_TENANT_ID \
+            AZURE_SUBSCRIPTION_ID \
+            AZURE_RESOURCE_GROUP \
+            AZURE_ACR_NAME \
+            AZURE_CONTAINER_APP
+          do
+            if [[ -z "${!variable_name:-}" ]]; then
+              echo "::error::GitHub variable ${variable_name} is missing."
+              exit 1
+            fi
+          done
+
+      - name: تسجيل الدخول إلى Azure بالهوية الاتحادية
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: بناء الصورة ونشر Revision جديدة
+        id: release
+        env:
+          AZURE_ACR_NAME: ${{ vars.AZURE_ACR_NAME }}
+          AZURE_CONTAINER_APP: ${{ vars.AZURE_CONTAINER_APP }}
+          AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+          RUSHD_IMAGE_TAG: 0.1.0-${{ github.sha }}
+        run: ./infra/scripts/release-staging.sh
