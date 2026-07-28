@@ -232,7 +232,7 @@ override_whitelisted_methods = {
 
 # Request Events
 # ----------------
-# before_request = ["consultation_center.utils.before_request"]
+before_request = ["consultation_center.localization.force_arabic_for_guests"]
 # after_request = ["consultation_center.utils.after_request"]
 
 # Job Events

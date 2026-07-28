@@ -5,9 +5,27 @@ from frappe.auth import check_password
 from frappe.tests.utils import FrappeTestCase
 
 from consultation_center.api.auth import sign_up
+from consultation_center.localization import force_arabic_for_guests
 
 
 class TestRushdSignUp(FrappeTestCase):
+	def test_guest_pages_are_rendered_in_arabic(self):
+		frappe.set_user("Guest")
+		self.addCleanup(frappe.set_user, "Administrator")
+		frappe.local.lang = "en"
+
+		force_arabic_for_guests()
+
+		self.assertEqual(frappe.local.lang, "ar")
+
+	def test_authenticated_language_preference_is_preserved(self):
+		frappe.set_user("Administrator")
+		frappe.local.lang = "en"
+
+		force_arabic_for_guests()
+
+		self.assertEqual(frappe.local.lang, "en")
+
 	def test_signup_creates_beneficiary_account_and_profile(self):
 		email = f"rushd-signup-{frappe.generate_hash(length=8)}@example.com"
 		password = "Rushd_Test_2026!"

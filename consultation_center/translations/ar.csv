@@ -348,3 +348,26 @@ Invalid Login. Try again.,بيانات الدخول غير صحيحة. حاول 
 Oops! Something went wrong.,عذرًا، حدث خطأ ما.
 Too many requests. Please try again later.,طلبات كثيرة جدًا. يرجى المحاولة لاحقًا.
 Something went wrong.,حدث خطأ ما.
+Username,اسم المستخدم
+Mobile,رقم الجوال
+Login with LDAP,تسجيل الدخول عبر LDAP
+Login with Frappe Cloud,تسجيل الدخول عبر Frappe Cloud
+Login with {0},تسجيل الدخول عبر {0}
+Home,الرئيسية
+Javascript is disabled on your browser,جافاسكربت معطلة في متصفحك
+You need to enable JavaScript for your app to work.,يجب تفعيل جافاسكربت ليعمل التطبيق.
+To enable it follow the instructions in the following link: {0},لتفعيلها اتبع التعليمات في الرابط التالي: {0}
+Valid email and name required,يلزم إدخال بريد إلكتروني واسم صالحين
+Login token required,رمز تسجيل الدخول مطلوب
+Verification,التحقق
+Verification Code,رمز التحقق
+Verify,تحقق
+Enter Code displayed in OTP App.,أدخل الرمز الظاهر في تطبيق المصادقة.
+OTP setup using OTP App was not completed. Please contact Administrator.,لم يكتمل إعداد رمز التحقق عبر تطبيق المصادقة. يرجى التواصل مع مسؤول النظام.
+SMS was not sent. Please contact Administrator.,لم تُرسل الرسالة النصية. يرجى التواصل مع مسؤول النظام.
+Verification code email not sent. Please contact Administrator.,لم يُرسل بريد رمز التحقق. يرجى التواصل مع مسؤول النظام.
+Invalid Request,طلب غير صالح
+Invalid Login Token,رمز تسجيل الدخول غير صالح
+Login To {0},تسجيل الدخول إلى {0}
+Not Permitted,غير مسموح
+The link you trying to login is invalid or expired.,رابط تسجيل الدخول غير صالح أو منتهي الصلاحية.
