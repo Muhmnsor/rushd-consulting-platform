@@ -7,6 +7,7 @@ import frappe
 from frappe.desk.desktop import get_desktop_page
 from frappe.tests.utils import FrappeTestCase
 
+from consultation_center.boot import add_rushd_display_translations
 from consultation_center.permissions import has_admin_app_access
 
 
@@ -92,6 +93,34 @@ class TestRushdWorkspace(FrappeTestCase):
 		with patch("consultation_center.permissions._roles", return_value={"Beneficiary"}):
 			self.assertFalse(has_admin_app_access())
 
+	def test_bootinfo_includes_arabic_labels_for_raw_doctype_list_values(self):
+		bootinfo = frappe._dict()
+		with (
+			patch("consultation_center.boot.get_user_lang", return_value="ar"),
+			patch(
+				"consultation_center.boot.frappe.get_all",
+				return_value=[
+					frappe._dict(name="Guardian", module="Consultation Center"),
+				],
+			),
+			patch(
+				"consultation_center.boot._",
+				side_effect={
+					"Guardian": "ولي الأمر أو الممثل",
+					"Consultation Center": "إدارة رُشد",
+				}.get,
+			),
+		):
+			add_rushd_display_translations(bootinfo)
+
+		self.assertEqual(
+			bootinfo.rushd_display_translations,
+			{
+				"Consultation Center": "إدارة رُشد",
+				"Guardian": "ولي الأمر أو الممثل",
+			},
+		)
+
 	def test_attached_page_english_chrome_has_arabic_translations(self):
 		required = {
 			"About",
@@ -123,6 +152,7 @@ class TestRushdWorkspace(FrappeTestCase):
 			"Get started",
 			"Help",
 			"Hide",
+			"Hide Saved",
 			"ID",
 			"Integrations",
 			"Import Data",
@@ -193,5 +223,7 @@ class TestRushdWorkspace(FrappeTestCase):
 		self.assertIn("MutationObserver", rtl_script)
 		self.assertIn("FIELD_VALUE_TRANSLATIONS", rtl_script)
 		self.assertIn("INLINE_TRANSLATIONS", rtl_script)
+		self.assertIn("separatorIndex", rtl_script)
+		self.assertIn("rushd_display_translations", rtl_script)
 		self.assertIn("website_theme", rtl_script)
 		self.assertIn("frappe._messages", rtl_script)

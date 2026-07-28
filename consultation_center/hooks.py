@@ -5,7 +5,7 @@ app_description = "منصة رُشد للاستشارات الشبابية"
 app_email = "admin@rushd.local"
 app_license = "mit"
 app_logo_url = "/assets/consultation_center/images/rushd-logo.svg"
-rushd_asset_version = "20260728-6"
+rushd_asset_version = "20260728-8"
 brand_html = """
 <span class="rushd-brand-wordmark">
 	<img class="rushd-brand-symbol" src="/assets/consultation_center/images/rushd-logo.svg" alt="">
@@ -105,6 +105,8 @@ signup_form_template = "consultation_center/templates/includes/rushd_signup.html
 # before_install = "consultation_center.install.before_install"
 after_install = "consultation_center.setup.install.after_install"
 after_migrate = "consultation_center.setup.install.after_migrate"
+boot_session = "consultation_center.boot.add_rushd_display_translations"
+extend_bootinfo = ["consultation_center.boot.add_rushd_display_translations"]
 
 # Uninstallation
 # ------------

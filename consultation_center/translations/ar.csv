@@ -441,6 +441,7 @@ Website Route Meta,بيانات مسارات الموقع
 Dismiss,إخفاء,Stop showing the onboarding widget.
 Filter By,تصفية حسب
 Save Filter,حفظ المرشح
+Hide Saved,إخفاء المحفوظ
 Assign To,إسناد إلى
 Assign To,إسناد إلى,Button in list view actions menu
 Assigned To,مسند إلى
@@ -521,3 +522,20 @@ This slot conflicts with another appointment for the same consultant,يتعار�
 Use a local demo password with at least 12 characters,استخدم كلمة مرور محلية للعرض التجريبي لا تقل عن 12 حرفًا
 You are not permitted to update this profile,ليست لديك صلاحية لتحديث هذا الملف
 You are not permitted to update this request,ليست لديك صلاحية لتحديث هذا الطلب
+Contacts,جهات الاتصال
+Core,النظام الأساسي
+Custom,التخصيص
+Desk,واجهة الإدارة
+DocField,حقل المستند
+DocPerm,صلاحيات المستند
+DocShare,مشاركة المستند
+Doctype To Sync,نوع المستند المراد مزامنته
+DuckDB Sync,مزامنة DuckDB
+DuckDB Sync Item,عنصر مزامنة DuckDB
+Email Queue,قائمة انتظار البريد الإلكتروني
+Event Notifications,إشعارات الأحداث
+Geo,البيانات الجغرافية
+Marketing Campaign,حملة تسويقية
+Newsletter Attachment,مرفق النشرة البريدية
+Note,ملاحظة
+Social,التواصل الاجتماعي

@@ -14,6 +14,7 @@
 		"Clear Cache": "مسح ذاكرة التخزين المؤقت",
 		"Filter By": "تصفية حسب",
 		"Save Filter": "حفظ المرشح",
+		"Hide Saved": "إخفاء المحفوظ",
 		"كلف إلى": "إسناد إلى",
 		"هوية شخصية": "المعرّف",
 		"آخر تحديث يوم": "آخر تحديث",
@@ -72,6 +73,29 @@
 		)
 			? TEXT_TRANSLATIONS[source]
 			: null;
+
+		if (translated === null) {
+			const displayTranslations =
+				window.frappe?.boot?.rushd_display_translations || {};
+			if (Object.prototype.hasOwnProperty.call(displayTranslations, source)) {
+				translated = displayTranslations[source];
+			} else {
+				const separatorIndex = source.lastIndexOf(": ");
+				const displayValue =
+					separatorIndex === -1 ? "" : source.slice(separatorIndex + 2);
+				if (
+					displayValue &&
+					Object.prototype.hasOwnProperty.call(
+						displayTranslations,
+						displayValue,
+					)
+				) {
+					translated = `${source.slice(0, separatorIndex + 2)}${
+						displayTranslations[displayValue]
+					}`;
+				}
+			}
+		}
 
 		if (translated === null) {
 			const searchLabel = source.match(/^Search or type a command \((.+)\)$/);
@@ -177,6 +201,10 @@
 	function installRushdTranslations() {
 		if (!window.frappe) return;
 		frappe._messages = frappe._messages || {};
+		Object.assign(
+			frappe._messages,
+			frappe.boot?.rushd_display_translations || {},
+		);
 		Object.assign(frappe._messages, TEXT_TRANSLATIONS);
 	}
 
