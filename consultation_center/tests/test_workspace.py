@@ -223,6 +223,8 @@ class TestRushdWorkspace(FrappeTestCase):
 		self.assertIn("MutationObserver", rtl_script)
 		self.assertIn("FIELD_VALUE_TRANSLATIONS", rtl_script)
 		self.assertIn("INLINE_TRANSLATIONS", rtl_script)
+		self.assertIn("installDeskBackButton", rtl_script)
+		self.assertIn("navigateDeskBack", rtl_script)
 		self.assertIn("separatorIndex", rtl_script)
 		self.assertIn("rushd_display_translations", rtl_script)
 		self.assertIn("website_theme", rtl_script)

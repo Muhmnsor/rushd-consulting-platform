@@ -77,6 +77,48 @@ body,
 	direction: rtl !important;
 }
 
+.rushd-navbar-back {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: 0.35rem;
+	min-height: 2.25rem;
+	margin-inline: 0.45rem 0.2rem;
+	padding-inline: 0.65rem;
+	border: 1px solid var(--border-color, #d8d8d5);
+	border-radius: 0.55rem;
+	background: var(--card-bg, #fff);
+	color: var(--text-color, #242424);
+	font-size: 0.82rem;
+	font-weight: 600;
+	line-height: 1;
+	transition:
+		border-color 140ms ease,
+		background-color 140ms ease;
+}
+
+.rushd-navbar-back:hover,
+.rushd-navbar-back:focus-visible {
+	border-color: var(--gray-500, #a3a3a0);
+	background: var(--subtle-fg, #f4f4f2);
+	color: var(--text-color, #242424);
+}
+
+.rushd-navbar-back:focus-visible {
+	outline: 2px solid var(--primary, #2490ef);
+	outline-offset: 2px;
+}
+
+.rushd-navbar-back[hidden] {
+	display: none !important;
+}
+
+.rushd-navbar-back-icon {
+	font-family: sans-serif;
+	font-size: 1rem;
+	line-height: 1;
+}
+
 label,
 .control-label,
 .section-head,
@@ -459,6 +501,22 @@ body[data-route='Workspaces/رُشد'] .links-widget-box .link-text {
 	body[data-route='Workspaces/رُشد'] .quick-list-widget-box:hover,
 	body[data-route='Workspaces/رُشد'] .links-widget-box:hover {
 		transform: none;
+	}
+
+	.rushd-navbar-back {
+		width: 2.25rem;
+		justify-content: center;
+		padding-inline: 0;
+	}
+
+	.rushd-navbar-back-label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+		clip-path: inset(50%);
 	}
 }
 

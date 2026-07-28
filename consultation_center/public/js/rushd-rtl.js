@@ -208,6 +208,49 @@
 		Object.assign(frappe._messages, TEXT_TRANSLATIONS);
 	}
 
+	function navigateDeskBack() {
+		const previousRoute = window.frappe?.get_prev_route?.() || [];
+		const currentRoute = window.frappe?.get_route?.() || [];
+		if (
+			previousRoute.length &&
+			JSON.stringify(previousRoute) !== JSON.stringify(currentRoute)
+		) {
+			frappe.set_route(...previousRoute);
+			return;
+		}
+
+		if (window.history.length > 1) {
+			window.history.back();
+			return;
+		}
+
+		window.location.assign("/app/rushd");
+	}
+
+	function installDeskBackButton() {
+		if (!window.location.pathname.startsWith("/app")) return;
+
+		const navbarHome = document.querySelector(".navbar .navbar-home");
+		if (!navbarHome) return;
+
+		let backButton = document.querySelector(".rushd-navbar-back");
+		if (!backButton) {
+			backButton = document.createElement("button");
+			backButton.type = "button";
+			backButton.className = "btn-reset rushd-navbar-back";
+			backButton.setAttribute("aria-label", "رجوع");
+			backButton.setAttribute("title", "رجوع");
+			backButton.innerHTML = `
+				<span class="rushd-navbar-back-icon" aria-hidden="true">→</span>
+				<span class="rushd-navbar-back-label">رجوع</span>
+			`;
+			backButton.addEventListener("click", navigateDeskBack);
+			navbarHome.insertAdjacentElement("afterend", backButton);
+		}
+
+		backButton.hidden = /^\/app\/?$/.test(window.location.pathname);
+	}
+
 	function applyRushdIdentity() {
 		const root = document.documentElement;
 		root.setAttribute("dir", "rtl");
@@ -250,6 +293,7 @@
 		}
 
 		if (document.body) {
+			installDeskBackButton();
 			localizeElement(document.body);
 		}
 	}
@@ -283,6 +327,7 @@
 		);
 		const observer = new MutationObserver((mutations) => {
 			installRushdTranslations();
+			installDeskBackButton();
 			for (const mutation of mutations) {
 				if (mutation.type === "characterData" && mutation.target.parentElement) {
 					localizeElement(mutation.target.parentElement);
