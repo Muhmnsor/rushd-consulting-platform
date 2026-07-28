@@ -239,6 +239,11 @@ cd infra
 4. تنتظر حتى تصبح الـRevision الجديدة سليمة.
 5. تختبر `/api/method/ping` وصفحة `/login`.
 
+يبقى الوصول العام إلى ACR معطلًا، لكن الخاصية
+`networkRuleBypassAllowedForTasks` مفعلة للسماح لخدمة ACR Tasks الموثوقة
+بإكمال البناء داخل Azure. لا يفتح ذلك Registry لأجهزة الإنترنت أو GitHub
+Runner نفسه.
+
 متغيرات بيئة GitHub المطلوبة:
 
 | المتغير | الغرض |
@@ -248,6 +253,7 @@ cd infra
 | `AZURE_SUBSCRIPTION_ID` | اشتراك Azure المستهدف |
 | `AZURE_RESOURCE_GROUP` | `rushd-staging-rg` |
 | `AZURE_ACR_NAME` | اسم Azure Container Registry |
+| `AZURE_ACR_TASK` | مهمة البناء ذات الهوية المدارة (`rushd-build`) |
 | `AZURE_CONTAINER_APP` | اسم Container App |
 
 يجب أن تقيد الـFederated Credential بالموضوع:

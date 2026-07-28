@@ -2,6 +2,7 @@
 set -euo pipefail
 
 : "${AZURE_ACR_NAME:?Set AZURE_ACR_NAME first.}"
+: "${AZURE_ACR_TASK:?Set AZURE_ACR_TASK first.}"
 : "${AZURE_CONTAINER_APP:?Set AZURE_CONTAINER_APP first.}"
 : "${AZURE_RESOURCE_GROUP:?Set AZURE_RESOURCE_GROUP first.}"
 : "${RUSHD_IMAGE_TAG:?Set RUSHD_IMAGE_TAG first.}"
@@ -118,12 +119,14 @@ if [[ "${RUSHD_PREPARE_ONLY:-false}" == "true" ]]; then
 fi
 
 echo "Building ${application_image} in Azure Container Registry."
-az acr build \
+az acr task run \
   --registry "${AZURE_ACR_NAME}" \
-  --image "rushd:${RUSHD_IMAGE_TAG}" \
+  --name "${AZURE_ACR_TASK}" \
+  --context . \
   --file Containerfile \
+  --set "IMAGE_TAG=${RUSHD_IMAGE_TAG}" \
   --only-show-errors \
-  .
+  --output none
 
 echo "Creating Container Apps revision ${revision_suffix}."
 az containerapp revision copy \

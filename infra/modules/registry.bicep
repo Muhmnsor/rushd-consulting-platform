@@ -11,7 +11,7 @@ var acrPullRoleDefinitionId = subscriptionResourceId(
   '7f951dda-4ed3-4680-a7ca-43fe172d538d'
 )
 
-resource registry 'Microsoft.ContainerRegistry/registries@2025-04-01' = {
+resource registry 'Microsoft.ContainerRegistry/registries@2025-11-01' = {
   name: registryName
   location: location
   tags: tags
@@ -22,6 +22,7 @@ resource registry 'Microsoft.ContainerRegistry/registries@2025-04-01' = {
     adminUserEnabled: false
     anonymousPullEnabled: false
     dataEndpointEnabled: false
+    networkRuleBypassAllowedForTasks: true
     networkRuleBypassOptions: 'AzureServices'
     publicNetworkAccess: 'Disabled'
   }
