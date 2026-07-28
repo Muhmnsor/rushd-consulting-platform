@@ -117,6 +117,10 @@ class TestPublicPage(FrappeTestCase):
 			frappe.db.get_single_value("Website Settings", "favicon"),
 			RUSHD_LOGO_URL,
 		)
+		self.assertEqual(
+			frappe.db.get_value("User", "Administrator", "full_name"),
+			"مدير النظام",
+		)
 
 	def test_login_variants_have_explicit_rtl_layout(self):
 		rtl_path = Path(__file__).parents[1] / "public" / "css" / "rushd-rtl.css"

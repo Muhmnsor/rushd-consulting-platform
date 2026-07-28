@@ -121,6 +121,21 @@ def configure_site_identity():
 				update_modified=False,
 			)
 
+	if frappe.db.exists("User", "Administrator"):
+		current_admin_name = frappe.db.get_value("User", "Administrator", "full_name")
+		if current_admin_name in (None, "", "Administrator"):
+			frappe.db.set_value(
+				"User",
+				"Administrator",
+				{
+					"first_name": "مدير النظام",
+					"middle_name": "",
+					"last_name": "",
+					"full_name": "مدير النظام",
+				},
+				update_modified=False,
+			)
+
 	if frappe.db.exists("Workspace", "Rushd"):
 		frappe.db.set_value(
 			"Workspace",
