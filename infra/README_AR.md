@@ -253,7 +253,7 @@ cd infra
 يجب أن تقيد الـFederated Credential بالموضوع:
 
 ```text
-repo:Muhmnsor/rushd-consulting-platform:environment:staging
+repo:Muhmnsor@135395607/rushd-consulting-platform@1314692173:environment:staging
 ```
 
 ويجب ألا تمنح هوية النشر صلاحيات على PostgreSQL أو Key Vault أو Storage.

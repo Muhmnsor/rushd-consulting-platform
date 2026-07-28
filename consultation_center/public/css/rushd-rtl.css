@@ -182,6 +182,84 @@ table td,
 	text-align: right;
 }
 
+/* Login, password recovery, email-link login, and sign-up pages */
+.for-login,
+.for-email-login,
+.for-forgot,
+.for-login-with-email-link,
+.for-signup,
+.for-login .page-card,
+.for-email-login .page-card,
+.for-forgot .page-card,
+.for-login-with-email-link .page-card,
+.for-signup .page-card,
+.form-signin,
+.page-card-body,
+.page-card-actions,
+.sign-up-message,
+.social-logins {
+	direction: rtl !important;
+	text-align: right !important;
+}
+
+.for-login .page-card-head,
+.for-email-login .page-card-head,
+.for-forgot .page-card-head,
+.for-login-with-email-link .page-card-head,
+.for-signup .page-card-head,
+.login-divider {
+	direction: rtl !important;
+}
+
+.for-login .forgot-password-message,
+.for-email-login .forgot-password-message,
+.for-forgot .forgot-password-message,
+.for-login-with-email-link .forgot-password-message,
+.for-signup .forgot-password-message {
+	text-align: right !important;
+}
+
+.for-login .email-field .field-icon,
+.for-login .password-field .field-icon,
+.for-email-login .email-field .field-icon,
+.for-email-login .password-field .field-icon,
+.for-forgot .email-field .field-icon,
+.for-forgot .password-field .field-icon,
+.for-login-with-email-link .email-field .field-icon,
+.for-login-with-email-link .password-field .field-icon,
+.for-signup .email-field .field-icon,
+.for-signup .password-field .field-icon {
+	right: 9px !important;
+	left: auto !important;
+}
+
+.for-login .email-field input,
+.for-email-login .email-field input,
+.for-forgot .email-field input,
+.for-login-with-email-link .email-field input,
+.for-signup .email-field input {
+	padding-right: 35px !important;
+	padding-left: 12px !important;
+}
+
+.for-login .password-field input,
+.for-email-login .password-field input,
+.for-forgot .password-field input,
+.for-login-with-email-link .password-field input,
+.for-signup .password-field input {
+	padding-right: 35px !important;
+	padding-left: 52px !important;
+}
+
+.for-login .password-field .toggle-password,
+.for-email-login .password-field .toggle-password,
+.for-forgot .password-field .toggle-password,
+.for-login-with-email-link .password-field .toggle-password,
+.for-signup .password-field .toggle-password {
+	right: auto !important;
+	left: 9px !important;
+}
+
 .rushd-brand-wordmark {
 	display: inline-flex;
 	align-items: center;

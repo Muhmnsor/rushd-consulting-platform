@@ -80,6 +80,23 @@ class TestPublicPage(FrappeTestCase):
 			RUSHD_LOGO_URL,
 		)
 
+	def test_login_variants_have_explicit_rtl_layout(self):
+		rtl_path = Path(__file__).parents[1] / "public" / "css" / "rushd-rtl.css"
+		rtl_styles = rtl_path.read_text()
+
+		for login_variant in (
+			".for-login",
+			".for-email-login",
+			".for-forgot",
+			".for-login-with-email-link",
+			".for-signup",
+		):
+			self.assertIn(login_variant, rtl_styles)
+
+		self.assertIn("direction: rtl !important;", rtl_styles)
+		self.assertIn(".password-field .toggle-password", rtl_styles)
+		self.assertIn("left: 9px !important;", rtl_styles)
+
 	def _build_context(self, user, roles):
 		frappe.set_user(user)
 		self.addCleanup(frappe.set_user, "Administrator")

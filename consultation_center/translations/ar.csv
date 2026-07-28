@@ -320,3 +320,31 @@ Filter,تصفية
 Login,تسجيل الدخول
 Forgot Password,نسيت كلمة المرور
 Sign Up,إنشاء حساب
+Are you sure you want to log out?,هل أنت متأكد من رغبتك في تسجيل الخروج؟
+Email,البريد الإلكتروني
+Password,كلمة المرور
+Show,إظهار
+Forgot Password?,نسيت كلمة المرور؟
+or,أو
+Login to {0},تسجيل الدخول إلى {0}
+Login with Email Link,تسجيل الدخول عبر رابط البريد الإلكتروني
+Don't have an account?,ليس لديك حساب؟
+Sign up,إنشاء حساب
+Create a {0} Account,إنشاء حساب {0}
+Signup Disabled,إنشاء الحسابات معطل
+Signups have been disabled for this website.,تم تعطيل إنشاء الحسابات في هذا الموقع.
+Email Address,عنوان البريد الإلكتروني
+Reset Password,إعادة تعيين كلمة المرور
+Back to Login,العودة إلى تسجيل الدخول
+Send login link,إرسال رابط تسجيل الدخول
+Hide,إخفاء
+Both login and password required,البريد الإلكتروني وكلمة المرور مطلوبان
+Valid Login id required.,مطلوب معرّف دخول صالح.
+Login link sent to your email,تم إرسال رابط تسجيل الدخول إلى بريدك الإلكتروني
+Verifying...,جارٍ التحقق...
+Success,تم بنجاح
+Instructions Emailed,تم إرسال التعليمات بالبريد الإلكتروني
+Invalid Login. Try again.,بيانات الدخول غير صحيحة. حاول مرة أخرى.
+Oops! Something went wrong.,عذرًا، حدث خطأ ما.
+Too many requests. Please try again later.,طلبات كثيرة جدًا. يرجى المحاولة لاحقًا.
+Something went wrong.,حدث خطأ ما.
