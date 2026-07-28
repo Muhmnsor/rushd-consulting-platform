@@ -155,7 +155,11 @@ for attempt in {1..60}; do
   )"
 
   read -r provisioning_state running_state health_state <<<"${revision_state}"
-  if [[ "${provisioning_state}" == "Succeeded" && "${running_state}" == "Running" && "${health_state}" == "Healthy" ]]; then
+  if [[
+    ( "${provisioning_state}" == "Succeeded" || "${provisioning_state}" == "Provisioned" )
+    && ( "${running_state}" == "Running" || "${running_state}" == "RunningAtMaxScale" )
+    && "${health_state}" == "Healthy"
+  ]]; then
     break
   fi
 
