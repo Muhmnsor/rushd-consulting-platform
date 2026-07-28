@@ -150,7 +150,7 @@ for attempt in {1..60}; do
       --resource-group "${AZURE_RESOURCE_GROUP}" \
       --name "${AZURE_CONTAINER_APP}" \
       --revision "${latest_revision}" \
-      --query '[properties.provisioningState,properties.runningState,properties.healthState]' \
+      --query '{provisioning:properties.provisioningState,running:properties.runningState,health:properties.healthState}' \
       --output tsv
   )"
 
