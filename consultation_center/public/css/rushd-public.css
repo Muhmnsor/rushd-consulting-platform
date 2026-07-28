@@ -26,7 +26,7 @@ body.rushd-public-page {
 }
 
 .rushd-public {
-	overflow: hidden;
+	overflow-x: clip;
 	background: var(--public-paper);
 	color: var(--public-ink);
 }
@@ -547,6 +547,11 @@ body.rushd-public-page {
 
 .rushd-journey {
 	background: var(--public-dark);
+	color: #fff;
+}
+
+.rushd-journey .rushd-public-section-heading h2,
+.rushd-journey-steps h3 {
 	color: #fff;
 }
 
@@ -1071,4 +1076,3 @@ body.rushd-public-page {
 		flex-direction: column;
 	}
 }
-

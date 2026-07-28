@@ -78,6 +78,7 @@ def configure_site_identity():
 		"brand_html": RUSHD_BRAND_HTML,
 		"footer_powered": RUSHD_ARABIC_NAME,
 		"favicon": RUSHD_LOGO_URL,
+		"splash_image": RUSHD_LOGO_URL,
 		"home_page": "index",
 		"disable_signup": 0,
 		"show_footer_on_login": 0,
@@ -116,8 +117,8 @@ def configure_site_identity():
 			"Workspace",
 			"Rushd",
 			{
-				"label": RUSHD_ARABIC_NAME,
-				"title": "لوحة إدارة رُشد",
+				"label": "Rushd",
+				"title": "Rushd",
 			},
 			update_modified=False,
 		)

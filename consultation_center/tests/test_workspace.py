@@ -30,8 +30,8 @@ class TestRushdWorkspace(FrappeTestCase):
 		content = json.loads(workspace["content"])
 
 		self.assertEqual(workspace["name"], "Rushd")
-		self.assertEqual(workspace["title"], "لوحة إدارة رُشد")
-		self.assertEqual(workspace["label"], "رُشد")
+		self.assertEqual(workspace["title"], "Rushd")
+		self.assertEqual(workspace["label"], "Rushd")
 
 		shortcut_names = {item["label"] for item in workspace["shortcuts"]}
 		quick_list_names = {item["label"] for item in workspace["quick_lists"]}
@@ -75,7 +75,7 @@ class TestRushdWorkspace(FrappeTestCase):
 			json.dumps(
 				{
 					"name": "Rushd",
-					"title": "لوحة إدارة رُشد",
+					"title": "Rushd",
 					"public": 1,
 				}
 			)

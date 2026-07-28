@@ -4,6 +4,7 @@ from unittest.mock import patch
 import frappe
 from frappe.tests.utils import FrappeTestCase
 
+from consultation_center.setup.install import RUSHD_LOGO_URL, configure_site_identity
 from consultation_center.www.index import _get_portal_url, get_context
 
 
@@ -66,6 +67,18 @@ class TestPublicPage(FrappeTestCase):
 		for section in ("services", "journey", "privacy", "faq"):
 			self.assertIn(f'href="#{section}"', template)
 			self.assertIn(f'id="{section}"', template)
+
+	def test_site_loading_screen_uses_rushd_logo(self):
+		configure_site_identity()
+
+		self.assertEqual(
+			frappe.db.get_single_value("Website Settings", "splash_image"),
+			RUSHD_LOGO_URL,
+		)
+		self.assertEqual(
+			frappe.db.get_single_value("Website Settings", "favicon"),
+			RUSHD_LOGO_URL,
+		)
 
 	def _build_context(self, user, roles):
 		frappe.set_user(user)
