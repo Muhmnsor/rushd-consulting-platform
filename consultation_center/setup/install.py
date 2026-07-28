@@ -1,6 +1,11 @@
 import frappe
 from frappe.translate import set_default_language
 
+from consultation_center.website import (
+	ensure_rushd_website_settings,
+	remove_legacy_settings_from_website_workspace,
+)
+
 RUSHD_ARABIC_NAME = "رُشد"
 RUSHD_APP_NAME = RUSHD_ARABIC_NAME
 RUSHD_LOGO_URL = "/assets/consultation_center/images/rushd-logo.svg"
@@ -58,12 +63,16 @@ def _create_role(role_name, desk_access):
 def after_install():
 	create_roles()
 	configure_site_identity()
+	ensure_rushd_website_settings()
+	remove_legacy_settings_from_website_workspace()
 
 
 def after_migrate():
 	"""Keep required roles and the Arabic-first identity after a migration."""
 	create_roles()
 	configure_site_identity()
+	ensure_rushd_website_settings()
+	remove_legacy_settings_from_website_workspace()
 
 
 def configure_site_identity():

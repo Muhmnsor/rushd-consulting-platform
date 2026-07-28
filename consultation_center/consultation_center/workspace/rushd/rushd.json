@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"rushd_welcome\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\"><b>لوحة إدارة رُشد</b></span>\",\"col\":12}},{\"id\":\"rushd_intro\",\"type\":\"paragraph\",\"data\":{\"text\":\"تابع رحلة الاستشارة من الطلب الأول حتى إغلاق الحالة، وانتقل مباشرة إلى العمل الذي يحتاج تدخلك.\",\"col\":12}},{\"id\":\"rushd_now_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>مؤشرات العمل الآن</b></span>\",\"col\":12}},{\"id\":\"rushd_needs_review\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"طلبات تحتاج مراجعة\",\"col\":3}},{\"id\":\"rushd_ready_triage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"جاهزة للفرز\",\"col\":3}},{\"id\":\"rushd_waiting_info\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"بانتظار معلومات المستفيد\",\"col\":3}},{\"id\":\"rushd_ready_assignment\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"جاهزة للإسناد\",\"col\":3}},{\"id\":\"rushd_active_cases\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الحالات النشطة\",\"col\":3}},{\"id\":\"rushd_upcoming_appointments\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المواعيد القادمة\",\"col\":3}},{\"id\":\"rushd_pending_consents\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الموافقات المعلقة\",\"col\":3}},{\"id\":\"rushd_active_consultants\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المستشارون النشطون\",\"col\":3}},{\"id\":\"rushd_queue_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_queue_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>قوائم تحتاج متابعة</b></span>\",\"col\":12}},{\"id\":\"rushd_intake_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"طلبات الاستقبال\",\"col\":6}},{\"id\":\"rushd_triage_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"طلبات الفرز المهني\",\"col\":6}},{\"id\":\"rushd_management_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_management_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>إدارة المنصة</b></span>\",\"col\":12}},{\"id\":\"rushd_journey_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الرحلة الاستشارية\",\"col\":4}},{\"id\":\"rushd_people_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الأشخاص والصلاحيات\",\"col\":4}},{\"id\":\"rushd_consultants_card\",\"type\":\"card\",\"data\":{\"card_name\":\"تشغيل المستشارين\",\"col\":4}},{\"id\":\"rushd_services_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الخدمات والموافقات\",\"col\":4}},{\"id\":\"rushd_settings_card\",\"type\":\"card\",\"data\":{\"card_name\":\"إعداد المنصة\",\"col\":4}},{\"id\":\"rushd_portals_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_portals_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>واجهات العمل</b></span>\",\"col\":12}},{\"id\":\"rushd_operations_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"واجهة الاستقبال والتشغيل\",\"col\":4}},{\"id\":\"rushd_supervisor_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"واجهة الإشراف والفرز\",\"col\":4}},{\"id\":\"rushd_public_site\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الموقع العام لرُشد\",\"col\":4}}]",
+ "content": "[{\"id\":\"rushd_welcome\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\"><b>لوحة إدارة رُشد</b></span>\",\"col\":12}},{\"id\":\"rushd_intro\",\"type\":\"paragraph\",\"data\":{\"text\":\"تابع رحلة الاستشارة من الطلب الأول حتى إغلاق الحالة، وانتقل مباشرة إلى العمل الذي يحتاج تدخلك.\",\"col\":12}},{\"id\":\"rushd_now_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>مؤشرات العمل الآن</b></span>\",\"col\":12}},{\"id\":\"rushd_needs_review\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"طلبات تحتاج مراجعة\",\"col\":3}},{\"id\":\"rushd_ready_triage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"جاهزة للفرز\",\"col\":3}},{\"id\":\"rushd_waiting_info\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"بانتظار معلومات المستفيد\",\"col\":3}},{\"id\":\"rushd_ready_assignment\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"جاهزة للإسناد\",\"col\":3}},{\"id\":\"rushd_active_cases\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الحالات النشطة\",\"col\":3}},{\"id\":\"rushd_upcoming_appointments\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المواعيد القادمة\",\"col\":3}},{\"id\":\"rushd_pending_consents\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الموافقات المعلقة\",\"col\":3}},{\"id\":\"rushd_active_consultants\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المستشارون النشطون\",\"col\":3}},{\"id\":\"rushd_queue_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_queue_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>قوائم تحتاج متابعة</b></span>\",\"col\":12}},{\"id\":\"rushd_intake_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"طلبات الاستقبال\",\"col\":6}},{\"id\":\"rushd_triage_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"طلبات الفرز المهني\",\"col\":6}},{\"id\":\"rushd_management_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_management_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>إدارة المنصة</b></span>\",\"col\":12}},{\"id\":\"rushd_journey_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الرحلة الاستشارية\",\"col\":4}},{\"id\":\"rushd_people_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الأشخاص والصلاحيات\",\"col\":4}},{\"id\":\"rushd_consultants_card\",\"type\":\"card\",\"data\":{\"card_name\":\"تشغيل المستشارين\",\"col\":4}},{\"id\":\"rushd_services_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الخدمات والموافقات\",\"col\":4}},{\"id\":\"rushd_settings_card\",\"type\":\"card\",\"data\":{\"card_name\":\"إعداد المنصة\",\"col\":4}},{\"id\":\"rushd_portals_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_portals_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>واجهات العمل</b></span>\",\"col\":12}},{\"id\":\"rushd_operations_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"واجهة الاستقبال والتشغيل\",\"col\":3}},{\"id\":\"rushd_supervisor_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"واجهة الإشراف والفرز\",\"col\":3}},{\"id\":\"rushd_public_site\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الموقع العام لرُشد\",\"col\":3}},{\"id\":\"rushd_public_site_settings\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"تحرير الصفحة الرئيسية\",\"col\":3}}]",
  "creation": "2026-07-27 00:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -201,7 +201,7 @@
    "icon": "setting",
    "is_query_report": 0,
    "label": "إعداد المنصة",
-   "link_count": 3,
+   "link_count": 4,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -234,6 +234,17 @@
    "label": "إعدادات الموقع",
    "link_count": 0,
    "link_to": "Website Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "إعدادات الصفحة الرئيسية",
+   "link_count": 0,
+   "link_to": "Rushd Website Settings",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -343,6 +354,12 @@
    "label": "واجهة الإشراف والفرز",
    "type": "URL",
    "url": "/supervisor"
+  },
+  {
+   "color": "Blue",
+   "label": "تحرير الصفحة الرئيسية",
+   "type": "URL",
+   "url": "/app/rushd-website-settings/Rushd%20Website%20Settings"
   },
   {
    "label": "الموقع العام لرُشد",

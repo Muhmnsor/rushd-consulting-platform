@@ -3,7 +3,8 @@
 {% block head_include %}
 <link rel="stylesheet" href="/assets/consultation_center/css/fonts.css">
 <link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-public.css?v=20260727-2">
+<meta name="description" content="{{ website.meta_description }}">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-public.css?v=20260728-11">
 {% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -15,13 +16,13 @@
 		<div class="rushd-public-container rushd-public-header__inner">
 			<a class="rushd-public-brand" href="/" aria-label="رُشد — الصفحة الرئيسية">
 				<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
-				<span><strong>رُشد</strong><small>للاستشارات الشبابية</small></span>
+				<span><strong>رُشد</strong><small>{{ website.brand_subtitle }}</small></span>
 			</a>
 			<nav class="rushd-public-nav" aria-label="التنقل الرئيسي">
-				<a href="#services">مجالات الاستشارة</a>
-				<a href="#journey">كيف تعمل الخدمة؟</a>
-				<a href="#privacy">الخصوصية</a>
-				<a href="#faq">الأسئلة الشائعة</a>
+				<a href="#services">{{ website.services_nav_label }}</a>
+				<a href="#journey">{{ website.journey_nav_label }}</a>
+				<a href="#privacy">{{ website.privacy_nav_label }}</a>
+				<a href="#faq">{{ website.faq_nav_label }}</a>
 			</nav>
 			<div class="rushd-public-header__actions">
 				{% if not is_logged_in %}
@@ -36,17 +37,17 @@
 		<section class="rushd-hero">
 			<div class="rushd-public-container rushd-hero__grid">
 				<div class="rushd-hero__content">
-					<span class="rushd-public-eyebrow"><i></i> مساحة آمنة، وخطوات واضحة</span>
-					<h1>نستمع إليك،<br><em>ونمشي معك.</em></h1>
-					<p>منصة رُشد تربط الشباب بمستشارين مختصين في رحلة تحترم الخصوصية، وتوضح لك دائمًا حالتك والخطوة التالية.</p>
+					<span class="rushd-public-eyebrow"><i></i> {{ website.hero_eyebrow }}</span>
+					<h1>{{ website.hero_title }}<br><em>{{ website.hero_emphasis }}</em></h1>
+					<p>{{ website.hero_description }}</p>
 					<div class="rushd-hero__actions">
 						<a class="rushd-public-button" href="{{ primary_action_url }}">{{ primary_action_label }} <span>←</span></a>
-						<a class="rushd-public-button rushd-public-button--ghost" href="#journey">تعرف على الرحلة</a>
+						<a class="rushd-public-button rushd-public-button--ghost" href="#journey">{{ website.hero_secondary_action_label }}</a>
 					</div>
 					<div class="rushd-hero__trust">
-						<span>خصوصية مصممة من البداية</span>
-						<span>مستشارون معتمدون من المركز</span>
-						<span>متابعة واضحة للطلب</span>
+						{% for item in website.hero_trust_items %}
+						<span>{{ item.title }}</span>
+						{% endfor %}
 					</div>
 				</div>
 
@@ -58,16 +59,16 @@
 					</div>
 					<article class="rushd-floating-card rushd-floating-card--request">
 						<span class="rushd-floating-card__icon">◫</span>
-						<div><small>حالة الطلب</small><strong>تحت المراجعة</strong></div>
+						<div><small>{{ website.request_status_label }}</small><strong>{{ website.request_status_value }}</strong></div>
 						<i></i>
 					</article>
 					<article class="rushd-floating-card rushd-floating-card--privacy">
 						<span class="rushd-floating-card__icon">◇</span>
-						<div><small>الخصوصية</small><strong>وصول حسب الدور</strong></div>
+						<div><small>{{ website.privacy_card_label }}</small><strong>{{ website.privacy_card_value }}</strong></div>
 					</article>
 					<article class="rushd-floating-card rushd-floating-card--next">
-						<small>خطوتك التالية</small>
-						<strong>اختيار الوقت المناسب</strong>
+						<small>{{ website.next_step_label }}</small>
+						<strong>{{ website.next_step_value }}</strong>
 						<span class="rushd-mini-progress"><i></i></span>
 					</article>
 				</div>
@@ -78,16 +79,15 @@
 			<div class="rushd-public-container rushd-public-intro__grid">
 				<div>
 					<span class="rushd-public-section-number">01</span>
-					<span class="rushd-public-eyebrow">لأن البداية قد تكون أصعب خطوة</span>
-					<h2>خدمة قريبة منك،<br>وليست حكمًا عليك.</h2>
+					<span class="rushd-public-eyebrow">{{ website.intro_eyebrow }}</span>
+					<h2>{{ website.intro_title }}<br>{{ website.intro_emphasis }}</h2>
 				</div>
 				<div class="rushd-public-intro__copy">
-					<p>لا تحتاج إلى معرفة اسم المشكلة أو اختيار الحل وحدك. اكتب ما ترتاح لمشاركته، وسيساعدك فريق رُشد في الوصول إلى المجال والمستشار الأنسب.</p>
+					<p>{{ website.intro_description }}</p>
 					<div class="rushd-public-promises">
-						<div><strong>لغة واضحة</strong><span>من دون تعقيد أو مصطلحات مبهمة.</span></div>
-						<div><strong>قرار إنساني</strong><span>لا تشخيص أو قرار حساس بواسطة نتيجة آلية.</span></div>
-						<div><strong>خصوصية عملية</strong><span>ولي الأمر لا يرى محتوى الجلسة تلقائيًا.</span></div>
-						<div><strong>رحلة متصلة</strong><span>طلبك وموعدك وخطتك في مكان واحد.</span></div>
+						{% for item in website.intro_promises %}
+						<div><strong>{{ item.title }}</strong><span>{{ item.description }}</span></div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
@@ -96,21 +96,21 @@
 		<section class="rushd-public-section rushd-services" id="services">
 			<div class="rushd-public-container">
 				<div class="rushd-public-section-heading">
-					<div><span class="rushd-public-section-number">02</span><span class="rushd-public-eyebrow">مجالات الاستشارة</span><h2>اختر الأقرب لما يشغلك</h2></div>
-					<p>لا تقلق إن لم تكن متأكدًا من المجال؛ يستطيع فريق الاستقبال تعديل الاختيار بعد فهم احتياجك.</p>
+					<div><span class="rushd-public-section-number">02</span><span class="rushd-public-eyebrow">{{ website.services_eyebrow }}</span><h2>{{ website.services_title }}</h2></div>
+					<p>{{ website.services_description }}</p>
 				</div>
 				<div class="rushd-service-grid">
 					{% for service in services %}
 					<article class="rushd-service-card">
 						<span class="rushd-service-card__number">{{ "%02d" | format(loop.index) }}</span>
 						<div class="rushd-service-card__mark"><span></span><span></span><span></span></div>
-						<small>{{ service.category or 'استشارة شبابية' }}</small>
+						<small>{{ service.category or website.service_category_fallback }}</small>
 						<h3>{{ service.service_name }}</h3>
 						<p>{{ service.description_text }}</p>
 						<footer><span>{{ service.mode_label }}</span><span>{{ service.duration_minutes or 60 }} دقيقة تقريبًا</span></footer>
 					</article>
 					{% else %}
-					<article class="rushd-service-card rushd-service-card--empty"><h3>الخدمات قيد الإعداد</h3><p>سيتم نشر مجالات الاستشارة المعتمدة قريبًا.</p></article>
+					<article class="rushd-service-card rushd-service-card--empty"><h3>{{ website.empty_services_title }}</h3><p>{{ website.empty_services_description }}</p></article>
 					{% endfor %}
 				</div>
 			</div>
@@ -119,14 +119,13 @@
 		<section class="rushd-public-section rushd-journey" id="journey">
 			<div class="rushd-public-container">
 				<div class="rushd-public-section-heading rushd-public-section-heading--light">
-					<div><span class="rushd-public-section-number">03</span><span class="rushd-public-eyebrow">رحلة الاستشارة</span><h2>نعرفك دائمًا أين وصلت</h2></div>
-					<p>من لحظة إرسال الطلب إلى المتابعة، تظهر لك الحالة والخطوة التالية بوضوح.</p>
+					<div><span class="rushd-public-section-number">03</span><span class="rushd-public-eyebrow">{{ website.journey_eyebrow }}</span><h2>{{ website.journey_title }}</h2></div>
+					<p>{{ website.journey_description }}</p>
 				</div>
 				<div class="rushd-journey-steps">
-					<article><span>١</span><small>ابدأ</small><h3>أرسل طلبك</h3><p>اختر المجال واكتب وصفًا مختصرًا، واحفظه كمسودة إن أردت.</p></article>
-					<article><span>٢</span><small>نراجع</small><h3>نفرز الاحتياج</h3><p>يتحقق الفريق من الاكتمال والملاءمة دون قرارات آلية حساسة.</p></article>
-					<article><span>٣</span><small>ننسق</small><h3>نحدد المستشار والموعد</h3><p>وفق التخصص والتوفر والطاقة، ثم تختار الوقت المناسب.</p></article>
-					<article><span>٤</span><small>نتابع</small><h3>جلسة وخطوة تالية</h3><p>ملخص مسموح وخطة متابعة واضحة مع احترام حدود السرية.</p></article>
+					{% for step in website.journey_steps %}
+					<article><span>{{ step.step_number }}</span><small>{{ step.stage }}</small><h3>{{ step.title }}</h3><p>{{ step.description }}</p></article>
+					{% endfor %}
 				</div>
 			</div>
 		</section>
@@ -136,22 +135,21 @@
 				<div class="rushd-privacy__visual">
 					<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
 					<div class="rushd-privacy-ring"></div>
-					<span class="rushd-privacy-chip rushd-privacy-chip--one">المستفيد</span>
-					<span class="rushd-privacy-chip rushd-privacy-chip--two">ولي الأمر</span>
-					<span class="rushd-privacy-chip rushd-privacy-chip--three">المستشار</span>
+					<span class="rushd-privacy-chip rushd-privacy-chip--one">{{ website.beneficiary_label }}</span>
+					<span class="rushd-privacy-chip rushd-privacy-chip--two">{{ website.guardian_label }}</span>
+					<span class="rushd-privacy-chip rushd-privacy-chip--three">{{ website.consultant_label }}</span>
 				</div>
 				<div class="rushd-privacy__content">
 					<span class="rushd-public-section-number">04</span>
-					<span class="rushd-public-eyebrow">السرية والصلاحيات</span>
-					<h2>لكل شخص نافذته،<br>ولكل معلومة حدودها.</h2>
-					<p>حساب ولي الأمر مستقل، ولا يعرض له رُشد الملاحظات المهنية أو محتوى الجلسات تلقائيًا. كل وصول مرتبط بالدور والتفويض والسياسة.</p>
+					<span class="rushd-public-eyebrow">{{ website.privacy_eyebrow }}</span>
+					<h2>{{ website.privacy_title }}<br>{{ website.privacy_emphasis }}</h2>
+					<p>{{ website.privacy_description }}</p>
 					<ul>
-						<li><span>✓</span> الملاحظة المهنية تبقى داخل الفريق المصرح له.</li>
-						<li><span>✓</span> ملخص المستفيد وملخص ولي الأمر حقول منفصلة.</li>
-						<li><span>✓</span> الملفات الحساسة لا تستخدم روابط عامة.</li>
-						<li><span>✓</span> فتح السجلات الحساسة والتعديلات قابل للتدقيق.</li>
+						{% for item in website.privacy_items %}
+						<li><span>✓</span> {{ item.title }}</li>
+						{% endfor %}
 					</ul>
-					<a href="#faq">اقرأ إجابات الخصوصية <span>←</span></a>
+					<a href="#faq">{{ website.privacy_link_label }} <span>←</span></a>
 				</div>
 			</div>
 		</section>
@@ -160,15 +158,14 @@
 			<div class="rushd-public-container rushd-faq__grid">
 				<div class="rushd-faq__heading">
 					<span class="rushd-public-section-number">05</span>
-					<span class="rushd-public-eyebrow">قبل أن تبدأ</span>
-					<h2>أسئلة قد تدور في بالك</h2>
-					<p>إن لم تجد إجابتك، تستطيع التواصل مع فريق المركز بعد تسجيل الدخول.</p>
+					<span class="rushd-public-eyebrow">{{ website.faq_eyebrow }}</span>
+					<h2>{{ website.faq_title }}</h2>
+					<p>{{ website.faq_description }}</p>
 				</div>
 				<div class="rushd-faq__list">
-					<details open><summary>هل يجب أن أعرف نوع الاستشارة التي أحتاجها؟ <span>＋</span></summary><p>لا. اختر المجال الأقرب واكتب ما يشغلك، وسيساعدك فريق الاستقبال في توجيه الطلب.</p></details>
-					<details><summary>هل يرى ولي الأمر ما أقوله للمستشار؟ <span>＋</span></summary><p>ليس تلقائيًا. الملاحظات المهنية خاصة، وما يظهر لولي الأمر يكون ملخصًا منفصلًا تسمح به السياسة والتفويض.</p></details>
-					<details><summary>ماذا يحدث بعد إرسال الطلب؟ <span>＋</span></summary><p>يراجع فريق الاستقبال اكتمال البيانات، ثم ينتقل الطلب للفرز والإسناد، وتظهر لك الحالة والخطوة التالية في البوابة.</p></details>
-					<details><summary>هل رُشد مناسب للحالات الطارئة؟ <span>＋</span></summary><p>رُشد خدمة استشارية وليست خدمة طوارئ. عند وجود خطر مباشر يجب التواصل فورًا مع خدمات الطوارئ المحلية المناسبة.</p></details>
+					{% for faq in website.faqs %}
+					<details{% if loop.first %} open{% endif %}><summary>{{ faq.question }} <span>＋</span></summary><p>{{ faq.answer }}</p></details>
+					{% endfor %}
 				</div>
 			</div>
 		</section>
@@ -176,7 +173,7 @@
 		<section class="rushd-public-cta">
 			<div class="rushd-public-container rushd-public-cta__inner">
 				<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
-				<div><span>خطوة صغيرة قد تصنع فرقًا</span><h2>ابدأ بما تستطيع قوله اليوم.</h2><p>يمكنك حفظ الطلب كمسودة والعودة إليه في الوقت المناسب.</p></div>
+				<div><span>{{ website.cta_eyebrow }}</span><h2>{{ website.cta_title }}</h2><p>{{ website.cta_description }}</p></div>
 				<a class="rushd-public-button rushd-public-button--light" href="{{ primary_action_url }}">{{ primary_action_label }} <span>←</span></a>
 			</div>
 		</section>
@@ -185,13 +182,13 @@
 	<footer class="rushd-public-footer">
 		<div class="rushd-public-container">
 			<div class="rushd-public-footer__top">
-				<a class="rushd-public-brand rushd-public-brand--footer" href="/"><img src="/assets/consultation_center/images/rushd-logo.svg" alt=""><span><strong>رُشد</strong><small>للاستشارات الشبابية</small></span></a>
-				<p>منصة لإدارة رحلة الاستشارة الشبابية بوضوح وخصوصية ومسؤولية.</p>
-				<div><a href="{{ portal_url }}">{{ portal_label }}</a><a href="#services">الخدمات</a><a href="#privacy">الخصوصية</a><a href="#faq">الأسئلة الشائعة</a></div>
+				<a class="rushd-public-brand rushd-public-brand--footer" href="/"><img src="/assets/consultation_center/images/rushd-logo.svg" alt=""><span><strong>رُشد</strong><small>{{ website.brand_subtitle }}</small></span></a>
+				<p>{{ website.footer_description }}</p>
+				<div><a href="{{ portal_url }}">{{ portal_label }}</a><a href="#services">{{ website.services_nav_label }}</a><a href="#privacy">{{ website.privacy_nav_label }}</a><a href="#faq">{{ website.faq_nav_label }}</a></div>
 			</div>
 			<div class="rushd-public-footer__bottom">
-				<span>© {{ frappe.utils.now_datetime().year }} رُشد. جميع الحقوق محفوظة.</span>
-				<span>هذه المنصة ليست بديلًا لخدمات الطوارئ.</span>
+				<span>© {{ frappe.utils.now_datetime().year }} رُشد. {{ website.copyright_notice }}</span>
+				<span>{{ website.emergency_notice }}</span>
 			</div>
 		</div>
 	</footer>

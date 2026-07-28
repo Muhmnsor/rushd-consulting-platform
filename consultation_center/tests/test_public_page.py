@@ -5,6 +5,11 @@ import frappe
 from frappe.tests.utils import FrappeTestCase
 
 from consultation_center.setup.install import RUSHD_LOGO_URL, configure_site_identity
+from consultation_center.website import (
+	SETTINGS_DOCTYPE,
+	ensure_rushd_website_settings,
+	get_rushd_website_settings,
+)
 from consultation_center.www.index import _get_portal_url, get_context
 
 
@@ -67,6 +72,39 @@ class TestPublicPage(FrappeTestCase):
 		for section in ("services", "journey", "privacy", "faq"):
 			self.assertIn(f'href="#{section}"', template)
 			self.assertIn(f'id="{section}"', template)
+
+	def test_homepage_content_is_loaded_from_single_settings_doctype(self):
+		ensure_rushd_website_settings()
+		settings = get_rushd_website_settings()
+
+		self.assertTrue(frappe.db.exists("DocType", SETTINGS_DOCTYPE))
+		self.assertEqual(settings.hero_title, "نستمع إليك،")
+		self.assertEqual(len(settings.journey_steps), 4)
+		self.assertEqual(len(settings.faqs), 4)
+
+		context = self._build_context("Guest", [])
+		self.assertEqual(context.website.page_title, settings.page_title)
+		self.assertEqual(context.title, settings.page_title)
+		self.assertLessEqual(len(context.services), settings.services_limit)
+
+	def test_seed_does_not_overwrite_editorial_changes(self):
+		settings = frappe.get_single(SETTINGS_DOCTYPE)
+		settings.hero_title = "عنوان تحريري محفوظ"
+		settings.save(ignore_permissions=True)
+
+		ensure_rushd_website_settings()
+
+		self.assertEqual(
+			frappe.db.get_single_value(SETTINGS_DOCTYPE, "hero_title"),
+			"عنوان تحريري محفوظ",
+		)
+
+	def test_website_workspace_integration_is_shipped_by_the_app(self):
+		script_path = Path(__file__).parents[1] / "public" / "js" / "rushd-rtl.js"
+		script = script_path.read_text()
+
+		self.assertIn("installWebsiteSettingsEntry", script)
+		self.assertIn("/app/rushd-website-settings/Rushd%20Website%20Settings", script)
 
 	def test_site_loading_screen_uses_rushd_logo(self):
 		configure_site_identity()

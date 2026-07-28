@@ -251,6 +251,32 @@
 		backButton.hidden = /^\/app\/?$/.test(window.location.pathname);
 	}
 
+	function installWebsiteSettingsEntry() {
+		if (window.location.pathname !== "/app/website") return;
+		if (document.querySelector(".rushd-website-settings-entry")) return;
+
+		const workspaceContent = document.querySelector(
+			".layout-main-section .workspace-container, .layout-main-section",
+		);
+		if (!workspaceContent) return;
+
+		const entry = document.createElement("section");
+		entry.className = "rushd-website-settings-entry";
+		entry.setAttribute("aria-label", "إدارة الصفحة الرئيسية لرُشد");
+		entry.innerHTML = `
+			<div>
+				<span>صفحة رُشد العامة</span>
+				<h2>إدارة الصفحة الرئيسية</h2>
+				<p>عدّل العناوين والأقسام والخطوات والأسئلة الشائعة من مكان واحد.</p>
+			</div>
+			<div class="rushd-website-settings-entry__actions">
+				<a class="btn btn-default" href="/" target="_blank" rel="noopener">معاينة الموقع</a>
+				<a class="btn btn-primary" href="/app/rushd-website-settings/Rushd%20Website%20Settings">تحرير المحتوى</a>
+			</div>
+		`;
+		workspaceContent.prepend(entry);
+	}
+
 	function applyRushdIdentity() {
 		const root = document.documentElement;
 		root.setAttribute("dir", "rtl");
@@ -294,6 +320,7 @@
 
 		if (document.body) {
 			installDeskBackButton();
+			installWebsiteSettingsEntry();
 			localizeElement(document.body);
 		}
 	}
@@ -328,6 +355,7 @@
 		const observer = new MutationObserver((mutations) => {
 			installRushdTranslations();
 			installDeskBackButton();
+			installWebsiteSettingsEntry();
 			for (const mutation of mutations) {
 				if (mutation.type === "characterData" && mutation.target.parentElement) {
 					localizeElement(mutation.target.parentElement);

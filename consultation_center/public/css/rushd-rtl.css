@@ -481,6 +481,59 @@ body[data-route='Workspaces/رُشد'] .links-widget-box .link-text {
 	margin-inline-end: 0.5rem;
 }
 
+.rushd-website-settings-form .tooltip-content {
+	display: none !important;
+}
+
+.rushd-website-settings-entry {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+	margin: 0 0 1.25rem;
+	padding: 1.35rem 1.5rem;
+	border: 1px solid #d7e5df;
+	border-radius: 1rem;
+	background: linear-gradient(135deg, #f3faf7 0%, #ffffff 72%);
+	box-shadow: 0 0.35rem 1.2rem rgba(21, 84, 63, 0.08);
+}
+
+.rushd-website-settings-entry span {
+	display: block;
+	margin-block-end: 0.3rem;
+	color: #26785e;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.rushd-website-settings-entry h2 {
+	margin: 0;
+	color: #173f34;
+	font-size: 1.2rem;
+	font-weight: 800;
+}
+
+.rushd-website-settings-entry p {
+	margin: 0.35rem 0 0;
+	color: #5d6c67;
+	line-height: 1.7;
+}
+
+.rushd-website-settings-entry__actions {
+	display: flex;
+	flex: 0 0 auto;
+	gap: 0.6rem;
+}
+
+.rushd-website-settings-entry__actions .btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.35rem;
+	border-radius: 0.65rem;
+	font-weight: 700;
+}
+
 @media (max-width: 767px) {
 	.page-actions,
 	.modal-footer,
@@ -517,6 +570,20 @@ body[data-route='Workspaces/رُشد'] .links-widget-box .link-text {
 		clip: rect(0 0 0 0);
 		white-space: nowrap;
 		clip-path: inset(50%);
+	}
+
+	.rushd-website-settings-entry {
+		align-items: stretch;
+		flex-direction: column;
+		padding: 1.1rem;
+	}
+
+	.rushd-website-settings-entry__actions {
+		flex-wrap: wrap;
+	}
+
+	.rushd-website-settings-entry__actions .btn {
+		flex: 1 1 8rem;
 	}
 }
 

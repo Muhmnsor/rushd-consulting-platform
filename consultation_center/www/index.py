@@ -1,5 +1,7 @@
 import frappe
-from frappe.utils import strip_html_tags
+from frappe.utils import cint, strip_html_tags
+
+from consultation_center.website import get_rushd_website_settings
 
 no_cache = 1
 
@@ -9,22 +11,25 @@ OPERATIONS_PORTAL_ROLES = {"Intake Coordinator", "Operations Officer", "Case Coo
 
 
 def get_context(context):
-	context.title = "رُشد للاستشارات الشبابية"
+	context.website = get_rushd_website_settings()
+	context.title = context.website.page_title
+	context.description = context.website.meta_description
 	context.no_cache = 1
 	context.body_class = "rushd-public-page"
+	services_limit = max(1, min(cint(context.website.services_limit), 12))
 	context.services = frappe.db.get_all(
 		"Consultation Service",
 		filters={"active": 1},
 		fields=["name", "service_name", "category", "description", "delivery_modes", "duration_minutes"],
 		order_by="service_name asc",
-		limit=6,
+		limit=services_limit,
 	)
 	for service in context.services:
 		description = strip_html_tags(service.description or "").strip()
 		service.description_text = (
 			description[:180]
 			if description
-			else "خدمة استشارية مهنية تقدم ضمن رحلة واضحة تحافظ على خصوصيتك."
+			else context.website.service_card_fallback
 		)
 		service.mode_label = {
 			"Online": "عن بُعد",
