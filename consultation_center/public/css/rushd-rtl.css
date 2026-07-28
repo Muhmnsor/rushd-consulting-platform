@@ -534,6 +534,32 @@ body[data-route='Workspaces/رُشد'] .links-widget-box .link-text {
 	font-weight: 700;
 }
 
+/* Keep Frappe's fixed-width activity heatmap inside tablet viewports. */
+#page-user-profile .layout-main,
+#page-user-profile .layout-main-section-wrapper,
+#page-user-profile .layout-main-section,
+#page-user-profile .user-profile,
+#page-user-profile .user-profile > [class*='col-'],
+#page-user-profile .performance-graphs,
+#page-user-profile .chart-column-container {
+	min-width: 0;
+	max-width: 100%;
+}
+
+#page-user-profile .performance-heatmap {
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-inline: contain;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+}
+
+#page-user-profile .performance-heatmap .chart-container {
+	flex: 0 0 auto;
+	margin-inline: 0;
+}
+
 @media (max-width: 767px) {
 	.page-actions,
 	.modal-footer,
@@ -584,6 +610,12 @@ body[data-route='Workspaces/رُشد'] .links-widget-box .link-text {
 
 	.rushd-website-settings-entry__actions .btn {
 		flex: 1 1 8rem;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+	#page-user-profile .chart-column-container {
+		width: 100%;
 	}
 }
 

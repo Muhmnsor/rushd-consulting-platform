@@ -139,6 +139,14 @@ class TestPublicPage(FrappeTestCase):
 		self.assertIn(".password-field .toggle-password", rtl_styles)
 		self.assertIn("left: 9px !important;", rtl_styles)
 
+	def test_user_profile_heatmap_is_contained_on_tablet_widths(self):
+		rtl_path = Path(__file__).parents[1] / "public" / "css" / "rushd-rtl.css"
+		rtl_styles = rtl_path.read_text()
+
+		self.assertIn("#page-user-profile .performance-heatmap", rtl_styles)
+		self.assertIn("overflow-x: auto;", rtl_styles)
+		self.assertIn("@media (min-width: 768px) and (max-width: 1199px)", rtl_styles)
+
 	def _build_context(self, user, roles):
 		frappe.set_user(user)
 		self.addCleanup(frappe.set_user, "Administrator")
