@@ -3,6 +3,7 @@ name: نشر بيئة Staging
 on:
   push:
     branches:
+      - main
       - develop
   workflow_dispatch:
 
