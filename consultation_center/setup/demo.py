@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from frappe.utils import nowdate
 
 DEMO_USER = "beneficiary.demo@rushd.local"
@@ -31,9 +32,9 @@ DEMO_SERVICES = (
 def create_local_beneficiary_demo(password: str):
 	"""Create repeatable local-only demo data for visually testing the beneficiary portal."""
 	if not frappe.conf.developer_mode:
-		frappe.throw("Demo data can only be created when developer_mode is enabled")
+		frappe.throw(_("Demo data can only be created when developer_mode is enabled"))
 	if not password or len(password) < 12:
-		frappe.throw("Use a local demo password with at least 12 characters")
+		frappe.throw(_("Use a local demo password with at least 12 characters"))
 
 	user = _ensure_demo_user(password)
 	operations_user = _ensure_staff_user(

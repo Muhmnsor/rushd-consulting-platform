@@ -138,8 +138,8 @@ Minor Protection,حماية القاصر
 Requires Beneficiary Consent,يتطلب موافقة المستفيد
 Requires Guardian Consent,يتطلب موافقة ولي الأمر
 Version Label,رقم الإصدار
-Published,منشور
-Retired,متقاعد
+Published,منشورة
+Retired,موقوفة
 Title,العنوان
 Simplified Text,النص المبسط
 Full Text,النص الكامل
@@ -371,3 +371,153 @@ Invalid Login Token,رمز تسجيل الدخول غير صالح
 Login To {0},تسجيل الدخول إلى {0}
 Not Permitted,غير مسموح
 The link you trying to login is invalid or expired.,رابط تسجيل الدخول غير صالح أو منتهي الصلاحية.
+Search or type a command ({0}),ابحث أو اكتب أمرًا ({0})
+Clear all filters,إزالة جميع المرشحات
+Generic Empty State,لا توجد بيانات
+Grid Empty State,لا توجد بيانات في الجدول
+Toggle Section: {0},تبديل القسم: {0}
+Add Row,إضافة صف
+Clear Cache,مسح ذاكرة التخزين المؤقت
+Create Entry,إنشاء سجل
+Let's Set Up Your Website.,لنُعِدّ موقعك الإلكتروني
+"Blogs, Website View Tracking, and more.","المدونات، وتتبع زيارات الموقع، والمزيد."
+Introduction to Website,مقدمة عن إدارة الموقع
+Create Blogger,إضافة كاتب للمدونة
+Add Blog Category,إضافة تصنيف للمدونة
+Enable Website Tracking,تفعيل تتبع زيارات الموقع
+Learn about Web Pages,التعرّف على صفحات الويب
+Import Data,استيراد البيانات
+Deleted Documents,المستندات المحذوفة
+Alerts and Notifications,التنبيهات والإشعارات
+Print Format Builder (New),منشئ تنسيقات الطباعة الجديد
+Models,نماذج البيانات
+Navbar Settings,إعدادات شريط التنقل
+Module Onboarding,تهيئة الوحدة
+Role,الدور
+Permission Manager,مدير الصلاحيات
+Role Profile,ملف تعريف الأدوار
+Module Profile,ملف تعريف الوحدات
+User Permission,صلاحيات المستخدم
+Role Permission for Page and Report,صلاحيات الأدوار للصفحات والتقارير
+Permitted Documents For User,المستندات المسموح بها للمستخدم
+Document Share Report,تقرير مشاركة المستندات
+Assignment Rule,قاعدة الإسناد
+Bulk Update,تحديث جماعي
+Auto Email Report,التقارير الدورية عبر البريد الإلكتروني
+Email Domain,نطاق البريد الإلكتروني
+Email Group,مجموعة البريد الإلكتروني
+Printing,الطباعة
+Print Heading,ترويسة الطباعة
+Milestone,مرحلة مهمة
+Automation,الأتمتة
+Newsletter,النشرات البريدية
+Client Script,سكربت العميل
+Server Script,سكربت الخادم
+Scheduled Job Type,نوع المهمة المجدولة
+Module Def,تعريف الوحدة
+Package,حزمة
+Package Import,استيراد الحزم
+Background Jobs,المهام الخلفية
+Scheduled Job Log,سجل المهام المجدولة
+Communication Logs,سجلات الاتصالات
+Customization,التخصيص
+Views,الواجهات
+Scripting,البرمجة النصية
+Modules,الوحدات
+Packages,الحزم
+System Logs,سجلات النظام
+Google Drive,جوجل درايف
+OAuth Client,عميل OAuth
+OAuth Provider Settings,إعدادات مزود OAuth
+SMS Settings,إعدادات الرسائل النصية
+Slack Webhook URL,رابط Webhook في Slack
+Push Notifications,الإشعارات الفورية
+Blog Post,تدوينة
+Blogger,كاتب المدونة
+Web Page,صفحة ويب
+Web Site,الموقع الإلكتروني
+Website Route Meta,بيانات مسارات الموقع
+"To use Google Indexing, enable <a href=""/app/google-settings"">Google Settings</a>.","لاستخدام فهرسة جوجل، فعّل <a href=""/app/google-settings"">إعدادات جوجل</a>."
+Dismiss,إخفاء,Stop showing the onboarding widget.
+Filter By,تصفية حسب
+Save Filter,حفظ المرشح
+Assign To,إسناد إلى
+Assign To,إسناد إلى,Button in list view actions menu
+Assigned To,مسند إلى
+Created By,أنشئ بواسطة
+Edit Filters,تعديل المرشحات
+Show Tags,إظهار الوسوم
+Filter Name,اسم المرشح
+Follow,متابعة
+Yesterday,أمس
+ID,المعرّف
+Last Updated On,آخر تحديث
+List View,عرض القائمة
+Tags,الوسوم
+You last edited this,آخر تعديل أجريته
+{0} last edited this,آخر تعديل أجراه {0}
+Top Bar Items,عناصر الشريط العلوي
+Label,التسمية
+URL,الرابط
+Parent Label,التسمية الرئيسية
+Include Search in Top Bar,إظهار البحث في الشريط العلوي
+Google Analytics ID,معرّف إحصاءات جوجل
+Google Analytics anonymise IP,إخفاء عنوان IP في إحصاءات جوجل
+Account Deletion Settings,إعدادات حذف الحساب
+Automatically delete account within (hours),حذف الحساب تلقائيًا خلال (بالساعات)
+Show account deletion link in My Account page,إظهار رابط حذف الحساب في صفحة حسابي
+Application-level encryption/hashing to be enforced before production use.,يجب تطبيق التشفير أو التجزئة على مستوى التطبيق قبل الاستخدام في بيئة الإنتاج.
+Comma-separated consultant codes for MVP.,رموز المستشارين مفصولة بفواصل في الإصدار الأولي.
+Comma-separated for MVP.,قيم مفصولة بفواصل في الإصدار الأولي.
+Comma-separated service codes for MVP; will become a proper many-to-many link.,رموز الخدمات مفصولة بفواصل في الإصدار الأولي، وستتحول لاحقًا إلى علاقة متعددة إلى متعددة.
+Encrypted by Frappe; never exposed in lists or reports.,مشفّر بواسطة Frappe، ولا يظهر مطلقًا في القوائم أو التقارير.
+Leave empty to apply to all services.,اتركه فارغًا لتطبيقه على جميع الخدمات.
+Will become a Link to Assessment Template once that doctype is built (Phase 5).,سيتحول إلى رابط لقالب التقييم بعد إنشاء نوع المستند في المرحلة الخامسة.
+Will become a Link to Consent Template once that doctype is built.,سيتحول إلى رابط لقالب الموافقة بعد إنشاء نوع المستند.
+Will become a Link to Consultation Session once that doctype is built (Phase 4).,سيتحول إلى رابط لجلسة الاستشارة بعد إنشاء نوع المستند في المرحلة الرابعة.
+Will become a Link to Meeting Instance once that doctype is built (Phase 7).,سيتحول إلى رابط لنسخة الاجتماع بعد إنشاء نوع المستند في المرحلة السابعة.
+Will become a Link to Report Template once that doctype is built (Phase 6).,سيتحول إلى رابط لقالب التقرير بعد إنشاء نوع المستند في المرحلة السادسة.
+"'To' must be after 'From'",يجب أن يكون حقل «إلى» بعد حقل «من»
+A published consent version can only be retired,لا يمكن تغيير نسخة الموافقة المنشورة إلا إلى حالة موقوفة
+An active authorization already exists for this guardian and beneficiary,يوجد تفويض نشط بالفعل لولي الأمر والمستفيد المحددين
+Book an Appointment,حجز موعد
+Consent records cannot be deleted; withdraw or expire the record instead,لا يمكن حذف سجلات الموافقة؛ اسحب الموافقة أو اجعل السجل منتهيًا بدلًا من ذلك
+Consent version does not belong to the selected template,نسخة الموافقة لا تتبع القالب المحدد
+Consultant is not available at this time,المستشار غير متاح في هذا الوقت
+Consultant is on time off during this slot,المستشار في إجازة خلال هذا الموعد
+Date is required,التاريخ مطلوب
+Date of birth cannot be in the future,لا يمكن أن يكون تاريخ الميلاد في المستقبل
+Demo data can only be created when developer_mode is enabled,لا يمكن إنشاء البيانات التجريبية إلا عند تفعيل وضع المطور
+Effective To cannot be before Effective From,لا يمكن أن يكون تاريخ نهاية السريان قبل تاريخ بدايته
+End Time must be after Start Time,يجب أن يكون وقت النهاية بعد وقت البداية
+Granted By is required for granted consent,حقل «مُنحت بواسطة» مطلوب للموافقة الممنوحة
+Granted consent can only remain granted or be withdrawn,لا يمكن للموافقة الممنوحة إلا أن تبقى ممنوحة أو أن تُسحب
+Guardian is required for guardian consent,ولي الأمر مطلوب لموافقة ولي الأمر
+Invalid delivery mode,نمط تقديم الخدمة غير صالح
+Invalid preferred language,اللغة المفضلة غير صالحة
+No active beneficiary profile is linked to this account,لا يوجد ملف مستفيد نشط مرتبط بهذا الحساب
+No beneficiary profile or active guardian authorization is linked to your account,لا يوجد ملف مستفيد أو تفويض نشط لولي أمر مرتبط بحسابك
+Not permitted,غير مسموح
+Only draft requests can be updated,لا يمكن تحديث الطلب إلا عندما يكون في حالة مسودة
+Please add a little more detail before submitting the request,يرجى إضافة مزيد من التفاصيل قبل إرسال الطلب
+Please confirm that this request is not an emergency,يرجى تأكيد أن هذا الطلب ليس حالة طارئة
+Please describe what you would like help with,يرجى وصف الموضوع الذي ترغب في الحصول على مساعدة بشأنه
+Please enter a valid beneficiary name,يرجى إدخال اسم مستفيد صحيح
+Please enter a valid email address,يرجى إدخال عنوان بريد إلكتروني صحيح
+Please enter a valid mobile number,يرجى إدخال رقم جوال صحيح
+Please login to book an appointment,يرجى تسجيل الدخول لحجز موعد
+Portal User is already linked to another beneficiary,مستخدم البوابة مرتبط بالفعل بمستفيد آخر
+Portal User is already linked to another guardian,مستخدم البوابة مرتبط بالفعل بولي أمر آخر
+Published consent content is immutable; create a new version,لا يمكن تعديل محتوى الموافقة المنشور؛ أنشئ نسخة جديدة
+Select at least one authorization scope,حدد نطاق تفويض واحدًا على الأقل
+Start Datetime is required,تاريخ ووقت البداية مطلوبان
+The city name is too long,اسم المدينة أطول من الحد المسموح
+The preferred times description is too long,وصف الأوقات المفضلة أطول من الحد المسموح
+The request description is too long,وصف الطلب أطول من الحد المسموح
+The selected consultation service is unavailable,خدمة الاستشارة المحددة غير متاحة
+This case has no assigned consultant yet,لم يُسند مستشار إلى هذه الحالة بعد
+This consent version already exists,نسخة الموافقة هذه موجودة بالفعل
+This slot conflicts with another appointment for the same consultant,يتعارض هذا الموعد مع موعد آخر للمستشار نفسه
+Use a local demo password with at least 12 characters,استخدم كلمة مرور محلية للعرض التجريبي لا تقل عن 12 حرفًا
+You are not permitted to update this profile,ليست لديك صلاحية لتحديث هذا الملف
+You are not permitted to update this request,ليست لديك صلاحية لتحديث هذا الطلب

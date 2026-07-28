@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from frappe.model.document import Document
 
 from consultation_center.user_roles import ensure_user_role
@@ -13,7 +14,7 @@ class Beneficiary(Document):
 				"name",
 			)
 			if linked_profile:
-				frappe.throw("Portal User is already linked to another beneficiary")
+				frappe.throw(_("Portal User is already linked to another beneficiary"))
 
 	def on_update(self):
 		ensure_user_role(self.portal_user, "Beneficiary")

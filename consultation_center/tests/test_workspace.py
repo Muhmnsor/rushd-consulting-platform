@@ -96,27 +96,39 @@ class TestRushdWorkspace(FrappeTestCase):
 		required = {
 			"About",
 			"Apps",
+			"Add Row",
+			"Alerts and Notifications",
 			"Are you sure you want to log out?",
 			"Back to Login",
 			"Begin typing for results.",
 			"Build",
+			"Clear Cache",
+			"Clear all filters",
 			"Components to build your app",
+			"Create Blogger",
+			"Create Entry",
 			"Create a {0} Account",
 			"Delete",
 			"Documents",
 			"Duplicate",
+			"Deleted Documents",
 			"Edit",
 			"Email",
 			"Email Address",
 			"Events",
+			"Filter By",
 			"Forgot Password",
 			"Forgot Password?",
 			"Frappe Support",
 			"Get started",
 			"Help",
 			"Hide",
+			"ID",
 			"Integrations",
+			"Import Data",
 			"Keyboard Shortcuts",
+			"Last Updated On",
+			"List View",
 			"Login",
 			"Login to {0}",
 			"Login with Email Link",
@@ -124,6 +136,7 @@ class TestRushdWorkspace(FrappeTestCase):
 			"Login with LDAP",
 			"Login with {0}",
 			"Log out",
+			"Models",
 			"My Profile",
 			"My Settings",
 			"Navigate to main content",
@@ -139,12 +152,15 @@ class TestRushdWorkspace(FrappeTestCase):
 			"Reports & Masters",
 			"Reset Password",
 			"Rushd",
+			"Save Filter",
 			"Send login link",
 			"Session Defaults",
 			"Show",
 			"Sign Up",
 			"Sign up",
+			"Tags",
 			"Toggle Full Width",
+			"Toggle Section: {0}",
 			"Toggle Theme",
 			"Tools",
 			"Users",
@@ -160,3 +176,22 @@ class TestRushdWorkspace(FrappeTestCase):
 			translated = {row[0] for row in csv.reader(translations_file) if row}
 
 		self.assertTrue(required <= translated)
+
+	def test_admin_shell_localizes_hardcoded_and_dynamic_frappe_text(self):
+		rtl_script = (APP_ROOT / "public" / "js" / "rushd-rtl.js").read_text()
+
+		for source_text in (
+			"Begin typing for results.",
+			"Clear all filters",
+			"Grid Empty State",
+			"Reports & Masters",
+			"Search or type a command ({0})",
+			"Toggle Section: {0}",
+		):
+			self.assertIn(source_text, rtl_script)
+
+		self.assertIn("MutationObserver", rtl_script)
+		self.assertIn("FIELD_VALUE_TRANSLATIONS", rtl_script)
+		self.assertIn("INLINE_TRANSLATIONS", rtl_script)
+		self.assertIn("website_theme", rtl_script)
+		self.assertIn("frappe._messages", rtl_script)
