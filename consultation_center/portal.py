@@ -1,9 +1,11 @@
+import json
 from urllib.parse import urlencode
 
 import frappe
 import frappe.sessions
 from frappe.utils import format_date, format_time, get_datetime, now_datetime
 
+from consultation_center.assessments import NUMERIC_TYPES, question_options
 
 REQUEST_STATUS = {
 	"Draft": {
@@ -277,16 +279,42 @@ def get_beneficiary_assessment_detail(beneficiary: str, submission_name: str | N
 	answers = {row.question_code: row.answer_value for row in submission.responses}
 	questions = []
 	for question in version.questions:
+		answer_value = answers.get(question.question_code, "")
+		options = question_options(question)
+		structured_answer = _assessment_structured_answer(answer_value)
+		for option in options:
+			option["selected"] = (
+				option["value"] in structured_answer
+				if isinstance(structured_answer, list)
+				else option["value"] == str(answer_value)
+			)
+			option["matrix_value"] = (
+				structured_answer.get(option["value"], "")
+				if isinstance(structured_answer, dict)
+				else ""
+			)
 		questions.append(
 			{
 				"question_code": question.question_code,
 				"question_text": question.question_text,
 				"beneficiary_help": question.beneficiary_help,
+				"dimension": question.dimension,
+				"timeframe": question.timeframe or version.timeframe,
 				"response_type": question.response_type,
 				"required": question.required,
 				"minimum_value": question.minimum_value,
 				"maximum_value": question.maximum_value,
-				"answer_value": answers.get(question.question_code, ""),
+				"step_value": question.step_value or 1,
+				"left_anchor": question.left_anchor,
+				"right_anchor": question.right_anchor,
+				"options": options,
+				"answer_value": answer_value,
+				"structured_answer": structured_answer,
+				"is_numeric": question.response_type in NUMERIC_TYPES,
+				"is_safety_item": bool(question.is_safety_item),
+				"condition_question_code": question.condition_question_code,
+				"condition_operator": question.condition_operator,
+				"condition_value": question.condition_value,
 			}
 		)
 	return {
@@ -308,3 +336,13 @@ def get_beneficiary_assessment_detail(beneficiary: str, submission_name: str | N
 			else ""
 		),
 	}
+
+
+def _assessment_structured_answer(value):
+	if not isinstance(value, str) or not value:
+		return value
+	try:
+		parsed = json.loads(value)
+	except (TypeError, ValueError):
+		return value
+	return parsed if isinstance(parsed, (list, dict)) else value

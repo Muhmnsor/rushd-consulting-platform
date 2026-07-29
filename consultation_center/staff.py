@@ -21,6 +21,14 @@ ROLE_LABELS = {
 	"Consultant": "مستشار",
 }
 
+GENERIC_ACCOUNT_NAMES = {
+	"administrator",
+	"admin",
+	"مدير النظام",
+	"مسؤول النظام",
+	"مدير المنصة",
+}
+
 
 def require_staff_access(allowed_roles: set[str]) -> tuple[str, set[str]]:
 	user = frappe.session.user
@@ -34,6 +42,23 @@ def require_staff_access(allowed_roles: set[str]) -> tuple[str, set[str]]:
 	return user, roles
 
 
+def get_staff_display_name(user: str) -> str:
+	account = frappe.db.get_value(
+		"User",
+		user,
+		["full_name", "first_name", "username", "email"],
+		as_dict=True,
+	) or frappe._dict()
+	full_name = (account.full_name or account.first_name or "").strip()
+	if full_name.casefold() not in GENERIC_ACCOUNT_NAMES:
+		return full_name or user
+	username = (account.username or "").strip()
+	if username:
+		return username
+	email_name = (account.email or "").partition("@")[0].strip()
+	return email_name or user
+
+
 def build_staff_context(
 	context,
 	active_nav: str,
@@ -44,7 +69,7 @@ def build_staff_context(
 	user, roles = require_staff_access(allowed_roles)
 	frappe.sessions.get_csrf_token()
 	frappe.db.commit()
-	display_name = frappe.db.get_value("User", user, "full_name") or user
+	display_name = get_staff_display_name(user)
 	role_label = next(
 		(ROLE_LABELS[role] for role in ROLE_LABELS if role in roles),
 		"فريق رُشد",

@@ -1,0 +1,116 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">ملف موحّد</span>
+		<h1>الحالات والجلسات</h1>
+		<p>كل ما يخص المستفيد في سياق واحد: الوضع الحالي، الجلسات، الخطة، المقاييس، والتنبيه والخطوة التالية.</p>
+	</div>
+</section>
+
+<section class="rushd-case-workspace">
+	<aside class="rushd-card rushd-case-directory">
+		<form class="rushd-case-search" action="/admin/cases" method="get">
+			<label for="case-search">ابحث عن حالة</label>
+			<div><input id="case-search" name="q" value="{{ search_query }}" placeholder="اسم المستفيد، المستشار أو رقم الحالة"><button type="submit">بحث</button></div>
+		</form>
+		<div class="rushd-case-directory__summary"><strong>{{ cases|length }} حالة</strong><span>ضمن نطاقك الإداري</span></div>
+		<div class="rushd-case-directory__list">
+			{% for item in cases %}
+			<a class="{% if selected_case and selected_case.name == item.name %}is-active{% endif %}" href="/admin/cases?case={{ item.name }}{% if search_query %}&q={{ search_query }}{% endif %}">
+				<span class="rushd-case-directory__top"><strong>{{ item.beneficiary_name }}</strong><b>{{ item.status_label }}</b></span>
+				<small>{{ item.service_name }} · {{ item.consultant_name }}</small>
+				<span class="rushd-case-directory__progress"><i style="width: {{ item.progress_percent }}%"></i></span>
+				<em>{{ item.progress_percent }}% مكتمل · {{ item.missing_items }} نواقص</em>
+			</a>
+			{% else %}
+			<div class="rushd-admin-empty"><span>◫</span><strong>لا توجد نتائج</strong><small>جرّب اسمًا آخر أو امسح البحث.</small></div>
+			{% endfor %}
+		</div>
+	</aside>
+
+	{% if selected_case %}
+	<article class="rushd-case-view">
+		<header class="rushd-card rushd-case-header">
+			<div class="rushd-case-header__identity">
+				<span class="rushd-case-avatar">{{ selected_case.beneficiary_name[:1] }}</span>
+				<div><small>{{ selected_case.name }}</small><h2>{{ selected_case.beneficiary_name }}</h2><p>{{ selected_case.service_name }} · المستشار {{ selected_case.consultant_name }}</p></div>
+			</div>
+			<div class="rushd-case-header__status">
+				<span class="rushd-status rushd-status--blue">{{ selected_case.status_label }}</span>
+				<span>الأولوية: <strong>{{ selected_case.priority_label }}</strong></span>
+			</div>
+		</header>
+
+		<section class="rushd-case-overview">
+			<article><span>التقدم</span><strong>{{ selected_case.progress_percent }}%</strong><small>{{ selected_case.completed_sessions or 0 }} من {{ selected_case.planned_sessions or "؟" }} جلسات</small></article>
+			<article><span>آخر جلسة</span><strong>{{ selected_case.last_session_label }}</strong><small>{{ selected_case.sessions|length }} جلسات موثقة</small></article>
+			<article><span>النواقص</span><strong>{{ selected_case.missing_items }}</strong><small>{% if selected_case.missing_items %}تحتاج متابعة{% else %}الملف مكتمل{% endif %}</small></article>
+		</section>
+
+		<section class="rushd-card rushd-next-action-card">
+			<div class="rushd-next-action-card__intro">
+				<span>بوصلة الحالة</span>
+				<h2>ما الخطوة التالية؟</h2>
+				<p>اجعل كل من يفتح الملف يعرف الإجراء التالي وموعده، بدل أن يقرأ جميع الملاحظات.</p>
+			</div>
+			<form data-admin-form data-method="consultation_center.api.admin_portal.update_case_direction" data-reload="1">
+				<input type="hidden" name="case_name" value="{{ selected_case.name }}">
+				<label>الإجراء التالي <textarea name="next_action" required rows="3" maxlength="1000">{{ selected_case.next_action or "" }}</textarea></label>
+				<div class="rushd-form-grid">
+					<label>تاريخ الاستحقاق <input name="next_action_due" type="date" value="{{ selected_case.next_action_due or '' }}"></label>
+					<label>حالة الملف
+						<select name="case_status">
+							{% for value, label in {"Assigned":"مسندة","Awaiting Appointment":"بانتظار الموعد","Active":"نشطة","On Hold":"معلّقة","Awaiting Report":"بانتظار التقرير","Under Supervisor Review":"تحت مراجعة المشرف","Follow-up":"متابعة","Ready to Close":"جاهزة للإغلاق","Closed":"مغلقة"}.items() %}
+							<option value="{{ value }}" {% if selected_case.case_status == value %}selected{% endif %}>{{ label }}</option>
+							{% endfor %}
+						</select>
+					</label>
+				</div>
+				<div class="rushd-form-message" data-form-message role="status"></div>
+				<button class="rushd-button rushd-button--primary" type="submit">حفظ اتجاه الحالة</button>
+			</form>
+		</section>
+
+		<section class="rushd-card rushd-case-timeline">
+			<div class="rushd-card__header">
+				<div><span class="rushd-panel-kicker">السجل المهني</span><h2>رحلة الحالة</h2></div>
+				<a href="/app/consultation-case/{{ selected_case.name }}">السجل التقني المتقدم</a>
+			</div>
+			<div class="rushd-case-tabs" role="tablist">
+				<button class="is-active" type="button" data-case-tab="sessions">الجلسات <span>{{ selected_case.sessions|length }}</span></button>
+				<button type="button" data-case-tab="plans">الخطط <span>{{ selected_case.plans|length }}</span></button>
+				<button type="button" data-case-tab="assessments">المقاييس <span>{{ selected_case.assessments|length }}</span></button>
+				<button type="button" data-case-tab="followup">الإحالات والتنبيهات <span>{{ selected_case.referrals|length + selected_case.supervision_requests|length + selected_case.escalations|length }}</span></button>
+			</div>
+			<div class="rushd-case-tab-panel is-active" data-case-panel="sessions">
+				{% for row in selected_case.sessions %}
+				<article class="rushd-timeline-item"><span class="rushd-timeline-dot"></span><div><small>{{ row.date_label }}</small><h3>{{ row.topic or "جلسة دون عنوان" }}</h3><p>{{ row.summary or "لم يضف ملخص لهذه الجلسة." }}</p></div><b>{{ row.status_label }}</b></article>
+				{% else %}<div class="rushd-admin-empty"><span>◷</span><strong>لا توجد جلسات بعد</strong><small>ستظهر هنا بعد توثيق أول جلسة.</small></div>{% endfor %}
+			</div>
+			<div class="rushd-case-tab-panel" data-case-panel="plans">
+				{% for row in selected_case.plans %}<article class="rushd-timeline-item"><span class="rushd-timeline-dot"></span><div><small>{{ row.status }}</small><h3>{{ row.plan_title }}</h3><p>{{ row.review_note or "لا توجد ملاحظة مراجعة." }}</p></div></article>{% else %}<div class="rushd-admin-empty"><strong>لا توجد خطة مسجلة</strong></div>{% endfor %}
+			</div>
+			<div class="rushd-case-tab-panel" data-case-panel="assessments">
+				{% for row in selected_case.assessments %}<article class="rushd-timeline-item"><span class="rushd-timeline-dot"></span><div><small>{{ row.status }}</small><h3>{{ row.assessment_type }}</h3><p>النتيجة المسجلة: {{ row.percentage_score or 0 }}%</p></div></article>{% else %}<div class="rushd-admin-empty"><strong>لم يطبق مقياس على الحالة</strong></div>{% endfor %}
+			</div>
+			<div class="rushd-case-tab-panel" data-case-panel="followup">
+				{% for row in selected_case.referrals %}<article class="rushd-timeline-item"><span class="rushd-timeline-dot"></span><div><small>إحالة · {{ row.status }}</small><h3>{{ row.target_organization or row.referral_type }}</h3></div></article>{% endfor %}
+				{% for row in selected_case.supervision_requests %}<article class="rushd-timeline-item"><span class="rushd-timeline-dot"></span><div><small>طلب إشراف · {{ row.status }}</small><h3>{{ row.supervision_question }}</h3></div></article>{% endfor %}
+				{% for row in selected_case.escalations %}<article class="rushd-timeline-item is-alert"><span class="rushd-timeline-dot"></span><div><small>تنبيه {{ row.severity }} · {{ row.status }}</small><h3>{{ row.alert_type }}</h3><p>{{ row.alert_summary }}</p></div></article>{% endfor %}
+				{% if not selected_case.referrals and not selected_case.supervision_requests and not selected_case.escalations %}<div class="rushd-admin-empty"><strong>لا توجد إحالات أو تنبيهات</strong></div>{% endif %}
+			</div>
+		</section>
+	</article>
+	{% else %}
+	<article class="rushd-card rushd-case-empty">
+		<span>◫</span><h2>اختر حالة لتظهر رحلتها</h2><p>سترى ملخصها والخطوة التالية وجميع الجلسات والخطط والمقاييس دون مغادرة الصفحة.</p>
+	</article>
+	{% endif %}
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-admin-actions.js?v=20260729-9"></script>
+{% endblock %}

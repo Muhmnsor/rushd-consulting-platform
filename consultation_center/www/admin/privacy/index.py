@@ -1,2 +1,3 @@
-from consultation_center.admin_portal import redirect_admin
-def get_context(context): redirect_admin("/app/consent-record")
+from consultation_center.admin_portal import build_admin_catalog_context
+no_cache = 1
+def get_context(context): build_admin_catalog_context(context, "privacy")

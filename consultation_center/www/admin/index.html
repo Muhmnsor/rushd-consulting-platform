@@ -1,1 +1,72 @@
-<!doctype html><html lang="ar" dir="rtl"><body>جارٍ فتح إدارة رُشد…</body></html>
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-admin-hero">
+	<div>
+		<span class="rushd-page-heading__eyebrow">مركز التشغيل</span>
+		<h1>صباح الخير، {{ display_name }}</h1>
+		<p>هذه صورة المنصة الآن. ابدأ بما يحتاج قرارًا، واترك السجلات التقنية للمنصة.</p>
+	</div>
+	<div class="rushd-admin-hero__actions">
+		<a class="rushd-button rushd-button--primary" href="/admin/beneficiaries?new=1">إضافة مستفيد وطلب</a>
+		<a class="rushd-button rushd-button--secondary" href="/admin/consultants?new=1">إضافة مستشار</a>
+	</div>
+</section>
+
+<section class="rushd-admin-section">
+	<div class="rushd-admin-section__heading">
+		<div><span>الأولوية الآن</span><h2>ما الذي يحتاجك؟</h2></div>
+		<a href="/admin/workflow">شاهد سير العمل كاملًا ←</a>
+	</div>
+	<div class="rushd-attention-grid">
+		{% for item in dashboard.attention_items %}
+		<a class="rushd-attention-card {% if item.count %}has-work{% endif %}" href="{{ item.href }}">
+			<span class="rushd-attention-card__count">{{ item.count }}</span>
+			<strong>{{ item.label }}</strong>
+			<p>{{ item.description }}</p>
+			<small>{% if item.count %}افتح قائمة العمل{% else %}لا شيء معلق الآن{% endif %}</small>
+		</a>
+		{% endfor %}
+	</div>
+</section>
+
+<section class="rushd-admin-kpis" aria-label="ملخص التشغيل">
+	<article><span>مواعيد اليوم</span><strong>{{ dashboard.today_appointments }}</strong><a href="/operations/appointments">عرض الجدول</a></article>
+	<article><span>الحالات النشطة</span><strong>{{ dashboard.active_cases }}</strong><a href="/admin/cases">متابعة الحالات</a></article>
+	<article><span>حالات عالية الأولوية</span><strong>{{ dashboard.urgent_cases }}</strong><a href="/admin/cases">مراجعتها الآن</a></article>
+	<article><span>المقاييس الواردة</span><strong>{{ dashboard.submitted_assessments }}</strong><a href="/supervisor/assessments">مراجعة النتائج</a></article>
+</section>
+
+<section class="rushd-admin-grid">
+	<article class="rushd-card rushd-admin-panel">
+		<div class="rushd-card__header">
+			<div><span class="rushd-panel-kicker">اختصارات واضحة</span><h2>ماذا تريد أن تفعل؟</h2></div>
+		</div>
+		<div class="rushd-admin-action-grid">
+			<a href="/admin/beneficiaries?new=1"><span>01</span><strong>استقبال مستفيد</strong><small>ملف جديد مع طلب خدمة اختياري</small></a>
+			<a href="/admin/consultants?new=1"><span>02</span><strong>تجهيز مستشار</strong><small>حساب، خدمات، مشرف وتوفر</small></a>
+			<a href="/supervisor/assignments"><span>03</span><strong>إسناد حالة</strong><small>اختيار المستشار الأنسب للطلب</small></a>
+			<a href="/admin/assessments?new=1"><span>04</span><strong>إنشاء مقياس</strong><small>أسئلة ونسخة قابلة للنشر</small></a>
+			<a href="/admin/cases"><span>05</span><strong>متابعة حالة</strong><small>جلسات وخطة وقرار تالٍ بمكان واحد</small></a>
+			<a href="/admin/settings"><span>06</span><strong>تهيئة المنصة</strong><small>الخدمات والمحتوى والصلاحيات</small></a>
+		</div>
+	</article>
+
+	<article class="rushd-card rushd-admin-panel">
+		<div class="rushd-card__header">
+			<div><span class="rushd-panel-kicker">آخر الحركة</span><h2>حالات للمتابعة</h2></div>
+			<a href="/admin/cases">كل الحالات</a>
+		</div>
+		<div class="rushd-admin-case-list">
+			{% for item in recent_cases %}
+			<a href="/admin/cases?case={{ item.name }}">
+				<span><strong>{{ item.beneficiary_name }}</strong><small>{{ item.service_name }} · {{ item.consultant_name }}</small></span>
+				<span><b>{{ item.status_label }}</b><small>التقدم {{ item.progress_percent }}%</small></span>
+			</a>
+			{% else %}
+			<div class="rushd-admin-empty"><span>✓</span><strong>لا توجد حالات نشطة</strong><small>ستظهر الحالات هنا بعد إسناد أول طلب.</small></div>
+			{% endfor %}
+		</div>
+	</article>
+</section>
+{% endblock %}

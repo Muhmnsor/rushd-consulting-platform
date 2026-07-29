@@ -1,1 +1,31 @@
-<html lang="ar" dir="rtl"><body>جارٍ فتح الأدوار…</body></html>
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<nav class="rushd-admin-breadcrumb"><a href="/admin/settings">تهيئة المنصة</a><span>←</span><strong>الأدوار والصلاحيات</strong></nav>
+<section class="rushd-page-heading rushd-page-heading--with-action">
+	<div><span class="rushd-page-heading__eyebrow">الفريق والصلاحيات</span><h1>من يفعل ماذا؟</h1><p>شرح عملي للأدوار المستخدمة في رُشد. عدّل إسنادها للمستخدم بدل الدخول إلى جداول الصلاحيات التقنية.</p></div>
+	<a class="rushd-button rushd-button--primary" href="/admin/users">إدارة المستخدمين</a>
+</section>
+
+<section class="rushd-role-principles">
+	<article class="rushd-card"><span>01</span><strong>أقل صلاحية لازمة</strong><p>امنح الموظف ما يحتاجه لمهمته فقط، وراجع ذلك عند انتقال مسؤوليته.</p></article>
+	<article class="rushd-card"><span>02</span><strong>فصل التشغيل عن الإدارة</strong><p>منسق الحالة لا يحتاج إدارة كلمات المرور أو إعدادات النظام.</p></article>
+	<article class="rushd-card"><span>03</span><strong>المراجعة المهنية</strong><p>النتائج الحساسة والتصعيدات تبقى تحت إشراف الدور المهني المناسب.</p></article>
+</section>
+
+<section class="rushd-role-catalog">
+	{% for role in roles %}
+	<article class="rushd-card rushd-role-card {% if role.is_sensitive %}rushd-role-card--sensitive{% endif %}">
+		<header><div><small dir="ltr">{{ role.name }}</small><h2>{{ role.label }}</h2></div><span class="rushd-status">{{ role.active_users }} مستخدم</span></header>
+		<p>{{ role.description }}</p>
+		<div>{% for item in role.scope %}<span>{{ item }}</span>{% endfor %}</div>
+		<footer>{% if role.is_sensitive %}<strong>صلاحية حساسة — امنحها بحذر</strong>{% else %}<span>دور تشغيلي محدد النطاق</span>{% endif %}<a href="/admin/users">تعيين للمستخدمين</a></footer>
+	</article>
+	{% endfor %}
+</section>
+
+<aside class="rushd-technical-callout">
+	<div><span>للمسؤول التقني فقط</span><h2>تعديل قواعد مستند تفصيلية؟</h2><p>الواجهة المبسطة تدير توزيع الأدوار. تعديل صلاحيات DocType نفسها إجراء تقني متقدم وقد يؤثر في سرية البيانات.</p></div>
+	<a class="rushd-button rushd-button--secondary" href="/app/role-permission-manager">فتح مدير الصلاحيات التقني</a>
+</aside>
+{% endblock %}

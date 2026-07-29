@@ -1,1 +1,49 @@
-<!doctype html><html lang="ar" dir="rtl"><body>جارٍ فتح مراقبة النظام…</body></html>
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<nav class="rushd-admin-breadcrumb"><a href="/admin/settings">تهيئة المنصة</a><span>←</span><strong>الأمان</strong></nav>
+<section class="rushd-page-heading">
+	<div><span class="rushd-page-heading__eyebrow">الدخول والحماية</span><h1>الأمان</h1><p>سياسات واضحة للدخول وكلمات المرور والجلسات، مع متابعة محاولات الدخول الأخيرة.</p></div>
+</section>
+
+<section class="rushd-admin-kpis rushd-admin-kpis--compact">
+	<article><span>سياسة كلمة المرور</span><strong>{% if security.password_policy %}مفعّلة{% else %}متوقفة{% endif %}</strong><small>الحد الأدنى للقوة {{ security.minimum_password_score }} من 4</small></article>
+	<article><span>التحقق بخطوتين</span><strong>{% if security.two_factor_auth %}مفعّل{% else %}غير مفعّل{% endif %}</strong><small>على مستوى المنصة</small></article>
+	<article><span>دخول فاشل اليوم</span><strong>{{ security.failed_logins_today }}</strong><small>راجع السجل إذا ارتفع العدد</small></article>
+	<article><span>حسابات موقوفة</span><strong>{{ security.inactive_users }}</strong><small>لا يمكنها تسجيل الدخول</small></article>
+</section>
+
+<section class="rushd-security-layout">
+	<article class="rushd-card">
+		<header class="rushd-card__header"><div><h2>سياسات الدخول</h2><p>غيّر القيم بحذر؛ تؤثر فورًا في جميع المستخدمين.</p></div></header>
+		<form class="rushd-security-form" data-security-form>
+			{% if not security.can_manage %}<div class="rushd-admin-note"><strong>للعرض فقط</strong><span>تعديل سياسات الدخول متاح لمدير النظام التقني.</span></div>{% endif %}
+			<fieldset class="rushd-security-policy-fields" {% if not security.can_manage %}disabled{% endif %}>
+			<div class="rushd-form-grid">
+				<label>قوة كلمة المرور <select name="minimum_password_score"><option value="1" {% if security.minimum_password_score==1 %}selected{% endif %}>1 — ضعيفة</option><option value="2" {% if security.minimum_password_score==2 %}selected{% endif %}>2 — مقبولة</option><option value="3" {% if security.minimum_password_score==3 %}selected{% endif %}>3 — قوية</option><option value="4" {% if security.minimum_password_score==4 %}selected{% endif %}>4 — قوية جدًا</option></select></label>
+				<label>المحاولات قبل الإيقاف المؤقت <input name="allow_consecutive_login_attempts" type="number" min="1" max="20" value="{{ security.consecutive_attempts }}"></label>
+			</div>
+			<div class="rushd-form-grid">
+				<label>الانتظار بعد الفشل بالثواني <input name="allow_login_after_fail" type="number" min="10" max="3600" value="{{ security.login_retry_seconds }}"></label>
+				<label>انتهاء الجلسة <input name="session_expiry" value="{{ security.session_expiry }}" pattern="[0-9]{1,3}:[0-5][0-9]" dir="ltr"><small>مثال: 12:00 يعني 12 ساعة.</small></label>
+			</div>
+			<div class="rushd-security-switches">
+				<label><input name="enable_password_policy" type="checkbox" value="1" {% if security.password_policy %}checked{% endif %}><span><strong>فرض سياسة كلمة المرور</strong><small>يرفض الكلمات الأضعف من المستوى المحدد.</small></span></label>
+				<label><input name="deny_multiple_sessions" type="checkbox" value="1" {% if security.deny_multiple_sessions %}checked{% endif %}><span><strong>جلسة واحدة لكل مستخدم</strong><small>يقلل مشاركة الحساب بين أكثر من شخص.</small></span></label>
+				<label><input name="allow_login_using_user_name" type="checkbox" value="1" {% if security.username_login %}checked{% endif %}><span><strong>السماح باسم المستخدم</strong><small>يمكن الدخول بالبريد أو اسم المستخدم.</small></span></label>
+				<label><input name="enable_two_factor_auth" type="checkbox" value="1" {% if security.two_factor_auth %}checked{% endif %}><span><strong>التحقق بخطوتين</strong><small>فعّله بعد تجهيز طريقة الرمز لجميع الموظفين.</small></span></label>
+			</div>
+			<div class="rushd-form-message" data-form-message></div>
+			<button class="rushd-button rushd-button--primary" type="submit">حفظ سياسات الأمان</button>
+			</fieldset>
+		</form>
+	</article>
+
+	<aside class="rushd-card rushd-login-activity">
+		<header class="rushd-card__header"><div><h2>آخر محاولات الدخول</h2><p>لا نعرض أي كلمات مرور أو بيانات سرية.</p></div></header>
+		<div>{% for row in security.recent_activity %}<article><span class="rushd-status {% if row.status=='Success' %}rushd-status--green{% else %}rushd-status--amber{% endif %}">{{ row.status_label }}</span><div><strong>{{ row.full_name or row.user or "مستخدم غير معروف" }}</strong><small>{{ row.date_label }}{% if row.ip_address %} · {{ row.ip_address }}{% endif %}</small></div></article>{% else %}<div class="rushd-admin-empty"><strong>لا توجد محاولات مسجلة</strong></div>{% endfor %}</div>
+	</aside>
+</section>
+{% endblock %}
+
+{% block script %}<script src="/assets/consultation_center/js/rushd-user-management.js?v=20260729-13"></script>{% endblock %}

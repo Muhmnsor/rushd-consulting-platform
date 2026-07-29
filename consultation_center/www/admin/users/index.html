@@ -1,1 +1,80 @@
-<html lang="ar" dir="rtl"><body>جارٍ فتح المستخدمين…</body></html>
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<nav class="rushd-admin-breadcrumb"><a href="/admin/settings">تهيئة المنصة</a><span>←</span><strong>المستخدمون</strong></nav>
+<section class="rushd-page-heading rushd-page-heading--with-action">
+	<div><span class="rushd-page-heading__eyebrow">الفريق والصلاحيات</span><h1>المستخدمون</h1><p>أنشئ حساب الموظف، حدّد مسؤوليته، ثم عيّن كلمة المرور مباشرة دون مغادرة مركز الإدارة.</p></div>
+	{% if users_data.can_manage %}<button class="rushd-button rushd-button--primary" type="button" data-open-wizard="user">إضافة موظف</button>{% endif %}
+</section>
+
+<section class="rushd-admin-kpis rushd-admin-kpis--compact">
+	<article><span>كل الحسابات</span><strong>{{ users_data.total }}</strong><small>باستثناء حساب الزائر</small></article>
+	<article><span>حسابات مفعلة</span><strong>{{ users_data.enabled }}</strong><small>يمكنها تسجيل الدخول</small></article>
+	<article><span>وصول Frappe تقني</span><strong>{{ users_data.system_users }}</strong><small>حسابات System User</small></article>
+	<article><span>دون دور واضح</span><strong>{{ users_data.without_roles }}</strong><small>راجع مسؤولياتهم</small></article>
+</section>
+
+<section class="rushd-card rushd-admin-user-directory">
+	<header class="rushd-admin-directory-header">
+		<div><h2>دليل الحسابات</h2><p>ابحث بالاسم أو البريد أو اسم المستخدم.</p></div>
+		<form method="get"><input name="q" value="{{ users_data.query }}" placeholder="ابحث عن مستخدم"><button class="rushd-button rushd-button--secondary" type="submit">بحث</button></form>
+	</header>
+	<div class="rushd-admin-user-list">
+		{% for user in users_data.rows %}
+		<article class="rushd-admin-user-row" data-user-row="{{ user.name }}">
+			<div class="rushd-admin-user-avatar">{{ (user.full_name or user.email or "?")[:1] }}</div>
+			<div class="rushd-admin-user-main">
+				<div><strong>{{ user.full_name or user.email }}</strong><span class="rushd-status {% if user.enabled %}rushd-status--green{% else %}rushd-status--amber{% endif %}">{% if user.enabled %}مفعّل{% else %}موقوف{% endif %}</span></div>
+				<p dir="ltr">{{ user.email }}{% if user.username %} · {{ user.username }}{% endif %}</p>
+				<div class="rushd-user-role-tags">{% for label in user.role_labels %}<span>{{ label }}</span>{% else %}<span class="is-warning">دون دور تشغيلي</span>{% endfor %}</div>
+			</div>
+			<div class="rushd-admin-user-meta"><span>{{ user.type_label }}</span><small>آخر نشاط: {{ user.last_seen_label }}</small>{% if user.restrict_ip %}<small>دخول مقيد بعنوان IP</small>{% endif %}</div>
+			<div class="rushd-admin-user-actions">
+				{% if users_data.can_manage and not user.protected %}
+				<button type="button" data-manage-roles data-user="{{ user.name }}" data-roles="{{ user.roles|tojson|forceescape }}">الأدوار</button>
+				<button type="button" data-set-password data-user="{{ user.name }}" data-label="{{ user.full_name or user.email }}">كلمة المرور</button>
+				<button type="button" data-user-status data-user="{{ user.name }}" data-enabled="{{ 0 if user.enabled else 1 }}">{% if user.enabled %}إيقاف{% else %}تفعيل{% endif %}</button>
+				{% elif user.protected %}<span>حساب النظام المحمي</span>{% else %}<span>للعرض فقط</span>{% endif %}
+			</div>
+		</article>
+		{% else %}<div class="rushd-admin-empty"><strong>لم نجد مستخدمًا مطابقًا</strong><small>جرّب كلمة بحث أخرى.</small></div>{% endfor %}
+	</div>
+</section>
+
+<aside class="rushd-admin-wizard" data-admin-wizard="user">
+	<div class="rushd-admin-wizard__header"><div><small>حساب موظف جديد</small><h2>إضافة موظف</h2><p>لن نرسل بريدًا تلقائيًا؛ عيّن كلمة المرور بعد الإنشاء.</p></div><button type="button" aria-label="إغلاق" data-close-wizard>×</button></div>
+	<form data-user-create>
+		<label>الاسم الكامل <input name="full_name" required maxlength="140"></label>
+		<label>البريد الإلكتروني <input name="email" type="email" required maxlength="140" dir="ltr"></label>
+		<label>اسم مستخدم اختياري <input name="username" maxlength="80" dir="ltr"></label>
+		<fieldset class="rushd-role-picker"><legend>المسؤوليات</legend>{% for role in users_data.roles %}<label><input type="checkbox" name="roles" value="{{ role.name }}"><span>{{ role.label }}</span></label>{% endfor %}</fieldset>
+		<div class="rushd-form-message" data-form-message></div>
+		<footer class="rushd-wizard-actions"><button class="rushd-button rushd-button--secondary" type="button" data-close-wizard>إلغاء</button><button class="rushd-button rushd-button--primary" type="submit">إنشاء الحساب</button></footer>
+	</form>
+</aside>
+
+<dialog class="rushd-admin-dialog" data-password-dialog>
+	<form method="dialog"><button aria-label="إغلاق">×</button></form>
+	<div><small>تعيين مباشر دون بريد</small><h2>كلمة مرور <span data-password-user-label></span></h2></div>
+	<form data-password-form>
+		<input type="hidden" name="user">
+		<label>كلمة المرور الجديدة <input name="new_password" type="password" required minlength="12" autocomplete="new-password"></label>
+		<label class="rushd-check-field"><input name="logout_all_sessions" type="checkbox" value="1" checked><span><strong>إنهاء جلساته الحالية</strong><small>يُطلب منه الدخول بالكلمة الجديدة.</small></span></label>
+		<div class="rushd-form-message" data-form-message></div>
+		<button class="rushd-button rushd-button--primary" type="submit">تعيين كلمة المرور</button>
+	</form>
+</dialog>
+
+<dialog class="rushd-admin-dialog" data-roles-dialog>
+	<form method="dialog"><button aria-label="إغلاق">×</button></form>
+	<div><small>المسؤوليات التشغيلية</small><h2>تعديل الأدوار</h2></div>
+	<form data-roles-form>
+		<input type="hidden" name="user">
+		<fieldset class="rushd-role-picker">{% for role in users_data.roles %}<label><input type="checkbox" name="roles" value="{{ role.name }}"><span>{{ role.label }}</span></label>{% endfor %}</fieldset>
+		<div class="rushd-form-message" data-form-message></div>
+		<button class="rushd-button rushd-button--primary" type="submit">حفظ المسؤوليات</button>
+	</form>
+</dialog>
+{% endblock %}
+
+{% block script %}<script src="/assets/consultation_center/js/rushd-user-management.js?v=20260729-13"></script>{% endblock %}

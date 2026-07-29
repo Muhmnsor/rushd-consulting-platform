@@ -916,3 +916,78 @@ Uploaded By,رفعه
 Uploaded On,رُفع في
 Case document scope does not match the consultation case,نطاق الملف لا يطابق الحالة الاستشارية
 Case documents cannot be deleted; archive them instead,لا يمكن حذف ملفات الحالة؛ أرشفها بدلًا من ذلك
+Instrument Kind,نوع الأداة
+Administrative Form,نموذج إداري
+Satisfaction Survey,استبيان رضا
+Outcome Measure,مقياس متابعة للنتائج
+Safety Screener,فاحص سلامة
+Intended Use,الاستخدام المقصود
+Validation Status,حالة التحقق
+Internal Draft,مسودة داخلية
+Content Reviewed,تمت مراجعة المحتوى
+Piloted,مجرّبة مبدئيًا
+Validated,متحقق من خصائصها
+Licensed,مرخّصة
+Reference or License,المرجع أو الترخيص
+Dimension,البعد
+Timeframe,الفترة الزمنية
+Default Timeframe,الفترة الزمنية الافتراضية
+Scoring Method,طريقة الاحتساب
+Minimum Answered Percent,الحد الأدنى لنسبة الإجابة
+Missing Answer Policy,سياسة الإجابات المفقودة
+Exclude Missing,استبعاد الإجابات المفقودة
+Require Complete,اشتراط اكتمال الإجابات
+Prorate,احتساب نسبي من المجاب
+No Automated Score,دون احتساب آلي
+Average,المتوسط
+Percentage,النسبة
+Included in Score,يدخل في الدرجة
+Weight,الوزن
+Step,دقة الخطوة
+Left Anchor,وصف البداية
+Right Anchor,وصف النهاية
+Response Options (JSON),خيارات الإجابة
+Conditional Display,الإظهار المشروط
+Depends on Question,يعتمد على سؤال
+Condition,الشرط
+Condition Value,قيمة الشرط
+Equals,يساوي
+Not Equals,لا يساوي
+Contains,يتضمن
+Safety and Escalation,السلامة والتصعيد
+Safety Item,بند سلامة
+Critical Values (JSON),القيم الحرجة
+Immediate Action,الإجراء الفوري
+Likert Agreement,اتفاق (ليكرت)
+Frequency,التكرار
+Frequency Scale,مقياس التكرار
+Intensity,الشدة
+Intensity Scale,مقياس الشدة
+Difficulty,الصعوبة
+Difficulty Scale,مقياس الصعوبة
+Confidence,الثقة
+Confidence Scale,مقياس الثقة
+Numeric Rating,تقدير رقمي
+Semantic Differential,قطبان وصفيان
+Single Select,اختيار واحد
+Multi Select,اختيارات متعددة
+Ranking,ترتيب
+Open Text,نص مفتوح
+Matrix,مصفوفة
+Scenario Based,موقف وسيناريو
+Parent/Proxy Item,إجابة ولي الأمر
+Observer Item,ملاحظة المختص
+Goal Rating,تقييم هدف
+Answer Label,وصف الإجابة
+Weighted Score,الدرجة الموزونة
+Excluded from Score,مستبعد من الدرجة
+Safety Triggered,تنبيه سلامة
+Answered Items,البنود المجابة
+Scored Items,البنود المحتسبة
+Dimension Scores (JSON),نتائج الأبعاد
+Safety Alert Triggered,تم إطلاق تنبيه سلامة
+Safety Alert Summary,ملخص تنبيه السلامة
+Professional Escalation,التصعيد المهني
+Source Assessment,المقياس المصدر
+Age Interpretation Rules (JSON),قواعد التفسير حسب العمر
+Automated Interpretation Band,نطاق التفسير المبرمج

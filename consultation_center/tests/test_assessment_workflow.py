@@ -279,6 +279,106 @@ class TestAssessmentWorkflow(FrappeTestCase):
 				publish_result=1,
 			)
 
+	def test_weighted_dimensions_excluded_option_and_safety_escalation(self):
+		frappe.set_user("Administrator")
+		template = frappe.get_doc(
+			{
+				"doctype": "Assessment Template",
+				"template_title": "أداة متابعة وسلامة للاختبار",
+				"template_code": f"_RUSHD-SAFE-{frappe.generate_hash(length=6).upper()}",
+				"instrument_kind": "Safety Screener",
+				"responder": "Beneficiary",
+				"result_visibility": "After Professional Review",
+				"active": 1,
+			}
+		).insert(ignore_permissions=True)
+		version = frappe.get_doc(
+			{
+				"doctype": "Assessment Version",
+				"assessment_template": template.name,
+				"version_number": 1,
+				"status": "Published",
+				"scoring_method": "Percentage",
+				"minimum_answered_percent": 100,
+				"interpretation_rules_json": json.dumps(
+					[
+						{
+							"minimum_age": 0,
+							"maximum_age": 120,
+							"minimum_score": 80,
+							"maximum_score": 100,
+							"label": "تقدم مرتفع يحتاج مراجعة مهنية",
+						}
+					],
+					ensure_ascii=False,
+				),
+				"questions": [
+					{
+						"question_code": "W1",
+						"question_text": "أستطيع التعامل مع الضغوط",
+						"dimension": "إدارة الضغوط",
+						"response_type": "Likert Agreement",
+						"minimum_value": 1,
+						"maximum_value": 5,
+						"weight": 2,
+						"required": 1,
+					},
+					{
+						"question_code": "W2",
+						"question_text": "كيف تصف تقدمك؟",
+						"dimension": "إدارة الضغوط",
+						"response_type": "Single Select",
+						"options_json": json.dumps(
+							[
+								{"value": "GOOD", "label": "تقدم واضح", "score": 5},
+								{"value": "NA", "label": "غير منطبق", "excluded": 1},
+							],
+							ensure_ascii=False,
+						),
+						"required": 1,
+					},
+					{
+						"question_code": "SAFE1",
+						"question_text": "هل تحتاج مساعدة عاجلة الآن؟",
+						"response_type": "Yes/No",
+						"is_safety_item": 1,
+						"critical_values_json": '["1"]',
+						"critical_action": "التواصل الفوري والتحقق من السلامة.",
+						"required": 1,
+					},
+				],
+			}
+		).insert(ignore_permissions=True)
+		case = self._make_case()
+		frappe.db.set_value("Beneficiary", self.beneficiary.name, "date_of_birth", "2008-01-01")
+
+		frappe.set_user(self.consultant_user)
+		assigned = assign_assessment(case=case.name, assessment_version=version.name)
+		frappe.set_user(self.beneficiary_user)
+		save_assessment_responses(
+			submission_name=assigned["name"],
+			responses=[
+				{"question_code": "W1", "answer_value": "5"},
+				{"question_code": "W2", "answer_value": "GOOD"},
+				{"question_code": "SAFE1", "answer_value": "1"},
+			],
+			submit=1,
+		)
+
+		submission = frappe.get_doc("Assessment Submission", assigned["name"])
+		self.assertEqual(submission.percentage_score, 100)
+		self.assertEqual(submission.scored_count, 2)
+		self.assertTrue(submission.safety_alert_triggered)
+		self.assertEqual(submission.interpretation_band, "تقدم مرتفع يحتاج مراجعة مهنية")
+		self.assertTrue(submission.professional_escalation)
+		self.assertIn("إدارة الضغوط", json.loads(submission.dimension_scores_json))
+		escalation = frappe.get_doc(
+			"Professional Escalation",
+			submission.professional_escalation,
+		)
+		self.assertEqual(escalation.source_assessment, submission.name)
+		self.assertEqual(escalation.severity, "Critical")
+
 	def test_published_version_is_immutable(self):
 		frappe.set_user("Administrator")
 		version = frappe.get_doc("Assessment Version", self.version.name)

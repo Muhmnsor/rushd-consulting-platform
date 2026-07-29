@@ -134,10 +134,23 @@
 .rushd-assessment-question {
 	display: grid;
 	gap: 8px;
+	min-width: 0;
+	margin: 0;
 	padding: 15px;
 	border: 1px solid var(--rushd-line);
 	border-radius: 13px;
 	background: #fbfbf9;
+}
+
+.rushd-assessment-question legend {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.rushd-assessment-question--safety {
+	border-color: #d9a7a1;
+	background: #fff8f6;
 }
 
 .rushd-assessment-question strong {
@@ -156,7 +169,8 @@
 }
 
 .rushd-assessment-question input,
-.rushd-assessment-question select {
+.rushd-assessment-question select,
+.rushd-assessment-question textarea {
 	width: 100%;
 	padding: 10px;
 	border: 1px solid var(--rushd-line);
@@ -164,6 +178,67 @@
 	background: #fff;
 	font-family: var(--rushd-font-family);
 	font-size: 0.64rem;
+}
+
+.rushd-question-context,
+.rushd-numeric-answer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+.rushd-question-context span {
+	padding: 3px 8px;
+	border-radius: 999px;
+	background: #ecefea;
+	color: var(--rushd-muted);
+	font-size: .52rem;
+	font-weight: 800;
+}
+
+.rushd-safety-note {
+	padding: 9px 11px;
+	border-radius: 9px;
+	background: #f7e5e1;
+	color: #7f332d;
+	font-size: .56rem;
+	line-height: 1.8;
+}
+
+.rushd-answer-options,
+.rushd-matrix-answer {
+	display: grid;
+	gap: 8px;
+}
+
+.rushd-answer-options label,
+.rushd-matrix-answer label {
+	display: flex;
+	gap: 9px;
+	align-items: center;
+	padding: 9px 11px;
+	border: 1px solid var(--rushd-line);
+	border-radius: 9px;
+	background: #fff;
+	font-size: .61rem;
+}
+
+.rushd-answer-options input {
+	width: auto;
+}
+
+.rushd-matrix-answer label {
+	justify-content: space-between;
+}
+
+.rushd-matrix-answer input {
+	max-width: 110px;
+}
+
+.rushd-numeric-answer input {
+	flex: 1;
+	min-width: 130px;
 }
 
 .rushd-beneficiary-result {

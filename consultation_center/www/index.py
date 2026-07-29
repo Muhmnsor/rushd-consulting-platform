@@ -64,9 +64,9 @@ def get_context(context):
 
 def _get_portal_url(user: str, roles: set[str]):
 	if user == "Administrator":
-		return "/app/rushd"
+		return "/admin"
 	if roles & ADMIN_PORTAL_ROLES:
-		return "/app/rushd"
+		return "/admin"
 	if "Consultation Supervisor" in roles:
 		return "/supervisor"
 	if "Consultant" in roles:

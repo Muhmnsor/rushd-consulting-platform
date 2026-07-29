@@ -1,2 +1,7 @@
-from consultation_center.admin_portal import redirect_admin
-def get_context(context): redirect_admin("/app/rushd")
+from consultation_center.admin_portal import build_admin_context
+
+no_cache = 1
+
+
+def get_context(context):
+	build_admin_context(context, "admin-settings", "تهيئة المنصة")

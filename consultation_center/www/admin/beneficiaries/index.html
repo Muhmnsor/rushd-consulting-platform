@@ -1,0 +1,97 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading rushd-page-heading--with-action">
+	<div>
+		<span class="rushd-page-heading__eyebrow">دليل المستفيدين</span>
+		<h1>المستفيدون</h1>
+		<p>أنشئ الملف وطلب الخدمة معًا، ثم تابع رحلة المستفيد بدل التنقل بين السجلات.</p>
+	</div>
+	<button class="rushd-button rushd-button--primary" type="button" data-open-wizard="beneficiary">إضافة مستفيد</button>
+</section>
+
+<section class="rushd-admin-directory-layout">
+	<article class="rushd-card rushd-admin-directory">
+		<div class="rushd-card__header">
+			<div><span class="rushd-panel-kicker">إجمالي الملفات</span><h2>{{ beneficiaries|length }} مستفيدًا</h2></div>
+			<label class="rushd-directory-search"><span>بحث</span><input type="search" placeholder="الاسم، الجوال أو المدينة" data-directory-search></label>
+		</div>
+		<div class="rushd-responsive-table">
+			<table class="rushd-admin-table">
+				<thead><tr><th>المستفيد</th><th>التواصل</th><th>الموافقة</th><th>رحلة الخدمة</th><th></th></tr></thead>
+				<tbody>
+				{% for item in beneficiaries %}
+				<tr data-directory-row data-search="{{ item.beneficiary_name }} {{ item.mobile or '' }} {{ item.email or '' }} {{ item.city or '' }}">
+					<td><strong>{{ item.beneficiary_name }}</strong><small>{{ item.name }} · {{ item.city or "المدينة غير محددة" }}</small></td>
+					<td><span>{{ item.mobile or "لا يوجد جوال" }}</span><small>{{ item.email or "لا يوجد بريد" }}</small></td>
+					<td><span class="rushd-status {% if item.consent_status == 'Granted' %}rushd-status--green{% else %}rushd-status--amber{% endif %}">{{ item.consent_label }}</span></td>
+					<td><strong>{{ item.active_cases }} حالة نشطة</strong><small>{{ item.requests }} طلب خدمة</small></td>
+					<td><a class="rushd-table-link" href="/admin/cases?q={{ item.beneficiary_name }}">متابعة الرحلة</a></td>
+				</tr>
+				{% else %}
+				<tr><td colspan="5"><div class="rushd-admin-empty"><span>◎</span><strong>لم يُضف مستفيدون بعد</strong><small>ابدأ بأول ملف من الزر أعلاه.</small></div></td></tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</article>
+
+	<aside class="rushd-admin-wizard {% if open_wizard %}is-open{% endif %}" data-admin-wizard="beneficiary" aria-label="إضافة مستفيد">
+		<div class="rushd-admin-wizard__header">
+			<div><small>معالج مبسّط</small><h2>مستفيد جديد</h2><p>ثلاث خطوات، ويمكن إنشاء الطلب في نفس العملية.</p></div>
+			<button type="button" aria-label="إغلاق" data-close-wizard>×</button>
+		</div>
+		<ol class="rushd-wizard-progress">
+			<li class="is-active" data-progress-step="1"><span>1</span>الهوية</li>
+			<li data-progress-step="2"><span>2</span>التواصل</li>
+			<li data-progress-step="3"><span>3</span>الطلب</li>
+		</ol>
+		<form data-admin-form data-method="consultation_center.api.admin_portal.onboard_beneficiary">
+			<section class="rushd-wizard-step is-active" data-wizard-step="1">
+				<h3>من هو المستفيد؟</h3>
+				<p>أدخل أقل قدر لازم لبدء الملف.</p>
+				<label>الاسم الكامل <input name="beneficiary_name" required maxlength="140" autocomplete="name"></label>
+				<label>تاريخ الميلاد <input name="date_of_birth" type="date"></label>
+				<label>المدينة <input name="city" maxlength="120"></label>
+				<label class="rushd-check-field"><input name="guardian_required" type="checkbox" value="1"><span><strong>يتطلب ولي أمر</strong><small>ستظهر الموافقة كخطوة مطلوبة.</small></span></label>
+			</section>
+			<section class="rushd-wizard-step" data-wizard-step="2">
+				<h3>كيف نتواصل معه؟</h3>
+				<p>يمكن إنشاء حساب دخول الآن أو لاحقًا.</p>
+				<label>رقم الجوال <input name="mobile" type="tel" maxlength="40" dir="ltr"></label>
+				<label>البريد الإلكتروني <input name="email" type="email" maxlength="140" dir="ltr"></label>
+				<label class="rushd-check-field"><input name="create_portal_account" type="checkbox" value="1"><span><strong>إنشاء حساب للمستفيد</strong><small>يتطلب بريدًا إلكترونيًا صالحًا.</small></span></label>
+			</section>
+			<section class="rushd-wizard-step" data-wizard-step="3">
+				<h3>هل تريد فتح طلب خدمة؟</h3>
+				<p>اختياري. إذا اخترت خدمة فسينتقل الطلب مباشرة إلى فحص الاكتمال.</p>
+				<label>الخدمة المطلوبة
+					<select name="service">
+						<option value="">ملف مستفيد فقط</option>
+						{% for service in services %}<option value="{{ service.name }}">{{ service.service_name }}</option>{% endfor %}
+					</select>
+				</label>
+				<div class="rushd-form-grid">
+					<label>الأولوية
+						<select name="urgency"><option value="Normal">عادية</option><option value="Low">منخفضة</option><option value="High">عالية</option><option value="Urgent">عاجلة</option></select>
+					</label>
+					<label>النمط المفضل
+						<select name="preferred_mode"><option value="Either">لا يمانع</option><option value="Online">عن بُعد</option><option value="In Person">حضوري</option></select>
+					</label>
+				</div>
+				<label>ملخص الاحتياج <textarea name="summary" rows="4" maxlength="1000" placeholder="ما الذي دفع المستفيد لطلب الخدمة؟"></textarea></label>
+			</section>
+			<div class="rushd-form-message" data-form-message role="status"></div>
+			<footer class="rushd-wizard-actions">
+				<button class="rushd-button rushd-button--secondary" type="button" data-wizard-prev disabled>السابق</button>
+				<button class="rushd-button rushd-button--primary" type="button" data-wizard-next>التالي</button>
+				<button class="rushd-button rushd-button--primary" type="submit" data-wizard-submit hidden>إنشاء الملف</button>
+			</footer>
+		</form>
+	</aside>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-admin-actions.js?v=20260729-9"></script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading rushd-page-heading--with-action">
+	<div>
+		<span class="rushd-page-heading__eyebrow">خريطة التشغيل</span>
+		<h1>كيف تتحرك الخدمة داخل رُشد؟</h1>
+		<p>سبع محطات واضحة، وفي كل محطة تعرف المسؤول عنها وما القرار المطلوب.</p>
+	</div>
+	<a class="rushd-button rushd-button--primary" href="/admin/beneficiaries?new=1">ابدأ بطلب جديد</a>
+</section>
+
+<section class="rushd-workflow">
+	<article class="rushd-workflow-step is-current">
+		<span class="rushd-workflow-step__number">1</span>
+		<div><small>الاستقبال</small><h2>مستفيد وطلب خدمة</h2><p>سجّل وسيلة التواصل والاحتياج والخدمة المطلوبة في مسار واحد.</p></div>
+		<a href="/admin/beneficiaries?new=1">إضافة الآن</a>
+	</article>
+	<article class="rushd-workflow-step">
+		<span class="rushd-workflow-step__number">2</span>
+		<div><small>مسؤول التشغيل</small><h2>فحص الاكتمال</h2><p>تأكد من البيانات والموافقات، أو اطلب النواقص من المستفيد.</p></div>
+		<a href="/operations/requests">{{ dashboard.request_counts.get("Submitted", 0) + dashboard.request_counts.get("Under Completeness Review", 0) }} تحتاج مراجعة</a>
+	</article>
+	<article class="rushd-workflow-step">
+		<span class="rushd-workflow-step__number">3</span>
+		<div><small>المشرف المهني</small><h2>الفرز وتحديد الملاءمة</h2><p>راجع الأولوية والمخاطر وقرر قبول الخدمة أو الإحالة.</p></div>
+		<a href="/supervisor/triage">{{ dashboard.request_counts.get("Ready for Triage", 0) }} في الطابور</a>
+	</article>
+	<article class="rushd-workflow-step">
+		<span class="rushd-workflow-step__number">4</span>
+		<div><small>المشرف المهني</small><h2>الإسناد إلى مستشار</h2><p>اختر مستشارًا مرتبطًا بالخدمة ولديه طاقة مناسبة.</p></div>
+		<a href="/supervisor/assignments">{{ dashboard.request_counts.get("Eligible", 0) }} جاهزة للإسناد</a>
+	</article>
+	<article class="rushd-workflow-step">
+		<span class="rushd-workflow-step__number">5</span>
+		<div><small>التشغيل والمستشار</small><h2>الموعد والجلسات</h2><p>احجز الموعد، سجل الحضور، ثم يوثق المستشار الجلسة والخطوة التالية.</p></div>
+		<a href="/operations/appointments">{{ dashboard.today_appointments }} مواعيد اليوم</a>
+	</article>
+	<article class="rushd-workflow-step">
+		<span class="rushd-workflow-step__number">6</span>
+		<div><small>المستشار والمشرف</small><h2>الخطة والمقاييس والمتابعة</h2><p>تابع التقدم والنتائج والتصعيدات المهنية من ملف الحالة الموحد.</p></div>
+		<a href="/admin/cases">{{ dashboard.active_cases }} حالات نشطة</a>
+	</article>
+	<article class="rushd-workflow-step">
+		<span class="rushd-workflow-step__number">7</span>
+		<div><small>المشرف المهني</small><h2>الإغلاق والمتابعة اللاحقة</h2><p>راجع التقرير النهائي والنتائج وحدد خطة المتابعة قبل الإغلاق.</p></div>
+		<a href="/admin/cases">فتح الحالات</a>
+	</article>
+</section>
+
+<aside class="rushd-admin-guidance">
+	<strong>قاعدة التشغيل البسيطة</strong>
+	<p>لا تنقل الطلب يدويًا بين جداول النظام. افتح المرحلة الحالية، نفّذ القرار المطلوب، وستنقل المنصة السجل وتظهره تلقائيًا للشخص التالي.</p>
+</aside>
+{% endblock %}

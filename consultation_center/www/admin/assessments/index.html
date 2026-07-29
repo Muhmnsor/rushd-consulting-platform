@@ -1,1 +1,148 @@
-<html lang="ar" dir="rtl"><body>جارٍ فتح المقاييس…</body></html>
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading rushd-page-heading--with-action">
+	<div>
+		<span class="rushd-page-heading__eyebrow">القياس والجودة</span>
+		<h1>المقاييس</h1>
+		<p>أنشئ مقياسًا مفهومًا وآمنًا، واحتفظ بالمراجعة المهنية قبل إظهار النتائج للمستفيد.</p>
+	</div>
+	<button class="rushd-button rushd-button--primary" type="button" data-open-wizard="assessment">إنشاء مقياس</button>
+</section>
+
+<section class="rushd-admin-directory-layout">
+	<article class="rushd-admin-assessment-list">
+		{% for item in assessments %}
+		<article class="rushd-card rushd-assessment-card">
+			<header>
+				<div><small>{{ item.template_code }}</small><h2>{{ item.template_title }}</h2></div>
+				<span class="rushd-status {% if item.active %}rushd-status--green{% else %}rushd-status--amber{% endif %}">{% if item.active %}نشط{% else %}موقوف{% endif %}</span>
+			</header>
+			<p>{{ item.instrument_kind_label }} · {{ item.category or "دون تصنيف" }} · {{ item.validation_status_label }}</p>
+			<div><span><b>{{ item.versions }}</b> نسخ</span><span><b>{{ item.submissions }}</b> تطبيقات</span><span>يجيب عنه: <b>{{ item.responder_label }}</b></span></div>
+			<footer><span>{{ item.visibility_label }}</span>{% if item.current_published_version %}<b>نسخة منشورة</b>{% else %}<b class="is-draft">لم ينشر بعد</b>{% endif %}</footer>
+		</article>
+		{% else %}
+		<article class="rushd-card rushd-admin-empty"><span>◉</span><strong>لا توجد مقاييس بعد</strong><small>ابدأ بمقياس قصير ثم طوّره بعد التجربة.</small></article>
+		{% endfor %}
+	</article>
+
+	<aside class="rushd-admin-wizard rushd-admin-wizard--wide {% if open_wizard %}is-open{% endif %}" data-admin-wizard="assessment">
+		<div class="rushd-admin-wizard__header">
+			<div><small>من الغرض إلى تطبيق آمن</small><h2>أداة قياس جديدة</h2><p>عرّف الغرض والمجيب والاحتساب، ثم ابنِ البنود وقواعد السلامة.</p></div>
+			<button type="button" aria-label="إغلاق" data-close-wizard>×</button>
+		</div>
+		<ol class="rushd-wizard-progress">
+			<li class="is-active" data-progress-step="1"><span>1</span>التعريف</li>
+			<li data-progress-step="2"><span>2</span>الاستخدام</li>
+			<li data-progress-step="3"><span>3</span>الاحتساب</li>
+			<li data-progress-step="4"><span>4</span>البنود</li>
+		</ol>
+		<form data-admin-form data-method="consultation_center.api.admin_portal.create_assessment" data-assessment-form>
+			<section class="rushd-wizard-step is-active" data-wizard-step="1">
+				<h3>عرّف المقياس</h3>
+				<label>اسم المقياس <input name="template_title" required maxlength="180"></label>
+				<div class="rushd-form-grid">
+					<label>رمز المقياس <input name="template_code" readonly placeholder="يُنشأ تلقائيًا عند الحفظ" dir="ltr"><small>تولّده المنصة تلقائيًا، ولا يحتاج إدخالًا يدويًا.</small></label>
+					<label>التصنيف <input name="category" maxlength="140" placeholder="مثال: الرفاه النفسي"></label>
+				</div>
+				<label>نوع الأداة
+					<select name="instrument_kind"><option value="Outcome Measure">مقياس متابعة للنتائج</option><option value="Safety Screener">فاحص سلامة</option><option value="Satisfaction Survey">استبيان رضا</option><option value="Administrative Form">نموذج إداري</option></select>
+				</label>
+				<label>وصف مختصر <textarea name="description" rows="4" maxlength="1000"></textarea></label>
+			</section>
+			<section class="rushd-wizard-step" data-wizard-step="2">
+				<h3>لمن صممت؟ وكيف ستُستخدم؟</h3>
+				<label>الاستخدام المقصود <textarea name="intended_use" rows="3" maxlength="1000" placeholder="مثال: متابعة تغير مهارات تنظيم الضغوط قبل الخطة وبعدها، وليس للتشخيص."></textarea></label>
+				<div class="rushd-form-grid">
+					<label>المجيب <select name="responder"><option value="Beneficiary">المستفيد</option><option value="Guardian">ولي الأمر</option><option value="Consultant">المستشار</option><option value="Supervisor">المشرف</option><option value="Mixed">أكثر من طرف</option></select></label>
+					<label>حالة التحقق <select name="validation_status"><option value="Internal Draft">مسودة داخلية</option><option value="Content Reviewed">مراجعة محتوى</option><option value="Piloted">مجرّبة مبدئيًا</option><option value="Validated">متحقق من خصائصها</option><option value="Licensed">مرخّصة</option></select></label>
+				</div>
+				<div class="rushd-form-grid">
+					<label>العمر الأدنى <input name="minimum_age" type="number" min="0" max="120"></label>
+					<label>العمر الأعلى <input name="maximum_age" type="number" min="0" max="120"></label>
+				</div>
+				<label>المرجع أو الترخيص <textarea name="reference_or_license" rows="2" maxlength="1000" placeholder="اذكر المرجع، صاحب الحقوق، أو اتركه فارغًا إن كانت أداة داخلية."></textarea></label>
+				<div class="rushd-admin-note"><strong>تنبيه منهجي</strong><span>«مسودة داخلية» لا تعني مقياسًا نفسيًا معتمدًا. لا تغيّر الحالة إلا عند وجود مراجعة أو دليل موثق.</span></div>
+			</section>
+			<section class="rushd-wizard-step" data-wizard-step="3">
+				<h3>قواعد التطبيق والاحتساب</h3>
+				<label>عرض النتيجة
+					<select name="result_visibility"><option value="After Professional Review">بعد المراجعة المهنية</option><option value="Never">لا تظهر تلقائيًا للمستفيد</option></select>
+				</label>
+				<div class="rushd-form-grid">
+					<label>الفترة التي يجيب عنها <input name="timeframe" maxlength="140" placeholder="مثال: خلال الأسبوعين الماضيين"></label>
+					<label>طريقة الناتج <select name="scoring_method"><option value="Percentage">نسبة موحّدة</option><option value="Total">مجموع خام</option><option value="Average">متوسط خام</option><option value="No Automated Score">دون احتساب آلي</option></select></label>
+				</div>
+				<div class="rushd-form-grid">
+					<label>الحد الأدنى للإجابة % <input name="minimum_answered_percent" type="number" min="0" max="100" value="80"></label>
+					<label>الإجابات المفقودة <select name="missing_answer_policy"><option value="Exclude Missing">استبعادها من الاحتساب</option><option value="Require Complete">اشتراط اكتمال الجميع</option><option value="Prorate">احتساب نسبي من المجاب</option></select></label>
+				</div>
+				<label>قواعد تفسير بحسب العمر (اختياري) <textarea name="interpretation_rules" rows="3" placeholder="13-15 | 0-39 | يحتاج متابعة&#10;13-15 | 40-100 | ضمن النطاق المتوقع"></textarea><small>كل قاعدة: العمر من-إلى | النتيجة من-إلى | الوصف. لا تستخدمها إلا بمرجع مهني موثق.</small></label>
+				<label>تعليمات الإجابة <textarea name="instructions" rows="4" maxlength="1000" placeholder="اشرح للمستفيد طريقة الإجابة بلغة سهلة."></textarea></label>
+				<div class="rushd-admin-note"><strong>السلامة منفصلة عن الدرجة</strong><span>أي بند تحدده كبند سلامة لن يدخل في المجموع؛ إجابته الحرجة تنشئ تصعيدًا مهنيًا مستقلًا.</span></div>
+			</section>
+			<section class="rushd-wizard-step" data-wizard-step="4">
+				<div class="rushd-question-builder__heading"><div><h3>بنود الأداة</h3><p>افصل نص البند عن طريقة الإجابة والاحتساب.</p></div><button type="button" data-add-question>+ إضافة بند</button></div>
+				<div class="rushd-question-builder" data-question-list>
+					<article class="rushd-question-row" data-question-row>
+						<header><strong>البند <span data-question-number>1</span></strong><button type="button" data-remove-question>حذف</button></header>
+						<label>صياغة البند <textarea data-question-field="question_text" required maxlength="1000" rows="2"></textarea></label>
+						<div class="rushd-form-grid">
+							<label>رمز السؤال <input data-question-field="question_code" value="Q1" maxlength="80" dir="ltr"></label>
+							<label>البعد <input data-question-field="dimension" maxlength="140" placeholder="مثال: إدارة الضغوط"></label>
+						</div>
+						<label>شرح مبسط للمجيب <input data-question-field="beneficiary_help" maxlength="500"></label>
+						<div class="rushd-form-grid">
+							<label>نوع الإجابة <select data-question-field="response_type">
+								<option value="Likert Agreement">اتفاق (ليكرت)</option><option value="Frequency Scale">تكرار</option><option value="Intensity Scale">شدة</option><option value="Difficulty Scale">صعوبة</option><option value="Confidence Scale">ثقة</option><option value="Numeric Rating">تقدير رقمي</option><option value="Semantic Differential">قطبان وصفيان</option><option value="Yes/No">نعم / لا</option><option value="Single Select">اختيار واحد</option><option value="Multi Select">اختيارات متعددة</option><option value="Ranking">ترتيب</option><option value="Open Text">نص مفتوح</option><option value="Number">رقم</option><option value="Matrix">مصفوفة</option><option value="Scenario Based">موقف وسيناريو</option><option value="Parent/Proxy Item">إجابة ولي الأمر</option><option value="Observer Item">ملاحظة المختص</option><option value="Goal Rating">تقييم هدف</option>
+							</select></label>
+							<label>فترة خاصة بالبند <input data-question-field="timeframe" maxlength="140" placeholder="إن اختلفت عن الأداة"></label>
+						</div>
+						<div class="rushd-form-grid">
+							<label>من <input data-question-field="minimum_value" type="number" value="1" step="any"></label>
+							<label>إلى <input data-question-field="maximum_value" type="number" value="5"></label>
+						</div>
+						<div class="rushd-form-grid">
+							<label>وصف البداية <input data-question-field="left_anchor" maxlength="140" placeholder="لا أوافق إطلاقًا"></label>
+							<label>وصف النهاية <input data-question-field="right_anchor" maxlength="140" placeholder="أوافق تمامًا"></label>
+						</div>
+						<div class="rushd-form-grid">
+							<label>الوزن <input data-question-field="weight" type="number" min="0" step="0.1" value="1"></label>
+							<label>دقة الخطوة <input data-question-field="step_value" type="number" min="0.01" step="0.01" value="1"></label>
+						</div>
+						<label>الخيارات ودرجاتها <textarea data-question-field="options" rows="4" placeholder="كل خيار في سطر: النص | الدرجة&#10;غير منطبق | | مستبعد&#10;نعم | 1 | حرج"></textarea><small>استخدم «حرج» للتنبيه أو «مستبعد» لغير منطبق. تُنشأ القيم التقنية تلقائيًا.</small></label>
+						<div class="rushd-question-flags">
+							<label><input type="checkbox" data-question-field="required" checked> مطلوب</label>
+							<label><input type="checkbox" data-question-field="scored" checked> يدخل في الدرجة</label>
+							<label><input type="checkbox" data-question-field="reverse_scored"> عكسي</label>
+							<label><input type="checkbox" data-question-field="is_safety_item"> بند سلامة</label>
+						</div>
+						<div class="rushd-form-grid">
+							<label>القيم الحرجة <input data-question-field="critical_values" maxlength="300" placeholder="مثال: 1 أو O1"></label>
+							<label>الإجراء الفوري <input data-question-field="critical_action" maxlength="500" placeholder="التواصل الفوري وفق بروتوكول الحماية"></label>
+						</div>
+						<div class="rushd-question-condition">
+							<strong>إظهار مشروط (اختياري)</strong>
+							<div class="rushd-form-grid"><label>رمز سؤال سابق <input data-question-field="condition_question_code" maxlength="80" dir="ltr"></label><label>المقارنة <select data-question-field="condition_operator"><option value="Equals">يساوي</option><option value="Not Equals">لا يساوي</option><option value="Contains">يتضمن</option></select></label></div>
+							<label>القيمة المطلوبة <input data-question-field="condition_value" maxlength="140"></label>
+						</div>
+					</article>
+				</div>
+				<label class="rushd-check-field"><input name="publish" type="checkbox" value="1"><span><strong>نشر النسخة الأولى الآن</strong><small>اتركها دون تحديد إذا أردت مراجعتها أولًا.</small></span></label>
+			</section>
+			<input type="hidden" name="questions" data-questions-payload>
+			<div class="rushd-form-message" data-form-message role="status"></div>
+			<footer class="rushd-wizard-actions">
+				<button class="rushd-button rushd-button--secondary" type="button" data-wizard-prev disabled>السابق</button>
+				<button class="rushd-button rushd-button--primary" type="button" data-wizard-next>التالي</button>
+				<button class="rushd-button rushd-button--primary" type="submit" data-wizard-submit hidden>إنشاء المقياس</button>
+			</footer>
+		</form>
+	</aside>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-admin-actions.js?v=20260729-12"></script>
+{% endblock %}

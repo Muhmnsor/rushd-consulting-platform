@@ -1,1 +1,97 @@
-<html lang="ar" dir="rtl"><body>جارٍ فتح المستشارين…</body></html>
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading rushd-page-heading--with-action">
+	<div>
+		<span class="rushd-page-heading__eyebrow">فريق تقديم الخدمة</span>
+		<h1>المستشارون</h1>
+		<p>اربط المستشار بالخدمة والمشرف والتوفر من شاشة واحدة، ثم راقب طاقته الحالية.</p>
+	</div>
+	<button class="rushd-button rushd-button--primary" type="button" data-open-wizard="consultant">إضافة مستشار</button>
+</section>
+
+<section class="rushd-admin-directory-layout">
+	<article class="rushd-card rushd-admin-directory">
+		<div class="rushd-card__header">
+			<div><span class="rushd-panel-kicker">فريق المنصة</span><h2>{{ consultants|length }} مستشارًا</h2></div>
+			<label class="rushd-directory-search"><span>بحث</span><input type="search" placeholder="الاسم أو التخصص أو الفرع" data-directory-search></label>
+		</div>
+		<div class="rushd-responsive-table">
+			<table class="rushd-admin-table">
+				<thead><tr><th>المستشار</th><th>الخدمة والتخصص</th><th>الإشراف</th><th>الطاقة</th><th>الحالة</th></tr></thead>
+				<tbody>
+				{% for item in consultants %}
+				<tr data-directory-row data-search="{{ item.consultant_name }} {{ item.specializations or '' }} {{ item.branch or '' }} {{ item.services or '' }}">
+					<td><strong>{{ item.consultant_name }}</strong><small>{{ item.name }} · {{ item.branch or "دون فرع" }}</small></td>
+					<td><span>{{ item.specializations or "لم يحدد تخصص" }}</span><small>{{ item.services or "لم يربط بخدمة" }}</small></td>
+					<td><span>{{ item.supervisor_name }}</span><small>انتهاء الاعتماد: {{ item.credential_expiry_label }}</small></td>
+					<td><strong>{{ item.active_cases }} حالات نشطة</strong><small>{{ item.maximum_daily_sessions or 4 }} جلسات يوميًا</small></td>
+					<td><span class="rushd-status {% if item.active %}rushd-status--green{% else %}rushd-status--amber{% endif %}">{% if item.active %}نشط{% else %}موقوف{% endif %}</span></td>
+				</tr>
+				{% else %}
+				<tr><td colspan="5"><div class="rushd-admin-empty"><span>♙</span><strong>لم يُضف مستشارون بعد</strong><small>أضف أول مستشار واربطه بخدماته.</small></div></td></tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</article>
+
+	<aside class="rushd-admin-wizard {% if open_wizard %}is-open{% endif %}" data-admin-wizard="consultant">
+		<div class="rushd-admin-wizard__header">
+			<div><small>معالج مبسّط</small><h2>تجهيز مستشار</h2><p>سينشئ حساب الدخول والملف المهني والجدول معًا.</p></div>
+			<button type="button" aria-label="إغلاق" data-close-wizard>×</button>
+		</div>
+		<ol class="rushd-wizard-progress">
+			<li class="is-active" data-progress-step="1"><span>1</span>الحساب</li>
+			<li data-progress-step="2"><span>2</span>الدور</li>
+			<li data-progress-step="3"><span>3</span>التوفر</li>
+		</ol>
+		<form data-admin-form data-method="consultation_center.api.admin_portal.onboard_consultant">
+			<section class="rushd-wizard-step is-active" data-wizard-step="1">
+				<h3>بيانات الدخول</h3>
+				<label>اسم المستشار <input name="consultant_name" required maxlength="140"></label>
+				<label>البريد الإلكتروني <input name="email" type="email" required maxlength="140" dir="ltr"></label>
+				<label>رمز المستشار <input name="code" readonly placeholder="يُنشأ تلقائيًا عند الحفظ" dir="ltr"><small>تولّده المنصة لضمان عدم التكرار.</small></label>
+			</section>
+			<section class="rushd-wizard-step" data-wizard-step="2">
+				<h3>ماذا سيقدم؟ ومن يشرف عليه؟</h3>
+				<label>التخصصات <input name="specializations" maxlength="1000" placeholder="مثال: إرشاد نفسي، إرشاد أسري"></label>
+				<label>الخدمات
+					<select name="services" multiple size="4" data-json-multiselect>
+						{% for service in services %}<option value="{{ service.name }}">{{ service.service_name }}</option>{% endfor %}
+					</select>
+					<small>يمكن اختيار أكثر من خدمة.</small>
+				</label>
+				<div class="rushd-form-grid">
+					<label>المشرف
+						<select name="supervisor"><option value="">يحدد لاحقًا</option>{% for supervisor in supervisors %}<option value="{{ supervisor.name }}">{{ supervisor.full_name }}</option>{% endfor %}</select>
+					</label>
+					<label>الفرع <input name="branch" maxlength="120"></label>
+				</div>
+			</section>
+			<section class="rushd-wizard-step" data-wizard-step="3">
+				<h3>الطاقة وأول وقت متاح</h3>
+				<label>الحد الأعلى للجلسات يوميًا <input name="maximum_daily_sessions" type="number" min="1" max="20" value="4"></label>
+				<label>يوم التوفر
+					<select name="weekday"><option value="">يضاف لاحقًا</option><option value="Sunday">الأحد</option><option value="Monday">الاثنين</option><option value="Tuesday">الثلاثاء</option><option value="Wednesday">الأربعاء</option><option value="Thursday">الخميس</option><option value="Friday">الجمعة</option><option value="Saturday">السبت</option></select>
+				</label>
+				<div class="rushd-form-grid">
+					<label>من <input name="start_time" type="time"></label>
+					<label>إلى <input name="end_time" type="time"></label>
+				</div>
+				<div class="rushd-admin-note"><strong>ما الذي سيحدث؟</strong><span>سيتلقى المستشار دورًا مناسبًا، وتظهر له فقط حالاتُه وجدوله وأدواته المهنية.</span></div>
+			</section>
+			<div class="rushd-form-message" data-form-message role="status"></div>
+			<footer class="rushd-wizard-actions">
+				<button class="rushd-button rushd-button--secondary" type="button" data-wizard-prev disabled>السابق</button>
+				<button class="rushd-button rushd-button--primary" type="button" data-wizard-next>التالي</button>
+				<button class="rushd-button rushd-button--primary" type="submit" data-wizard-submit hidden>إنشاء المستشار</button>
+			</footer>
+		</form>
+	</aside>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-admin-actions.js?v=20260729-9"></script>
+{% endblock %}

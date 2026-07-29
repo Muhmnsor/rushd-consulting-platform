@@ -254,6 +254,44 @@
 		Object.assign(frappe._messages, TEXT_TRANSLATIONS);
 	}
 
+	function localizeWorkspaceSidebarSections(root = document) {
+		const sectionLabels = {
+			Personal: "مساحاتي الخاصة",
+			Public: "مساحات العمل المشتركة",
+		};
+
+		root
+			.querySelectorAll?.(".standard-sidebar-section[data-title]")
+			.forEach((section) => {
+				const label = sectionLabels[section.dataset.title];
+				if (!label) return;
+
+				const title = section.querySelector(".section-title");
+				if (title && title.textContent.trim() !== label) {
+					title.textContent = label;
+				}
+
+				const toggle = section.querySelector(".standard-sidebar-label");
+				if (toggle) {
+					toggle.setAttribute("aria-label", `تبديل القسم: ${label}`);
+					toggle.setAttribute("title", label);
+				}
+			});
+	}
+
+	function redirectAdminLegacyProfile() {
+		if (window.location.pathname !== "/app/user-profile") return false;
+
+		const isAdministrator = window.frappe?.session?.user === "Administrator";
+		const hasAdminRole =
+			window.frappe?.user?.has_role?.("System Manager") ||
+			window.frappe?.user?.has_role?.("Center Director");
+		if (!isAdministrator && !hasAdminRole) return false;
+
+		window.location.replace("/admin");
+		return true;
+	}
+
 	function navigateDeskBack() {
 		const previousRoute = window.frappe?.get_prev_route?.() || [];
 		const currentRoute = window.frappe?.get_route?.() || [];
@@ -523,6 +561,8 @@
 	}
 
 	function applyRushdIdentity() {
+		if (redirectAdminLegacyProfile()) return;
+
 		const root = document.documentElement;
 		root.setAttribute("dir", "rtl");
 		root.setAttribute("lang", ARABIC_LANGUAGE);
@@ -568,6 +608,7 @@
 			installWebsiteSettingsEntry();
 			decorateRushdWorkspace();
 			localizeElement(document.body);
+			localizeWorkspaceSidebarSections(document.body);
 		}
 	}
 
@@ -615,6 +656,7 @@
 					}
 				}
 			}
+			localizeWorkspaceSidebarSections(document.body);
 		});
 
 		observer.observe(document.body, {

@@ -14,16 +14,28 @@
 		<form data-beneficiary-assessment data-submission="{{ selected_assessment.name }}" data-editable="{{ 1 if selected_assessment.editable else 0 }}">
 			<div class="rushd-assessment-questions">
 			{% for question in selected_assessment.questions %}
-				<label class="rushd-assessment-question" data-question data-code="{{ question.question_code }}">
-					<strong>{{ loop.index }}. {{ question.question_text }}{% if question.required %} <span>*</span>{% endif %}</strong>
+				<fieldset class="rushd-assessment-question {% if question.is_safety_item %}rushd-assessment-question--safety{% endif %}" data-question data-code="{{ question.question_code }}" data-type="{{ question.response_type }}" data-condition-code="{{ question.condition_question_code or '' }}" data-condition-operator="{{ question.condition_operator or '' }}" data-condition-value="{{ question.condition_value or '' }}">
+					<legend><strong>{{ loop.index }}. {{ question.question_text }}{% if question.required %} <span>*</span>{% endif %}</strong></legend>
+					{% if question.dimension or question.timeframe %}<div class="rushd-question-context">{% if question.dimension %}<span>{{ question.dimension }}</span>{% endif %}{% if question.timeframe %}<span>{{ question.timeframe }}</span>{% endif %}</div>{% endif %}
 					{% if question.beneficiary_help %}<small>{{ question.beneficiary_help }}</small>{% endif %}
-					{% if question.response_type == "Yes/No" %}
+					{% if question.is_safety_item %}<div class="rushd-safety-note">هذا سؤال سلامة مستقل عن النتيجة الرقمية، وقد يستدعي تواصل المختص لحمايتك.</div>{% endif %}
+					{% if question.response_type == "Yes/No" and not question.options %}
 					<select data-answer {% if not selected_assessment.editable %}disabled{% endif %}><option value="">اختر</option><option value="1" {% if question.answer_value=="1" %}selected{% endif %}>نعم</option><option value="0" {% if question.answer_value=="0" %}selected{% endif %}>لا</option></select>
+					{% elif question.response_type in ["Single Select", "Scenario Based", "Parent/Proxy Item", "Observer Item", "Yes/No"] %}
+					<div class="rushd-answer-options">{% for option in question.options %}<label><input type="radio" name="{{ question.question_code }}" value="{{ option.value }}" data-answer {% if option.selected %}checked{% endif %} {% if not selected_assessment.editable %}disabled{% endif %}><span>{{ option.label }}</span></label>{% endfor %}</div>
+					{% elif question.response_type == "Multi Select" %}
+					<div class="rushd-answer-options">{% for option in question.options %}<label><input type="checkbox" value="{{ option.value }}" data-answer {% if option.selected %}checked{% endif %} {% if not selected_assessment.editable %}disabled{% endif %}><span>{{ option.label }}</span></label>{% endfor %}</div>
+					{% elif question.response_type == "Matrix" %}
+					<div class="rushd-matrix-answer">{% for option in question.options %}<label><span>{{ option.label }}</span><input type="number" step="{{ question.step_value }}" min="{{ question.minimum_value }}" max="{{ question.maximum_value }}" value="{{ option.matrix_value }}" data-answer data-matrix-key="{{ option.value }}" {% if not selected_assessment.editable %}disabled{% endif %}></label>{% endfor %}</div>
+					{% elif question.response_type == "Open Text" %}
+					<textarea rows="4" data-answer {% if not selected_assessment.editable %}disabled{% endif %}>{{ question.answer_value }}</textarea>
+					{% elif question.response_type == "Ranking" %}
+					<textarea rows="3" data-answer data-ranking placeholder="رتّب الخيارات بكتابة القيم مفصولة بفاصلة" {% if not selected_assessment.editable %}disabled{% endif %}>{% if question.structured_answer is string %}{{ question.structured_answer }}{% else %}{{ question.structured_answer|join(", ") }}{% endif %}</textarea>
 					{% else %}
-					<input type="number" step="any" min="{{ question.minimum_value }}" max="{{ question.maximum_value }}" value="{{ question.answer_value }}" data-answer {% if not selected_assessment.editable %}disabled{% endif %}>
-					<small>من {{ question.minimum_value|round(0)|int }} إلى {{ question.maximum_value|round(0)|int }}</small>
+					<div class="rushd-numeric-answer">{% if question.left_anchor %}<span>{{ question.left_anchor }}</span>{% endif %}<input type="number" step="{{ question.step_value }}" min="{{ question.minimum_value }}" max="{{ question.maximum_value }}" value="{{ question.answer_value }}" data-answer {% if not selected_assessment.editable %}disabled{% endif %}>{% if question.right_anchor %}<span>{{ question.right_anchor }}</span>{% endif %}</div>
+					<small>من {{ question.minimum_value|round(2) }} إلى {{ question.maximum_value|round(2) }}</small>
 					{% endif %}
-				</label>
+				</fieldset>
 			{% endfor %}
 			</div>
 			{% if selected_assessment.editable %}<div class="rushd-form-actions"><button class="rushd-button rushd-button--secondary" type="button" data-assessment-save="0">حفظ والمتابعة لاحقًا</button><button class="rushd-button rushd-button--primary" type="button" data-assessment-save="1">إرسال للمراجعة</button></div>{% endif %}
@@ -35,4 +47,4 @@
 	{% endif %}
 </section>
 {% endblock %}
-{% block script %}<script src="/assets/consultation_center/js/rushd-beneficiary-assessment.js?v=20260729-8"></script>{% endblock %}
+{% block script %}<script src="/assets/consultation_center/js/rushd-beneficiary-assessment.js?v=20260729-12"></script>{% endblock %}

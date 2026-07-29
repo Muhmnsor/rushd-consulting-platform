@@ -18,8 +18,8 @@ from consultation_center.www.index import _get_portal_url, get_context
 
 class TestPublicPage(FrappeTestCase):
 	def test_each_role_is_sent_to_its_own_portal(self):
-		self.assertEqual(_get_portal_url("Administrator", set()), "/app/rushd")
-		self.assertEqual(_get_portal_url("director@example.com", {"Center Director"}), "/app/rushd")
+		self.assertEqual(_get_portal_url("Administrator", set()), "/admin")
+		self.assertEqual(_get_portal_url("director@example.com", {"Center Director"}), "/admin")
 		self.assertEqual(
 			_get_portal_url("supervisor@example.com", {"Consultation Supervisor"}),
 			"/supervisor",
@@ -68,9 +68,9 @@ class TestPublicPage(FrappeTestCase):
 			["System Manager", "Beneficiary"],
 		)
 		self.assertFalse(admin_context.can_request_consultation)
-		self.assertEqual(admin_context.primary_action_url, "/app/rushd")
+		self.assertEqual(admin_context.primary_action_url, "/admin")
 		self.assertEqual(admin_context.header_action_label, "حسابي")
-		self.assertEqual(admin_context.header_action_url, "/app/rushd")
+		self.assertEqual(admin_context.header_action_url, "/admin")
 
 	def test_every_public_navigation_anchor_has_a_target_section(self):
 		template_path = Path(__file__).parents[1] / "www" / "index.html"
@@ -133,6 +133,9 @@ class TestPublicPage(FrappeTestCase):
 
 		self.assertIn("installWebsiteSettingsEntry", script)
 		self.assertIn("/app/rushd-website-settings/Rushd%20Website%20Settings", script)
+		self.assertIn('"مساحات العمل المشتركة"', script)
+		self.assertIn('"مساحاتي الخاصة"', script)
+		self.assertIn("localizeWorkspaceSidebarSections", script)
 
 	def test_site_loading_screen_uses_rushd_logo(self):
 		configure_site_identity()

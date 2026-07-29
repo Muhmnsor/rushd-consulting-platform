@@ -1,1 +1,53 @@
-<html lang="ar" dir="rtl"><body>جارٍ فتح الإعدادات…</body></html>
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">تهيئة وليست تشغيلًا يوميًا</span>
+		<h1>تهيئة المنصة</h1>
+		<p>الأدوات التي تحدد كيف تعمل رُشد. رتبناها بحسب الغرض بدل أسماء الجداول التقنية.</p>
+	</div>
+</section>
+
+<section class="rushd-settings-groups">
+	<article class="rushd-card rushd-settings-group">
+		<header><span>01</span><div><h2>الخدمة ورحلة المستفيد</h2><p>ما الخدمات التي نقدمها، وما الموافقات والنماذج المطلوبة؟</p></div></header>
+		<div>
+			<a href="/admin/services"><strong>الخدمات الاستشارية</strong><small>الأسماء والتصنيفات ومدة الجلسة</small></a>
+			<a href="/admin/consents"><strong>الموافقات</strong><small>نماذج الموافقة وسياسة ولي الأمر</small></a>
+			<a href="/admin/forms"><strong>النماذج</strong><small>البيانات التي تجمع خلال الرحلة</small></a>
+		</div>
+	</article>
+	<article class="rushd-card rushd-settings-group">
+		<header><span>02</span><div><h2>الفريق والصلاحيات</h2><p>من يدخل المنصة، وما الذي يمكنه رؤيته وتنفيذه؟</p></div></header>
+		<div>
+			<a href="/admin/users"><strong>المستخدمون</strong><small>حسابات الموظفين وحالتها</small></a>
+			<a href="/admin/roles"><strong>الأدوار والصلاحيات</strong><small>توزيع مسؤوليات التشغيل والإشراف</small></a>
+			<a href="/admin/security"><strong>الأمان</strong><small>سياسات الدخول والحماية</small></a>
+		</div>
+	</article>
+	<article class="rushd-card rushd-settings-group">
+		<header><span>03</span><div><h2>المحتوى والتواصل</h2><p>ما الذي يراه المستفيد وكيف تصل إليه الرسائل؟</p></div></header>
+		<div>
+			<a href="/admin/website"><strong>محتوى الموقع</strong><small>الصفحات العامة والواجهة</small></a>
+			<a href="/admin/announcements"><strong>الإعلانات</strong><small>تنبيهات المنصة العامة</small></a>
+			<a href="/admin/resources"><strong>الموارد</strong><small>المواد المساندة للمستفيدين</small></a>
+			<a href="/admin/message-templates"><strong>قوالب الرسائل</strong><small>نصوص الإشعارات الموحدة</small></a>
+		</div>
+	</article>
+	<article class="rushd-card rushd-settings-group">
+		<header><span>04</span><div><h2>الحوكمة والمتابعة</h2><p>كيف نحفظ الخصوصية ونتابع الجودة والاستجابة؟</p></div></header>
+		<div>
+			<a href="/admin/privacy"><strong>الخصوصية</strong><small>طلبات البيانات والاحتفاظ بها</small></a>
+			<a href="/admin/audit"><strong>سجل التدقيق</strong><small>من غيّر ماذا ومتى</small></a>
+			<a href="/admin/complaints"><strong>الشكاوى</strong><small>قنوات الاستقبال والمعالجة</small></a>
+			<a href="/admin/integrations"><strong>التكاملات</strong><small>الأنظمة والخدمات الخارجية</small></a>
+		</div>
+	</article>
+</section>
+
+<aside class="rushd-technical-callout">
+	<div><span>للمسؤول التقني فقط</span><h2>تحتاج إعدادًا متقدمًا غير موجود هنا؟</h2><p>يمكن لمسؤول النظام فتح بيئة Frappe التقنية. لا يحتاجها موظف التشغيل في العمل اليومي.</p></div>
+	<a class="rushd-button rushd-button--secondary" href="/app/rushd">فتح الإدارة التقنية</a>
+</aside>
+{% endblock %}

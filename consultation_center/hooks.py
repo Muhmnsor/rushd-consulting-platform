@@ -5,7 +5,7 @@ app_description = "منصة رُشد للاستشارات الشبابية"
 app_email = "admin@rushd.local"
 app_license = "mit"
 app_logo_url = "/assets/consultation_center/images/rushd-logo.svg"
-rushd_asset_version = "20260729-8"
+rushd_asset_version = "20260729-11"
 brand_html = """
 <span class="rushd-brand-wordmark">
 	<img class="rushd-brand-symbol" src="/assets/consultation_center/images/rushd-logo.svg" alt="">
@@ -23,7 +23,7 @@ add_to_apps_screen = [
 	{
 		"name": "consultation_center",
 		"title": "رُشد",
-		"route": "/app/rushd",
+		"route": "/admin",
 		"has_permission": "consultation_center.permissions.has_admin_app_access",
 	}
 ]
@@ -61,7 +61,7 @@ web_include_js = [
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"User": "public/js/rushd-user-admin.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -78,11 +78,6 @@ web_include_js = [
 home_page = "index"
 
 signup_form_template = "consultation_center/templates/includes/rushd_signup.html"
-
-website_route_rules = [
-	{"from_route": "/admin", "to_route": "admin-router"},
-	{"from_route": "/admin/<path:admin_path>", "to_route": "admin-router"},
-]
 
 # website user home page (by Role)
 # role_home_page = {

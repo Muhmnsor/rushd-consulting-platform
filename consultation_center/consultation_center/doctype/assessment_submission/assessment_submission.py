@@ -3,6 +3,8 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import now_datetime
 
+from consultation_center.assessments import is_question_applicable
+
 REVIEW_ROLES = {"System Manager", "Center Director", "Consultation Supervisor", "Consultant"}
 
 
@@ -51,7 +53,11 @@ class AssessmentSubmission(Document):
 		version = frappe.get_doc("Assessment Version", self.assessment_version)
 		answers = {row.question_code: row.answer_value for row in self.responses}
 		for question in version.questions:
-			if question.required and not str(answers.get(question.question_code, "")).strip():
+			if (
+				question.required
+				and is_question_applicable(question, answers)
+				and not str(answers.get(question.question_code, "")).strip()
+			):
 				frappe.throw(_("Answer all required assessment questions before submitting"))
 
 	def _validate_transition(self):

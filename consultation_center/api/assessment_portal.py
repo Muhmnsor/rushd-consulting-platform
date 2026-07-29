@@ -1,6 +1,13 @@
-import frappe
-from frappe.utils import cint, flt, now_datetime, strip_html_tags
+import json
 
+import frappe
+from frappe.utils import cint, getdate, now_datetime, nowdate, strip_html_tags
+
+from consultation_center.assessments import (
+	calculate_submission,
+	interpretation_for_age,
+	validate_completion,
+)
 from consultation_center.consultant_portal import get_current_consultant
 from consultation_center.portal import get_beneficiary_for_user, require_portal_login
 
@@ -74,38 +81,43 @@ def save_assessment_responses(
 	payload = frappe.parse_json(responses) if isinstance(responses, str) else (responses or [])
 	if len(payload) > len(version.questions):
 		frappe.throw("عدد الإجابات غير صالح")
-	answer_by_code = {
-		str(item.get("question_code") or "").strip().upper(): item.get("answer_value")
-		for item in payload
-	}
+	if not isinstance(payload, list):
+		frappe.throw("صيغة الإجابات غير صالحة")
+	answer_by_code = {}
+	for item in payload:
+		if not isinstance(item, dict):
+			frappe.throw("صيغة إحدى الإجابات غير صالحة")
+		code = str(item.get("question_code") or "").strip().upper()
+		if code:
+			answer_by_code[code] = item.get("answer_value")
 
+	result = calculate_submission(version, answer_by_code)
+	if cint(submit):
+		validate_completion(version, result, answer_by_code)
 	doc.set("responses", [])
-	raw_total = 0.0
-	normalized_scores = []
-	for question in version.questions:
-		answer = answer_by_code.get(question.question_code)
-		if answer is None or str(answer).strip() == "":
-			continue
-		raw_value, normalized = _score_answer(question, answer)
-		raw_total += raw_value
-		normalized_scores.append(normalized)
-		doc.append(
-			"responses",
-			{
-				"question_code": question.question_code,
-				"question_text": question.question_text,
-				"response_type": question.response_type,
-				"answer_value": str(answer).strip(),
-				"numeric_score": normalized,
-			},
-		)
+	for row in result["rows"]:
+		doc.append("responses", row)
 
-	doc.raw_score = raw_total
-	doc.percentage_score = (
-		round(sum(normalized_scores) / len(normalized_scores), 2)
-		if normalized_scores
-		else 0
+	doc.raw_score = result["raw_score"]
+	doc.percentage_score = result["percentage_score"]
+	doc.answered_count = result["answered_count"]
+	doc.scored_count = result["scored_count"]
+	doc.dimension_scores_json = json.dumps(
+		result["dimension_scores"],
+		ensure_ascii=False,
+		separators=(",", ":"),
 	)
+	doc.interpretation_band = interpretation_for_age(
+		version,
+		result["percentage_score"],
+		_beneficiary_age(doc.beneficiary),
+	)
+	if result["alerts"]:
+		doc.safety_alert_triggered = 1
+		doc.safety_alert_summary = " | ".join(
+			f'{alert["question_code"]}: {alert["answer_label"]}' for alert in result["alerts"]
+		)
+		doc.professional_escalation = _ensure_safety_escalation(doc, result["alerts"])
 	doc.status = "Submitted" if cint(submit) else "In Progress"
 	if doc.status == "Submitted":
 		doc.submitted_on = now_datetime()
@@ -153,31 +165,51 @@ def review_assessment(
 		"result_visible": doc.result_visible,
 		"message": "تمت مراجعة المقياس",
 	}
+def _ensure_safety_escalation(submission, alerts):
+	existing = submission.professional_escalation or frappe.db.get_value(
+		"Professional Escalation",
+		{"source_assessment": submission.name, "status": ["not in", ["Closed", "Cancelled"]]},
+		"name",
+	)
+	if existing:
+		return existing
+	case = frappe.db.get_value(
+		"Consultation Case",
+		submission.case,
+		["supervisor", "case_owner"],
+		as_dict=True,
+	)
+	supervisor = case.supervisor or case.case_owner or "Administrator"
+	summary = "\n".join(
+		f'- {alert["question_text"]}: {alert["answer_label"]}' for alert in alerts
+	)
+	action = "\n".join(dict.fromkeys(alert["action"] for alert in alerts))
+	escalation = frappe.get_doc(
+		{
+			"doctype": "Professional Escalation",
+			"case": submission.case,
+			"beneficiary": submission.beneficiary,
+			"consultant": submission.consultant,
+			"assigned_supervisor": supervisor,
+			"source_assessment": submission.name,
+			"status": "Open",
+			"severity": "Critical",
+			"alert_type": "Safeguarding",
+			"alert_summary": f"إجابة سلامة حرجة في المقياس {submission.assessment_template}\n{summary}",
+			"immediate_action": action,
+			"emergency_protocol_activated": 0,
+		}
+	).insert(ignore_permissions=True)
+	return escalation.name
 
 
-def _score_answer(question, answer) -> tuple[float, float]:
-	if question.response_type == "Yes/No":
-		answer_text = str(answer).strip()
-		if answer_text not in {"0", "1", "No", "no", "لا", "Yes", "yes", "نعم"}:
-			frappe.throw(f"إجابة السؤال {question.question_code} غير صالحة")
-		value = 1.0 if answer_text in {"1", "Yes", "yes", "نعم"} else 0.0
-		minimum, maximum = 0.0, 1.0
-	else:
-		try:
-			value = float(str(answer).strip())
-		except (TypeError, ValueError):
-			frappe.throw(f"إجابة السؤال {question.question_code} غير صالحة")
-		minimum = flt(question.minimum_value)
-		maximum = flt(question.maximum_value)
-		if value < minimum or value > maximum:
-			frappe.throw(
-				f"إجابة السؤال {question.question_code} يجب أن تكون بين {minimum:g} و{maximum:g}"
-			)
-
-	normalized = ((value - minimum) / (maximum - minimum)) * 100
-	if question.reverse_scored:
-		normalized = 100 - normalized
-	return value, round(normalized, 2)
+def _beneficiary_age(beneficiary):
+	date_of_birth = frappe.db.get_value("Beneficiary", beneficiary, "date_of_birth")
+	if not date_of_birth:
+		return None
+	born = getdate(date_of_birth)
+	today = getdate(nowdate())
+	return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 
 def _require_consultant():

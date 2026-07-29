@@ -7,7 +7,7 @@
  "description": "تنبيه وتصعيد مهني سري مرتبط بالحالة مع إجراء فوري واستجابة وإغلاق موثق.",
  "engine": "InnoDB",
  "field_order": [
-  "naming_series", "case", "beneficiary", "consultant", "assigned_supervisor",
+  "naming_series", "case", "beneficiary", "consultant", "assigned_supervisor", "source_assessment",
   "status", "severity", "alert_section", "alert_type", "alert_summary",
   "immediate_action", "emergency_protocol_activated", "response_section",
   "supervisor_action", "resolution_note", "follow_up_date", "reported_by",
@@ -19,6 +19,7 @@
   {"fieldname": "beneficiary", "fieldtype": "Link", "label": "Beneficiary", "options": "Beneficiary", "read_only": 1, "reqd": 1},
   {"fieldname": "consultant", "fieldtype": "Link", "in_standard_filter": 1, "label": "Consultant", "options": "Consultant", "reqd": 1},
   {"fieldname": "assigned_supervisor", "fieldtype": "Link", "label": "Assigned Supervisor", "options": "User", "reqd": 1},
+  {"fieldname": "source_assessment", "fieldtype": "Link", "label": "Source Assessment", "options": "Assessment Submission", "read_only": 1},
   {"default": "Open", "fieldname": "status", "fieldtype": "Select", "in_list_view": 1, "in_standard_filter": 1, "label": "Status", "options": "Open\nAcknowledged\nAction In Progress\nResolved\nClosed\nCancelled", "reqd": 1},
   {"default": "High", "fieldname": "severity", "fieldtype": "Select", "in_list_view": 1, "label": "Severity", "options": "Moderate\nHigh\nCritical", "reqd": 1},
   {"fieldname": "alert_section", "fieldtype": "Section Break", "label": "Professional Alert"},

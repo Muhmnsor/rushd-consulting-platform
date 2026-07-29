@@ -1,0 +1,81 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<nav class="rushd-admin-breadcrumb"><a href="/admin/settings">تهيئة المنصة</a><span>←</span><strong>{{ catalog_title }}</strong></nav>
+<section class="rushd-page-heading rushd-page-heading--with-action">
+	<div><span class="rushd-page-heading__eyebrow">{{ catalog_eyebrow }}</span><h1>{{ catalog_title }}</h1><p>{{ catalog_description }}</p></div>
+	{% if catalog_schema %}
+		{% if catalog_schema.can_create %}<button class="rushd-button rushd-button--primary" type="button" data-catalog-create>إنشاء سجل</button>
+		{% elif catalog_schema.singleton and catalog_schema.can_edit %}<button class="rushd-button rushd-button--primary" type="button" data-catalog-edit data-record="">تعديل المحتوى</button>{% endif %}
+	{% endif %}
+</section>
+
+<section class="rushd-card rushd-catalog-panel">
+	<header class="rushd-card__header"><div><h2>السجلات الحالية</h2><p>عرض مبسّط داخل مركز الإدارة دون نقلك تلقائيًا إلى الواجهة التقنية.</p></div><span class="rushd-status">{{ catalog_rows|length }}</span></header>
+	<div class="rushd-catalog-list">
+		{% for row in catalog_rows %}
+		<article>
+			<div><small>{{ row.meta }}</small><h2>{{ row.title }}</h2><p>{{ row.description }}</p></div>
+			<footer><span class="rushd-status {% if row.positive %}rushd-status--green{% else %}rushd-status--amber{% endif %}">{{ row.status }}</span>
+				<div class="rushd-catalog-actions">{% if row.href %}<a href="{{ row.href }}">فتح</a>{% endif %}{% if catalog_schema and row.record_name and catalog_schema.can_edit %}<button type="button" data-catalog-edit data-record="{{ row.record_name }}">تعديل</button>{% endif %}{% if catalog_schema and row.record_name and catalog_schema.can_delete %}<button class="is-delete" type="button" data-catalog-delete data-record="{{ row.record_name }}" data-label="{{ row.title }}">حذف</button>{% endif %}</div>
+			</footer>
+		</article>
+		{% else %}<div class="rushd-admin-empty"><span>◎</span><strong>{{ catalog_empty }}</strong><small>{% if catalog_schema and catalog_schema.can_create %}استخدم زر «إنشاء سجل» لإضافة أول سجل من هنا.{% else %}ستظهر السجلات هنا عند توفرها في سير العمل.{% endif %}</small></div>{% endfor %}
+	</div>
+</section>
+
+{% if catalog_schema %}
+{% if catalog_schema.immutable_note %}<div class="rushd-admin-note"><strong>حفظ الأثر</strong><span>{{ catalog_schema.immutable_note }}</span></div>{% endif %}
+<dialog class="rushd-admin-dialog rushd-catalog-dialog" data-catalog-dialog data-resource="{{ catalog_section }}">
+	<form method="dialog"><button aria-label="إغلاق">×</button></form>
+	<div><small data-catalog-dialog-eyebrow>سجل جديد</small><h2 data-catalog-dialog-title>{{ catalog_title }}</h2></div>
+	<form data-catalog-form>
+		<input type="hidden" name="record_name_key">
+		<div class="rushd-catalog-form-grid">
+		{% for field in catalog_schema.fields %}
+			<label class="{% if field.fieldtype in ['Text', 'Small Text', 'Text Editor', 'Code'] %}is-wide{% endif %}">
+				<span>{{ field.label }}{% if field.required %} *{% endif %}</span>
+				{% if field.auto %}
+					<input name="{{ field.fieldname }}" readonly placeholder="يُنشأ تلقائيًا عند الحفظ" dir="ltr">
+					<small class="rushd-auto-code-note">تولّده المنصة تلقائيًا لضمان عدم التكرار.</small>
+				{% elif field.fieldtype == "Check" %}
+					<input type="checkbox" name="{{ field.fieldname }}" value="1" {% if field.default %}checked{% endif %}>
+				{% elif field.fieldtype == "Select" %}
+					<select name="{{ field.fieldname }}" {% if field.required %}required{% endif %}>{% for option in field.options %}<option value="{{ option.value }}" {% if field.default==option.value %}selected{% endif %}>{{ option.label }}</option>{% endfor %}</select>
+				{% elif field.fieldtype in ["Text", "Small Text", "Text Editor", "Code"] %}
+					<textarea name="{{ field.fieldname }}" rows="4" {% if field.required %}required{% endif %}></textarea>
+				{% elif field.fieldtype == "Date" %}
+					<input type="date" name="{{ field.fieldname }}" {% if field.required %}required{% endif %}>
+				{% elif field.fieldtype in ["Int", "Float", "Currency"] %}
+					<input type="number" name="{{ field.fieldname }}" step="{% if field.fieldtype=='Int' %}1{% else %}any{% endif %}" value="{{ field.default if field.default is not none else '' }}" {% if field.required %}required{% endif %}>
+				{% else %}
+					<input name="{{ field.fieldname }}" value="{{ field.default if field.default is not none else '' }}" {% if field.required %}required{% endif %} {% if field.direction %}dir="{{ field.direction }}"{% endif %} {% if field.fieldtype=='Link' %}data-link-doctype="{{ field.options }}"{% endif %}>
+				{% endif %}
+			</label>
+		{% endfor %}
+		</div>
+		<div class="rushd-form-message" data-form-message></div>
+		<footer class="rushd-wizard-actions"><button class="rushd-button rushd-button--secondary" type="button" data-catalog-cancel>إلغاء</button><button class="rushd-button rushd-button--primary" type="submit">حفظ</button></footer>
+	</form>
+</dialog>
+
+{% if catalog_schema.can_delete %}
+<dialog class="rushd-admin-dialog" data-catalog-delete-dialog>
+	<form method="dialog"><button aria-label="إغلاق">×</button></form>
+	<div><small>إجراء لا يمكن التراجع عنه</small><h2>حذف <span data-delete-label></span>؟</h2><p>إذا كان السجل مرتبطًا بحالات أو سجلات أخرى فستمنع المنصة حذفه حفاظًا على سلامة البيانات.</p></div>
+	<form data-catalog-delete-form>
+		<input type="hidden" name="record_name">
+		<div class="rushd-form-message" data-form-message></div>
+		<button class="rushd-button rushd-button--danger" type="submit">{{ catalog_schema.delete_label }}</button>
+	</form>
+</dialog>
+{% endif %}
+{% endif %}
+
+<aside class="rushd-technical-callout">
+	<div><span>خيار متقدم</span><h2>تحتاج تعديل الحقول التقنية لهذا القسم؟</h2><p>ابقَ في هذه الصفحة للمراجعة اليومية. افتح السجل التقني فقط عندما تحتاج تعديلًا لا توفره الواجهة المبسطة بعد.</p></div>
+	<a class="rushd-button rushd-button--secondary" href="{{ catalog_technical_url }}">فتح الإدارة التقنية</a>
+</aside>
+{% endblock %}
+
+{% block script %}{% if catalog_schema %}<script src="/assets/consultation_center/js/rushd-admin-records.js?v=20260729-14"></script>{% endif %}{% endblock %}

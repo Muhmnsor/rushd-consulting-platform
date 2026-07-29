@@ -693,17 +693,24 @@ def get_consultant_assessment_context(
 			return None
 		_decorate_assessment(selected)
 
-	comparison = [
-		{
-			"name": row.name,
-			"title": row.template_title,
-			"type_label": row.type_label,
-			"score": round(row.percentage_score or 0, 1),
-			"date_label": row.reviewed_on_label or row.submitted_on_label,
-		}
-		for row in reversed(submissions)
-		if row.status in {"Submitted", "Reviewed"}
-	]
+	comparison = []
+	previous_scores = {}
+	for row in reversed(submissions):
+		if row.status not in {"Submitted", "Reviewed"}:
+			continue
+		score = round(row.percentage_score or 0, 1)
+		previous = previous_scores.get(row.assessment_template)
+		comparison.append(
+			{
+				"name": row.name,
+				"title": row.template_title,
+				"type_label": row.type_label,
+				"score": score,
+				"change": round(score - previous, 1) if previous is not None else None,
+				"date_label": row.reviewed_on_label or row.submitted_on_label,
+			}
+		)
+		previous_scores[row.assessment_template] = score
 	return {
 		"case": case,
 		"submissions": submissions,

@@ -1,10 +1,10 @@
 {% extends "templates/base.html" %}
 
 {% block head_include %}
-<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css?v=20260729-8">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css?v=20260729-8">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css?v=20260729-8">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-staff.css?v=20260729-8">
+<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css?v=20260729-9">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css?v=20260729-9">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css?v=20260729-13">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-staff.css?v=20260729-17">
 {% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -17,11 +17,35 @@
 			<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
 			<span>
 				<strong>رُشد</strong>
-				<small>{{ role_label }}</small>
+				<small>{{ display_name }}</small>
 			</span>
 		</a>
 
-		{% if staff_section == "operations" %}
+		{% if staff_section == "admin" %}
+		<nav class="rushd-sidebar__nav">
+			<a class="rushd-nav-link {% if active_nav == 'admin-dashboard' %}is-active{% endif %}" href="/admin">
+				<span class="rushd-nav-icon">⌂</span><span>اليوم</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'admin-workflow' %}is-active{% endif %}" href="/admin/workflow">
+				<span class="rushd-nav-icon">⇢</span><span>سير العمل</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'admin-beneficiaries' %}is-active{% endif %}" href="/admin/beneficiaries">
+				<span class="rushd-nav-icon">◎</span><span>المستفيدون</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'admin-consultants' %}is-active{% endif %}" href="/admin/consultants">
+				<span class="rushd-nav-icon">♙</span><span>المستشارون</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'admin-cases' %}is-active{% endif %}" href="/admin/cases">
+				<span class="rushd-nav-icon">◫</span><span>الحالات والجلسات</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'admin-assessments' %}is-active{% endif %}" href="/admin/assessments">
+				<span class="rushd-nav-icon">◉</span><span>المقاييس والجودة</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'admin-settings' %}is-active{% endif %}" href="/admin/settings">
+				<span class="rushd-nav-icon">⚙</span><span>تهيئة المنصة</span>
+			</a>
+		</nav>
+		{% elif staff_section == "operations" %}
 		<nav class="rushd-sidebar__nav">
 			<a class="rushd-nav-link {% if active_nav == 'operations-dashboard' %}is-active{% endif %}" href="/operations">
 				<span class="rushd-nav-icon">⌂</span><span>لوحة التشغيل</span>
@@ -129,8 +153,8 @@
 		{% endif %}
 
 		<div class="rushd-sidebar__support">
-			<p>واجهة مستقلة وآمنة</p>
-			<span>تظهر هنا البيانات اللازمة لدورك فقط، وتسجل التغييرات على الطلب.</span>
+			<p>{% if staff_section == "admin" %}مركز تشغيل مبسّط{% else %}واجهة مستقلة وآمنة{% endif %}</p>
+			<span>{% if staff_section == "admin" %}ابدأ بالمهمة، وستقودك المنصة إلى السجل والخطوة التالية.{% else %}تظهر هنا البيانات اللازمة لدورك فقط، وتسجل التغييرات على الطلب.{% endif %}</span>
 		</div>
 		<a class="rushd-sidebar__logout" href="/?cmd=web_logout"><span>↪</span>تسجيل الخروج</a>
 	</aside>
@@ -142,6 +166,14 @@
 				<strong>رُشد</strong>
 			</a>
 			<div class="rushd-topbar__actions">
+				{% if staff_section == "admin" %}
+				<form class="rushd-admin-search" action="/admin/cases" method="get" role="search">
+					<label class="sr-only" for="rushd-admin-search">بحث شامل</label>
+					<input id="rushd-admin-search" name="q" type="search" placeholder="ابحث باسم المستفيد أو الحالة أو المستشار">
+					<button type="submit">بحث</button>
+				</form>
+				<a class="rushd-technical-link" href="/app/rushd">الإدارة التقنية</a>
+				{% endif %}
 				<div class="rushd-user-chip">
 					<span class="rushd-user-chip__avatar">{{ display_name[:1] }}</span>
 					<span><strong>{{ display_name }}</strong><small>{{ role_label }}</small></span>

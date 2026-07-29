@@ -45,14 +45,16 @@
 {% if editor.comparison %}
 <section class="rushd-card rushd-assessment-comparison">
 	<div class="rushd-card__header"><div><h2>المقارنة الزمنية</h2><p>اعرض التغير كإشارة متابعة تحتاج تفسيرًا مهنيًا، لا كحكم مستقل.</p></div></div>
-	<div class="rushd-comparison-track">{% for point in editor.comparison %}<article><span>{{ point.type_label }}</span><strong>{{ point.score }}%</strong><small>{{ point.title }}</small><small>{{ point.date_label }}</small></article>{% endfor %}</div>
+	<div class="rushd-comparison-track">{% for point in editor.comparison %}<article><span>{{ point.type_label }}</span><strong>{{ point.score }}%</strong>{% if point.change is not none %}<small>التغير عن القياس السابق: {% if point.change > 0 %}+{% endif %}{{ point.change }} نقطة</small>{% endif %}<small>{{ point.title }}</small><small>{{ point.date_label }}</small></article>{% endfor %}</div>
 </section>
 {% endif %}
 
 {% if editor.selected %}
 <section class="rushd-card rushd-assessment-review">
 	<div class="rushd-card__header"><div><h2>{{ editor.selected.template_title }} — {{ editor.selected.type_label }}</h2><p>{{ editor.selected.status_label }}</p></div><span class="rushd-score-chip rushd-score-chip--large">{{ editor.selected.percentage_score|round(1) }}%</span></div>
-	<div class="rushd-assessment-answers">{% for answer in editor.selected.responses %}<article><strong>{{ answer.question_text }}</strong><span>الإجابة: {{ answer.answer_value }}</span><small>المؤشر الموحّد: {{ answer.numeric_score|round(1) }}%</small></article>{% else %}<p>لم تُرسل إجابات بعد.</p>{% endfor %}</div>
+	{% if editor.selected.safety_alert_triggered %}<div class="rushd-admin-note"><strong>تنبيه سلامة مستقل</strong><span>{{ editor.selected.safety_alert_summary }} — راجع التصعيد المهني المرتبط فورًا.</span></div>{% endif %}
+	{% if editor.selected.interpretation_band %}<div class="rushd-admin-note"><strong>نطاق التفسير المبرمج</strong><span>{{ editor.selected.interpretation_band }} — راجعه مهنيًا ولا تستخدمه كتشخيص أو قرار مستقل.</span></div>{% endif %}
+	<div class="rushd-assessment-answers">{% for answer in editor.selected.responses %}<article><strong>{{ answer.question_text }}</strong>{% if answer.dimension %}<small>{{ answer.dimension }}</small>{% endif %}<span>الإجابة: {{ answer.answer_label or answer.answer_value }}</span>{% if answer.safety_triggered %}<small>إجابة حرجة — لا تدخل في الدرجة</small>{% elif answer.excluded_from_score %}<small>إجابة وصفية أو مستبعدة من الاحتساب</small>{% else %}<small>المؤشر الموحّد: {{ answer.numeric_score|round(1) }}%</small>{% endif %}</article>{% else %}<p>لم تُرسل إجابات بعد.</p>{% endfor %}</div>
 	{% if editor.selected.status == "Submitted" %}
 	<form class="rushd-assessment-review-form" data-assessment-review data-submission="{{ editor.selected.name }}">
 		<div class="rushd-staff-field"><label>التفسير المهني الداخلي</label><textarea name="professional_interpretation" placeholder="لا يظهر للمستفيد"></textarea></div>
