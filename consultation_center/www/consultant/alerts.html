@@ -1,0 +1,16 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+{% block staff_content %}
+<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">الحماية والتصعيد</span><h1>التنبيهات المهنية</h1><p>وثّق التنبيه والإجراء الفوري وأشعر المشرف. لا تستخدم هذه الصفحة بدل بروتوكول الطوارئ الفوري.</p></div></section>
+<section class="rushd-emergency-notice"><strong>عند وجود خطر فوري</strong><span>فعّل بروتوكول الطوارئ المعتمد واتصل بالجهة المختصة أولًا، ثم وثّق الإجراء هنا.</span></section>
+<section class="rushd-professional-layout">
+<form class="rushd-card rushd-professional-form" data-escalation-create><div class="rushd-card__header"><h2>فتح تصعيد مهني</h2></div><div class="rushd-staff-fields">
+<div class="rushd-staff-field rushd-staff-field--full"><label>الحالة</label><select name="case" required><option value="">اختر الحالة</option>{% for case in cases %}<option value="{{ case.name }}">{{ case.beneficiary_name }} — {{ case.name }}</option>{% endfor %}</select></div>
+<div class="rushd-staff-field"><label>نوع التنبيه</label><select name="alert_type"><option value="Safeguarding">حماية</option><option value="Urgent Deterioration">تدهور عاجل</option><option value="Conflict of Interest">تضارب مصالح</option><option value="Service Risk">مخاطر تقديم الخدمة</option><option value="Other">أخرى</option></select></div>
+<div class="rushd-staff-field"><label>الدرجة</label><select name="severity"><option value="Moderate">متوسطة</option><option value="High">عالية</option><option value="Critical">حرجة</option></select></div>
+<div class="rushd-staff-field rushd-staff-field--full"><label>ملخص التنبيه</label><textarea name="alert_summary" required></textarea></div>
+<div class="rushd-staff-field rushd-staff-field--full"><label>الإجراء الفوري المتخذ</label><textarea name="immediate_action"></textarea></div>
+</div><label class="rushd-check-row"><input type="checkbox" name="emergency_protocol_activated" value="1"> تم تفعيل بروتوكول الطوارئ خارج المنصة عند الحاجة</label><button class="rushd-button rushd-button--danger" type="submit">إشعار المشرف وفتح التصعيد</button><div class="rushd-form-message" data-form-message></div></form>
+<aside class="rushd-card"><div class="rushd-card__header"><h2>سجل التصعيد</h2><span class="rushd-status">{{ escalations|length }}</span></div><div class="rushd-professional-list">{% for item in escalations %}<article><div><strong>{{ item.alert_type_label }} — {{ item.severity_label }}</strong><span>{{ item.case }} — {{ item.status_label }}</span><p>{{ item.alert_summary }}</p>{% if item.supervisor_action %}<div class="rushd-professional-response"><strong>إجراء المشرف</strong><p>{{ item.supervisor_action }}</p></div>{% endif %}</div></article>{% else %}<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد تصعيدات مسجلة</h2></div></div>{% endfor %}</div></aside>
+</section>
+{% endblock %}
+{% block script %}<script src="/assets/consultation_center/js/rushd-professional-actions.js?v=20260729-8"></script>{% endblock %}

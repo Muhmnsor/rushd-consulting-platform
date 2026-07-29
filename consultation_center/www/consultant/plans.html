@@ -1,0 +1,77 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div><span class="rushd-page-heading__eyebrow">الخطة والمتابعة</span><h1>الخطط الاستشارية</h1><p>أنشئ أهدافًا قابلة للمتابعة وأرسل الخطة للمشرف قبل عرضها للمستفيد.</p></div>
+</section>
+
+{% if not editor %}
+<section class="rushd-card">
+	<div class="rushd-card__header"><h2>اختر حالة لإعداد خطتها</h2></div>
+	<div class="rushd-request-list">
+		{% for case in cases %}
+		<a class="rushd-request-row" href="/consultant/plans?case={{ case.name }}">
+			<span class="rushd-request-row__main"><strong>{{ case.beneficiary_name }} — {{ case.service_name }}</strong><span class="rushd-request-row__meta"><span>{{ case.name }}</span><span>{{ case.status_label }}</span></span></span>
+			<span class="rushd-status rushd-status--blue">فتح الخطة</span>
+		</a>
+		{% else %}
+		<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد حالات مسندة</h2></div></div>
+		{% endfor %}
+	</div>
+</section>
+{% else %}
+{% set case = editor.case %}
+{% set plan = editor.plan %}
+<form class="rushd-card rushd-plan-form" data-plan-form data-case="{{ case.name }}" data-plan-name="{{ plan.name if plan else '' }}">
+	<section class="rushd-session-form__section">
+		<div class="rushd-session-form__heading"><span>1</span><div><h2>{{ case.beneficiary_name }} — {{ case.service_name }}</h2><p>{{ case.name }}{% if plan %} — {{ plan.status_label }}{% endif %}</p></div></div>
+		<div class="rushd-staff-fields">
+			<div class="rushd-staff-field rushd-staff-field--full"><label>عنوان الخطة</label><input name="plan_title" value="{{ plan.plan_title if plan else '' }}"></div>
+			<div class="rushd-staff-field rushd-staff-field--full"><label>ملخص واضح للمستفيد</label><textarea name="plan_summary">{{ plan.plan_summary if plan else '' }}</textarea></div>
+			<div class="rushd-staff-field"><label>تاريخ البداية</label><input type="date" name="start_date" value="{{ plan.start_date if plan else '' }}"></div>
+			<div class="rushd-staff-field"><label>تاريخ المراجعة</label><input type="date" name="review_date" value="{{ plan.review_date if plan else '' }}"></div>
+			<div class="rushd-staff-field"><label>عدد الجلسات المتوقع</label><input type="number" min="0" max="100" name="expected_sessions" value="{{ plan.expected_sessions if plan else '' }}"></div>
+		</div>
+	</section>
+	<section class="rushd-session-form__section">
+		<div class="rushd-session-form__heading"><span>2</span><div><h2>الأهداف والمؤشرات</h2><p>يمكن إخفاء هدف مهني عن نسخة المستفيد عند الحاجة.</p></div></div>
+		<div class="rushd-goals-editor" data-goals-editor>
+			{% if plan %}
+			{% for goal in plan.goals %}
+			<div class="rushd-goal-row">
+				<input data-goal-field="goal_title" placeholder="عنوان الهدف" value="{{ goal.goal_title }}">
+				<input data-goal-field="indicator" placeholder="مؤشر التقدم" value="{{ goal.indicator or '' }}">
+				<input data-goal-field="baseline_value" placeholder="خط الأساس" value="{{ goal.baseline_value or '' }}">
+				<input data-goal-field="target_value" placeholder="القيمة المستهدفة" value="{{ goal.target_value or '' }}">
+				<input type="date" data-goal-field="target_date" value="{{ goal.target_date or '' }}">
+				<label><input type="checkbox" data-goal-field="beneficiary_visible" {% if goal.beneficiary_visible %}checked{% endif %}> يظهر للمستفيد</label>
+				<button type="button" data-remove-goal>حذف</button>
+			</div>
+			{% endfor %}
+			{% endif %}
+		</div>
+		<button class="rushd-button rushd-button--secondary" type="button" data-add-goal>إضافة هدف</button>
+	</section>
+	{% if not plan or plan.status in ["Draft", "Returned"] %}
+	<div class="rushd-form-message" data-form-message role="status"></div>
+	<footer class="rushd-session-form__actions"><button class="rushd-button rushd-button--secondary" type="button" data-plan-submit="0">حفظ مسودة</button><button class="rushd-button rushd-button--primary" type="button" data-plan-submit="1">إرسال للمشرف</button></footer>
+	{% elif plan.status == "Active" %}
+	<section class="rushd-session-form__section">
+		<div class="rushd-session-form__heading"><span>3</span><div><h2>مهام المستفيد</h2><p>أضف مهامًا عملية مرتبطة بالخطة المعتمدة.</p></div></div>
+		<div class="rushd-task-create" data-task-create data-plan-name="{{ plan.name }}">
+			<input data-task-title placeholder="عنوان المهمة">
+			<input data-task-due type="date">
+			<textarea data-task-instructions placeholder="تعليمات واضحة للمستفيد"></textarea>
+			<button class="rushd-button rushd-button--primary" type="button" data-create-task>إضافة المهمة</button>
+		</div>
+		<div class="rushd-form-message" data-form-message role="status"></div>
+		<div class="rushd-request-list">
+			{% for task in editor.tasks %}<div class="rushd-request-row"><span class="rushd-request-row__main"><strong>{{ task.task_title }}</strong><span class="rushd-request-row__meta"><span>{{ task.due_date_label }}</span><span>{{ task.status_label }}</span></span></span></div>{% endfor %}
+		</div>
+	</section>
+	{% endif %}
+</form>
+{% endif %}
+{% endblock %}
+
+{% block script %}<script src="/assets/consultation_center/js/rushd-plan-actions.js?v=20260729-8"></script>{% endblock %}

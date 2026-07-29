@@ -69,6 +69,8 @@ def _get_portal_url(user: str, roles: set[str]):
 		return "/app/rushd"
 	if "Consultation Supervisor" in roles:
 		return "/supervisor"
+	if "Consultant" in roles:
+		return "/consultant"
 	if roles & OPERATIONS_PORTAL_ROLES:
 		return "/operations"
 	if "Beneficiary" in roles:

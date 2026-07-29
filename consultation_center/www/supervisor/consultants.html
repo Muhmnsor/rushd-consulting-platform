@@ -1,0 +1,8 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+{% block staff_content %}
+<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">الجودة والطاقة</span><h1>أداء المستشارين</h1><p>مؤشرات تشغيلية مساندة للمراجعة المهنية، ولا تستخدم منفردة لاتخاذ قرار آلي.</p></div></section>
+<section class="rushd-card rushd-table-card"><div class="rushd-responsive-table"><table><thead><tr><th>المستشار</th><th>الحالات النشطة</th><th>الجلسات</th><th>اكتمال التوثيق</th><th>حضور المستفيدين</th><th>غياب</th><th>نواقص</th><th>الطاقة اليومية</th></tr></thead><tbody>
+{% for row in consultants %}<tr><td><strong>{{ row.consultant_name }}</strong><small>{{ row.branch or "دون فرع" }}</small></td><td>{{ row.active_cases }}</td><td>{{ row.sessions }}</td><td><span class="rushd-score-chip">{{ row.documentation_rate }}%</span></td><td>{{ row.attended_appointments }}</td><td>{{ row.no_show_appointments }}</td><td>{{ row.pending_documentation }}</td><td>{{ row.maximum_daily_sessions or "غير محددة" }}</td></tr>
+{% else %}<tr><td colspan="8">لا يوجد مستشارون مرتبطون بحالات ضمن نطاقك.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

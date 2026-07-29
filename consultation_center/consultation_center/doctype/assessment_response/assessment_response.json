@@ -1,0 +1,32 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-07-28 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "question_code",
+  "question_text",
+  "response_type",
+  "answer_value",
+  "numeric_score"
+ ],
+ "fields": [
+  {"fieldname": "question_code", "fieldtype": "Data", "in_list_view": 1, "label": "Question Code", "read_only": 1, "reqd": 1},
+  {"fieldname": "question_text", "fieldtype": "Small Text", "in_list_view": 1, "label": "Question Text", "read_only": 1, "reqd": 1},
+  {"fieldname": "response_type", "fieldtype": "Data", "label": "Response Type", "read_only": 1},
+  {"fieldname": "answer_value", "fieldtype": "Data", "in_list_view": 1, "label": "Answer", "read_only": 1},
+  {"fieldname": "numeric_score", "fieldtype": "Float", "in_list_view": 1, "label": "Normalized Score", "read_only": 1}
+ ],
+ "istable": 1,
+ "modified": "2026-07-28 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Assessment Response",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

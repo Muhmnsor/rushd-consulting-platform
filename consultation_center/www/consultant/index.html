@@ -1,0 +1,69 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+{% if not consultant_ready %}
+<section class="rushd-card rushd-empty-state">
+	<div>
+		<span class="rushd-empty-state__mark">!</span>
+		<h1>الملف المهني غير مربوط</h1>
+		<p>حسابك يملك صلاحية المستشار، لكن لا يوجد ملف مستشار نشط مرتبط به. تواصل مع إدارة رُشد لإكمال الربط.</p>
+	</div>
+</section>
+{% else %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">مساحتك المهنية</span>
+		<h1>مرحبًا {{ consultant.consultant_name }}</h1>
+		<p>تابع الحالات المسندة إليك والمواعيد المقبلة، ولا تظهر هنا إلا السجلات الواقعة ضمن نطاقك.</p>
+	</div>
+	<a class="rushd-button rushd-button--primary" href="/consultant/cases">فتح الحالات</a>
+</section>
+
+<section class="rushd-staff-kpis">
+	<article class="rushd-card rushd-staff-kpi"><span>الحالات النشطة</span><strong>{{ counts.active_cases }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>إسنادات جديدة</span><strong>{{ counts.new_cases }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>المواعيد المقبلة</span><strong>{{ counts.upcoming_appointments }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>تحتاج توثيقًا</span><strong>{{ counts.documentation_due }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>مقاييس تحتاج مراجعة</span><strong>{{ counts.assessments_due }}</strong><a href="/consultant/assessments">فتح المقاييس</a></article>
+	<article class="rushd-card rushd-staff-kpi"><span>طلبات إشراف مفتوحة</span><strong>{{ counts.open_supervision }}</strong><a href="/consultant/supervision">فتح الطلبات</a></article>
+	<article class="rushd-card rushd-staff-kpi"><span>تنبيهات مهنية نشطة</span><strong>{{ counts.open_escalations }}</strong><a href="/consultant/alerts">فتح التنبيهات</a></article>
+</section>
+
+<section class="rushd-consultant-grid">
+	<article class="rushd-card">
+		<div class="rushd-card__header"><h2>أحدث الحالات</h2><a href="/consultant/cases">عرض الكل</a></div>
+		{% if cases %}
+		<div class="rushd-request-list">
+			{% for case in cases %}
+			<a class="rushd-request-row" href="/consultant/cases?case={{ case.name }}">
+				<span class="rushd-request-row__main">
+					<strong>{{ case.beneficiary_name }} — {{ case.service_name }}</strong>
+					<span class="rushd-request-row__meta"><span>{{ case.name }}</span><span>{{ case.next_action or "تحديد الخطوة التالية" }}</span></span>
+				</span>
+				<span class="rushd-status rushd-status--blue">{{ case.status_label }}</span>
+			</a>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد حالات مسندة</h2><p>ستظهر الحالات هنا فور إسنادها إليك.</p></div></div>
+		{% endif %}
+	</article>
+
+	<article class="rushd-card">
+		<div class="rushd-card__header"><h2>المواعيد المقبلة</h2></div>
+		{% if appointments %}
+		<div class="rushd-appointment-list">
+			{% for appointment in appointments %}
+			<div class="rushd-appointment-row">
+				<span><strong>{{ appointment.beneficiary_name }}</strong><small>{{ appointment.start_label }} — {{ appointment.mode_label }}</small></span>
+				<span class="rushd-status rushd-status--green">{{ appointment.status_label }}</span>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">◷</span><h2>لا توجد مواعيد مقبلة</h2></div></div>
+		{% endif %}
+	</article>
+</section>
+{% endif %}
+{% endblock %}

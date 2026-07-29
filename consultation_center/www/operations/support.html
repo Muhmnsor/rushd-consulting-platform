@@ -1,0 +1,4 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}{% block staff_content %}
+<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">الدعم</span><h1>خدمة المستفيد</h1><p>طلبات الدخول والبيانات والتواصل والإغلاق، مع فصلها عن السجل المهني للحالة.</p></div></section>
+<section class="rushd-card rushd-table-card"><div class="rushd-responsive-table"><table><thead><tr><th>الطلب</th><th>الموضوع</th><th>صاحب الطلب</th><th>الأولوية</th><th>الحالة</th><th>آخر تحديث</th></tr></thead><tbody>{% for row in tickets %}<tr><td>{{ row.name }}</td><td>{{ row.subject }}</td><td>{{ row.requester }}</td><td>{{ row.priority }}</td><td>{{ row.status }}</td><td>{{ row.modified }}</td></tr>{% else %}<tr><td colspan="6">لا توجد طلبات دعم مسجلة.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

@@ -1,0 +1,3 @@
+{% extends "consultation_center/templates/rushd_portal.html" %}{% block portal_content %}
+<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">الملفات المسموحة</span><h1>ملفاتي</h1><p>المستندات التي رفعتها أو اعتمد الفريق إتاحتها لك فقط.</p></div></section>
+<section class="rushd-card rushd-table-card"><div class="rushd-professional-list">{% for row in documents %}<article><div><strong>{{ row.title }}</strong><p>{{ row.description or row.document_type }} — {{ row.uploaded_on }}</p></div><a class="rushd-button rushd-button--secondary" href="{{ row.file }}">تنزيل</a></article>{% else %}<div class="rushd-empty-state"><div><h2>لا توجد ملفات متاحة</h2></div></div>{% endfor %}</div></section>{% endblock %}

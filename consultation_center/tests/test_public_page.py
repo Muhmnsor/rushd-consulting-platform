@@ -5,8 +5,11 @@ import frappe
 from frappe.tests.utils import FrappeTestCase
 
 from consultation_center.setup.install import RUSHD_LOGO_URL, configure_site_identity
+from consultation_center.setup.services import DEFAULT_SERVICES, ensure_default_services
 from consultation_center.website import (
 	SETTINGS_DOCTYPE,
+	TABLE_DEFAULTS,
+	TEXT_DEFAULTS,
 	ensure_rushd_website_settings,
 	get_rushd_website_settings,
 )
@@ -24,6 +27,10 @@ class TestPublicPage(FrappeTestCase):
 		self.assertEqual(
 			_get_portal_url("operations@example.com", {"Intake Coordinator"}),
 			"/operations",
+		)
+		self.assertEqual(
+			_get_portal_url("consultant@example.com", {"Consultant"}),
+			"/consultant",
 		)
 		self.assertEqual(_get_portal_url("beneficiary@example.com", {"Beneficiary"}), "/beneficiary")
 		self.assertEqual(_get_portal_url("guardian@example.com", {"Guardian"}), "/guardian")
@@ -87,6 +94,27 @@ class TestPublicPage(FrappeTestCase):
 		self.assertEqual(context.title, settings.page_title)
 		self.assertLessEqual(len(context.services), settings.services_limit)
 
+	def test_homepage_defaults_address_the_student_not_the_guardian(self):
+		public_copy = " ".join(
+			[
+				TEXT_DEFAULTS["privacy_description"],
+				*(row["description"] for row in TABLE_DEFAULTS["intro_promises"]),
+				*(row["title"] for row in TABLE_DEFAULTS["privacy_items"]),
+				*(row["question"] for row in TABLE_DEFAULTS["faqs"]),
+			]
+		)
+
+		self.assertNotIn("ولي الأمر", public_copy)
+		self.assertEqual(TEXT_DEFAULTS["guardian_label"], "فريق رُشد")
+
+	def test_default_student_services_are_available(self):
+		ensure_default_services()
+
+		for service in DEFAULT_SERVICES:
+			self.assertTrue(
+				frappe.db.exists("Consultation Service", service["service_code"])
+			)
+
 	def test_seed_does_not_overwrite_editorial_changes(self):
 		settings = frappe.get_single(SETTINGS_DOCTYPE)
 		settings.hero_title = "عنوان تحريري محفوظ"
@@ -146,6 +174,25 @@ class TestPublicPage(FrappeTestCase):
 		self.assertIn("#page-user-profile .performance-heatmap", rtl_styles)
 		self.assertIn("overflow-x: auto;", rtl_styles)
 		self.assertIn("@media (min-width: 768px) and (max-width: 1199px)", rtl_styles)
+
+	def test_rushd_workspace_styles_match_the_actual_desk_route(self):
+		rtl_path = Path(__file__).parents[1] / "public" / "css" / "rushd-rtl.css"
+		script_path = Path(__file__).parents[1] / "public" / "js" / "rushd-rtl.js"
+		rtl_styles = rtl_path.read_text()
+		desk_script = script_path.read_text()
+
+		self.assertIn("body[data-route='Workspaces/Rushd']", rtl_styles)
+		self.assertIn("--rushd-admin-canvas: #f4f3ef;", rtl_styles)
+		self.assertIn("background: #292d31;", rtl_styles)
+		self.assertIn(".rushd-ux-section-heading", rtl_styles)
+		self.assertIn(".shortcut-widget-box", rtl_styles)
+		self.assertIn(".quick-list-widget-box", rtl_styles)
+		self.assertIn(".links-widget-box", rtl_styles)
+		self.assertIn("decorateRushdWorkspace", desk_script)
+		self.assertIn("ابدأ من المهمة التي تريد إنجازها", desk_script)
+		self.assertIn("مسار الطلبات", desk_script)
+		self.assertIn("التشغيل اليومي", desk_script)
+		self.assertIn("قرارات تحتاج متابعة", desk_script)
 
 	def _build_context(self, user, roles):
 		frappe.set_user(user)

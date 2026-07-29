@@ -175,3 +175,136 @@ def calculate_profile_completion(beneficiary) -> int:
 	fields = ("beneficiary_name", "mobile", "email", "city", "date_of_birth")
 	completed = sum(bool(beneficiary.get(field)) for field in fields)
 	return round((completed / len(fields)) * 100)
+
+
+def get_active_beneficiary_plan(beneficiary: str):
+	name = frappe.db.get_value(
+		"Consultation Plan",
+		{"beneficiary": beneficiary, "status": ["in", ["Active", "Completed"]]},
+		"name",
+		order_by="modified desc",
+	)
+	if not name:
+		return None
+	doc = frappe.get_doc("Consultation Plan", name)
+	doc.visible_goals = [goal for goal in doc.goals if goal.beneficiary_visible]
+	doc.start_date_label = format_date(doc.start_date) if doc.start_date else "غير محددة"
+	doc.review_date_label = format_date(doc.review_date) if doc.review_date else "غير محددة"
+	doc.status_label = "مكتملة" if doc.status == "Completed" else "معتمدة"
+	return doc
+
+
+def get_beneficiary_tasks(beneficiary: str):
+	rows = frappe.db.get_all(
+		"Beneficiary Task",
+		filters={"beneficiary": beneficiary, "status": ["!=", "Cancelled"]},
+		fields=[
+			"name",
+			"plan",
+			"task_title",
+			"instructions",
+			"due_date",
+			"status",
+			"beneficiary_note",
+			"completed_on",
+		],
+		order_by="due_date asc, creation asc",
+	)
+	labels = {
+		"Pending": "لم تبدأ",
+		"In Progress": "قيد التنفيذ",
+		"Completed": "مكتملة",
+	}
+	for row in rows:
+		row.status_label = labels.get(row.status, row.status)
+		row.due_date_label = format_date(row.due_date) if row.due_date else "دون موعد محدد"
+	return rows
+
+
+def get_beneficiary_assessments(beneficiary: str):
+	rows = frappe.db.get_all(
+		"Assessment Submission",
+		filters={"beneficiary": beneficiary, "status": ["!=", "Cancelled"]},
+		fields=[
+			"name",
+			"assessment_template",
+			"assessment_type",
+			"status",
+			"due_date",
+			"percentage_score",
+			"result_visible",
+			"beneficiary_result_summary",
+			"modified",
+		],
+		order_by="due_date asc, modified desc",
+	)
+	statuses = {
+		"Assigned": "مطلوب",
+		"In Progress": "محفوظ جزئيًا",
+		"Submitted": "أُرسل للمراجعة",
+		"Reviewed": "تمت المراجعة",
+	}
+	types = {"Baseline": "قبلي", "Follow-up": "متابعة", "Closing": "بعدي"}
+	for row in rows:
+		row.template_title = (
+			frappe.db.get_value(
+				"Assessment Template",
+				row.assessment_template,
+				"template_title",
+			)
+			or row.assessment_template
+		)
+		row.status_label = statuses.get(row.status, row.status)
+		row.type_label = types.get(row.assessment_type, row.assessment_type)
+		row.due_date_label = format_date(row.due_date) if row.due_date else "دون موعد محدد"
+		row.editable = row.status in {"Assigned", "In Progress"}
+	return rows
+
+
+def get_beneficiary_assessment_detail(beneficiary: str, submission_name: str | None):
+	if not submission_name:
+		return None
+	name = frappe.db.get_value(
+		"Assessment Submission",
+		{"name": submission_name, "beneficiary": beneficiary, "status": ["!=", "Cancelled"]},
+		"name",
+	)
+	if not name:
+		return None
+	submission = frappe.get_doc("Assessment Submission", name)
+	version = frappe.get_doc("Assessment Version", submission.assessment_version)
+	template = frappe.get_doc("Assessment Template", submission.assessment_template)
+	answers = {row.question_code: row.answer_value for row in submission.responses}
+	questions = []
+	for question in version.questions:
+		questions.append(
+			{
+				"question_code": question.question_code,
+				"question_text": question.question_text,
+				"beneficiary_help": question.beneficiary_help,
+				"response_type": question.response_type,
+				"required": question.required,
+				"minimum_value": question.minimum_value,
+				"maximum_value": question.maximum_value,
+				"answer_value": answers.get(question.question_code, ""),
+			}
+		)
+	return {
+		"name": submission.name,
+		"template_title": template.template_title,
+		"instructions": version.instructions,
+		"status": submission.status,
+		"editable": submission.status in {"Assigned", "In Progress"},
+		"questions": questions,
+		"result_visible": bool(submission.result_visible and submission.status == "Reviewed"),
+		"percentage_score": (
+			round(submission.percentage_score or 0, 1)
+			if submission.result_visible and submission.status == "Reviewed"
+			else None
+		),
+		"beneficiary_result_summary": (
+			submission.beneficiary_result_summary
+			if submission.result_visible and submission.status == "Reviewed"
+			else ""
+		),
+	}

@@ -1,6 +1,7 @@
 import frappe
 from frappe.translate import set_default_language
 
+from consultation_center.setup.services import ensure_default_services
 from consultation_center.website import (
 	ensure_rushd_website_settings,
 	remove_legacy_settings_from_website_workspace,
@@ -64,6 +65,7 @@ def after_install():
 	create_roles()
 	configure_site_identity()
 	ensure_rushd_website_settings()
+	ensure_default_services()
 	remove_legacy_settings_from_website_workspace()
 
 

@@ -1,10 +1,10 @@
 {% extends "templates/base.html" %}
 
 {% block head_include %}
-<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-staff.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css?v=20260729-8">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css?v=20260729-8">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css?v=20260729-8">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-staff.css?v=20260729-8">
 {% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -29,14 +29,23 @@
 			<a class="rushd-nav-link {% if active_nav == 'operations-requests' %}is-active{% endif %}" href="/operations/requests">
 				<span class="rushd-nav-icon">◫</span><span>طلبات الخدمة</span>
 			</a>
-			<span class="rushd-nav-link is-disabled">
-				<span class="rushd-nav-icon">◷</span><span>إدارة المواعيد</span><small>قريبًا</small>
-			</span>
-			<span class="rushd-nav-link is-disabled">
-				<span class="rushd-nav-icon">○</span><span>خدمة المستفيد</span><small>قريبًا</small>
-			</span>
+			<a class="rushd-nav-link {% if active_nav == 'operations-appointments' %}is-active{% endif %}" href="/operations/appointments">
+				<span class="rushd-nav-icon">◷</span><span>إدارة المواعيد</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'operations-attendance' %}is-active{% endif %}" href="/operations/attendance">
+				<span class="rushd-nav-icon">✓</span><span>إدارة الحضور</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'operations-support' %}is-active{% endif %}" href="/operations/support">
+				<span class="rushd-nav-icon">○</span><span>خدمة المستفيد</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'operations-waitlist' %}is-active{% endif %}" href="/operations/waitlist">
+				<span class="rushd-nav-icon">≡</span><span>قائمة الانتظار</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'operations-referral-directory' %}is-active{% endif %}" href="/operations/referral-directory">
+				<span class="rushd-nav-icon">↗</span><span>دليل جهات الإحالة</span>
+			</a>
 		</nav>
-		{% else %}
+		{% elif staff_section == "supervisor" %}
 		<nav class="rushd-sidebar__nav">
 			<a class="rushd-nav-link {% if active_nav == 'supervisor-dashboard' %}is-active{% endif %}" href="/supervisor">
 				<span class="rushd-nav-icon">⌂</span><span>لوحة المشرف</span>
@@ -44,12 +53,78 @@
 			<a class="rushd-nav-link {% if active_nav == 'supervisor-triage' %}is-active{% endif %}" href="/supervisor/triage">
 				<span class="rushd-nav-icon">◇</span><span>طابور الفرز</span>
 			</a>
-			<span class="rushd-nav-link is-disabled">
-				<span class="rushd-nav-icon">⇄</span><span>توزيع الحالات</span><small>قريبًا</small>
-			</span>
-			<span class="rushd-nav-link is-disabled">
-				<span class="rushd-nav-icon">◫</span><span>الحالات</span><small>قريبًا</small>
-			</span>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-assignments' %}is-active{% endif %}" href="/supervisor/assignments">
+				<span class="rushd-nav-icon">⇄</span><span>توزيع الحالات</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-cases' %}is-active{% endif %}" href="/supervisor/cases">
+				<span class="rushd-nav-icon">◫</span><span>الحالات تحت الإشراف</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-session-reviews' %}is-active{% endif %}" href="/supervisor/session-reviews">
+				<span class="rushd-nav-icon">✓</span><span>مراجعة الجلسات</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-plan-reviews' %}is-active{% endif %}" href="/supervisor/plan-reviews">
+				<span class="rushd-nav-icon">◎</span><span>مراجعة الخطط</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-assessments' %}is-active{% endif %}" href="/supervisor/assessments">
+				<span class="rushd-nav-icon">◉</span><span>متابعة المقاييس</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-referrals' %}is-active{% endif %}" href="/supervisor/referrals">
+				<span class="rushd-nav-icon">↗</span><span>مراجعة الإحالات</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-requests' %}is-active{% endif %}" href="/supervisor/requests">
+				<span class="rushd-nav-icon">◌</span><span>طلبات الإشراف</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-escalations' %}is-active{% endif %}" href="/supervisor/escalations">
+				<span class="rushd-nav-icon">!</span><span>التصعيدات المهنية</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-consultants' %}is-active{% endif %}" href="/supervisor/consultants">
+				<span class="rushd-nav-icon">♙</span><span>أداء المستشارين</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'supervisor-reports' %}is-active{% endif %}" href="/supervisor/reports">
+				<span class="rushd-nav-icon">▥</span><span>تقارير الإشراف</span>
+			</a>
+		</nav>
+		{% else %}
+		<nav class="rushd-sidebar__nav">
+			<a class="rushd-nav-link {% if active_nav == 'consultant-dashboard' %}is-active{% endif %}" href="/consultant">
+				<span class="rushd-nav-icon">⌂</span><span>لوحة المستشار</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-cases' %}is-active{% endif %}" href="/consultant/cases">
+				<span class="rushd-nav-icon">◫</span><span>حالاتي</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-calendar' %}is-active{% endif %}" href="/consultant/calendar">
+				<span class="rushd-nav-icon">◷</span><span>الجدول والمواعيد</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-availability' %}is-active{% endif %}" href="/consultant/availability">
+				<span class="rushd-nav-icon">◴</span><span>التوفر والطاقة</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-sessions' %}is-active{% endif %}" href="/consultant/sessions">
+				<span class="rushd-nav-icon">✎</span><span>توثيق الجلسات</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-plans' %}is-active{% endif %}" href="/consultant/plans">
+				<span class="rushd-nav-icon">◎</span><span>الخطط والمهام</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-assessments' %}is-active{% endif %}" href="/consultant/assessments">
+				<span class="rushd-nav-icon">◉</span><span>المقاييس والنتائج</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-referrals' %}is-active{% endif %}" href="/consultant/referrals">
+				<span class="rushd-nav-icon">↗</span><span>الإحالات</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-supervision' %}is-active{% endif %}" href="/consultant/supervision">
+				<span class="rushd-nav-icon">◌</span><span>طلبات الإشراف</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-alerts' %}is-active{% endif %}" href="/consultant/alerts">
+				<span class="rushd-nav-icon">!</span><span>التنبيهات المهنية</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-reports' %}is-active{% endif %}" href="/consultant/reports">
+				<span class="rushd-nav-icon">▥</span><span>تقاريري</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-professional-profile' %}is-active{% endif %}" href="/consultant/professional-profile">
+				<span class="rushd-nav-icon">♙</span><span>الملف المهني</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'consultant-development' %}is-active{% endif %}" href="/consultant/development">
+				<span class="rushd-nav-icon">↥</span><span>التطوير المهني</span>
+			</a>
 		</nav>
 		{% endif %}
 
@@ -79,4 +154,3 @@
 	</div>
 </div>
 {% endblock %}
-

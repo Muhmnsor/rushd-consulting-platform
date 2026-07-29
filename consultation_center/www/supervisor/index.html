@@ -15,6 +15,11 @@
 	<article class="rushd-card rushd-staff-kpi"><span>مناسبة للخدمة</span><strong>{{ counts["Eligible"] }}</strong></article>
 	<article class="rushd-card rushd-staff-kpi"><span>تحتاج استكمالًا</span><strong>{{ counts["Awaiting Beneficiary Information"] }}</strong></article>
 	<article class="rushd-card rushd-staff-kpi"><span>غير مناسبة</span><strong>{{ counts["Not Eligible"] }}</strong></article>
+	<article class="rushd-card rushd-staff-kpi"><span>جلسات بانتظار المراجعة</span><strong>{{ pending_session_reviews }}</strong><a href="/supervisor/session-reviews">فتح الطابور</a></article>
+	<article class="rushd-card rushd-staff-kpi"><span>مقاييس بانتظار المراجعة</span><strong>{{ submitted_assessments }}</strong><a href="/supervisor/assessments">فتح المتابعة</a></article>
+	<article class="rushd-card rushd-staff-kpi"><span>إحالات بانتظار الاعتماد</span><strong>{{ pending_referrals }}</strong><a href="/supervisor/referrals">فتح الإحالات</a></article>
+	<article class="rushd-card rushd-staff-kpi"><span>طلبات إشراف مفتوحة</span><strong>{{ pending_supervision_requests }}</strong><a href="/supervisor/requests">فتح الطلبات</a></article>
+	<article class="rushd-card rushd-staff-kpi"><span>تنبيهات مهنية نشطة</span><strong>{{ open_escalations }}</strong><small>منها {{ critical_escalations }} حرجة</small><a href="/supervisor/escalations">فتح التنبيهات</a></article>
 </section>
 
 <section class="rushd-card" style="margin-top: 20px;">
@@ -36,4 +41,3 @@
 	{% endif %}
 </section>
 {% endblock %}
-

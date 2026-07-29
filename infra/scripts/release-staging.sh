@@ -71,6 +71,14 @@ jq \
               ) then
                 .image = $application_image
                 | update_asset_version
+                | if .name == "backend" then
+                    .command = [
+                      "bash",
+                      "/home/frappe/frappe-bench/apps/consultation_center/docker/start-backend.sh"
+                    ]
+                  else
+                    .
+                  end
               else
                 .
               end
@@ -110,6 +118,20 @@ updated_images="$(
 
 if [[ "${updated_images}" != "${application_image}" ]]; then
   echo "Release payload does not update every Rushd application container." >&2
+  exit 1
+fi
+
+backend_command="$(
+  jq -c '
+    .properties.template.containers[]
+    | select(.name == "backend")
+    | .command
+  ' "${release_file}"
+)"
+expected_backend_command='["bash","/home/frappe/frappe-bench/apps/consultation_center/docker/start-backend.sh"]'
+
+if [[ "${backend_command}" != "${expected_backend_command}" ]]; then
+  echo "Release payload does not run migrations before starting the backend." >&2
   exit 1
 fi
 

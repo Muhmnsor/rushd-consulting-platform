@@ -1,0 +1,70 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div><span class="rushd-page-heading__eyebrow">المتابعة والنتائج</span><h1>المقاييس والنتائج</h1><p>أرسل مقياسًا منشورًا، راجع الإجابات، وسجّل تفسيرًا مهنيًا منفصلًا عن الملخص المسموح للمستفيد.</p></div>
+</section>
+
+{% if not editor %}
+<section class="rushd-card">
+	<div class="rushd-card__header"><h2>اختر حالة</h2><span class="rushd-status">{{ cases|length }} حالة</span></div>
+	<div class="rushd-request-list">
+		{% for case in cases %}
+		<a class="rushd-request-row" href="/consultant/assessments?case={{ case.name }}"><span class="rushd-request-row__main"><strong>{{ case.beneficiary_name }} — {{ case.service_name }}</strong><span class="rushd-request-row__meta"><span>{{ case.name }}</span><span>{{ case.status_label }}</span></span></span><span class="rushd-status rushd-status--blue">فتح المقاييس</span></a>
+		{% else %}
+		<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد حالات مسندة</h2></div></div>
+		{% endfor %}
+	</div>
+</section>
+{% else %}
+<section class="rushd-assessment-layout">
+	<div class="rushd-card">
+		<div class="rushd-card__header"><div><h2>{{ editor.case.beneficiary_name }}</h2><p>{{ editor.case.name }} — {{ editor.case.service_name }}</p></div></div>
+		<form class="rushd-assessment-assign" data-assessment-assign data-case="{{ editor.case.name }}">
+			<h3>إرسال مقياس للمستفيد</h3>
+			<div class="rushd-staff-fields">
+				<div class="rushd-staff-field rushd-staff-field--full"><label>المقياس المنشور</label><select name="assessment_version" required><option value="">اختر المقياس</option>{% for version in versions %}<option value="{{ version.name }}">{{ version.template_title }} — الإصدار {{ version.version_number }}</option>{% endfor %}</select></div>
+				<div class="rushd-staff-field"><label>مرحلة القياس</label><select name="assessment_type"><option value="Baseline">قبلي</option><option value="Follow-up">متابعة</option><option value="Closing">بعدي</option></select></div>
+				<div class="rushd-staff-field"><label>تاريخ الاستحقاق</label><input type="date" name="due_date"></div>
+			</div>
+			<button class="rushd-button rushd-button--primary" type="submit">إرسال المقياس</button>
+			<p class="rushd-assessment-note">المؤشر الرقمي أداة متابعة فقط، ولا ينتج تشخيصًا أو قرارًا آليًا.</p>
+		</form>
+		<div class="rushd-form-message" data-form-message></div>
+	</div>
+
+	<aside class="rushd-card rushd-assessment-submissions">
+		<div class="rushd-card__header"><h2>سجل المقاييس</h2><span class="rushd-status">{{ editor.submissions|length }}</span></div>
+		<div class="rushd-request-list">
+			{% for item in editor.submissions %}
+			<a class="rushd-request-row" href="/consultant/assessments?case={{ editor.case.name }}&submission={{ item.name }}"><span class="rushd-request-row__main"><strong>{{ item.template_title }} — {{ item.type_label }}</strong><span class="rushd-request-row__meta"><span>{{ item.status_label }}</span><span>{{ item.due_date_label }}</span></span></span>{% if item.status in ["Submitted", "Reviewed"] %}<span class="rushd-score-chip">{{ item.percentage_score|round(1) }}%</span>{% endif %}</a>
+			{% else %}<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">◎</span><h2>لم تُرسل مقاييس بعد</h2></div></div>{% endfor %}
+		</div>
+	</aside>
+</section>
+
+{% if editor.comparison %}
+<section class="rushd-card rushd-assessment-comparison">
+	<div class="rushd-card__header"><div><h2>المقارنة الزمنية</h2><p>اعرض التغير كإشارة متابعة تحتاج تفسيرًا مهنيًا، لا كحكم مستقل.</p></div></div>
+	<div class="rushd-comparison-track">{% for point in editor.comparison %}<article><span>{{ point.type_label }}</span><strong>{{ point.score }}%</strong><small>{{ point.title }}</small><small>{{ point.date_label }}</small></article>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if editor.selected %}
+<section class="rushd-card rushd-assessment-review">
+	<div class="rushd-card__header"><div><h2>{{ editor.selected.template_title }} — {{ editor.selected.type_label }}</h2><p>{{ editor.selected.status_label }}</p></div><span class="rushd-score-chip rushd-score-chip--large">{{ editor.selected.percentage_score|round(1) }}%</span></div>
+	<div class="rushd-assessment-answers">{% for answer in editor.selected.responses %}<article><strong>{{ answer.question_text }}</strong><span>الإجابة: {{ answer.answer_value }}</span><small>المؤشر الموحّد: {{ answer.numeric_score|round(1) }}%</small></article>{% else %}<p>لم تُرسل إجابات بعد.</p>{% endfor %}</div>
+	{% if editor.selected.status == "Submitted" %}
+	<form class="rushd-assessment-review-form" data-assessment-review data-submission="{{ editor.selected.name }}">
+		<div class="rushd-staff-field"><label>التفسير المهني الداخلي</label><textarea name="professional_interpretation" placeholder="لا يظهر للمستفيد"></textarea></div>
+		<div class="rushd-staff-field"><label>ملخص واضح للمستفيد</label><textarea name="beneficiary_result_summary" placeholder="تجنب التشخيص واللغة القطعية"></textarea></div>
+		<label class="rushd-check-row"><input type="checkbox" name="publish_result" value="1"> عرض المؤشر والملخص للمستفيد بعد المراجعة</label>
+		<button class="rushd-button rushd-button--primary" type="submit">اعتماد المراجعة</button>
+	</form>
+	{% else %}
+	<div class="rushd-assessment-summaries"><div><strong>التفسير المهني الداخلي</strong><p>{{ editor.selected.professional_interpretation or "غير مسجل" }}</p></div><div><strong>ملخص المستفيد</strong><p>{{ editor.selected.beneficiary_result_summary or "لم يُنشر ملخص" }}</p></div></div>
+	{% endif %}
+</section>
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block script %}<script src="/assets/consultation_center/js/rushd-assessment-actions.js?v=20260729-8"></script>{% endblock %}

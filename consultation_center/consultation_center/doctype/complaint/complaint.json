@@ -1,0 +1,27 @@
+{
+ "doctype":"DocType","name":"Complaint","module":"Consultation Center","autoname":"naming_series:","naming_rule":"By \"Naming Series\" field","engine":"InnoDB","track_changes":1,"allow_rename":0,
+ "field_order":["naming_series","complainant","beneficiary","complaint_type","confidentiality","priority","status","details","assigned_to","investigation_note","action_taken","public_response","submitted_on","resolved_on"],
+ "fields":[
+  {"fieldname":"naming_series","fieldtype":"Select","label":"Naming Series","options":"COMP-.YYYY.-","reqd":1},
+  {"fieldname":"complainant","fieldtype":"Link","label":"Complainant","options":"User","read_only":1,"reqd":1},
+  {"fieldname":"beneficiary","fieldtype":"Link","label":"Beneficiary","options":"Beneficiary"},
+  {"fieldname":"complaint_type","fieldtype":"Select","label":"Complaint Type","options":"Service Feedback\nConfidential Complaint\nSuggestion\nChange Consultant","reqd":1},
+  {"fieldname":"confidentiality","fieldtype":"Select","label":"Confidentiality","options":"Standard\nConfidential\nRestricted","default":"Confidential","reqd":1},
+  {"fieldname":"priority","fieldtype":"Select","label":"Priority","options":"Low\nNormal\nHigh\nUrgent","default":"Normal","reqd":1},
+  {"fieldname":"status","fieldtype":"Select","label":"Status","options":"Submitted\nUnder Review\nAction Required\nResolved\nClosed","default":"Submitted","reqd":1,"in_list_view":1},
+  {"fieldname":"details","fieldtype":"Text","label":"Complaint Details","reqd":1},
+  {"fieldname":"assigned_to","fieldtype":"Link","label":"Assigned To","options":"User"},
+  {"fieldname":"investigation_note","fieldtype":"Text","label":"Investigation Note"},
+  {"fieldname":"action_taken","fieldtype":"Text","label":"Action Taken"},
+  {"fieldname":"public_response","fieldtype":"Text","label":"Public Response"},
+  {"fieldname":"submitted_on","fieldtype":"Datetime","label":"Submitted On","read_only":1},
+  {"fieldname":"resolved_on","fieldtype":"Datetime","label":"Resolved On","read_only":1}
+ ],
+ "permissions":[
+  {"role":"System Manager","read":1,"write":1,"create":1,"report":1},
+  {"role":"Center Director","read":1,"write":1,"create":1,"report":1},
+  {"role":"Quality Reviewer","read":1,"write":1,"create":1,"report":1},
+  {"role":"Beneficiary","read":1,"create":1},
+  {"role":"Guardian","read":1,"create":1}
+ ]
+}

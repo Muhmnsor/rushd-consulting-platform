@@ -110,16 +110,16 @@
    "label": "Templates"
   },
   {
-   "description": "Will become a Link to Assessment Template once that doctype is built (Phase 5).",
    "fieldname": "pre_assessment_template",
-   "fieldtype": "Data",
-   "label": "Pre-Assessment Template"
+   "fieldtype": "Link",
+   "label": "Pre-Assessment Template",
+   "options": "Assessment Template"
   },
   {
-   "description": "Will become a Link to Assessment Template once that doctype is built (Phase 5).",
    "fieldname": "post_assessment_template",
-   "fieldtype": "Data",
-   "label": "Post-Assessment Template"
+   "fieldtype": "Link",
+   "label": "Post-Assessment Template",
+   "options": "Assessment Template"
   },
   {
    "description": "Will become a Link to Report Template once that doctype is built (Phase 6).",
@@ -141,7 +141,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-26 00:00:00.000000",
+ "modified": "2026-07-28 23:10:00.000000",
  "modified_by": "Administrator",
  "module": "Consultation Center",
  "name": "Consultation Service",

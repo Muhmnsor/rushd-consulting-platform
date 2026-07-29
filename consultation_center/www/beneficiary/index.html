@@ -40,6 +40,11 @@
 			<span style="width: {{ profile_completion }}%"></span>
 		</div>
 	</article>
+	<article class="rushd-card rushd-stat-card">
+		<span class="rushd-stat-card__label">مقاييس مطلوبة</span>
+		<strong>{{ pending_assessments }}</strong>
+		<small><a href="/beneficiary/assessments">فتح المقاييس والنماذج</a></small>
+	</article>
 </section>
 
 <section class="rushd-grid rushd-grid--dashboard">
@@ -98,4 +103,3 @@
 </section>
 {% endif %}
 {% endblock %}
-

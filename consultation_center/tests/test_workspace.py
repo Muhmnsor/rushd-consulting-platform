@@ -11,7 +11,7 @@ from consultation_center.boot import add_rushd_display_translations
 from consultation_center.permissions import has_admin_app_access
 
 
-APP_ROOT = Path(__file__).parents[1]
+APP_ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE_PATH = (
 	APP_ROOT
 	/ "consultation_center"

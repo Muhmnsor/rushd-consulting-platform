@@ -1,0 +1,15 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+{% block staff_content %}
+<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">الإشراف المهني</span><h1>مراجعة الخطط</h1><p>تحقق من وضوح الأهداف والمؤشرات قبل عرض الخطة للمستفيد.</p></div></section>
+<section class="rushd-queue-layout">
+<aside class="rushd-card rushd-queue-list"><div class="rushd-card__header"><h2>بانتظار المراجعة</h2><span class="rushd-status">{{ plans|length }} خطة</span></div><div class="rushd-queue-list__body">
+{% for plan in plans %}<a class="rushd-queue-item {% if selected_plan and selected_plan.name == plan.name %}is-active{% endif %}" href="/supervisor/plan-reviews?plan={{ plan.name }}"><span class="rushd-queue-item__top"><strong>{{ plan.beneficiary_name }}</strong><span class="rushd-status rushd-status--blue">معلقة</span></span><small>{{ plan.consultant_name }} — {{ plan.submitted_on_label }}</small></a>{% else %}<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد خطط معلقة</h2></div></div>{% endfor %}
+</div></aside>
+{% if selected_plan %}<article class="rushd-card rushd-record"><header class="rushd-record-header"><div><h2>{{ selected_plan.plan_title }}</h2><p>{{ selected_plan.beneficiary_name }} — {{ selected_plan.consultant_name }}</p></div></header><div class="rushd-record-body">
+<section class="rushd-record-section"><h3>ملخص الخطة</h3><p class="rushd-record-text">{{ selected_plan.plan_summary or "غير مسجل" }}</p></section>
+<section class="rushd-record-section"><h3>الأهداف والمؤشرات</h3>{% for goal in selected_plan.goals %}<div class="rushd-plan-goal"><strong>{{ goal.goal_title }}</strong><span>{{ goal.indicator or "دون مؤشر" }}</span><span>من {{ goal.baseline_value or "—" }} إلى {{ goal.target_value or "—" }}</span><span>{% if goal.beneficiary_visible %}ظاهر للمستفيد{% else %}مهني داخلي{% endif %}</span></div>{% endfor %}</section>
+<section class="rushd-action-panel" data-plan-review-panel data-plan-name="{{ selected_plan.name }}"><h3>قرار المراجعة</h3><div class="rushd-staff-field"><label>ملاحظة المشرف</label><textarea data-review-note></textarea></div><div class="rushd-form-message" data-form-message></div><div class="rushd-action-buttons"><button class="rushd-button rushd-button--success" type="button" data-plan-review="approve">اعتماد الخطة</button><button class="rushd-button rushd-button--warning" type="button" data-plan-review="return">إعادة للاستكمال</button></div></section>
+</div></article>{% else %}<article class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>اكتملت المراجعات</h2></div></article>{% endif %}
+</section>
+{% endblock %}
+{% block script %}<script src="/assets/consultation_center/js/rushd-plan-review-actions.js?v=20260729-8"></script>{% endblock %}

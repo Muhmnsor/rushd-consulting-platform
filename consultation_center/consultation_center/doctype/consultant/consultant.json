@@ -20,6 +20,16 @@
   "specializations",
   "languages",
   "services",
+  "professional_profile_section",
+  "qualifications",
+  "experience_summary",
+  "licenses",
+  "suitable_groups",
+  "credential_expiry",
+  "development_section",
+  "professional_development_hours",
+  "development_requirements",
+  "events_platform_url",
   "section_break_2",
   "default_duration",
   "buffer_before",
@@ -107,6 +117,59 @@
    "fieldname": "services",
    "fieldtype": "Small Text",
    "label": "Services"
+  },
+  {
+   "fieldname": "professional_profile_section",
+   "fieldtype": "Section Break",
+   "label": "Professional Profile"
+  },
+  {
+   "fieldname": "qualifications",
+   "fieldtype": "Text",
+   "label": "Qualifications"
+  },
+  {
+   "fieldname": "experience_summary",
+   "fieldtype": "Text",
+   "label": "Experience Summary"
+  },
+  {
+   "fieldname": "licenses",
+   "fieldtype": "Small Text",
+   "label": "Licenses and Credentials"
+  },
+  {
+   "fieldname": "suitable_groups",
+   "fieldtype": "Small Text",
+   "label": "Suitable Beneficiary Groups"
+  },
+  {
+   "fieldname": "credential_expiry",
+   "fieldtype": "Date",
+   "label": "Credential Expiry"
+  },
+  {
+   "fieldname": "development_section",
+   "fieldtype": "Section Break",
+   "label": "Professional Development"
+  },
+  {
+   "default": "0",
+   "fieldname": "professional_development_hours",
+   "fieldtype": "Float",
+   "label": "Professional Development Hours",
+   "read_only": 1
+  },
+  {
+   "fieldname": "development_requirements",
+   "fieldtype": "Text",
+   "label": "Development Requirements"
+  },
+  {
+   "fieldname": "events_platform_url",
+   "fieldtype": "Data",
+   "label": "Events Platform URL",
+   "options": "URL"
   },
   {
    "fieldname": "section_break_2",

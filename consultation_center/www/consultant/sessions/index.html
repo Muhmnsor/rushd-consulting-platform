@@ -1,0 +1,51 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">التوثيق المهني</span>
+		<h1>سجل الجلسات</h1>
+		<p>تابع الجلسات غير الموثقة والمسودات والسجلات المرسلة للمراجعة.</p>
+	</div>
+</section>
+
+{% if documentation_queue %}
+<section class="rushd-card rushd-documentation-queue">
+	<div class="rushd-card__header"><h2>تحتاج توثيقًا أو استكمالًا</h2><span class="rushd-status rushd-status--amber">{{ documentation_queue | length }}</span></div>
+	<div class="rushd-request-list">
+		{% for appointment in documentation_queue %}
+		<a class="rushd-request-row" href="/consultant/sessions/document?appointment={{ appointment.name }}{% if appointment.session_name %}&session={{ appointment.session_name }}{% endif %}">
+			<span class="rushd-request-row__main">
+				<strong>{{ appointment.beneficiary_name }} — {{ appointment.service_name }}</strong>
+				<span class="rushd-request-row__meta"><span>{{ appointment.start_label }}</span><span>{{ appointment.session_status_label }}</span></span>
+			</span>
+			<span class="rushd-status rushd-status--amber">استكمال</span>
+		</a>
+		{% endfor %}
+	</div>
+</section>
+{% endif %}
+
+<section class="rushd-card" style="margin-top: 20px;">
+	<div class="rushd-card__header"><h2>كل سجلات الجلسات</h2><span class="rushd-status">{{ sessions | length }} سجل</span></div>
+	{% if sessions %}
+	<div class="rushd-request-list">
+		{% for session in sessions %}
+		{% if session.editable %}
+		<a class="rushd-request-row" href="/consultant/sessions/document?appointment={{ session.appointment }}&session={{ session.name }}">
+		{% else %}
+		<div class="rushd-request-row">
+		{% endif %}
+			<span class="rushd-request-row__main">
+				<strong>{{ session.beneficiary_name }} — {{ session.topic or session.service_name }}</strong>
+				<span class="rushd-request-row__meta"><span>{{ session.name }}</span><span>{{ session.start_label }}</span><span>{{ session.attendance_label }}</span></span>
+			</span>
+			<span class="rushd-status {% if session.status == 'Approved' %}rushd-status--green{% elif session.status == 'Returned' %}rushd-status--amber{% else %}rushd-status--blue{% endif %}">{{ session.status_label }}</span>
+		{% if session.editable %}</a>{% else %}</div>{% endif %}
+		{% endfor %}
+	</div>
+	{% else %}
+	<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✎</span><h2>لا توجد سجلات جلسات بعد</h2></div></div>
+	{% endif %}
+</section>
+{% endblock %}

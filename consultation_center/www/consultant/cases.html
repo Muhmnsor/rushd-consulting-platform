@@ -1,0 +1,72 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">إدارة الحالات</span>
+		<h1>حالاتي</h1>
+		<p>قائمة الحالات المسندة إليك فقط، مع ملخص الحالة والخطوة المهنية التالية.</p>
+	</div>
+</section>
+
+{% if not consultant_ready %}
+<section class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">!</span><h2>الملف المهني غير مربوط</h2><p>يلزم ربط حسابك بملف مستشار نشط.</p></div></section>
+{% else %}
+<section class="rushd-queue-layout">
+	<aside class="rushd-card rushd-queue-list">
+		<div class="rushd-card__header"><h2>الحالات المسندة</h2><span class="rushd-status">{{ cases | length }} حالة</span></div>
+		<div class="rushd-queue-list__body">
+			{% for case in cases %}
+			<a class="rushd-queue-item {% if selected_case and selected_case.name == case.name %}is-active{% endif %}" href="/consultant/cases?case={{ case.name }}">
+				<span class="rushd-queue-item__top">
+					<strong>{{ case.beneficiary_name }}</strong>
+					<span class="rushd-status rushd-status--blue">{{ case.status_label }}</span>
+				</span>
+				<small>{{ case.service_name }} — {{ case.priority_label }}</small>
+			</a>
+			{% else %}
+			<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد حالات</h2></div></div>
+			{% endfor %}
+		</div>
+	</aside>
+
+	{% if selected_case %}
+	<article class="rushd-card rushd-record">
+		<header class="rushd-record-header">
+			<div>
+				<h2>{{ selected_case.beneficiary_name }}</h2>
+				<p>{{ selected_case.name }} — {{ selected_case.service_name }}</p>
+			</div>
+			<span class="rushd-status rushd-status--blue">{{ selected_case.status_label }}</span>
+		</header>
+		<div class="rushd-record-body">
+			<section class="rushd-record-section">
+				<h3>ملخص الاحتياج</h3>
+				<p class="rushd-record-text">{{ selected_case.request_summary or "لا يوجد ملخص طلب مرتبط." }}</p>
+			</section>
+			<section class="rushd-record-section">
+				<h3>بيانات الحالة</h3>
+				<div class="rushd-record-meta">
+					<span>الأولوية: {{ selected_case.priority_label }}</span>
+					<span>تاريخ الفتح: {{ selected_case.opened_on_label }}</span>
+					<span>المدينة: {{ selected_case.beneficiary_profile.city or "غير مسجلة" }}</span>
+					<span>اللغة المفضلة: {{ selected_case.beneficiary_profile.preferred_language or "غير مسجلة" }}</span>
+					<span>الجلسات: {{ selected_case.completed_sessions or 0 }} / {{ selected_case.planned_sessions or "غير محدد" }}</span>
+				</div>
+			</section>
+			<section class="rushd-record-section">
+				<h3>الهدف المهني</h3>
+				<p class="rushd-record-text">{{ selected_case.goal_summary or "لم يُحدد الهدف بعد." }}</p>
+			</section>
+			<section class="rushd-record-section">
+				<h3>الخطوة التالية</h3>
+				<p class="rushd-record-text">{{ selected_case.next_action or "حدد الخطوة التالية للحالة." }} — الاستحقاق: {{ selected_case.next_action_due_label }}</p>
+			</section>
+		</div>
+	</article>
+	{% else %}
+	<article class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد حالة محددة</h2></div></article>
+	{% endif %}
+</section>
+{% endif %}
+{% endblock %}

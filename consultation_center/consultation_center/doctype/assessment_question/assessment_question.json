@@ -1,0 +1,40 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-07-28 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "question_code",
+  "question_text",
+  "beneficiary_help",
+  "column_break_1",
+  "response_type",
+  "required",
+  "minimum_value",
+  "maximum_value",
+  "reverse_scored"
+ ],
+ "fields": [
+  {"fieldname": "question_code", "fieldtype": "Data", "in_list_view": 1, "label": "Question Code", "reqd": 1},
+  {"fieldname": "question_text", "fieldtype": "Small Text", "in_list_view": 1, "label": "Question Text", "reqd": 1},
+  {"fieldname": "beneficiary_help", "fieldtype": "Small Text", "label": "Beneficiary Help"},
+  {"fieldname": "column_break_1", "fieldtype": "Column Break"},
+  {"default": "Scale", "fieldname": "response_type", "fieldtype": "Select", "in_list_view": 1, "label": "Response Type", "options": "Scale\nYes/No\nNumber", "reqd": 1},
+  {"default": "1", "fieldname": "required", "fieldtype": "Check", "label": "Required"},
+  {"default": "1", "fieldname": "minimum_value", "fieldtype": "Float", "label": "Minimum Value"},
+  {"default": "5", "fieldname": "maximum_value", "fieldtype": "Float", "label": "Maximum Value"},
+  {"default": "0", "fieldname": "reverse_scored", "fieldtype": "Check", "label": "Reverse Scored"}
+ ],
+ "istable": 1,
+ "modified": "2026-07-28 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Assessment Question",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

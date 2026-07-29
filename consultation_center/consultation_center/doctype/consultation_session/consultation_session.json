@@ -1,0 +1,329 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-07-28 00:00:00.000000",
+ "doctype": "DocType",
+ "description": "سجل توثيق الجلسة مع فصل الملاحظة المهنية عن الملخصات المسموح بعرضها.",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "appointment",
+  "case",
+  "column_break_1",
+  "beneficiary",
+  "consultant",
+  "service",
+  "status",
+  "session_timing_section",
+  "actual_start",
+  "actual_end",
+  "column_break_2",
+  "duration_minutes",
+  "attendance_status",
+  "content_section",
+  "topic",
+  "goals_addressed",
+  "interventions",
+  "professional_notes",
+  "follow_up",
+  "summaries_section",
+  "beneficiary_summary",
+  "guardian_summary_allowed",
+  "guardian_summary",
+  "next_section",
+  "next_action",
+  "next_action_due",
+  "review_section",
+  "review_note",
+  "last_reviewed_by",
+  "last_reviewed_on",
+  "audit_section",
+  "documented_by",
+  "documented_on",
+  "submitted_on",
+  "approved_by",
+  "approved_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "SESSION-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "appointment",
+   "fieldtype": "Link",
+   "label": "Appointment",
+   "options": "Consultation Appointment",
+   "unique": 1
+  },
+  {
+   "fieldname": "case",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Case",
+   "options": "Consultation Case",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "beneficiary",
+   "fieldtype": "Link",
+   "label": "Beneficiary",
+   "options": "Beneficiary",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "consultant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Consultant",
+   "options": "Consultant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "service",
+   "fieldtype": "Link",
+   "label": "Service",
+   "options": "Consultation Service",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nPending Review\nApproved\nReturned\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "session_timing_section",
+   "fieldtype": "Section Break",
+   "label": "Session Timing"
+  },
+  {
+   "fieldname": "actual_start",
+   "fieldtype": "Datetime",
+   "label": "Actual Start"
+  },
+  {
+   "fieldname": "actual_end",
+   "fieldtype": "Datetime",
+   "label": "Actual End"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "duration_minutes",
+   "fieldtype": "Int",
+   "label": "Duration (minutes)",
+   "read_only": 1
+  },
+  {
+   "default": "Not Recorded",
+   "fieldname": "attendance_status",
+   "fieldtype": "Select",
+   "label": "Attendance Status",
+   "options": "Not Recorded\nAttended\nNo Show\nLate"
+  },
+  {
+   "fieldname": "content_section",
+   "fieldtype": "Section Break",
+   "label": "Professional Documentation"
+  },
+  {
+   "fieldname": "topic",
+   "fieldtype": "Small Text",
+   "label": "Session Topic"
+  },
+  {
+   "fieldname": "goals_addressed",
+   "fieldtype": "Small Text",
+   "label": "Goals Addressed"
+  },
+  {
+   "fieldname": "interventions",
+   "fieldtype": "Text",
+   "label": "Interventions"
+  },
+  {
+   "fieldname": "professional_notes",
+   "fieldtype": "Long Text",
+   "label": "Internal Professional Notes"
+  },
+  {
+   "fieldname": "follow_up",
+   "fieldtype": "Text",
+   "label": "Follow Up"
+  },
+  {
+   "fieldname": "summaries_section",
+   "fieldtype": "Section Break",
+   "label": "Permitted Summaries"
+  },
+  {
+   "fieldname": "beneficiary_summary",
+   "fieldtype": "Text",
+   "label": "Beneficiary Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "guardian_summary_allowed",
+   "fieldtype": "Check",
+   "label": "Guardian Summary Allowed"
+  },
+  {
+   "depends_on": "eval:doc.guardian_summary_allowed",
+   "fieldname": "guardian_summary",
+   "fieldtype": "Text",
+   "label": "Guardian Summary"
+  },
+  {
+   "fieldname": "next_section",
+   "fieldtype": "Section Break",
+   "label": "Next Step"
+  },
+  {
+   "fieldname": "next_action",
+   "fieldtype": "Small Text",
+   "label": "Next Action"
+  },
+  {
+   "fieldname": "next_action_due",
+   "fieldtype": "Date",
+   "label": "Next Action Due"
+  },
+  {
+   "fieldname": "review_section",
+   "fieldtype": "Section Break",
+   "label": "Supervisor Review"
+  },
+  {
+   "fieldname": "review_note",
+   "fieldtype": "Text",
+   "label": "Review Note"
+  },
+  {
+   "fieldname": "last_reviewed_by",
+   "fieldtype": "Link",
+   "label": "Last Reviewed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_reviewed_on",
+   "fieldtype": "Datetime",
+   "label": "Last Reviewed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Documentation Audit"
+  },
+  {
+   "fieldname": "documented_by",
+   "fieldtype": "Link",
+   "label": "Documented By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "documented_on",
+   "fieldtype": "Datetime",
+   "label": "Documented On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "submitted_on",
+   "fieldtype": "Datetime",
+   "label": "Submitted On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-07-28 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Consultation Session",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Center Director",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Consultation Supervisor",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Consultant",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Quality Reviewer"
+  },
+  {
+   "read": 1,
+   "role": "Auditor"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

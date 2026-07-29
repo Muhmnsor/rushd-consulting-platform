@@ -1,0 +1,68 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+{% if not documentation %}
+<section class="rushd-card rushd-empty-state">
+	<div><span class="rushd-empty-state__mark">!</span><h1>تعذر فتح جلسة التوثيق</h1><p>تأكد من أن الموعد تابع لك وأن الحضور مسجل.</p><a class="rushd-button rushd-button--primary" href="/consultant/calendar">العودة إلى الجدول</a></div>
+</section>
+{% else %}
+{% set appointment = documentation.appointment %}
+{% set session = documentation.session %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">التوثيق المهني</span>
+		<h1>توثيق جلسة {{ appointment.beneficiary_name }}</h1>
+		<p>{{ appointment.service_name }} — {{ appointment.start_label }} — الحضور: {{ appointment.attendance_label }}</p>
+	</div>
+	<a class="rushd-button rushd-button--secondary" href="/consultant/sessions">سجل الجلسات</a>
+</section>
+
+<form class="rushd-card rushd-session-form" data-session-form data-appointment="{{ appointment.name }}" data-session-name="{{ session.name if session else '' }}">
+	<section class="rushd-session-form__section">
+		<div class="rushd-session-form__heading"><span>1</span><div><h2>وقت الجلسة والحضور</h2><p>سجل الوقت الفعلي، وستحسب المدة تلقائيًا.</p></div></div>
+		<div class="rushd-staff-fields">
+			<div class="rushd-staff-field"><label for="actual_start">البداية الفعلية</label><input id="actual_start" name="actual_start" type="datetime-local" value="{{ actual_start_value }}"></div>
+			<div class="rushd-staff-field"><label for="actual_end">النهاية الفعلية</label><input id="actual_end" name="actual_end" type="datetime-local" value="{{ actual_end_value }}"></div>
+		</div>
+	</section>
+
+	<section class="rushd-session-form__section">
+		<div class="rushd-session-form__heading"><span>2</span><div><h2>التوثيق المهني الداخلي</h2><p>هذه الحقول لا تظهر للمستفيد أو ولي الأمر أو فريق التشغيل.</p></div></div>
+		<div class="rushd-staff-fields">
+			<div class="rushd-staff-field rushd-staff-field--full"><label for="topic">موضوع الجلسة</label><textarea id="topic" name="topic">{{ session.topic if session else '' }}</textarea></div>
+			<div class="rushd-staff-field rushd-staff-field--full"><label for="goals_addressed">الأهداف التي عولجت</label><textarea id="goals_addressed" name="goals_addressed">{{ session.goals_addressed if session else '' }}</textarea></div>
+			<div class="rushd-staff-field rushd-staff-field--full"><label for="interventions">الأساليب والتدخلات</label><textarea id="interventions" name="interventions">{{ session.interventions if session else '' }}</textarea></div>
+			<div class="rushd-staff-field rushd-staff-field--full"><label for="professional_notes">الملاحظة المهنية الداخلية</label><textarea class="rushd-textarea--large" id="professional_notes" name="professional_notes">{{ session.professional_notes if session else '' }}</textarea></div>
+			<div class="rushd-staff-field rushd-staff-field--full"><label for="follow_up">المتابعة المهنية</label><textarea id="follow_up" name="follow_up">{{ session.follow_up if session else '' }}</textarea></div>
+		</div>
+	</section>
+
+	<section class="rushd-session-form__section">
+		<div class="rushd-session-form__heading"><span>3</span><div><h2>الملخصات المسموح بعرضها</h2><p>اكتب لغة واضحة خالية من الملاحظات المهنية الداخلية.</p></div></div>
+		<div class="rushd-staff-fields">
+			<div class="rushd-staff-field rushd-staff-field--full"><label for="beneficiary_summary">ملخص المستفيد</label><textarea id="beneficiary_summary" name="beneficiary_summary">{{ session.beneficiary_summary if session else '' }}</textarea></div>
+			<label class="rushd-check-field rushd-staff-field--full"><input type="checkbox" name="guardian_summary_allowed" value="1" {% if session and session.guardian_summary_allowed %}checked{% endif %} data-guardian-summary-toggle><span>السماح بملخص منفصل لولي الأمر وفق السياسة</span></label>
+			<div class="rushd-staff-field rushd-staff-field--full" data-guardian-summary-field {% if not session or not session.guardian_summary_allowed %}hidden{% endif %}><label for="guardian_summary">ملخص ولي الأمر</label><textarea id="guardian_summary" name="guardian_summary">{{ session.guardian_summary if session else '' }}</textarea></div>
+		</div>
+	</section>
+
+	<section class="rushd-session-form__section">
+		<div class="rushd-session-form__heading"><span>4</span><div><h2>الخطوة التالية</h2><p>تنعكس على ملف الحالة بعد الحفظ.</p></div></div>
+		<div class="rushd-staff-fields">
+			<div class="rushd-staff-field"><label for="next_action">الإجراء التالي</label><textarea id="next_action" name="next_action">{{ session.next_action if session else '' }}</textarea></div>
+			<div class="rushd-staff-field"><label for="next_action_due">تاريخ الاستحقاق</label><input id="next_action_due" name="next_action_due" type="date" value="{{ session.next_action_due if session else '' }}"></div>
+		</div>
+	</section>
+
+	<div class="rushd-form-message" data-form-message role="status"></div>
+	<footer class="rushd-session-form__actions">
+		<button class="rushd-button rushd-button--secondary" type="button" data-session-submit="0">حفظ كمسودة</button>
+		<button class="rushd-button rushd-button--primary" type="button" data-session-submit="1">إرسال للمراجعة</button>
+	</footer>
+</form>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-consultant-actions.js?v=20260729-8"></script>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">الإشراف المهني</span>
+		<h1>توزيع الحالات</h1>
+		<p>حوّل الطلب المؤهل إلى حالة، ثم أسنده إلى مستشار نشط ومتوافق مع الخدمة.</p>
+	</div>
+</section>
+
+<section class="rushd-queue-layout">
+	<aside class="rushd-card rushd-queue-list">
+		<div class="rushd-card__header">
+			<h2>جاهزة للإسناد</h2>
+			<span class="rushd-status">{{ requests | length }} طلب</span>
+		</div>
+		<div class="rushd-queue-list__body">
+			{% for request in requests %}
+			<a class="rushd-queue-item {% if selected_request and selected_request.name == request.name %}is-active{% endif %}" href="/supervisor/assignments?request={{ request.name }}">
+				<span class="rushd-queue-item__top">
+					<strong>{{ request.beneficiary_name }}</strong>
+					{% if request.assignment_blocked %}
+					<span class="rushd-status rushd-status--amber">بانتظار الموافقة</span>
+					{% else %}
+					<span class="rushd-status rushd-status--green">جاهز</span>
+					{% endif %}
+				</span>
+				<small>{{ request.service_name }} — {{ request.request_date_label }}</small>
+			</a>
+			{% else %}
+			<div class="rushd-empty-state">
+				<div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد طلبات جاهزة</h2><p>ستظهر هنا الطلبات المعتمدة بعد الفرز.</p></div>
+			</div>
+			{% endfor %}
+		</div>
+	</aside>
+
+	{% if selected_request %}
+	<article class="rushd-card rushd-record">
+		<header class="rushd-record-header">
+			<div>
+				<h2>{{ selected_request.beneficiary_name }}</h2>
+				<p>{{ selected_request.name }} — {{ selected_request.service_name }}</p>
+			</div>
+			<span class="rushd-status rushd-status--green">مؤهل للخدمة</span>
+		</header>
+		<div class="rushd-record-body">
+			<section class="rushd-record-section">
+				<h3>ملخص الاحتياج</h3>
+				<p class="rushd-record-text">{{ selected_request.summary or "لا يوجد ملخص مسجل." }}</p>
+			</section>
+			<section class="rushd-record-section">
+				<h3>بيانات تساعد على الإسناد</h3>
+				<div class="rushd-record-meta">
+					<span>الأولوية الحالية: {{ priority_labels.get(selected_request.urgency, selected_request.urgency) }}</span>
+					<span>النمط المفضل: {{ selected_request.mode_label }}</span>
+					<span>المدينة: {{ selected_request.beneficiary_profile.city or "غير مسجلة" }}</span>
+					<span>العمر: {{ selected_request.beneficiary_profile.age or "غير مسجل" }}</span>
+				</div>
+			</section>
+			<section class="rushd-action-panel" data-assignment-panel data-request-name="{{ selected_request.name }}">
+				<h3>اختيار المستشار</h3>
+				<div class="rushd-staff-fields">
+					<div class="rushd-staff-field rushd-staff-field--full">
+						<label for="rushd-consultant">المستشار الأساسي</label>
+						<select id="rushd-consultant" data-consultant>
+							<option value="">اختر مستشارًا</option>
+							{% for consultant in consultants %}
+							<option value="{{ consultant.name }}" {% if not consultant.compatible %}disabled{% endif %}>
+								{{ consultant.consultant_name }}
+								{% if consultant.specializations %} — {{ consultant.specializations }}{% endif %}
+								— {{ consultant.active_cases }} حالة نشطة
+								{% if not consultant.compatible %}(غير مرتبط بالخدمة){% endif %}
+							</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="rushd-staff-field rushd-staff-field--full">
+						<label for="rushd-priority">أولوية الحالة</label>
+						<select id="rushd-priority" data-priority>
+							{% for value, label in priority_labels.items() %}
+							<option value="{{ value }}" {% if value == selected_request.urgency %}selected{% endif %}>{{ label }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="rushd-form-message" data-form-message role="status"></div>
+				<div class="rushd-action-buttons">
+					<button class="rushd-button rushd-button--primary" type="button" data-assign-button>إنشاء الحالة وإسنادها</button>
+				</div>
+			</section>
+		</div>
+	</article>
+	{% else %}
+	<article class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>اكتمل طابور الإسناد</h2><p>لا توجد حالة تنتظر التوزيع الآن.</p></div></article>
+	{% endif %}
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-assignment-actions.js?v=20260729-8"></script>
+{% endblock %}

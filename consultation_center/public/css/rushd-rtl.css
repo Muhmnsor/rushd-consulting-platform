@@ -334,80 +334,202 @@ table td,
 }
 
 /* Rushd administration workspace */
-body[data-route='Workspaces/رُشد'] {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد']) {
+	--rushd-admin-accent: #777c83;
+	--rushd-admin-accent-deep: #34383d;
+	--rushd-admin-accent-soft: #efefeb;
 	--rushd-admin-surface: #ffffff;
-	--rushd-admin-canvas: #f6f6f4;
-	--rushd-admin-border: #dfdfdc;
-	--rushd-admin-border-strong: #c7c7c2;
-	--rushd-admin-text: #242424;
-	--rushd-admin-muted: #6b6b66;
-	--rushd-admin-shadow: 0 8px 26px rgb(35 35 31 / 6%);
-	background: var(--rushd-admin-canvas);
+	--rushd-admin-canvas: #f4f3ef;
+	--rushd-admin-border: #deded8;
+	--rushd-admin-border-strong: #bfc0ba;
+	--rushd-admin-text: #24272b;
+	--rushd-admin-muted: #686d73;
+	--rushd-admin-shadow: 0 18px 45px rgb(42 44 48 / 6%);
+	background:
+		radial-gradient(circle at 82% 8%, rgb(147 149 152 / 12%), transparent 28rem),
+		var(--rushd-admin-canvas);
 }
 
-body[data-route='Workspaces/رُشد'] .page-container,
-body[data-route='Workspaces/رُشد'] .page-body,
-body[data-route='Workspaces/رُشد'] .page-content,
-body[data-route='Workspaces/رُشد'] .layout-main,
-body[data-route='Workspaces/رُشد'] .layout-main-section-wrapper,
-body[data-route='Workspaces/رُشد'] .layout-main-section {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	:is(
+		.page-container,
+		.page-body,
+		.page-content,
+		.layout-main,
+		.layout-main-section-wrapper,
+		.layout-main-section
+	) {
+	min-width: 0;
 	background: transparent;
 }
 
-body[data-route='Workspaces/رُشد'] .layout-main-section {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.layout-main-section {
 	border: 0;
 	box-shadow: none;
 }
 
-body[data-route='Workspaces/رُشد'] .editor-js-container {
-	max-width: 1180px;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.editor-js-container {
+	width: min(100%, 1280px);
 	margin-inline: auto;
-	padding-block: 1rem 3rem;
+	padding: 1.25rem 0 3.5rem;
 }
 
-body[data-route='Workspaces/رُشد'] .ce-block:first-child {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.codex-editor__redactor {
+	padding-block-end: 3rem !important;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block {
+	margin-block-end: 0.85rem;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:first-child,
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:nth-child(2) {
 	margin-block-end: 0;
 }
 
-body[data-route='Workspaces/رُشد'] .ce-block:first-child .ce-header {
-	padding-block: 0.25rem;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:first-child
+	.ce-block__content,
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:nth-child(2)
+	.ce-block__content {
+	position: relative;
+	overflow: hidden;
+	border-inline: 1px solid var(--rushd-admin-border);
+	background:
+		linear-gradient(90deg, rgb(255 255 255 / 42%), transparent 52%),
+		radial-gradient(circle at 18% 18%, rgb(147 149 152 / 17%), transparent 29rem),
+		var(--rushd-admin-canvas);
 }
 
-body[data-route='Workspaces/رُشد'] .ce-block:first-child .h3 {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:first-child
+	.ce-block__content {
+	padding: 2rem 2.2rem 0.45rem;
+	border-block-start: 1px solid var(--rushd-admin-border);
+	border-radius: 1.5rem 1.5rem 0 0;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:first-child
+	.ce-header {
+	padding: 0;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:first-child
+	.ce-header::before {
+	display: table;
+	margin-block-end: 0.65rem;
+	padding: 0.32rem 0.72rem;
+	border: 1px solid #d4d4ce;
+	border-radius: 999px;
+	background: rgb(255 255 255 / 58%);
+	color: #555a60;
+	content: 'لوحة الإدارة';
+	font-size: 0.69rem;
+	font-weight: 700;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:first-child
+	.h3 {
 	color: var(--rushd-admin-text);
-	font-size: clamp(1.45rem, 2.5vw, 2rem);
-	line-height: 1.6;
+	font-size: clamp(1.55rem, 2.5vw, 2.15rem);
+	line-height: 1.55;
 }
 
-body[data-route='Workspaces/رُشد'] .ce-paragraph {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:nth-child(2)
+	.ce-block__content {
+	padding: 0 2.2rem 1.8rem;
+	border-block-end: 1px solid var(--rushd-admin-border);
+	border-radius: 0 0 1.5rem 1.5rem;
+	box-shadow: var(--rushd-admin-shadow);
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.ce-block:nth-child(2)
+	.ce-paragraph {
+	max-width: 52rem;
+	padding: 0;
 	color: var(--rushd-admin-muted);
-	font-size: 0.94rem;
-	line-height: 1.9;
+	font-size: 0.9rem;
+	line-height: 1.95;
 }
 
-body[data-route='Workspaces/رُشد'] .ce-header .h4 {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.rushd-ux-section-heading {
+	clear: both;
+	margin-block: 0.5rem 0.35rem;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.rushd-ux-section-heading
+	.ce-block__content {
 	display: flex;
-	align-items: center;
-	gap: 0.65rem;
+	align-items: flex-start;
+	gap: 0.9rem;
+	padding-block: 0.5rem;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.rushd-ux-section-heading__kicker {
+	flex: 0 0 auto;
+	margin-block-start: 0.15rem;
+	padding: 0.28rem 0.55rem;
+	border: 1px solid #d6d6d0;
+	border-radius: 999px;
+	background: #ecece7;
+	color: #60646b;
+	font-size: 0.66rem;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.rushd-ux-section-heading__copy {
+	min-width: 0;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.rushd-ux-section-heading
+	h2 {
+	margin: 0;
 	color: var(--rushd-admin-text);
 	font-size: 1.05rem;
+	font-weight: 800;
 	line-height: 1.7;
 }
 
-body[data-route='Workspaces/رُشد'] .ce-header .h4::before {
-	width: 0.3rem;
-	height: 1.2rem;
-	border-radius: 999px;
-	background: #8f8f89;
-	content: '';
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.rushd-ux-section-heading
+	p {
+	margin: 0.15rem 0 0;
+	color: var(--rushd-admin-muted);
+	font-size: 0.76rem;
+	line-height: 1.8;
 }
 
-body[data-route='Workspaces/رُشد'] .shortcut-widget-box,
-body[data-route='Workspaces/رُشد'] .quick-list-widget-box,
-body[data-route='Workspaces/رُشد'] .links-widget-box {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.rushd-ux-spacer
+	.widget.spacer {
+	height: 0.55rem;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	:is(.shortcut-widget-box, .quick-list-widget-box, .links-widget-box) {
+	position: relative;
 	height: 100%;
+	overflow: hidden;
 	border: 1px solid var(--rushd-admin-border);
-	border-radius: 1rem;
+	border-radius: 1.05rem;
 	background: var(--rushd-admin-surface);
 	box-shadow: var(--rushd-admin-shadow);
 	transition:
@@ -416,69 +538,212 @@ body[data-route='Workspaces/رُشد'] .links-widget-box {
 		transform 160ms ease;
 }
 
-body[data-route='Workspaces/رُشد'] .shortcut-widget-box {
-	min-height: 6.6rem;
-	padding: 1rem;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	:is(.shortcut-widget-box, .quick-list-widget-box, .links-widget-box)::before {
+	position: absolute;
+	inset: 0 0 auto;
+	height: 0.22rem;
+	background: #8f9297;
+	content: '';
+	opacity: 0.9;
 }
 
-body[data-route='Workspaces/رُشد'] .shortcut-widget-box:hover,
-body[data-route='Workspaces/رُشد'] .quick-list-widget-box:hover,
-body[data-route='Workspaces/رُشد'] .links-widget-box:hover {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	:is(.shortcut-widget-box, .quick-list-widget-box, .links-widget-box):hover {
 	border-color: var(--rushd-admin-border-strong);
-	box-shadow: 0 12px 30px rgb(35 35 31 / 9%);
-	transform: translateY(-2px);
+	box-shadow: 0 20px 45px rgb(42 44 48 / 10%);
+	transform: translateY(-3px);
 }
 
-body[data-route='Workspaces/رُشد'] .widget-head {
-	min-height: 2.6rem;
-	padding: 0.9rem 1rem 0.6rem;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.shortcut-widget-box {
+	min-height: 7.35rem;
+	padding: 1.05rem 1.05rem 0.9rem;
 }
 
-body[data-route='Workspaces/رُشد'] .shortcut-widget-box .widget-head {
-	min-height: auto;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.shortcut-widget-box
+	.widget-head {
+	align-items: stretch;
+	flex-direction: column;
+	min-height: 5.2rem;
 	padding: 0;
 }
 
-body[data-route='Workspaces/رُشد'] .widget-title,
-body[data-route='Workspaces/رُشد'] .widget-title a {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.shortcut-widget-box
+	.widget-label {
+	width: 100%;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.shortcut-widget-box
+	.widget-subtitle {
+	display: block;
+	margin-block-start: 0.25rem;
+	color: #85898e;
+	font-size: 0.68rem;
+	line-height: 1.65;
+	white-space: normal;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.shortcut-widget-box
+	.widget-control {
+	width: 100%;
+	margin-block-start: auto;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.shortcut-widget-box
+	.widget-control
+	svg {
+	margin-inline-start: auto !important;
+	color: #96999d;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.widget-head {
+	min-height: 3.2rem;
+	padding: 1rem 1.05rem 0.7rem;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	:is(.widget-title, .widget-title a) {
 	color: var(--rushd-admin-text);
-	font-weight: 700;
+	font-weight: 750;
 	line-height: 1.7;
 }
 
-body[data-route='Workspaces/رُشد'] .shortcut-widget-box .indicator-pill {
-	margin-block-start: 0.75rem;
-	border: 1px solid #ddddda;
-	background: #f1f1ef;
-	color: #555550;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.shortcut-widget-box
+	.indicator-pill {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--rushd-admin-accent-deep);
+	font-size: 1rem;
+	font-weight: 800;
 }
 
-body[data-route='Workspaces/رُشد'] .quick-list-widget-box .widget-body,
-body[data-route='Workspaces/رُشد'] .links-widget-box .widget-body {
-	padding: 0.25rem 0.55rem 0.65rem;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[shortcut_name='طلبات تحتاج مراجعة']
+	.shortcut-widget-box::before,
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[shortcut_name='الموافقات المعلقة']
+	.shortcut-widget-box::before {
+	background: #bd8931;
 }
 
-body[data-route='Workspaces/رُشد'] .quick-list-widget-box .quick-list-item,
-body[data-route='Workspaces/رُشد'] .links-widget-box .link-item {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[shortcut_name='جاهزة للفرز']
+	.shortcut-widget-box::before,
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[shortcut_name='المواعيد القادمة']
+	.shortcut-widget-box::before {
+	background: #517e9d;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[data-rushd-action='1']
+	.shortcut-widget-box {
+	border-color: #292d31;
+	background: #292d31;
+	box-shadow: 0 16px 35px rgb(33 36 40 / 12%);
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[data-rushd-action='1']
+	.shortcut-widget-box::before {
+	display: none;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[data-rushd-action='1']
+	:is(.widget-title, .widget-title a) {
+	color: #ffffff;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[data-rushd-action='1']
+	.shortcut-widget-box
+	.widget-subtitle {
+	color: #b8bbc0;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	[data-rushd-action='1']
+	.shortcut-widget-box
+	.widget-control
+	svg {
+	color: #d1d3d5;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	:is(.quick-list-widget-box, .links-widget-box)
+	.widget-body {
+	padding: 0.15rem 0.55rem 0.75rem;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	:is(.quick-list-widget-box .quick-list-item, .links-widget-box .link-item) {
 	min-height: 2.65rem;
-	margin-block: 0.15rem;
-	padding: 0.6rem 0.7rem;
+	margin-block: 0.12rem;
+	padding: 0.58rem 0.7rem;
 	border-radius: 0.7rem;
-	transition: background-color 140ms ease;
+	transition:
+		background-color 140ms ease,
+		color 140ms ease;
 }
 
-body[data-route='Workspaces/رُشد'] .quick-list-widget-box .quick-list-item:hover,
-body[data-route='Workspaces/رُشد'] .links-widget-box .link-item:hover {
-	background: #f4f4f2;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	:is(.quick-list-widget-box .quick-list-item, .links-widget-box .link-item):hover {
+	background: var(--rushd-admin-accent-soft);
+	color: var(--rushd-admin-text);
 }
 
-body[data-route='Workspaces/رُشد'] .links-widget-box .link-content {
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.quick-list-widget-box
+	.widget-footer {
+	padding: 0 1.05rem 0.9rem;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.quick-list-widget-box
+	.see-all {
+	padding: 0.4rem 0.72rem;
+	border-radius: 0.55rem;
+	background: var(--rushd-admin-accent-soft);
+	color: var(--rushd-admin-text);
+	font-weight: 700;
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.links-widget-box
+	.widget-head {
+	border-block-end: 1px solid #ecece7;
+	background: linear-gradient(180deg, #fbfbf9, #f5f5f2);
+}
+
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.links-widget-box
+	.link-content {
 	flex-direction: row;
 }
 
-body[data-route='Workspaces/رُشد'] .links-widget-box .link-text {
-	margin-inline-start: 0;
-	margin-inline-end: 0.5rem;
+:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+	.links-widget-box
+	.link-text {
+	margin-inline: 0 0.5rem;
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+	:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+		.editor-js-container
+		.ce-block.col-md-4 {
+		width: 50%;
+	}
 }
 
 .rushd-website-settings-form .tooltip-content {
@@ -568,17 +833,37 @@ body[data-route='Workspaces/رُشد'] .links-widget-box .link-text {
 		text-align: right;
 	}
 
-	body[data-route='Workspaces/رُشد'] .editor-js-container {
-		padding-block-start: 0.5rem;
+	:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+		.editor-js-container {
+		padding-block: 0.5rem 2rem;
 	}
 
-	body[data-route='Workspaces/رُشد'] .shortcut-widget-box {
-		min-height: 5.75rem;
+	:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+		.ce-block:first-child
+		.ce-block__content {
+		padding: 1.45rem 1.35rem 0.4rem;
 	}
 
-	body[data-route='Workspaces/رُشد'] .shortcut-widget-box:hover,
-	body[data-route='Workspaces/رُشد'] .quick-list-widget-box:hover,
-	body[data-route='Workspaces/رُشد'] .links-widget-box:hover {
+	:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+		.ce-block:nth-child(2)
+		.ce-block__content {
+		padding: 0 1.35rem 1.35rem;
+	}
+
+	:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+		.rushd-ux-section-heading
+		.ce-block__content {
+		gap: 0.55rem;
+		flex-direction: column;
+	}
+
+	:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+		.shortcut-widget-box {
+		min-height: 6.4rem;
+	}
+
+	:is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
+		:is(.shortcut-widget-box, .quick-list-widget-box, .links-widget-box):hover {
 		transform: none;
 	}
 

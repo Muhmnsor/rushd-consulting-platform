@@ -109,8 +109,10 @@ class TestGuardianConsent(FrappeTestCase):
 		grant_guardian_consent(consent.name, confirmed=1)
 
 		consent.reload()
+		self.beneficiary.reload()
 		self.assertEqual(consent.status, "Granted")
 		self.assertEqual(consent.granted_by, self.guardian_user)
+		self.assertEqual(self.beneficiary.consent_status, "Granted")
 		self.assertEqual(consent.grant_method, "Web")
 
 	def test_other_guardian_cannot_grant_consent(self):
@@ -125,4 +127,3 @@ class TestGuardianConsent(FrappeTestCase):
 		version.full_text = "Changed after publication"
 		with self.assertRaises(frappe.ValidationError):
 			version.save(ignore_permissions=True)
-

@@ -176,10 +176,10 @@
    "read_only": 1
   },
   {
-   "description": "Will become a Link to Consultation Session once that doctype is built (Phase 4).",
    "fieldname": "created_session",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Created Session",
+   "options": "Consultation Session",
    "read_only": 1
   }
  ],

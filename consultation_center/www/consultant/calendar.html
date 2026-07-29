@@ -1,0 +1,54 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">الجدول المهني</span>
+		<h1>جدول المواعيد</h1>
+		<p>تابع جلسات الثلاثين يومًا، وسجل الحضور قبل الانتقال إلى توثيق الجلسة.</p>
+	</div>
+</section>
+
+<nav class="rushd-filter-tabs" aria-label="تصفية المواعيد">
+	<a class="{% if view == 'upcoming' %}is-active{% endif %}" href="/consultant/calendar?view=upcoming">القادمة</a>
+	<a class="{% if view == 'past' %}is-active{% endif %}" href="/consultant/calendar?view=past">السابقة</a>
+</nav>
+
+<section class="rushd-schedule-list">
+	{% for appointment in appointments %}
+	<article class="rushd-card rushd-schedule-card">
+		<div class="rushd-schedule-card__date">
+			<strong>{{ appointment.start_label }}</strong>
+			<span>{{ appointment.mode_label }}</span>
+		</div>
+		<div class="rushd-schedule-card__main">
+			<div>
+				<h2>{{ appointment.beneficiary_name }}</h2>
+				<p>{{ appointment.service_name }} — {{ appointment.case }}</p>
+			</div>
+			<div class="rushd-record-meta">
+				<span>{{ appointment.status_label }}</span>
+				<span>الحضور: {{ appointment.attendance_label }}</span>
+			</div>
+		</div>
+		<div class="rushd-schedule-card__actions">
+			{% if appointment.can_record_attendance and appointment.attendance_status == "Not Recorded" %}
+			<button class="rushd-button rushd-button--success" type="button" data-attendance-action="Attended" data-appointment="{{ appointment.name }}">حضر</button>
+			<button class="rushd-button rushd-button--secondary" type="button" data-attendance-action="Late" data-appointment="{{ appointment.name }}">حضر متأخرًا</button>
+			<button class="rushd-button rushd-button--danger" type="button" data-attendance-action="No Show" data-appointment="{{ appointment.name }}">لم يحضر</button>
+			{% endif %}
+			{% if appointment.can_document %}
+			<a class="rushd-button rushd-button--primary" href="/consultant/sessions/document?appointment={{ appointment.name }}{% if appointment.created_session %}&session={{ appointment.created_session }}{% endif %}">توثيق الجلسة</a>
+			{% endif %}
+		</div>
+	</article>
+	{% else %}
+	<article class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">◷</span><h2>لا توجد مواعيد في هذه الفترة</h2><p>ستظهر المواعيد هنا بعد حجزها واعتمادها.</p></div></article>
+	{% endfor %}
+</section>
+<div class="rushd-form-message rushd-floating-message" data-form-message role="status"></div>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-consultant-actions.js?v=20260729-8"></script>
+{% endblock %}

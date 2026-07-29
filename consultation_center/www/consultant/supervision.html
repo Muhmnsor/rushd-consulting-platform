@@ -1,0 +1,16 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+{% block staff_content %}
+<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">الدعم المهني</span><h1>طلبات الإشراف</h1><p>ارفع سؤالًا مهنيًا محددًا وتابع رد المشرف والإجراء المطلوب.</p></div></section>
+<section class="rushd-professional-layout">
+<form class="rushd-card rushd-professional-form" data-supervision-create>
+<div class="rushd-card__header"><h2>طلب إشراف جديد</h2></div><div class="rushd-staff-fields">
+<div class="rushd-staff-field rushd-staff-field--full"><label>الحالة</label><select name="case" required><option value="">اختر الحالة</option>{% for case in cases %}<option value="{{ case.name }}">{{ case.beneficiary_name }} — {{ case.name }}</option>{% endfor %}</select></div>
+<div class="rushd-staff-field"><label>نوع الطلب</label><select name="request_type"><option value="Case Guidance">توجيه للحالة</option><option value="Documentation Review">مراجعة توثيق</option><option value="Ethical Consultation">استشارة مهنية وأخلاقية</option><option value="Referral Guidance">توجيه إحالة</option><option value="Other">أخرى</option></select></div>
+<div class="rushd-staff-field"><label>الأولوية</label><select name="priority"><option value="Normal">عادية</option><option value="High">عالية</option><option value="Urgent">عاجلة</option></select></div>
+<div class="rushd-staff-field rushd-staff-field--full"><label>السؤال الإشرافي</label><textarea name="supervision_question" required></textarea></div>
+<div class="rushd-staff-field"><label>وقت مفضل اختياري</label><input type="datetime-local" name="preferred_datetime"></div>
+</div><button class="rushd-button rushd-button--primary" type="submit">إرسال الطلب</button><div class="rushd-form-message" data-form-message></div></form>
+<aside class="rushd-card"><div class="rushd-card__header"><h2>طلباتي</h2><span class="rushd-status">{{ requests|length }}</span></div><div class="rushd-professional-list">{% for item in requests %}<article><div><strong>{{ item.request_type_label }}</strong><span>{{ item.case }} — {{ item.status_label }}</span><p>{{ item.supervision_question }}</p>{% if item.supervisor_response %}<div class="rushd-professional-response"><strong>رد المشرف</strong><p>{{ item.supervisor_response }}</p>{% if item.required_action %}<small>الإجراء: {{ item.required_action }}</small>{% endif %}</div>{% endif %}</div>{% if item.status=="Answered" %}<button class="rushd-button rushd-button--secondary" type="button" data-close-supervision="{{ item.name }}">إغلاق بعد الاطلاع</button>{% endif %}</article>{% else %}<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">◎</span><h2>لا توجد طلبات إشراف</h2></div></div>{% endfor %}</div></aside>
+</section>
+{% endblock %}
+{% block script %}<script src="/assets/consultation_center/js/rushd-professional-actions.js?v=20260729-8"></script>{% endblock %}

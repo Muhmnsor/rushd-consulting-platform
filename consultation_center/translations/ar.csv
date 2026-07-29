@@ -562,3 +562,357 @@ Monthly Rank,الترتيب الشهري
 Daily,يوميًا
 Last Month,الشهر الماضي
 All,الكل
+Consultation Session,جلسة استشارية
+Appointment,الموعد
+Session Timing,وقت الجلسة
+Actual Start,البداية الفعلية
+Actual End,النهاية الفعلية
+Duration (minutes),المدة (بالدقائق)
+Professional Documentation,التوثيق المهني
+Session Topic,موضوع الجلسة
+Goals Addressed,الأهداف التي عولجت
+Interventions,الأساليب والتدخلات
+Internal Professional Notes,الملاحظات المهنية الداخلية
+Follow Up,المتابعة
+Permitted Summaries,الملخصات المسموح بها
+Beneficiary Summary,ملخص المستفيد
+Guardian Summary Allowed,السماح بملخص ولي الأمر
+Guardian Summary,ملخص ولي الأمر
+Next Step,الخطوة التالية
+Next Action,الإجراء التالي
+Next Action Due,استحقاق الإجراء التالي
+Documentation Audit,سجل التوثيق
+Documented By,وثقها
+Documented On,وثقت في
+Submitted On,أرسلت للمراجعة في
+Approved By,اعتمدها
+Approved On,اعتمدت في
+Pending Review,بانتظار المراجعة
+Approved,معتمدة
+Returned,معادة للتعديل
+Supervisor Review,مراجعة المشرف
+Review Note,ملاحظة المراجعة
+Last Reviewed By,آخر مراجع
+Last Reviewed On,آخر مراجعة في
+Consultation Plan,الخطة الاستشارية
+Plan Goal,هدف الخطة
+Beneficiary Task,مهمة المستفيد
+Plan,الخطة
+Plan Details,تفاصيل الخطة
+Plan Title,عنوان الخطة
+Plan Summary,ملخص الخطة
+Start Date,تاريخ البداية
+Review Date,تاريخ المراجعة
+Expected Sessions,عدد الجلسات المتوقع
+Plan Goals,أهداف الخطة
+Goals,الأهداف
+Goal Title,عنوان الهدف
+Goal Description,وصف الهدف
+Progress Indicator,مؤشر التقدم
+Baseline Value,قيمة خط الأساس
+Target Value,القيمة المستهدفة
+Current Value,القيمة الحالية
+Target Date,التاريخ المستهدف
+Visible to Beneficiary,ظاهر للمستفيد
+Task Details,تفاصيل المهمة
+Task Title,عنوان المهمة
+Instructions,التعليمات
+Due Date,تاريخ الاستحقاق
+Completed On,اكتملت في
+Beneficiary Note,ملاحظة المستفيد
+Created By,أنشأها
+Created On,أنشئت في
+Reviewed By,راجعها
+Reviewed On,راجعت في
+Version,الإصدار
+Audit,سجل التدقيق
+Draft,مسودة
+Active,نشطة
+Completed,مكتملة
+Archived,مؤرشفة
+Not Started,لم يبدأ
+In Progress,قيد التنفيذ
+Achieved,متحقق
+Paused,متوقف مؤقتًا
+Cancelled,ملغاة
+Pending,لم تبدأ
+Consultation case was not found,لم يتم العثور على الحالة الاستشارية
+Plan beneficiary must match the consultation case,يجب أن يطابق مستفيد الخطة مستفيد الحالة الاستشارية
+Plan consultant must match the assigned case consultant,يجب أن يطابق مستشار الخطة المستشار المسند للحالة
+Add at least one goal before submitting the plan,أضف هدفًا واحدًا على الأقل قبل إرسال الخطة
+Every plan goal needs a title,يجب أن يكون لكل هدف في الخطة عنوان
+A new plan must start as a draft or pending review,يجب أن تبدأ الخطة الجديدة كمسودة أو بانتظار المراجعة
+An active or closed plan cannot be edited; create a new version,لا يمكن تعديل خطة نشطة أو مغلقة؛ أنشئ إصدارًا جديدًا
+Invalid plan status transition,انتقال حالة الخطة غير صالح
+Only a supervisor can review a plan,لا يمكن مراجعة الخطة إلا بواسطة مشرف
+A return reason is required,سبب إعادة الخطة مطلوب
+Plans cannot be deleted; archive the plan instead,لا يمكن حذف الخطط؛ أرشف الخطة بدلًا من ذلك
+Tasks can only be added to an active consultation plan,لا يمكن إضافة المهام إلا إلى خطة استشارية نشطة
+Task details do not match the consultation plan,تفاصيل المهمة لا تطابق الخطة الاستشارية
+Tasks cannot be deleted; cancel the task instead,لا يمكن حذف المهام؛ ألغِ المهمة بدلًا من ذلك
+Assessment Template,قالب المقياس
+Assessment Version,إصدار المقياس
+Assessment Submission,نتيجة المقياس
+Assessment Question,سؤال المقياس
+Assessment Response,إجابة المقياس
+Assessment Title,عنوان المقياس
+Assessment Code,رمز المقياس
+Responder,المجيب
+Minimum Age,الحد الأدنى للعمر
+Maximum Age,الحد الأعلى للعمر
+Result Visibility,سياسة عرض النتيجة
+Current Published Version,الإصدار المنشور الحالي
+After Professional Review,بعد المراجعة المهنية
+Never,لا تعرض
+Questions,الأسئلة
+Question Code,رمز السؤال
+Question Text,نص السؤال
+Beneficiary Help,توضيح للمستفيد
+Response Type,نوع الإجابة
+Required,مطلوب
+Minimum Value,القيمة الدنيا
+Maximum Value,القيمة العليا
+Reverse Scored,احتساب عكسي
+Scale,مقياس رقمي
+Yes/No,نعم أو لا
+Number,رقم
+Answer,الإجابة
+Normalized Score,المؤشر الموحّد
+Assessment Type,مرحلة القياس
+Baseline,قبلي
+Follow-up,متابعة
+Closing,بعدي
+Assigned,مطلوب
+Submitted,مرسل للمراجعة
+Reviewed,تمت المراجعة
+Responses,الإجابات
+Professional Result,النتيجة المهنية
+Raw Score,المجموع الخام
+Percentage Score,المؤشر النسبي
+Professional Interpretation,التفسير المهني
+Beneficiary Result Summary,ملخص النتيجة للمستفيد
+Result Visible to Beneficiary,إظهار النتيجة للمستفيد
+Assigned By,أسنده
+Assigned On,أُسند في
+Published,منشور
+Published By,نشره
+Published On,نشر في
+Assessment template code is required,رمز قالب المقياس مطلوب
+Published version must belong to the same assessment template,يجب أن ينتمي الإصدار المنشور إلى قالب المقياس نفسه
+Assessment templates with versions cannot be deleted,لا يمكن حذف قالب مقياس له إصدارات
+This assessment version already exists,إصدار المقياس هذا موجود بالفعل
+Add at least one question before publishing the assessment,أضف سؤالًا واحدًا على الأقل قبل نشر المقياس
+Every assessment question needs a code and text,يحتاج كل سؤال في المقياس إلى رمز ونص
+Assessment question codes must be unique,يجب ألا تتكرر رموز أسئلة المقياس
+Question maximum must be greater than its minimum,يجب أن تكون القيمة العليا للسؤال أكبر من القيمة الدنيا
+A new assessment version must start as draft or published,يجب أن يبدأ إصدار المقياس كمسودة أو منشور
+A published assessment version is immutable,لا يمكن تعديل إصدار مقياس منشور
+An archived assessment version is immutable,لا يمكن تعديل إصدار مقياس مؤرشف
+Invalid assessment version status transition,انتقال حالة إصدار المقياس غير صالح
+Only an assessment manager can publish or archive a version,لا يمكن نشر إصدار المقياس أو أرشفته إلا بواسطة مسؤول المقاييس
+Only draft assessment versions can be deleted,لا يمكن حذف إلا إصدارات المقاييس المسودة
+Assessment beneficiary must match the consultation case,يجب أن يطابق مستفيد المقياس مستفيد الحالة الاستشارية
+Assessment consultant must match the assigned case consultant,يجب أن يطابق مستشار المقياس المستشار المسند للحالة
+Assessment version does not match its template,إصدار المقياس لا يطابق قالبه
+Only a published assessment version can be assigned,لا يمكن إسناد إلا إصدار مقياس منشور
+Assigned assessment version is unavailable,إصدار المقياس المسند غير متاح
+Answer all required assessment questions before submitting,أجب عن جميع أسئلة المقياس المطلوبة قبل الإرسال
+A new assessment must start as assigned or in progress,يجب أن يبدأ المقياس كمطلوب أو محفوظ جزئيًا
+A reviewed assessment is immutable,لا يمكن تعديل مقياس تمت مراجعته
+Invalid assessment submission status transition,انتقال حالة المقياس غير صالح
+Only the assigned professional can review an assessment,لا يمكن مراجعة المقياس إلا بواسطة المختص المسند
+Assessments cannot be deleted; cancel them instead,لا يمكن حذف المقاييس؛ ألغِها بدلًا من ذلك
+Case Referral,إحالة حالة
+Supervision Request,طلب إشراف
+Professional Escalation,تصعيد مهني
+Referral Details,تفاصيل الإحالة
+Referral Type,نوع الإحالة
+Internal,داخلية
+External,خارجية
+Referral Reason,سبب الإحالة
+Target Service,الخدمة المستهدفة
+Target Organization,الجهة المستهدفة
+Organization Contact,بيانات تواصل الجهة
+Permitted Information,البيانات المسموح بمشاركتها
+Consent Confirmed,تم تأكيد الموافقة
+Supervisor Review,مراجعة المشرف
+Supervisor Note,ملاحظة المشرف
+Referral Outcome,نتيجة الإحالة
+Follow Up Note,ملاحظة المتابعة
+Pending Approval,بانتظار الاعتماد
+Approved,معتمدة
+Returned,معادة للاستكمال
+Sent,أُرسلت
+In Progress,قيد المتابعة
+In Review,قيد المراجعة
+Answered,تم الرد
+Open,مفتوح
+Acknowledged,تم الاطلاع
+Action In Progress,الإجراء جارٍ
+Resolved,تم الحل
+Request Type,نوع الطلب
+Case Guidance,توجيه للحالة
+Documentation Review,مراجعة التوثيق
+Ethical Consultation,استشارة مهنية وأخلاقية
+Referral Guidance,توجيه الإحالة
+Supervision Question,سؤال الإشراف
+Preferred Datetime,الموعد المفضل
+Supervisor Response,رد المشرف
+Required Action,الإجراء المطلوب
+Follow Up Date,تاريخ المتابعة
+Requested By,طلبه
+Requested On,طُلب في
+Responded By,رد عليه
+Responded On,تم الرد في
+Assigned Supervisor,المشرف المسند
+Supervisor,المشرف
+supervisor,المشرف
+Severity,درجة الخطورة
+Moderate,متوسطة
+Critical,حرجة
+Professional Alert,التنبيه المهني
+Alert Type,نوع التنبيه
+Safeguarding,الحماية
+Urgent Deterioration,تدهور عاجل
+Conflict of Interest,تضارب مصالح
+Service Risk,مخاطر تقديم الخدمة
+Alert Summary,ملخص التنبيه
+Immediate Action,الإجراء الفوري
+Emergency Protocol Activated,تم تفعيل بروتوكول الطوارئ
+Supervisor Action,إجراء المشرف
+Resolution Note,ملاحظة الحل
+Reported By,أبلغ عنه
+Reported On,أُبلغ في
+Last Action By,آخر إجراء بواسطة
+Last Action On,آخر إجراء في
+Created By,أنشأه
+Created On,أُنشئ في
+Consultation case was not found,لم يتم العثور على الحالة الاستشارية
+Referral beneficiary must match the consultation case,يجب أن يطابق مستفيد الإحالة مستفيد الحالة الاستشارية
+Referral consultant must match the assigned case consultant,يجب أن يطابق مستشار الإحالة المستشار المسند للحالة
+Referral reason is required before submission,سبب الإحالة مطلوب قبل الإرسال
+Specify the information permitted for referral,حدد البيانات المسموح بمشاركتها في الإحالة
+Beneficiary consent must be confirmed for an external referral,يجب تأكيد موافقة المستفيد على الإحالة الخارجية
+External referral organization is required,الجهة الخارجية للإحالة مطلوبة
+A new referral must start as draft or pending approval,يجب أن تبدأ الإحالة الجديدة كمسودة أو بانتظار الاعتماد
+A closed referral is immutable,لا يمكن تعديل إحالة مغلقة
+Invalid referral status transition,انتقال حالة الإحالة غير صالح
+Approved referral scope cannot be changed,لا يمكن تغيير نطاق الإحالة المعتمدة
+Referrals cannot be deleted; cancel them instead,لا يمكن حذف الإحالات؛ ألغِها بدلًا من ذلك
+Only a supervisor can review a referral,لا يمكن مراجعة الإحالة إلا بواسطة مشرف
+Supervision request consultant must match the assigned case consultant,يجب أن يطابق مستشار طلب الإشراف المستشار المسند للحالة
+Supervision request must be assigned to the case supervisor,يجب إسناد طلب الإشراف إلى مشرف الحالة
+Supervision question is required,سؤال الإشراف مطلوب
+A new supervision request must start as draft or submitted,يجب أن يبدأ طلب الإشراف الجديد كمسودة أو مرسل
+A closed supervision request is immutable,لا يمكن تعديل طلب إشراف مغلق
+Invalid supervision request status transition,انتقال حالة طلب الإشراف غير صالح
+Supervisor response is required,رد المشرف مطلوب
+Supervision requests cannot be deleted; cancel them instead,لا يمكن حذف طلبات الإشراف؛ ألغِها بدلًا من ذلك
+Only a supervisor can respond to a supervision request,لا يمكن الرد على طلب الإشراف إلا بواسطة مشرف
+Escalation beneficiary must match the consultation case,يجب أن يطابق مستفيد التصعيد مستفيد الحالة الاستشارية
+Escalation consultant must match the assigned case consultant,يجب أن يطابق مستشار التصعيد المستشار المسند للحالة
+Escalation must be assigned to the case supervisor,يجب إسناد التصعيد إلى مشرف الحالة
+Escalation summary is required,ملخص التصعيد مطلوب
+Immediate action is required for a critical escalation,الإجراء الفوري مطلوب للتصعيد الحرج
+A new escalation must start as open,يجب أن يبدأ التصعيد الجديد بحالة مفتوح
+A closed escalation is immutable,لا يمكن تعديل تصعيد مغلق
+Invalid escalation status transition,انتقال حالة التصعيد غير صالح
+Resolution note is required,ملاحظة الحل مطلوبة
+Escalations cannot be deleted; close or cancel them instead,لا يمكن حذف التصعيدات؛ أغلقها أو ألغها بدلًا من ذلك
+Only a supervisor can update an escalation,لا يمكن تحديث التصعيد إلا بواسطة مشرف
+Professional Profile,الملف المهني
+Qualifications,المؤهلات
+Experience Summary,ملخص الخبرات
+Licenses and Credentials,الرخص والاعتمادات
+Suitable Beneficiary Groups,الفئات المناسبة من المستفيدين
+Credential Expiry,انتهاء الاعتماد
+Professional Development,التطوير المهني
+Professional Development Hours,ساعات التطوير المهني
+Development Requirements,متطلبات التطوير
+Events Platform URL,رابط منصة الفعاليات
+Weekday,اليوم
+Start Time,وقت البداية
+End Time,وقت النهاية
+Slot Duration (minutes),مدة الموعد بالدقائق
+Capacity,السعة
+Scope,النطاق
+Delivery Mode,طريقة التقديم
+Effective From,ساري من
+Effective To,ساري إلى
+Monday,الاثنين
+Tuesday,الثلاثاء
+Wednesday,الأربعاء
+Thursday,الخميس
+Friday,الجمعة
+Saturday,السبت
+Sunday,الأحد
+Online,عن بُعد
+In Person,حضوري
+Both,حضوري وعن بُعد
+Support Ticket,طلب دعم
+Requester,صاحب الطلب
+Support Category,تصنيف الدعم
+Access Issue,مشكلة دخول
+Data Update,تحديث بيانات
+Account Closure,إغلاق الحساب
+Callback,طلب اتصال
+Subject,الموضوع
+Description,التفاصيل
+Assigned To,مسند إلى
+Public Response,الرد العام
+Internal Note,ملاحظة داخلية
+Resolved By,أغلقه
+Resolved On,أُغلق في
+Complaint,شكوى أو بلاغ
+Complainant,مقدم البلاغ
+Complaint Type,نوع البلاغ
+Service Feedback,تقييم الخدمة
+Confidential Complaint,شكوى سرية
+Suggestion,اقتراح
+Change Consultant,طلب تغيير مستشار
+Confidentiality,السرية
+Confidential,سري
+Restricted,مقيد
+Complaint Details,تفاصيل البلاغ
+Investigation Note,ملاحظة التحقيق
+Action Taken,الإجراء المتخذ
+Under Review,قيد المراجعة
+Action Required,يتطلب إجراء
+Internal Announcement,إعلان داخلي
+Audience,الجمهور
+All,الجميع
+Operations,التشغيل
+Start Date,تاريخ البداية
+End Date,تاريخ النهاية
+Summary,الملخص
+Content,المحتوى
+Mandatory Read,إلزامي الاطلاع
+Resource Content,محتوى داخلي
+Content Type,نوع المحتوى
+Article,مقال
+Guide,دليل
+File,ملف
+Video,فيديو
+External Link,رابط خارجي
+External URL,الرابط الخارجي
+Attachment,المرفق
+Copyright Note,ملاحظة حقوق النشر
+Support ticket subject and description are required,موضوع طلب الدعم وتفاصيله مطلوبان
+A closed support ticket is immutable,لا يمكن تعديل طلب دعم مغلق
+A public response is required before resolving support,الرد العام مطلوب قبل حل طلب الدعم
+Support tickets cannot be deleted; close them instead,لا يمكن حذف طلبات الدعم؛ أغلقها بدلًا من ذلك
+Complaint details are required,تفاصيل البلاغ مطلوبة
+A closed complaint is immutable,لا يمكن تعديل بلاغ مغلق
+A public response is required before resolving a complaint,الرد العام مطلوب قبل حل البلاغ
+Complaints cannot be deleted; close them instead,لا يمكن حذف البلاغات؛ أغلقها بدلًا من ذلك
+Case Document,ملف حالة
+Document Type,نوع المستند
+Beneficiary Upload,رفع المستفيد
+Approved Summary,ملخص معتمد
+General,عام
+Visibility,سياسة الظهور
+Beneficiary and Guardian,المستفيد وولي الأمر
+Uploaded By,رفعه
+Uploaded On,رُفع في
+Case document scope does not match the consultation case,نطاق الملف لا يطابق الحالة الاستشارية
+Case documents cannot be deleted; archive them instead,لا يمكن حذف ملفات الحالة؛ أرشفها بدلًا من ذلك

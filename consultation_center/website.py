@@ -43,9 +43,9 @@ TEXT_DEFAULTS = {
 	"privacy_eyebrow": "السرية والصلاحيات",
 	"privacy_title": "لكل شخص نافذته،",
 	"privacy_emphasis": "ولكل معلومة حدودها.",
-	"privacy_description": "حساب ولي الأمر مستقل، ولا يعرض له رُشد الملاحظات المهنية أو محتوى الجلسات تلقائيًا. كل وصول مرتبط بالدور والتفويض والسياسة.",
-	"beneficiary_label": "المستفيد",
-	"guardian_label": "ولي الأمر",
+	"privacy_description": "خصوصيتك جزء من تصميم الخدمة. لا يطّلع على معلوماتك إلا من يحتاج إليها لتقديم الخدمة، وتبقى الملاحظات المهنية ومحتوى الجلسات ضمن الصلاحيات المحددة.",
+	"beneficiary_label": "أنت",
+	"guardian_label": "فريق رُشد",
 	"consultant_label": "المستشار",
 	"privacy_link_label": "اقرأ إجابات الخصوصية",
 	"faq_eyebrow": "قبل أن تبدأ",
@@ -72,7 +72,7 @@ TABLE_DEFAULTS = {
 	"intro_promises": [
 		{"title": "لغة واضحة", "description": "من دون تعقيد أو مصطلحات مبهمة."},
 		{"title": "قرار إنساني", "description": "لا تشخيص أو قرار حساس بواسطة نتيجة آلية."},
-		{"title": "خصوصية عملية", "description": "ولي الأمر لا يرى محتوى الجلسة تلقائيًا."},
+		{"title": "خصوصية عملية", "description": "معلوماتك لا تظهر إلا للمصرح لهم وفق دورهم وحاجة العمل."},
 		{"title": "رحلة متصلة", "description": "طلبك وموعدك وخطتك في مكان واحد."},
 	],
 	"journey_steps": [
@@ -103,7 +103,7 @@ TABLE_DEFAULTS = {
 	],
 	"privacy_items": [
 		{"title": "الملاحظة المهنية تبقى داخل الفريق المصرح له."},
-		{"title": "ملخص المستفيد وملخص ولي الأمر حقول منفصلة."},
+		{"title": "محتوى الجلسة والملاحظات المهنية لا يظهران في ملخصات المتابعة العامة."},
 		{"title": "الملفات الحساسة لا تستخدم روابط عامة."},
 		{"title": "فتح السجلات الحساسة والتعديلات قابل للتدقيق."},
 	],
@@ -113,8 +113,8 @@ TABLE_DEFAULTS = {
 			"answer": "لا. اختر المجال الأقرب واكتب ما يشغلك، وسيساعدك فريق الاستقبال في توجيه الطلب.",
 		},
 		{
-			"question": "هل يرى ولي الأمر ما أقوله للمستشار؟",
-			"answer": "ليس تلقائيًا. الملاحظات المهنية خاصة، وما يظهر لولي الأمر يكون ملخصًا منفصلًا تسمح به السياسة والتفويض.",
+			"question": "من يستطيع الاطلاع على معلوماتي وما أقوله في الجلسة؟",
+			"answer": "لا يطّلع عليها إلا المختصون المصرح لهم بحسب دورهم وحاجة تقديم الخدمة، ولا يظهر محتوى الجلسة في ملخصات المتابعة العامة.",
 		},
 		{
 			"question": "ماذا يحدث بعد إرسال الطلب؟",
@@ -167,6 +167,50 @@ def ensure_rushd_website_settings():
 		if not settings.get(fieldname):
 			for row in rows:
 				settings.append(fieldname, deepcopy(row))
+			changed = True
+
+	if changed:
+		settings.save(ignore_permissions=True)
+
+
+def migrate_homepage_copy_to_primary_audience():
+	"""Replace only untouched guardian-first defaults with student-focused copy."""
+	if not frappe.db.exists("DocType", SETTINGS_DOCTYPE):
+		return
+
+	settings = frappe.get_single(SETTINGS_DOCTYPE)
+	changed = False
+
+	replacements = {
+		"privacy_description": (
+			"حساب ولي الأمر مستقل، ولا يعرض له رُشد الملاحظات المهنية أو محتوى الجلسات تلقائيًا. كل وصول مرتبط بالدور والتفويض والسياسة.",
+			TEXT_DEFAULTS["privacy_description"],
+		),
+		"beneficiary_label": ("المستفيد", TEXT_DEFAULTS["beneficiary_label"]),
+		"guardian_label": ("ولي الأمر", TEXT_DEFAULTS["guardian_label"]),
+	}
+	for fieldname, (old_value, new_value) in replacements.items():
+		if settings.get(fieldname) == old_value:
+			settings.set(fieldname, new_value)
+			changed = True
+
+	for row in settings.get("intro_promises") or []:
+		if row.description == "ولي الأمر لا يرى محتوى الجلسة تلقائيًا.":
+			row.description = "معلوماتك لا تظهر إلا للمصرح لهم وفق دورهم وحاجة العمل."
+			changed = True
+
+	for row in settings.get("privacy_items") or []:
+		if row.title == "ملخص المستفيد وملخص ولي الأمر حقول منفصلة.":
+			row.title = "محتوى الجلسة والملاحظات المهنية لا يظهران في ملخصات المتابعة العامة."
+			changed = True
+
+	for row in settings.get("faqs") or []:
+		if row.question == "هل يرى ولي الأمر ما أقوله للمستشار؟":
+			row.question = "من يستطيع الاطلاع على معلوماتي وما أقوله في الجلسة؟"
+			row.answer = (
+				"لا يطّلع عليها إلا المختصون المصرح لهم بحسب دورهم وحاجة تقديم الخدمة، "
+				"ولا يظهر محتوى الجلسة في ملخصات المتابعة العامة."
+			)
 			changed = True
 
 	if changed:

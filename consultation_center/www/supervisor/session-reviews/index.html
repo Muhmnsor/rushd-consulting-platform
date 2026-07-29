@@ -1,0 +1,99 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}
+
+{% block staff_content %}
+<section class="rushd-page-heading">
+	<div>
+		<span class="rushd-page-heading__eyebrow">الإشراف المهني</span>
+		<h1>مراجعة الجلسات</h1>
+		<p>راجع اكتمال التوثيق وفصل الملاحظة المهنية عن الملخصات، ثم اعتمد السجل أو أعده بسبب واضح.</p>
+	</div>
+</section>
+
+<section class="rushd-queue-layout">
+	<aside class="rushd-card rushd-queue-list">
+		<div class="rushd-card__header"><h2>بانتظار المراجعة</h2><span class="rushd-status">{{ sessions | length }} جلسة</span></div>
+		<div class="rushd-queue-list__body">
+			{% for session in sessions %}
+			<a class="rushd-queue-item {% if selected_session and selected_session.name == session.name %}is-active{% endif %}" href="/supervisor/session-reviews?session={{ session.name }}">
+				<span class="rushd-queue-item__top">
+					<strong>{{ session.beneficiary_name }}</strong>
+					<span class="rushd-status rushd-status--blue">بانتظار المراجعة</span>
+				</span>
+				<small>{{ session.consultant_name }} — {{ session.submitted_on_label }}</small>
+			</a>
+			{% else %}
+			<div class="rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>لا توجد جلسات معلقة</h2><p>ستظهر هنا الجلسات التي يرسلها المستشار للمراجعة.</p></div></div>
+			{% endfor %}
+		</div>
+	</aside>
+
+	{% if selected_session %}
+	<article class="rushd-card rushd-record">
+		<header class="rushd-record-header">
+			<div>
+				<h2>{{ selected_session.beneficiary_name }} — {{ selected_session.service_name }}</h2>
+				<p>{{ selected_session.name }} — المستشار: {{ selected_session.consultant_name }}</p>
+			</div>
+			<span class="rushd-status rushd-status--blue">بانتظار المراجعة</span>
+		</header>
+		<div class="rushd-record-body">
+			<section class="rushd-record-section">
+				<h3>بيانات الجلسة</h3>
+				<div class="rushd-record-meta">
+					<span>الوقت: {{ selected_session.actual_start_label }}</span>
+					<span>المدة: {{ selected_session.duration_minutes or "غير محددة" }} دقيقة</span>
+					<span>الحضور: {% if selected_session.attendance_status == "Late" %}حضر متأخرًا{% else %}حضر{% endif %}</span>
+					<span>الحالة: {{ selected_session.case }}</span>
+				</div>
+			</section>
+			<section class="rushd-record-section">
+				<h3>موضوع الجلسة والأهداف</h3>
+				<p class="rushd-record-text">{{ selected_session.topic or "غير مسجل" }}</p>
+				<p class="rushd-record-text">{{ selected_session.goals_addressed or "لم تسجل أهداف محددة." }}</p>
+			</section>
+			<section class="rushd-record-section rushd-sensitive-section">
+				<div class="rushd-sensitive-section__heading"><h3>التوثيق المهني الداخلي</h3><span>سري — لا يظهر للمستفيد أو ولي الأمر</span></div>
+				<h4>الأساليب والتدخلات</h4>
+				<p class="rushd-record-text">{{ selected_session.interventions or "غير مسجل" }}</p>
+				<h4>الملاحظة المهنية</h4>
+				<p class="rushd-record-text">{{ selected_session.professional_notes or "غير مسجلة" }}</p>
+				<h4>المتابعة المهنية</h4>
+				<p class="rushd-record-text">{{ selected_session.follow_up or "غير مسجلة" }}</p>
+			</section>
+			<section class="rushd-record-section">
+				<h3>الملخص المسموح للمستفيد</h3>
+				<p class="rushd-record-text">{{ selected_session.beneficiary_summary or "غير مسجل" }}</p>
+			</section>
+			{% if selected_session.guardian_summary_allowed %}
+			<section class="rushd-record-section">
+				<h3>ملخص ولي الأمر المسموح</h3>
+				<p class="rushd-record-text">{{ selected_session.guardian_summary or "غير مسجل" }}</p>
+			</section>
+			{% endif %}
+			<section class="rushd-record-section">
+				<h3>الخطوة التالية</h3>
+				<p class="rushd-record-text">{{ selected_session.next_action or "غير محددة" }}{% if selected_session.next_action_due %} — {{ selected_session.next_action_due }}{% endif %}</p>
+			</section>
+			<section class="rushd-action-panel" data-session-review-panel data-session-name="{{ selected_session.name }}">
+				<h3>قرار المراجعة</h3>
+				<div class="rushd-staff-field rushd-staff-field--full">
+					<label for="review-note">ملاحظة المشرف</label>
+					<textarea id="review-note" data-review-note placeholder="الملاحظة اختيارية عند الاعتماد، وإلزامية عند الإعادة."></textarea>
+				</div>
+				<div class="rushd-form-message" data-form-message role="status"></div>
+				<div class="rushd-action-buttons">
+					<button class="rushd-button rushd-button--success" type="button" data-session-review="approve">اعتماد الجلسة</button>
+					<button class="rushd-button rushd-button--warning" type="button" data-session-review="return">إعادة للاستكمال</button>
+				</div>
+			</section>
+		</div>
+	</article>
+	{% else %}
+	<article class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">✓</span><h2>اكتملت المراجعات</h2><p>لا توجد جلسة تنتظر قرارك الآن.</p></div></article>
+	{% endif %}
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/consultation_center/js/rushd-session-review-actions.js?v=20260729-8"></script>
+{% endblock %}

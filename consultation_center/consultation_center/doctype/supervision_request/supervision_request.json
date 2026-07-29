@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-07-29 00:00:00.000000",
+ "doctype": "DocType",
+ "description": "طلب إشراف مهني مرتبط بحالة مع سؤال ورد وإجراء متابعة موثق.",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series", "case", "consultant", "supervisor", "status", "priority",
+  "request_section", "request_type", "supervision_question", "preferred_datetime",
+  "response_section", "supervisor_response", "required_action", "follow_up_date",
+  "requested_by", "requested_on", "responded_by", "responded_on"
+ ],
+ "fields": [
+  {"fieldname": "naming_series", "fieldtype": "Select", "label": "Naming Series", "options": "SUP-.YYYY.-", "reqd": 1},
+  {"fieldname": "case", "fieldtype": "Link", "in_list_view": 1, "in_standard_filter": 1, "label": "Case", "options": "Consultation Case", "reqd": 1},
+  {"fieldname": "consultant", "fieldtype": "Link", "in_standard_filter": 1, "label": "Consultant", "options": "Consultant", "reqd": 1},
+  {"fieldname": "supervisor", "fieldtype": "Link", "in_standard_filter": 1, "label": "Supervisor", "options": "User", "reqd": 1},
+  {"default": "Draft", "fieldname": "status", "fieldtype": "Select", "in_list_view": 1, "in_standard_filter": 1, "label": "Status", "options": "Draft\nSubmitted\nIn Review\nAnswered\nClosed\nCancelled", "reqd": 1},
+  {"default": "Normal", "fieldname": "priority", "fieldtype": "Select", "in_list_view": 1, "label": "Priority", "options": "Normal\nHigh\nUrgent", "reqd": 1},
+  {"fieldname": "request_section", "fieldtype": "Section Break", "label": "Supervision Request"},
+  {"default": "Case Guidance", "fieldname": "request_type", "fieldtype": "Select", "label": "Request Type", "options": "Case Guidance\nDocumentation Review\nEthical Consultation\nReferral Guidance\nOther", "reqd": 1},
+  {"fieldname": "supervision_question", "fieldtype": "Text", "label": "Supervision Question", "reqd": 1},
+  {"fieldname": "preferred_datetime", "fieldtype": "Datetime", "label": "Preferred Datetime"},
+  {"fieldname": "response_section", "fieldtype": "Section Break", "label": "Supervisor Response"},
+  {"fieldname": "supervisor_response", "fieldtype": "Text", "label": "Supervisor Response"},
+  {"fieldname": "required_action", "fieldtype": "Text", "label": "Required Action"},
+  {"fieldname": "follow_up_date", "fieldtype": "Date", "label": "Follow Up Date"},
+  {"fieldname": "requested_by", "fieldtype": "Link", "label": "Requested By", "options": "User", "read_only": 1},
+  {"fieldname": "requested_on", "fieldtype": "Datetime", "label": "Requested On", "read_only": 1},
+  {"fieldname": "responded_by", "fieldtype": "Link", "label": "Responded By", "options": "User", "read_only": 1},
+  {"fieldname": "responded_on", "fieldtype": "Datetime", "label": "Responded On", "read_only": 1}
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-07-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Supervision Request",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "read": 1, "write": 1, "report": 1, "export": 1, "print": 1, "role": "System Manager"},
+  {"create": 1, "read": 1, "write": 1, "report": 1, "print": 1, "role": "Center Director"},
+  {"read": 1, "write": 1, "report": 1, "print": 1, "role": "Consultation Supervisor"},
+  {"create": 1, "read": 1, "write": 1, "role": "Consultant"}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

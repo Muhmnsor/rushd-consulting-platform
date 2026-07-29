@@ -1,0 +1,4 @@
+{% extends "consultation_center/templates/rushd_staff.html" %}{% block staff_content %}
+<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">التنسيق الخارجي</span><h1>دليل جهات الإحالة</h1><p>جهات خارجية استخدمت في الإحالات، مع بيانات التواصل وسجل الاستخدام وآخر تحديث.</p></div></section>
+<section class="rushd-card rushd-table-card"><div class="rushd-responsive-table"><table><thead><tr><th>الجهة</th><th>التواصل</th><th>عدد الإحالات</th><th>المغلقة بنتيجة</th><th>آخر تحديث</th></tr></thead><tbody>{% for row in organizations %}<tr><td>{{ row.name }}</td><td>{{ row.contact or "غير مسجل" }}</td><td>{{ row.referrals }}</td><td>{{ row.closed }}</td><td>{{ row.last_update }}</td></tr>{% else %}<tr><td colspan="5">لم تسجل جهات إحالة خارجية بعد.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

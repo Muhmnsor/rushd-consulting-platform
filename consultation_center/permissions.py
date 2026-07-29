@@ -271,6 +271,175 @@ def appointment_query(user: str | None = None) -> str:
 	return _or_conditions(conditions)
 
 
+def session_query(user: str | None = None) -> str:
+	user = _user(user)
+	if _is_unrestricted(user) or _is_supervisor(user):
+		return ""
+	if "Consultant" in _roles(user):
+		return _consultant_condition("`tabConsultation Session`.consultant", user)
+	return "1=0"
+
+
+def plan_query(user: str | None = None) -> str:
+	user = _user(user)
+	if _is_unrestricted(user) or _is_supervisor(user):
+		return ""
+	conditions = []
+	if "Consultant" in _roles(user):
+		conditions.append(_consultant_condition("`tabConsultation Plan`.consultant", user))
+	if "Beneficiary" in _roles(user):
+		conditions.append(
+			f"""exists (
+				select 1 from `tabBeneficiary` rushd_beneficiary
+				where rushd_beneficiary.name = `tabConsultation Plan`.beneficiary
+					and rushd_beneficiary.portal_user = {_escape(user)}
+					and `tabConsultation Plan`.status in ('Active', 'Completed')
+			)"""
+		)
+	return _or_conditions(conditions)
+
+
+def beneficiary_task_query(user: str | None = None) -> str:
+	user = _user(user)
+	if _is_unrestricted(user) or _is_supervisor(user):
+		return ""
+	conditions = []
+	if "Consultant" in _roles(user):
+		conditions.append(_consultant_condition("`tabBeneficiary Task`.consultant", user))
+	if "Beneficiary" in _roles(user):
+		conditions.append(
+			f"""exists (
+				select 1 from `tabBeneficiary` rushd_beneficiary
+				where rushd_beneficiary.name = `tabBeneficiary Task`.beneficiary
+					and rushd_beneficiary.portal_user = {_escape(user)}
+			)"""
+		)
+	return _or_conditions(conditions)
+
+
+def assessment_template_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user) or _is_supervisor(user) or "Assessment Manager" in roles:
+		return ""
+	if "Consultant" in roles:
+		return "`tabAssessment Template`.active = 1"
+	return "1=0"
+
+
+def assessment_version_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user) or _is_supervisor(user) or "Assessment Manager" in roles:
+		return ""
+	if "Consultant" in roles:
+		return "`tabAssessment Version`.status = 'Published'"
+	return "1=0"
+
+
+def assessment_submission_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user) or _is_supervisor(user) or "Assessment Manager" in roles:
+		return ""
+	if "Consultant" in roles:
+		return _consultant_condition("`tabAssessment Submission`.consultant", user)
+	return "1=0"
+
+
+def case_referral_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user):
+		return ""
+	conditions = []
+	if "Consultant" in roles:
+		conditions.append(_consultant_condition("`tabCase Referral`.consultant", user))
+	if "Consultation Supervisor" in roles:
+		conditions.append(
+			f"""exists (
+				select 1 from `tabConsultation Case` rushd_case
+				where rushd_case.name = `tabCase Referral`.case
+					and rushd_case.supervisor = {_escape(user)}
+			)"""
+		)
+	return _or_conditions(conditions)
+
+
+def supervision_request_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user):
+		return ""
+	conditions = []
+	if "Consultant" in roles:
+		conditions.append(_consultant_condition("`tabSupervision Request`.consultant", user))
+	if "Consultation Supervisor" in roles:
+		conditions.append(f"`tabSupervision Request`.supervisor = {_escape(user)}")
+	return _or_conditions(conditions)
+
+
+def professional_escalation_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user):
+		return ""
+	conditions = []
+	if "Consultant" in roles:
+		conditions.append(
+			_consultant_condition("`tabProfessional Escalation`.consultant", user)
+		)
+	if "Consultation Supervisor" in roles:
+		conditions.append(
+			f"`tabProfessional Escalation`.assigned_supervisor = {_escape(user)}"
+		)
+	return _or_conditions(conditions)
+
+
+def support_ticket_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user) or roles & {"Operations Officer", "Case Coordinator"}:
+		return ""
+	if roles & {"Beneficiary", "Guardian"}:
+		return f"`tabSupport Ticket`.requester = {_escape(user)}"
+	return "1=0"
+
+
+def complaint_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user) or "Quality Reviewer" in roles:
+		return ""
+	if roles & {"Beneficiary", "Guardian"}:
+		return f"`tabComplaint`.complainant = {_escape(user)}"
+	return "1=0"
+
+
+def case_document_query(user: str | None = None) -> str:
+	user = _user(user)
+	roles = _roles(user)
+	if _is_unrestricted(user) or _is_supervisor(user):
+		return ""
+	conditions = []
+	if "Consultant" in roles:
+		conditions.append(
+			f"""exists (
+				select 1 from `tabConsultation Case` rushd_case
+				inner join `tabConsultant` rushd_consultant
+					on rushd_consultant.name = rushd_case.primary_consultant
+				where rushd_case.name = `tabCase Document`.case
+					and rushd_consultant.user = {_escape(user)}
+					and rushd_consultant.active = 1
+			)"""
+		)
+	if "Beneficiary" in roles:
+		conditions.append(f"""`tabCase Document`.visibility in ('Beneficiary','Beneficiary and Guardian') and exists (select 1 from `tabBeneficiary` b where b.name=`tabCase Document`.beneficiary and b.portal_user={_escape(user)})""")
+	if "Guardian" in roles:
+		conditions.append(f"""`tabCase Document`.visibility in ('Guardian','Beneficiary and Guardian') and {_guardian_condition("`tabCase Document`.beneficiary", "can_view_reports", user)}""")
+	return _or_conditions(conditions)
+
+
 QUERY_BY_DOCTYPE: dict[str, Callable[[str | None], str]] = {
 	"Beneficiary": beneficiary_query,
 	"Guardian": guardian_query,
@@ -282,6 +451,18 @@ QUERY_BY_DOCTYPE: dict[str, Callable[[str | None], str]] = {
 	"Consultation Request": request_query,
 	"Consultation Case": case_query,
 	"Consultation Appointment": appointment_query,
+	"Consultation Session": session_query,
+	"Consultation Plan": plan_query,
+	"Beneficiary Task": beneficiary_task_query,
+	"Assessment Template": assessment_template_query,
+	"Assessment Version": assessment_version_query,
+	"Assessment Submission": assessment_submission_query,
+	"Case Referral": case_referral_query,
+	"Supervision Request": supervision_request_query,
+	"Professional Escalation": professional_escalation_query,
+	"Support Ticket": support_ticket_query,
+	"Complaint": complaint_query,
+	"Case Document": case_document_query,
 }
 
 
@@ -289,7 +470,46 @@ def has_permission(doc, user: str | None = None, ptype: str | None = None, **kwa
 	"""Deny direct-record access when the row is outside the user's Rushd scope."""
 	user = _user(user)
 	roles = _roles(user)
-	if _is_unrestricted(user) or roles & OPERATIONS_ROLES:
+	if _is_unrestricted(user):
+		return True
+	if doc.doctype in {
+		"Case Referral",
+		"Supervision Request",
+		"Professional Escalation",
+	} and "Consultation Supervisor" in roles:
+		return _supervisor_can_access_professional_record(doc, user)
+	if doc.doctype == "Support Ticket":
+		return bool(
+			roles & {"Operations Officer", "Case Coordinator"}
+			or doc.requester == user
+		)
+	if doc.doctype == "Complaint":
+		return bool("Quality Reviewer" in roles or doc.complainant == user)
+	if doc.doctype == "Case Document":
+		if "Consultant" in roles:
+			consultant = _consultant_name(user)
+			return (
+				frappe.db.get_value("Consultation Case", doc.case, "primary_consultant")
+				== consultant
+			)
+		if "Beneficiary" in roles:
+			return (
+				doc.beneficiary == _beneficiary_for_user(user)
+				and doc.visibility in {"Beneficiary", "Beneficiary and Guardian"}
+			)
+		if "Guardian" in roles:
+			return (
+				doc.visibility in {"Guardian", "Beneficiary and Guardian"}
+				and doc.beneficiary in authorized_beneficiaries(user, "can_view_reports")
+			)
+		return False
+	if roles & OPERATIONS_ROLES:
+		return True
+	if "Assessment Manager" in roles and doc.doctype in {
+		"Assessment Template",
+		"Assessment Version",
+		"Assessment Submission",
+	}:
 		return True
 	if "Case Coordinator" in roles:
 		if doc.doctype == "Consultation Case":
@@ -327,12 +547,36 @@ def _consultant_can_access(doc, user: str) -> bool:
 		return doc.primary_consultant == consultant
 	if doc.doctype == "Consultation Appointment":
 		return doc.consultant == consultant
+	if doc.doctype == "Consultation Session":
+		return doc.consultant == consultant
+	if doc.doctype in {"Consultation Plan", "Beneficiary Task"}:
+		return doc.consultant == consultant
+	if doc.doctype == "Assessment Template":
+		return bool(doc.active)
+	if doc.doctype == "Assessment Version":
+		return doc.status == "Published"
+	if doc.doctype == "Assessment Submission":
+		return doc.consultant == consultant
+	if doc.doctype in {"Case Referral", "Supervision Request", "Professional Escalation"}:
+		return doc.consultant == consultant
 	if doc.doctype == "Beneficiary":
 		return bool(
 			frappe.db.exists(
 				"Consultation Case",
 				{"beneficiary": doc.name, "primary_consultant": consultant},
 			)
+		)
+	return False
+
+
+def _supervisor_can_access_professional_record(doc, user: str) -> bool:
+	if doc.doctype == "Supervision Request":
+		return doc.supervisor == user
+	if doc.doctype == "Professional Escalation":
+		return doc.assigned_supervisor == user
+	if doc.doctype == "Case Referral":
+		return (
+			frappe.db.get_value("Consultation Case", doc.case, "supervisor") == user
 		)
 	return False
 
@@ -353,6 +597,10 @@ def _beneficiary_can_access(doc, user: str) -> bool:
 		"Consultation Appointment",
 		"Consent Record",
 	}:
+		return doc.beneficiary == beneficiary
+	if doc.doctype == "Consultation Plan":
+		return doc.beneficiary == beneficiary and doc.status in {"Active", "Completed"}
+	if doc.doctype == "Beneficiary Task":
 		return doc.beneficiary == beneficiary
 	return False
 

@@ -61,7 +61,7 @@ body.rushd-staff-page {
 
 .rushd-staff-kpis {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 	gap: 16px;
 }
 
@@ -79,6 +79,14 @@ body.rushd-staff-page {
 	margin-top: 12px;
 	font-size: 1.65rem;
 	font-weight: 800;
+}
+
+.rushd-staff-kpi a {
+	display: inline-block;
+	margin-top: 9px;
+	color: var(--rushd-brand-strong);
+	font-size: 0.59rem;
+	font-weight: 700;
 }
 
 .rushd-queue-layout {
@@ -236,6 +244,663 @@ body.rushd-staff-page {
 	resize: vertical;
 }
 
+.rushd-staff-field select,
+.rushd-staff-field input {
+	width: 100%;
+	min-height: 46px;
+	padding: 10px 12px;
+	border: 1px solid var(--rushd-line);
+	border-radius: 12px;
+	background: #fff;
+	color: var(--rushd-ink);
+	font-family: var(--rushd-font-family);
+	font-size: 0.68rem;
+}
+
+.rushd-filter-tabs {
+	display: inline-flex;
+	gap: 4px;
+	margin-bottom: 18px;
+	padding: 4px;
+	border: 1px solid var(--rushd-line);
+	border-radius: 12px;
+	background: #fff;
+}
+
+.rushd-filter-tabs a {
+	padding: 9px 16px;
+	border-radius: 9px;
+	color: var(--rushd-muted);
+	font-size: 0.66rem;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.rushd-filter-tabs a:hover,
+.rushd-filter-tabs a.is-active {
+	background: var(--rushd-brand-strong);
+	color: #fff;
+	text-decoration: none;
+}
+
+.rushd-schedule-list {
+	display: grid;
+	gap: 14px;
+}
+
+.rushd-schedule-card {
+	display: grid;
+	grid-template-columns: minmax(190px, 0.55fr) minmax(280px, 1fr) auto;
+	gap: 20px;
+	align-items: center;
+	padding: 20px;
+}
+
+.rushd-schedule-card__date,
+.rushd-schedule-card__main > div:first-child {
+	display: grid;
+	gap: 6px;
+}
+
+.rushd-schedule-card__date strong {
+	font-size: 0.72rem;
+}
+
+.rushd-schedule-card__date span,
+.rushd-schedule-card__main p {
+	margin: 0;
+	color: var(--rushd-muted);
+	font-size: 0.62rem;
+}
+
+.rushd-schedule-card__main {
+	display: grid;
+	gap: 10px;
+	padding-inline: 20px;
+	border-inline: 1px solid var(--rushd-line);
+}
+
+.rushd-schedule-card__main h2 {
+	margin: 0;
+	font-size: 0.82rem;
+}
+
+.rushd-schedule-card__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	justify-content: flex-end;
+}
+
+.rushd-schedule-card__actions .rushd-button {
+	padding: 9px 12px;
+	font-size: 0.6rem;
+}
+
+.rushd-floating-message {
+	position: sticky;
+	z-index: 5;
+	bottom: 18px;
+	margin-top: 12px;
+	box-shadow: var(--rushd-shadow);
+}
+
+.rushd-documentation-queue {
+	overflow: hidden;
+}
+
+.rushd-session-form {
+	overflow: hidden;
+}
+
+.rushd-session-form__section {
+	padding: 24px;
+	border-bottom: 1px solid var(--rushd-line);
+}
+
+.rushd-session-form__heading {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin-bottom: 20px;
+}
+
+.rushd-session-form__heading > span {
+	display: grid;
+	width: 30px;
+	height: 30px;
+	flex: 0 0 auto;
+	place-items: center;
+	border-radius: 9px;
+	background: var(--rushd-brand-strong);
+	color: #fff;
+	font-size: 0.65rem;
+	font-weight: 800;
+}
+
+.rushd-session-form__heading h2 {
+	margin: 0 0 5px;
+	font-size: 0.84rem;
+}
+
+.rushd-session-form__heading p {
+	margin: 0;
+	color: var(--rushd-muted);
+	font-size: 0.62rem;
+}
+
+.rushd-session-form .rushd-textarea--large {
+	min-height: 170px;
+}
+
+.rushd-check-field {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 0.66rem;
+	font-weight: 700;
+}
+
+.rushd-check-field input {
+	width: 17px;
+	height: 17px;
+	accent-color: var(--rushd-brand-strong);
+}
+
+.rushd-session-form__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	padding: 20px 24px;
+	background: #f7f7f4;
+}
+
+.rushd-sensitive-section {
+	padding: 18px;
+	border: 1px solid #ead9bd;
+	border-radius: 14px;
+	background: #fffaf1;
+}
+
+.rushd-sensitive-section__heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 14px;
+}
+
+.rushd-sensitive-section__heading h3 {
+	margin: 0;
+}
+
+.rushd-sensitive-section__heading span {
+	padding: 6px 9px;
+	border-radius: 8px;
+	background: #f7e7c9;
+	color: #7a5421;
+	font-size: 0.56rem;
+	font-weight: 700;
+}
+
+.rushd-sensitive-section h4 {
+	margin: 15px 0 8px;
+	font-size: 0.67rem;
+}
+
+.rushd-goals-editor {
+	display: grid;
+	gap: 10px;
+	margin-bottom: 12px;
+}
+
+.rushd-goal-row {
+	display: grid;
+	grid-template-columns: 1.2fr 1fr 0.7fr 0.7fr 0.8fr auto auto;
+	gap: 8px;
+	align-items: center;
+	padding: 12px;
+	border: 1px solid var(--rushd-line);
+	border-radius: 12px;
+	background: #fbfbf9;
+}
+
+.rushd-goal-row input,
+.rushd-task-create input,
+.rushd-task-create textarea {
+	min-width: 0;
+	padding: 9px;
+	border: 1px solid var(--rushd-line);
+	border-radius: 9px;
+	font-family: var(--rushd-font-family);
+	font-size: 0.61rem;
+}
+
+.rushd-goal-row label,
+.rushd-goal-row button {
+	font-size: 0.57rem;
+}
+
+.rushd-plan-goal {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 14px;
+	padding: 13px;
+	border-top: 1px solid var(--rushd-line);
+	font-size: 0.63rem;
+}
+
+.rushd-plan-goal strong {
+	width: 100%;
+}
+
+.rushd-task-create {
+	display: grid;
+	grid-template-columns: 1fr 180px;
+	gap: 10px;
+	margin-bottom: 16px;
+}
+
+.rushd-task-create textarea {
+	grid-column: 1 / -1;
+}
+
+.rushd-assessment-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+	gap: 18px;
+	align-items: start;
+}
+
+.rushd-assessment-assign,
+.rushd-assessment-review-form {
+	display: grid;
+	gap: 14px;
+	padding: 20px;
+	border-top: 1px solid var(--rushd-line);
+}
+
+.rushd-assessment-assign h3 {
+	margin: 0;
+	font-size: 0.78rem;
+}
+
+.rushd-assessment-note {
+	margin: 0;
+	color: var(--rushd-muted);
+	font-size: 0.58rem;
+	line-height: 1.8;
+}
+
+.rushd-score-chip {
+	min-width: 58px;
+	padding: 8px 10px;
+	border-radius: 11px;
+	background: #e9f0f4;
+	color: var(--rushd-blue);
+	font-size: 0.65rem;
+	font-weight: 800;
+	text-align: center;
+}
+
+.rushd-score-chip--large {
+	font-size: 0.9rem;
+}
+
+.rushd-assessment-comparison,
+.rushd-assessment-review {
+	margin-top: 18px;
+}
+
+.rushd-comparison-track {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 12px;
+	padding: 20px;
+	border-top: 1px solid var(--rushd-line);
+}
+
+.rushd-comparison-track article {
+	display: grid;
+	gap: 5px;
+	padding: 14px;
+	border: 1px solid var(--rushd-line);
+	border-radius: 12px;
+	background: #fbfbf9;
+}
+
+.rushd-comparison-track strong {
+	font-size: 1rem;
+}
+
+.rushd-comparison-track span,
+.rushd-comparison-track small {
+	color: var(--rushd-muted);
+	font-size: 0.58rem;
+}
+
+.rushd-assessment-answers {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	padding: 20px;
+	border-top: 1px solid var(--rushd-line);
+}
+
+.rushd-assessment-answers article {
+	display: grid;
+	gap: 6px;
+	padding: 13px;
+	border: 1px solid var(--rushd-line);
+	border-radius: 11px;
+	background: #fbfbf9;
+}
+
+.rushd-assessment-answers strong {
+	font-size: 0.65rem;
+	line-height: 1.7;
+}
+
+.rushd-assessment-answers span,
+.rushd-assessment-answers small {
+	color: var(--rushd-muted);
+	font-size: 0.58rem;
+}
+
+.rushd-check-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.62rem;
+}
+
+.rushd-assessment-summaries {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+	padding: 20px;
+	border-top: 1px solid var(--rushd-line);
+}
+
+.rushd-assessment-summaries > div {
+	padding: 14px;
+	border-radius: 12px;
+	background: #f7f7f4;
+}
+
+.rushd-assessment-summaries strong {
+	font-size: 0.65rem;
+}
+
+.rushd-assessment-summaries p {
+	margin: 8px 0 0;
+	color: var(--rushd-muted);
+	font-size: 0.61rem;
+	line-height: 1.9;
+}
+
+.rushd-professional-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+	gap: 18px;
+	align-items: start;
+}
+
+.rushd-professional-form {
+	display: grid;
+	gap: 16px;
+	padding-bottom: 20px;
+}
+
+.rushd-professional-form > .rushd-staff-fields,
+.rushd-professional-form > .rushd-check-row,
+.rushd-professional-form > .rushd-form-actions,
+.rushd-professional-form > .rushd-button,
+.rushd-professional-form > .rushd-form-message {
+	margin-inline: 20px;
+}
+
+.rushd-professional-list {
+	display: grid;
+}
+
+.rushd-professional-list > article {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 16px 20px;
+	border-top: 1px solid var(--rushd-line);
+}
+
+.rushd-professional-list > article:first-child {
+	border-top: 0;
+}
+
+.rushd-professional-list > article > div {
+	display: grid;
+	gap: 6px;
+	min-width: 0;
+}
+
+.rushd-professional-list strong {
+	font-size: 0.67rem;
+}
+
+.rushd-professional-list span,
+.rushd-professional-list p,
+.rushd-professional-list small {
+	margin: 0;
+	color: var(--rushd-muted);
+	font-size: 0.59rem;
+	line-height: 1.8;
+}
+
+.rushd-professional-response {
+	margin-top: 8px;
+	padding: 12px;
+	border-radius: 11px;
+	background: #f2f3ef;
+}
+
+.rushd-professional-followup {
+	margin-top: 18px;
+	padding-bottom: 20px;
+}
+
+.rushd-professional-followup > .rushd-staff-fields,
+.rushd-professional-followup > .rushd-action-buttons {
+	margin-inline: 20px;
+}
+
+.rushd-emergency-notice {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-bottom: 18px;
+	padding: 14px 18px;
+	border: 1px solid #e8c8c8;
+	border-radius: 14px;
+	background: #fff4f4;
+	color: var(--rushd-red);
+}
+
+.rushd-emergency-notice strong {
+	white-space: nowrap;
+	font-size: 0.67rem;
+}
+
+.rushd-emergency-notice span {
+	font-size: 0.61rem;
+	line-height: 1.8;
+}
+
+.rushd-queue-item--critical {
+	border-inline-start: 4px solid var(--rushd-red);
+}
+
+.rushd-queue-item--high {
+	border-inline-start: 4px solid var(--rushd-gold);
+}
+
+.rushd-queue-item__metrics {
+	display: flex;
+	gap: 12px;
+	margin-top: 7px;
+	color: var(--rushd-muted);
+	font-size: 0.57rem;
+}
+
+.rushd-case-panel {
+	border: 1px solid var(--rushd-line);
+	border-radius: 13px;
+	background: #fff;
+}
+
+.rushd-case-panel summary {
+	display: flex;
+	cursor: pointer;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 16px;
+	font-size: 0.68rem;
+	font-weight: 800;
+}
+
+.rushd-case-panel summary span {
+	display: grid;
+	width: 25px;
+	height: 25px;
+	place-items: center;
+	border-radius: 50%;
+	background: #f0f1ed;
+	color: var(--rushd-muted);
+	font-size: 0.58rem;
+}
+
+.rushd-case-panel__row {
+	display: grid;
+	grid-template-columns: minmax(120px, 0.7fr) minmax(0, 1.4fr) auto;
+	gap: 12px;
+	padding: 12px 16px;
+	border-top: 1px solid var(--rushd-line);
+	align-items: start;
+}
+
+.rushd-case-panel__row strong,
+.rushd-case-panel__row span,
+.rushd-case-panel__row small,
+.rushd-case-panel > p {
+	font-size: 0.6rem;
+	line-height: 1.7;
+}
+
+.rushd-case-panel__row span,
+.rushd-case-panel__row small,
+.rushd-case-panel > p {
+	color: var(--rushd-muted);
+}
+
+.rushd-case-panel > p {
+	margin: 0;
+	padding: 14px 16px;
+	border-top: 1px solid var(--rushd-line);
+}
+
+.rushd-settings-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 18px;
+	margin-bottom: 18px;
+	align-items: start;
+}
+
+.rushd-settings-form {
+	padding-bottom: 20px;
+}
+
+.rushd-settings-form > .rushd-staff-fields,
+.rushd-settings-form > .rushd-form-actions,
+.rushd-settings-form > .rushd-form-message {
+	margin-inline: 20px;
+}
+
+.rushd-table-card {
+	margin-top: 18px;
+	overflow: hidden;
+}
+
+.rushd-responsive-table {
+	width: 100%;
+	overflow-x: auto;
+}
+
+.rushd-responsive-table table {
+	width: 100%;
+	border-collapse: collapse;
+	min-width: 720px;
+}
+
+.rushd-responsive-table th,
+.rushd-responsive-table td {
+	padding: 13px 16px;
+	border-top: 1px solid var(--rushd-line);
+	text-align: start;
+	vertical-align: middle;
+	font-size: 0.61rem;
+}
+
+.rushd-responsive-table th {
+	background: #f7f7f4;
+	color: var(--rushd-muted);
+	font-weight: 800;
+}
+
+.rushd-responsive-table td strong,
+.rushd-responsive-table td small {
+	display: block;
+}
+
+.rushd-responsive-table td small {
+	margin-top: 4px;
+	color: var(--rushd-muted);
+}
+
+.rushd-report-note {
+	margin-top: 18px;
+	padding: 18px 20px;
+	border-inline-start: 4px solid var(--rushd-brand-strong);
+}
+
+.rushd-report-note strong {
+	font-size: 0.7rem;
+}
+
+.rushd-report-note p {
+	margin: 7px 0 0;
+	color: var(--rushd-muted);
+	font-size: 0.62rem;
+	line-height: 1.8;
+}
+
+@media (max-width: 1100px) {
+	.rushd-goal-row {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.rushd-assessment-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.rushd-professional-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.rushd-settings-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 .rushd-action-panel {
 	padding: 18px;
 	border: 1px solid var(--rushd-line);
@@ -246,6 +911,45 @@ body.rushd-staff-page {
 .rushd-action-panel h3 {
 	margin: 0 0 14px;
 	font-size: 0.78rem;
+}
+
+.rushd-consultant-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
+	gap: 18px;
+	margin-top: 20px;
+	align-items: start;
+}
+
+.rushd-appointment-list {
+	display: grid;
+}
+
+.rushd-appointment-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 16px 20px;
+	border-top: 1px solid var(--rushd-line);
+}
+
+.rushd-appointment-row:first-child {
+	border-top: 0;
+}
+
+.rushd-appointment-row > span:first-child {
+	display: grid;
+	gap: 5px;
+}
+
+.rushd-appointment-row strong {
+	font-size: 0.72rem;
+}
+
+.rushd-appointment-row small {
+	color: var(--rushd-muted);
+	font-size: 0.61rem;
 }
 
 .rushd-action-buttons {
@@ -262,6 +966,11 @@ body.rushd-staff-page {
 .rushd-button--warning {
 	background: var(--rushd-gold);
 	color: #fff;
+}
+
+.rushd-status--amber {
+	background: #fff4dc;
+	color: #8a5d00;
 }
 
 .rushd-button--danger {
@@ -282,6 +991,24 @@ body.rushd-staff-page {
 
 	.rushd-queue-layout {
 		grid-template-columns: 1fr;
+	}
+
+	.rushd-consultant-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.rushd-schedule-card {
+		grid-template-columns: 1fr;
+	}
+
+	.rushd-schedule-card__main {
+		padding: 14px 0;
+		border-block: 1px solid var(--rushd-line);
+		border-inline: 0;
+	}
+
+	.rushd-schedule-card__actions {
+		justify-content: flex-start;
 	}
 
 	.rushd-queue-list__body {
@@ -314,5 +1041,28 @@ body.rushd-staff-page {
 	.rushd-action-buttons .rushd-button {
 		width: 100%;
 	}
-}
 
+	.rushd-session-form__actions {
+		flex-direction: column;
+	}
+
+	.rushd-session-form__actions .rushd-button {
+		width: 100%;
+	}
+
+	.rushd-assessment-answers,
+	.rushd-assessment-summaries {
+		grid-template-columns: 1fr;
+	}
+
+	.rushd-professional-list > article,
+	.rushd-emergency-notice {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.rushd-case-panel__row {
+		grid-template-columns: 1fr;
+		gap: 3px;
+	}
+}

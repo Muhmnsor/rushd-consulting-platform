@@ -1,0 +1,8 @@
+{% extends "consultation_center/templates/rushd_portal.html" %}
+{% block portal_content %}
+<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">الخطة والمتابعة</span><h1>خطتي الاستشارية</h1><p>هنا تظهر النسخة التي اعتمدها المشرف والأهداف المسموح بعرضها لك.</p></div></section>
+{% if plan %}<section class="rushd-card rushd-beneficiary-plan"><div class="rushd-card__header"><div><h2>{{ plan.plan_title }}</h2><p>{{ plan.plan_summary }}</p></div><span class="rushd-status rushd-status--green">{{ plan.status_label }}</span></div>
+<div class="rushd-plan-overview"><span>البداية: {{ plan.start_date_label }}</span><span>المراجعة: {{ plan.review_date_label }}</span><span>الجلسات المتوقعة: {{ plan.expected_sessions or "غير محدد" }}</span></div>
+<div class="rushd-plan-goals">{% for goal in plan.visible_goals %}<article class="rushd-plan-goal"><strong>{{ goal.goal_title }}</strong><p>{{ goal.goal_description or "" }}</p><span>المؤشر: {{ goal.indicator or "غير محدد" }}</span><span>المستهدف: {{ goal.target_value or "غير محدد" }}</span></article>{% else %}<p>لا توجد أهداف معروضة حاليًا.</p>{% endfor %}</div></section>
+{% else %}<section class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">◎</span><h2>الخطة قيد الإعداد</h2><p>ستظهر هنا بعد أن يعدها المستشار ويعتمدها المشرف.</p></div></section>{% endif %}
+{% endblock %}

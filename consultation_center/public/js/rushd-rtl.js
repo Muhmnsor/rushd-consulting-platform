@@ -51,6 +51,13 @@
 		Daily: "يوميًا",
 		"Last Month": "الشهر الماضي",
 		All: "الكل",
+		name: "المعرّف",
+		case: "الحالة الاستشارية",
+		appointment: "الموعد",
+		beneficiary: "المستفيد",
+		consultant: "المستشار",
+		service: "الخدمة",
+		status: "الحالة",
 		JAN: "ينا",
 		FEB: "فبر",
 		MAR: "مار",
@@ -316,6 +323,205 @@
 		workspaceContent.prepend(entry);
 	}
 
+	const RUSHD_WORKSPACE_ACTIONS = Object.freeze({
+		"واجهة الاستقبال والتشغيل": Object.freeze({
+			label: "أعمال الاستقبال والتشغيل",
+			description: "الطلبات الجديدة والنواقص والمواعيد والدعم",
+		}),
+		"واجهة الإشراف والفرز": Object.freeze({
+			label: "الإشراف والفرز المهني",
+			description: "الفرز والإسناد ومراجعة العمل المهني",
+		}),
+		"تحرير الصفحة الرئيسية": Object.freeze({
+			label: "إدارة محتوى الموقع",
+			description: "العناوين والخدمات والخطوات والأسئلة الشائعة",
+		}),
+		"الموقع العام لرُشد": Object.freeze({
+			label: "معاينة الموقع العام",
+			description: "افتح الصفحة كما يراها الزائر",
+		}),
+	});
+
+	const RUSHD_WORKSPACE_STEPS = Object.freeze({
+		"طلبات تحتاج مراجعة": "الخطوة ١ من ٤",
+		"بانتظار معلومات المستفيد": "الخطوة ٢ من ٤",
+		"جاهزة للفرز": "الخطوة ٣ من ٤",
+		"جاهزة للإسناد": "الخطوة ٤ من ٤",
+	});
+
+	const RUSHD_WORKSPACE_DAILY_CONTEXT = Object.freeze({
+		"الحالات النشطة": "قيد تقديم الخدمة",
+		"المواعيد القادمة": "بانتظار التنفيذ",
+		"الموافقات المعلقة": "تحتاج استكمالاً",
+		"المستشارون النشطون": "متاحون للعمل",
+	});
+
+	function makeWorkspaceSectionHeading(kicker, title, description) {
+		const block = document.createElement("div");
+		block.className = "ce-block col-xs-12 rushd-ux-section-heading";
+		block.innerHTML = `
+			<div class="ce-block__content">
+				<div class="rushd-ux-section-heading__kicker">${kicker}</div>
+				<div class="rushd-ux-section-heading__copy">
+					<h2>${title}</h2>
+					<p>${description}</p>
+				</div>
+			</div>
+		`;
+		return block;
+	}
+
+	function makeWorkspaceSpacer() {
+		const block = document.createElement("div");
+		block.className = "ce-block col-xs-12 rushd-ux-spacer";
+		block.innerHTML =
+			'<div class="ce-block__content"><div class="widget spacer"></div></div>';
+		return block;
+	}
+
+	function closestWorkspaceBlock(element) {
+		return element?.closest(".ce-block") || null;
+	}
+
+	function setWorkspaceWidgetContext(container, text) {
+		const subtitle = container?.querySelector(".widget-subtitle");
+		if (subtitle) subtitle.textContent = text;
+	}
+
+	function decorateRushdWorkspace() {
+		if (!["/app/rushd", "/app/Workspaces/Rushd"].includes(window.location.pathname)) {
+			return;
+		}
+
+		const redactor = document.querySelector(
+			".editor-js-container .codex-editor__redactor",
+		);
+		if (!redactor) return;
+		const hasCompleteRushdExperience =
+			redactor.dataset.rushdUxReady === "1" &&
+			redactor.querySelectorAll(".rushd-ux-section-heading").length === 5 &&
+			redactor.querySelectorAll("[data-rushd-action='1']").length === 4;
+		if (hasCompleteRushdExperience) return;
+		delete redactor.dataset.rushdUxReady;
+
+		const shortcutBlocks = new Map(
+			Array.from(redactor.querySelectorAll("[shortcut_name]")).map((element) => [
+				element.getAttribute("shortcut_name"),
+				closestWorkspaceBlock(element),
+			]),
+		);
+		const quickListBlocks = new Map(
+			Array.from(redactor.querySelectorAll("[quick_list_name]")).map((element) => [
+				element.getAttribute("quick_list_name"),
+				closestWorkspaceBlock(element),
+			]),
+		);
+		const cardBlocks = new Map(
+			Array.from(redactor.querySelectorAll("[card_name]")).map((element) => [
+				element.getAttribute("card_name"),
+				closestWorkspaceBlock(element),
+			]),
+		);
+		const hero = closestWorkspaceBlock(redactor.querySelector(".ce-header .h3"));
+		const intro = closestWorkspaceBlock(redactor.querySelector(".ce-paragraph"));
+
+		const actionNames = Object.keys(RUSHD_WORKSPACE_ACTIONS);
+		const stepNames = Object.keys(RUSHD_WORKSPACE_STEPS);
+		const dailyNames = Object.keys(RUSHD_WORKSPACE_DAILY_CONTEXT);
+		const quickListNames = ["طلبات الاستقبال", "طلبات الفرز المهني"];
+		const cardNames = [
+			"الرحلة الاستشارية",
+			"الأشخاص والصلاحيات",
+			"تشغيل المستشارين",
+			"الخدمات والموافقات",
+			"الإشراف والتنسيق",
+			"إعداد المنصة",
+		];
+		const requiredBlocks = [
+			hero,
+			intro,
+			...actionNames.map((name) => shortcutBlocks.get(name)),
+			...stepNames.map((name) => shortcutBlocks.get(name)),
+			...dailyNames.map((name) => shortcutBlocks.get(name)),
+			...quickListNames.map((name) => quickListBlocks.get(name)),
+			...cardNames.map((name) => cardBlocks.get(name)),
+		];
+		if (requiredBlocks.some((block) => !block)) return;
+
+		hero.querySelector(".h3").innerHTML = "<b>مركز إدارة رُشد</b>";
+		intro.querySelector(".ce-paragraph").textContent =
+			"رتّب يومك من هنا: ابدأ بمساحة العمل المناسبة، راجع الطلبات التي تحتاج قراراً، ثم انتقل إلى السجلات والإعدادات عند الحاجة.";
+
+		for (const [name, action] of Object.entries(RUSHD_WORKSPACE_ACTIONS)) {
+			const block = shortcutBlocks.get(name);
+			const container = block.querySelector(`[shortcut_name="${name}"]`);
+			const widget = container.querySelector(".shortcut-widget-box");
+			const title = widget.querySelector(".widget-title .ellipsis");
+			container.dataset.rushdAction = "1";
+			widget.setAttribute("aria-label", action.label);
+			if (title) {
+				title.textContent = action.label;
+				title.setAttribute("title", action.label);
+			}
+			setWorkspaceWidgetContext(container, action.description);
+		}
+
+		for (const [name, context] of Object.entries(RUSHD_WORKSPACE_STEPS)) {
+			setWorkspaceWidgetContext(
+				shortcutBlocks.get(name).querySelector(`[shortcut_name="${name}"]`),
+				context,
+			);
+		}
+
+		for (const [name, context] of Object.entries(RUSHD_WORKSPACE_DAILY_CONTEXT)) {
+			setWorkspaceWidgetContext(
+				shortcutBlocks.get(name).querySelector(`[shortcut_name="${name}"]`),
+				context,
+			);
+		}
+
+		const fragment = document.createDocumentFragment();
+		fragment.append(hero, intro);
+		fragment.append(
+			makeWorkspaceSectionHeading(
+				"وصول مباشر",
+				"ابدأ من المهمة التي تريد إنجازها",
+				"اختر مساحة العمل؛ ستنتقل مباشرة إلى الأدوات المخصصة لدورك دون البحث بين السجلات.",
+			),
+			...actionNames.map((name) => shortcutBlocks.get(name)),
+			makeWorkspaceSpacer(),
+			makeWorkspaceSectionHeading(
+				"رحلة الطلب",
+				"مسار الطلبات",
+				"اتبع الطلبات من المراجعة حتى الإسناد؛ كل بطاقة تفتح القائمة المفلترة للمرحلة نفسها.",
+			),
+			...stepNames.map((name) => shortcutBlocks.get(name)),
+			makeWorkspaceSpacer(),
+			makeWorkspaceSectionHeading(
+				"متابعة اليوم",
+				"التشغيل اليومي",
+				"نظرة سريعة على العمل الجاري والموارد المتاحة وما قد يؤخر تقديم الخدمة.",
+			),
+			...dailyNames.map((name) => shortcutBlocks.get(name)),
+			makeWorkspaceSpacer(),
+			makeWorkspaceSectionHeading(
+				"الأولوية الآن",
+				"قرارات تحتاج متابعة",
+				"تعرض القوائم أحدث الطلبات التي تنتظر تدخلاً؛ افتح الطلب مباشرة أو اعرض القائمة الكاملة.",
+			),
+			...quickListNames.map((name) => quickListBlocks.get(name)),
+			makeWorkspaceSpacer(),
+			makeWorkspaceSectionHeading(
+				"استخدام ثانوي",
+				"السجلات والإعدادات",
+				"استخدم هذا القسم لإدارة البيانات المرجعية والملفات والصلاحيات، وليس كنقطة بداية للعمل اليومي.",
+			),
+			...cardNames.map((name) => cardBlocks.get(name)),
+		);
+		redactor.replaceChildren(fragment);
+		redactor.dataset.rushdUxReady = "1";
+	}
+
 	function applyRushdIdentity() {
 		const root = document.documentElement;
 		root.setAttribute("dir", "rtl");
@@ -360,6 +566,7 @@
 		if (document.body) {
 			installDeskBackButton();
 			installWebsiteSettingsEntry();
+			decorateRushdWorkspace();
 			localizeElement(document.body);
 		}
 	}
@@ -395,6 +602,7 @@
 			installRushdTranslations();
 			installDeskBackButton();
 			installWebsiteSettingsEntry();
+			decorateRushdWorkspace();
 			for (const mutation of mutations) {
 				if (mutation.type === "characterData" && mutation.target.parentElement) {
 					localizeElement(mutation.target.parentElement);

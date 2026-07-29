@@ -2,8 +2,13 @@ import frappe
 from frappe.tests.utils import FrappeTestCase
 
 from consultation_center.api.staff_portal import (
+	assign_consultation_request,
 	review_consultation_request,
 	triage_consultation_request,
+)
+from consultation_center.consultant_portal import (
+	get_consultant_case_detail,
+	get_consultant_cases,
 )
 
 
@@ -24,6 +29,10 @@ class TestStaffPortalWorkflow(FrappeTestCase):
 			"rushd.beneficiary.workflow@example.com",
 			"Beneficiary",
 		)
+		cls.consultant_user = cls._make_user(
+			"rushd.consultant.workflow@example.com",
+			"Consultant",
+		)
 		cls.service = frappe.get_doc(
 			{
 				"doctype": "Consultation Service",
@@ -38,6 +47,16 @@ class TestStaffPortalWorkflow(FrappeTestCase):
 				"doctype": "Beneficiary",
 				"beneficiary_name": "Staff Workflow Beneficiary",
 				"portal_user": cls.beneficiary_user,
+			}
+		).insert(ignore_permissions=True)
+		cls.consultant = frappe.get_doc(
+			{
+				"doctype": "Consultant",
+				"consultant_name": "مستشار اختبار مسار العمل",
+				"code": "_RUSHD-STAFF-WORKFLOW-CONSULTANT",
+				"user": cls.consultant_user,
+				"active": 1,
+				"services": cls.service.name,
 			}
 		).insert(ignore_permissions=True)
 
@@ -120,3 +139,62 @@ class TestStaffPortalWorkflow(FrappeTestCase):
 				action="start_review",
 			)
 
+	def test_supervisor_creates_and_assigns_case_once(self):
+		request_doc = self._make_request("Eligible")
+		frappe.set_user(self.supervisor_user)
+
+		result = assign_consultation_request(
+			request_name=request_doc.name,
+			consultant=self.consultant.name,
+			priority="High",
+		)
+
+		request_doc.reload()
+		case_doc = frappe.get_doc("Consultation Case", result["case"])
+		self.assertEqual(request_doc.workflow_state, "Converted to Case")
+		self.assertEqual(request_doc.linked_case, case_doc.name)
+		self.assertEqual(case_doc.primary_consultant, self.consultant.name)
+		self.assertEqual(case_doc.case_status, "Assigned")
+		self.assertEqual(case_doc.priority, "High")
+
+		case_count = frappe.db.count(
+			"Consultation Case",
+			{"beneficiary": self.beneficiary.name, "service": self.service.name},
+		)
+		repeated = assign_consultation_request(
+			request_name=request_doc.name,
+			consultant=self.consultant.name,
+			priority="High",
+		)
+		self.assertEqual(repeated["case"], case_doc.name)
+		self.assertEqual(
+			frappe.db.count(
+				"Consultation Case",
+				{"beneficiary": self.beneficiary.name, "service": self.service.name},
+			),
+			case_count,
+		)
+
+	def test_assigned_case_appears_only_in_consultant_portal_scope(self):
+		request_doc = self._make_request("Eligible")
+		frappe.set_user(self.supervisor_user)
+		result = assign_consultation_request(
+			request_name=request_doc.name,
+			consultant=self.consultant.name,
+		)
+
+		frappe.set_user(self.consultant_user)
+		cases = get_consultant_cases(self.consultant.name)
+		self.assertIn(result["case"], [row.name for row in cases])
+		detail = get_consultant_case_detail(self.consultant.name, result["case"])
+		self.assertEqual(detail.beneficiary, self.beneficiary.name)
+
+	def test_beneficiary_cannot_assign_case(self):
+		request_doc = self._make_request("Eligible")
+		frappe.set_user(self.beneficiary_user)
+
+		with self.assertRaises(frappe.PermissionError):
+			assign_consultation_request(
+				request_name=request_doc.name,
+				consultant=self.consultant.name,
+			)

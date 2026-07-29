@@ -1,6 +1,7 @@
 from consultation_center.portal import (
 	build_portal_context,
 	calculate_profile_completion,
+	get_beneficiary_assessments,
 	get_beneficiary_requests,
 	get_next_appointment,
 )
@@ -14,9 +15,16 @@ def get_context(context):
 		context.requests = []
 		context.next_appointment = None
 		context.profile_completion = 0
+		context.pending_assessments = 0
 		return
 
 	context.requests = get_beneficiary_requests(beneficiary.name, limit=4)
 	context.next_appointment = get_next_appointment(beneficiary.name)
 	context.profile_completion = calculate_profile_completion(beneficiary)
-
+	context.pending_assessments = len(
+		[
+			row
+			for row in get_beneficiary_assessments(beneficiary.name)
+			if row.status in {"Assigned", "In Progress"}
+		]
+	)

@@ -1,9 +1,10 @@
 {% extends "templates/base.html" %}
 
 {% block head_include %}
-<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css">
+<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css?v=20260729-8">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css?v=20260729-8">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css?v=20260729-8">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-staff.css?v=20260729-8">
 {% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -37,15 +38,25 @@
 				<span class="rushd-nav-icon" aria-hidden="true">○</span>
 				<span>بياناتي</span>
 			</a>
-			<a class="rushd-nav-link is-disabled" href="#" aria-disabled="true">
+			<a class="rushd-nav-link {% if active_nav == 'tasks' %}is-active{% endif %}" href="/beneficiary/tasks">
 				<span class="rushd-nav-icon" aria-hidden="true">✓</span>
 				<span>المهام</span>
-				<small>قريبًا</small>
 			</a>
-			<a class="rushd-nav-link is-disabled" href="#" aria-disabled="true">
+			<a class="rushd-nav-link {% if active_nav == 'plan' %}is-active{% endif %}" href="/beneficiary/plan">
 				<span class="rushd-nav-icon" aria-hidden="true">◎</span>
 				<span>خطة المتابعة</span>
-				<small>قريبًا</small>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'assessments' %}is-active{% endif %}" href="/beneficiary/assessments">
+				<span class="rushd-nav-icon" aria-hidden="true">◉</span>
+				<span>المقاييس والنماذج</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'feedback' %}is-active{% endif %}" href="/beneficiary/feedback">
+				<span class="rushd-nav-icon" aria-hidden="true">◇</span>
+				<span>التقييم والشكاوى</span>
+			</a>
+			<a class="rushd-nav-link {% if active_nav == 'documents' %}is-active{% endif %}" href="/beneficiary/documents">
+				<span class="rushd-nav-icon" aria-hidden="true">▤</span>
+				<span>ملفاتي</span>
 			</a>
 		</nav>
 

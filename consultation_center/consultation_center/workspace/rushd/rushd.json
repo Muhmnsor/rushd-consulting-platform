@@ -1,7 +1,7 @@
 {
  "charts": [],
- "content": "[{\"id\":\"rushd_welcome\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\"><b>لوحة إدارة رُشد</b></span>\",\"col\":12}},{\"id\":\"rushd_intro\",\"type\":\"paragraph\",\"data\":{\"text\":\"تابع رحلة الاستشارة من الطلب الأول حتى إغلاق الحالة، وانتقل مباشرة إلى العمل الذي يحتاج تدخلك.\",\"col\":12}},{\"id\":\"rushd_now_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>مؤشرات العمل الآن</b></span>\",\"col\":12}},{\"id\":\"rushd_needs_review\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"طلبات تحتاج مراجعة\",\"col\":3}},{\"id\":\"rushd_ready_triage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"جاهزة للفرز\",\"col\":3}},{\"id\":\"rushd_waiting_info\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"بانتظار معلومات المستفيد\",\"col\":3}},{\"id\":\"rushd_ready_assignment\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"جاهزة للإسناد\",\"col\":3}},{\"id\":\"rushd_active_cases\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الحالات النشطة\",\"col\":3}},{\"id\":\"rushd_upcoming_appointments\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المواعيد القادمة\",\"col\":3}},{\"id\":\"rushd_pending_consents\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الموافقات المعلقة\",\"col\":3}},{\"id\":\"rushd_active_consultants\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"المستشارون النشطون\",\"col\":3}},{\"id\":\"rushd_queue_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_queue_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>قوائم تحتاج متابعة</b></span>\",\"col\":12}},{\"id\":\"rushd_intake_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"طلبات الاستقبال\",\"col\":6}},{\"id\":\"rushd_triage_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"طلبات الفرز المهني\",\"col\":6}},{\"id\":\"rushd_management_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_management_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>إدارة المنصة</b></span>\",\"col\":12}},{\"id\":\"rushd_journey_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الرحلة الاستشارية\",\"col\":4}},{\"id\":\"rushd_people_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الأشخاص والصلاحيات\",\"col\":4}},{\"id\":\"rushd_consultants_card\",\"type\":\"card\",\"data\":{\"card_name\":\"تشغيل المستشارين\",\"col\":4}},{\"id\":\"rushd_services_card\",\"type\":\"card\",\"data\":{\"card_name\":\"الخدمات والموافقات\",\"col\":4}},{\"id\":\"rushd_settings_card\",\"type\":\"card\",\"data\":{\"card_name\":\"إعداد المنصة\",\"col\":4}},{\"id\":\"rushd_portals_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_portals_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>واجهات العمل</b></span>\",\"col\":12}},{\"id\":\"rushd_operations_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"واجهة الاستقبال والتشغيل\",\"col\":3}},{\"id\":\"rushd_supervisor_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"واجهة الإشراف والفرز\",\"col\":3}},{\"id\":\"rushd_public_site\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"الموقع العام لرُشد\",\"col\":3}},{\"id\":\"rushd_public_site_settings\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"تحرير الصفحة الرئيسية\",\"col\":3}}]",
- "creation": "2026-07-27 00:00:00.000000",
+ "content": "[{\"id\":\"rushd_welcome\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h3\\\"><b>\u0644\u0648\u062d\u0629 \u0625\u062f\u0627\u0631\u0629 \u0631\u064f\u0634\u062f</b></span>\",\"col\":12}},{\"id\":\"rushd_intro\",\"type\":\"paragraph\",\"data\":{\"text\":\"\u062a\u0627\u0628\u0639 \u0631\u062d\u0644\u0629 \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u0629 \u0645\u0646 \u0627\u0644\u0637\u0644\u0628 \u0627\u0644\u0623\u0648\u0644 \u062d\u062a\u0649 \u0625\u063a\u0644\u0627\u0642 \u0627\u0644\u062d\u0627\u0644\u0629\u060c \u0648\u0627\u0646\u062a\u0642\u0644 \u0645\u0628\u0627\u0634\u0631\u0629 \u0625\u0644\u0649 \u0627\u0644\u0639\u0645\u0644 \u0627\u0644\u0630\u064a \u064a\u062d\u062a\u0627\u062c \u062a\u062f\u062e\u0644\u0643.\",\"col\":12}},{\"id\":\"rushd_now_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u0645\u0624\u0634\u0631\u0627\u062a \u0627\u0644\u0639\u0645\u0644 \u0627\u0644\u0622\u0646</b></span>\",\"col\":12}},{\"id\":\"rushd_needs_review\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0637\u0644\u0628\u0627\u062a \u062a\u062d\u062a\u0627\u062c \u0645\u0631\u0627\u062c\u0639\u0629\",\"col\":3}},{\"id\":\"rushd_ready_triage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u062c\u0627\u0647\u0632\u0629 \u0644\u0644\u0641\u0631\u0632\",\"col\":3}},{\"id\":\"rushd_waiting_info\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0628\u0627\u0646\u062a\u0638\u0627\u0631 \u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f\",\"col\":3}},{\"id\":\"rushd_ready_assignment\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u062c\u0627\u0647\u0632\u0629 \u0644\u0644\u0625\u0633\u0646\u0627\u062f\",\"col\":3}},{\"id\":\"rushd_active_cases\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0627\u0644\u062d\u0627\u0644\u0627\u062a \u0627\u0644\u0646\u0634\u0637\u0629\",\"col\":3}},{\"id\":\"rushd_upcoming_appointments\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0627\u0644\u0645\u0648\u0627\u0639\u064a\u062f \u0627\u0644\u0642\u0627\u062f\u0645\u0629\",\"col\":3}},{\"id\":\"rushd_pending_consents\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0627\u062a \u0627\u0644\u0645\u0639\u0644\u0642\u0629\",\"col\":3}},{\"id\":\"rushd_active_consultants\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0627\u0644\u0645\u0633\u062a\u0634\u0627\u0631\u0648\u0646 \u0627\u0644\u0646\u0634\u0637\u0648\u0646\",\"col\":3}},{\"id\":\"rushd_queue_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_queue_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u0642\u0648\u0627\u0626\u0645 \u062a\u062d\u062a\u0627\u062c \u0645\u062a\u0627\u0628\u0639\u0629</b></span>\",\"col\":12}},{\"id\":\"rushd_intake_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0627\u0633\u062a\u0642\u0628\u0627\u0644\",\"col\":6}},{\"id\":\"rushd_triage_queue\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0641\u0631\u0632 \u0627\u0644\u0645\u0647\u0646\u064a\",\"col\":6}},{\"id\":\"rushd_management_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_management_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u0625\u062f\u0627\u0631\u0629 \u0627\u0644\u0645\u0646\u0635\u0629</b></span>\",\"col\":12}},{\"id\":\"rushd_journey_card\",\"type\":\"card\",\"data\":{\"card_name\":\"\u0627\u0644\u0631\u062d\u0644\u0629 \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u064a\u0629\",\"col\":4}},{\"id\":\"rushd_people_card\",\"type\":\"card\",\"data\":{\"card_name\":\"\u0627\u0644\u0623\u0634\u062e\u0627\u0635 \u0648\u0627\u0644\u0635\u0644\u0627\u062d\u064a\u0627\u062a\",\"col\":4}},{\"id\":\"rushd_consultants_card\",\"type\":\"card\",\"data\":{\"card_name\":\"\u062a\u0634\u063a\u064a\u0644 \u0627\u0644\u0645\u0633\u062a\u0634\u0627\u0631\u064a\u0646\",\"col\":4}},{\"id\":\"rushd_services_card\",\"type\":\"card\",\"data\":{\"card_name\":\"\u0627\u0644\u062e\u062f\u0645\u0627\u062a \u0648\u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0627\u062a\",\"col\":4}},{\"id\":\"rushd_supervision_card\",\"type\":\"card\",\"data\":{\"card_name\":\"\u0627\u0644\u0625\u0634\u0631\u0627\u0641 \u0648\u0627\u0644\u062a\u0646\u0633\u064a\u0642\",\"col\":4}},{\"id\":\"rushd_settings_card\",\"type\":\"card\",\"data\":{\"card_name\":\"\u0625\u0639\u062f\u0627\u062f \u0627\u0644\u0645\u0646\u0635\u0629\",\"col\":4}},{\"id\":\"rushd_portals_spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rushd_portals_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u0648\u0627\u062c\u0647\u0627\u062a \u0627\u0644\u0639\u0645\u0644</b></span>\",\"col\":12}},{\"id\":\"rushd_operations_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0648\u0627\u062c\u0647\u0629 \u0627\u0644\u0627\u0633\u062a\u0642\u0628\u0627\u0644 \u0648\u0627\u0644\u062a\u0634\u063a\u064a\u0644\",\"col\":3}},{\"id\":\"rushd_supervisor_portal\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0648\u0627\u062c\u0647\u0629 \u0627\u0644\u0625\u0634\u0631\u0627\u0641 \u0648\u0627\u0644\u0641\u0631\u0632\",\"col\":3}},{\"id\":\"rushd_public_site\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u0627\u0644\u0645\u0648\u0642\u0639 \u0627\u0644\u0639\u0627\u0645 \u0644\u0631\u064f\u0634\u062f\",\"col\":3}},{\"id\":\"rushd_public_site_settings\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u062a\u062d\u0631\u064a\u0631 \u0627\u0644\u0635\u0641\u062d\u0629 \u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629\",\"col\":3}}]",
+ "creation": "2026-07-29 14:29:12.022663",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -13,12 +13,12 @@
  "label": "Rushd",
  "links": [
   {
-   "description": "إدارة انتقال الطلب من الاستقبال إلى الحالة والمواعيد.",
+   "description": "\u0625\u062f\u0627\u0631\u0629 \u0627\u0646\u062a\u0642\u0627\u0644 \u0627\u0644\u0637\u0644\u0628 \u0645\u0646 \u0627\u0644\u0627\u0633\u062a\u0642\u0628\u0627\u0644 \u0625\u0644\u0649 \u0627\u0644\u062d\u0627\u0644\u0629 \u0648\u0627\u0644\u0645\u0648\u0627\u0639\u064a\u062f.",
    "hidden": 0,
    "icon": "workflow",
    "is_query_report": 0,
-   "label": "الرحلة الاستشارية",
-   "link_count": 3,
+   "label": "\u0627\u0644\u0631\u062d\u0644\u0629 \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u064a\u0629",
+   "link_count": 6,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -26,7 +26,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "طلبات الاستشارة",
+   "label": "\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u0629",
    "link_count": 0,
    "link_to": "Consultation Request",
    "link_type": "DocType",
@@ -37,7 +37,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "الحالات الاستشارية",
+   "label": "\u0627\u0644\u062d\u0627\u0644\u0627\u062a \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u064a\u0629",
    "link_count": 0,
    "link_to": "Consultation Case",
    "link_type": "DocType",
@@ -48,7 +48,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "المواعيد",
+   "label": "\u0627\u0644\u0645\u0648\u0627\u0639\u064a\u062f",
    "link_count": 0,
    "link_to": "Consultation Appointment",
    "link_type": "DocType",
@@ -56,11 +56,44 @@
    "type": "Link"
   },
   {
-   "description": "ملفات المستفيدين وأولياء الأمور وحدود الوصول.",
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0633\u062c\u0644\u0627\u062a \u0627\u0644\u062c\u0644\u0633\u0627\u062a",
+   "link_count": 0,
+   "link_to": "Consultation Session",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0627\u0644\u062e\u0637\u0637 \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u064a\u0629",
+   "link_count": 0,
+   "link_to": "Consultation Plan",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Consultation Plan",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0645\u0647\u0627\u0645 \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f\u064a\u0646",
+   "link_count": 0,
+   "link_to": "Beneficiary Task",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "\u0645\u0644\u0641\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f\u064a\u0646 \u0648\u0623\u0648\u0644\u064a\u0627\u0621 \u0627\u0644\u0623\u0645\u0648\u0631 \u0648\u062d\u062f\u0648\u062f \u0627\u0644\u0648\u0635\u0648\u0644.",
    "hidden": 0,
    "icon": "users",
    "is_query_report": 0,
-   "label": "الأشخاص والصلاحيات",
+   "label": "\u0627\u0644\u0623\u0634\u062e\u0627\u0635 \u0648\u0627\u0644\u0635\u0644\u0627\u062d\u064a\u0627\u062a",
    "link_count": 3,
    "onboard": 0,
    "type": "Card Break"
@@ -69,7 +102,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "المستفيدون",
+   "label": "\u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f\u0648\u0646",
    "link_count": 0,
    "link_to": "Beneficiary",
    "link_type": "DocType",
@@ -80,7 +113,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "أولياء الأمور",
+   "label": "\u0623\u0648\u0644\u064a\u0627\u0621 \u0627\u0644\u0623\u0645\u0648\u0631",
    "link_count": 0,
    "link_to": "Guardian",
    "link_type": "DocType",
@@ -91,7 +124,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "تفويضات أولياء الأمور",
+   "label": "\u062a\u0641\u0648\u064a\u0636\u0627\u062a \u0623\u0648\u0644\u064a\u0627\u0621 \u0627\u0644\u0623\u0645\u0648\u0631",
    "link_count": 0,
    "link_to": "Guardian Authorization",
    "link_type": "DocType",
@@ -99,11 +132,11 @@
    "type": "Link"
   },
   {
-   "description": "ملفات المستشارين والتوفر والإجازات.",
+   "description": "\u0645\u0644\u0641\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0634\u0627\u0631\u064a\u0646 \u0648\u0627\u0644\u062a\u0648\u0641\u0631 \u0648\u0627\u0644\u0625\u062c\u0627\u0632\u0627\u062a.",
    "hidden": 0,
    "icon": "calendar",
    "is_query_report": 0,
-   "label": "تشغيل المستشارين",
+   "label": "\u062a\u0634\u063a\u064a\u0644 \u0627\u0644\u0645\u0633\u062a\u0634\u0627\u0631\u064a\u0646",
    "link_count": 3,
    "onboard": 0,
    "type": "Card Break"
@@ -112,7 +145,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "المستشارون",
+   "label": "\u0627\u0644\u0645\u0633\u062a\u0634\u0627\u0631\u0648\u0646",
    "link_count": 0,
    "link_to": "Consultant",
    "link_type": "DocType",
@@ -123,7 +156,7 @@
    "dependencies": "Consultant",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "قواعد التوفر",
+   "label": "\u0642\u0648\u0627\u0639\u062f \u0627\u0644\u062a\u0648\u0641\u0631",
    "link_count": 0,
    "link_to": "Consultant Availability Rule",
    "link_type": "DocType",
@@ -134,7 +167,7 @@
    "dependencies": "Consultant",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "إجازات المستشارين",
+   "label": "\u0625\u062c\u0627\u0632\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0634\u0627\u0631\u064a\u0646",
    "link_count": 0,
    "link_to": "Consultant Time Off",
    "link_type": "DocType",
@@ -142,12 +175,12 @@
    "type": "Link"
   },
   {
-   "description": "تعريف الخدمات وإصدارات الموافقة وسجلاتها.",
+   "description": "\u062a\u0639\u0631\u064a\u0641 \u0627\u0644\u062e\u062f\u0645\u0627\u062a \u0648\u0625\u0635\u062f\u0627\u0631\u0627\u062a \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629 \u0648\u0633\u062c\u0644\u0627\u062a\u0647\u0627.",
    "hidden": 0,
    "icon": "file",
    "is_query_report": 0,
-   "label": "الخدمات والموافقات",
-   "link_count": 4,
+   "label": "\u0627\u0644\u062e\u062f\u0645\u0627\u062a \u0648\u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0627\u062a",
+   "link_count": 7,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -155,7 +188,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "الخدمات الاستشارية",
+   "label": "\u0627\u0644\u062e\u062f\u0645\u0627\u062a \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u064a\u0629",
    "link_count": 0,
    "link_to": "Consultation Service",
    "link_type": "DocType",
@@ -166,7 +199,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "قوالب الموافقات",
+   "label": "\u0642\u0648\u0627\u0644\u0628 \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0627\u062a",
    "link_count": 0,
    "link_to": "Consent Template",
    "link_type": "DocType",
@@ -177,7 +210,7 @@
    "dependencies": "Consent Template",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "إصدارات الموافقات",
+   "label": "\u0625\u0635\u062f\u0627\u0631\u0627\u062a \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0627\u062a",
    "link_count": 0,
    "link_to": "Consent Version",
    "link_type": "DocType",
@@ -188,7 +221,7 @@
    "dependencies": "Consent Template",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "سجلات الموافقات",
+   "label": "\u0633\u062c\u0644\u0627\u062a \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0627\u062a",
    "link_count": 0,
    "link_to": "Consent Record",
    "link_type": "DocType",
@@ -196,12 +229,45 @@
    "type": "Link"
   },
   {
-   "description": "إدارة المستخدمين والأدوار وهوية الموقع.",
+   "dependencies": "",
    "hidden": 0,
-   "icon": "setting",
    "is_query_report": 0,
-   "label": "إعداد المنصة",
-   "link_count": 4,
+   "label": "\u0642\u0648\u0627\u0644\u0628 \u0627\u0644\u0645\u0642\u0627\u064a\u064a\u0633",
+   "link_count": 0,
+   "link_to": "Assessment Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Assessment Template",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0625\u0635\u062f\u0627\u0631\u0627\u062a \u0627\u0644\u0645\u0642\u0627\u064a\u064a\u0633",
+   "link_count": 0,
+   "link_to": "Assessment Version",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Assessment Template",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0646\u062a\u0627\u0626\u062c \u0627\u0644\u0645\u0642\u0627\u064a\u064a\u0633",
+   "link_count": 0,
+   "link_to": "Assessment Submission",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "\u0627\u0644\u0625\u062d\u0627\u0644\u0627\u062a \u0648\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0625\u0634\u0631\u0627\u0641 \u0648\u0627\u0644\u062a\u0635\u0639\u064a\u062f\u0627\u062a \u0627\u0644\u0645\u0647\u0646\u064a\u0629 \u0627\u0644\u0633\u0631\u064a\u0629.",
+   "hidden": 0,
+   "icon": "branch",
+   "is_query_report": 0,
+   "label": "\u0627\u0644\u0625\u0634\u0631\u0627\u0641 \u0648\u0627\u0644\u062a\u0646\u0633\u064a\u0642",
+   "link_count": 3,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -209,7 +275,50 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "المستخدمون",
+   "label": "\u0627\u0644\u0625\u062d\u0627\u0644\u0627\u062a",
+   "link_count": 0,
+   "link_to": "Case Referral",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0625\u0634\u0631\u0627\u0641",
+   "link_count": 0,
+   "link_to": "Supervision Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0627\u0644\u062a\u0635\u0639\u064a\u062f\u0627\u062a \u0627\u0644\u0645\u0647\u0646\u064a\u0629",
+   "link_count": 0,
+   "link_to": "Professional Escalation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "\u0625\u062f\u0627\u0631\u0629 \u0627\u0644\u0645\u0633\u062a\u062e\u062f\u0645\u064a\u0646 \u0648\u0627\u0644\u0623\u062f\u0648\u0627\u0631 \u0648\u0647\u0648\u064a\u0629 \u0627\u0644\u0645\u0648\u0642\u0639.",
+   "hidden": 0,
+   "icon": "setting",
+   "is_query_report": 0,
+   "label": "\u0625\u0639\u062f\u0627\u062f \u0627\u0644\u0645\u0646\u0635\u0629",
+   "link_count": 8,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0627\u0644\u0645\u0633\u062a\u062e\u062f\u0645\u0648\u0646",
    "link_count": 0,
    "link_to": "User",
    "link_type": "DocType",
@@ -220,7 +329,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "الأدوار",
+   "label": "\u0627\u0644\u0623\u062f\u0648\u0627\u0631",
    "link_count": 0,
    "link_to": "Role",
    "link_type": "DocType",
@@ -231,7 +340,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "إعدادات الموقع",
+   "label": "\u0625\u0639\u062f\u0627\u062f\u0627\u062a \u0627\u0644\u0645\u0648\u0642\u0639",
    "link_count": 0,
    "link_to": "Website Settings",
    "link_type": "DocType",
@@ -242,15 +351,59 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "إعدادات الصفحة الرئيسية",
+   "label": "\u0625\u0639\u062f\u0627\u062f\u0627\u062a \u0627\u0644\u0635\u0641\u062d\u0629 \u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629",
    "link_count": 0,
    "link_to": "Rushd Website Settings",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u062f\u0639\u0645",
+   "link_count": 0,
+   "link_to": "Support Ticket",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0627\u0644\u0634\u0643\u0627\u0648\u0649 \u0648\u0627\u0644\u0628\u0644\u0627\u063a\u0627\u062a",
+   "link_count": 0,
+   "link_to": "Complaint",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0627\u0644\u0625\u0639\u0644\u0627\u0646\u0627\u062a \u0627\u0644\u062f\u0627\u062e\u0644\u064a\u0629",
+   "link_count": 0,
+   "link_to": "Internal Announcement",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\u0627\u0644\u0645\u062d\u062a\u0648\u0649 \u0627\u0644\u062f\u0627\u062e\u0644\u064a",
+   "link_count": 0,
+   "link_to": "Resource Content",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-07-27 22:00:00.000000",
+ "modified": "2026-07-29 02:00:00",
  "modified_by": "Administrator",
  "module": "Consultation Center",
  "name": "Rushd",
@@ -261,12 +414,12 @@
  "quick_lists": [
   {
    "document_type": "Consultation Request",
-   "label": "طلبات الاستقبال",
+   "label": "\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0627\u0633\u062a\u0642\u0628\u0627\u0644",
    "quick_list_filter": "[[\"Consultation Request\",\"workflow_state\",\"in\",[\"Submitted\",\"Under Completeness Review\"],false]]"
   },
   {
    "document_type": "Consultation Request",
-   "label": "طلبات الفرز المهني",
+   "label": "\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0641\u0631\u0632 \u0627\u0644\u0645\u0647\u0646\u064a",
    "quick_list_filter": "[[\"Consultation Request\",\"workflow_state\",\"=\",\"Ready for Triage\",false]]"
   }
  ],
@@ -283,90 +436,89 @@
  "shortcuts": [
   {
    "color": "Orange",
-   "format": "{} طلب",
-   "label": "طلبات تحتاج مراجعة",
+   "format": "{} \u0637\u0644\u0628",
+   "label": "\u0637\u0644\u0628\u0627\u062a \u062a\u062d\u062a\u0627\u062c \u0645\u0631\u0627\u062c\u0639\u0629",
    "link_to": "Consultation Request",
    "stats_filter": "{\"workflow_state\":[\"in\",[\"Submitted\",\"Under Completeness Review\"]]}",
    "type": "DocType"
   },
   {
    "color": "Blue",
-   "format": "{} طلب",
-   "label": "جاهزة للفرز",
+   "format": "{} \u0637\u0644\u0628",
+   "label": "\u062c\u0627\u0647\u0632\u0629 \u0644\u0644\u0641\u0631\u0632",
    "link_to": "Consultation Request",
    "stats_filter": "{\"workflow_state\":[\"=\",\"Ready for Triage\"]}",
    "type": "DocType"
   },
   {
    "color": "Yellow",
-   "format": "{} طلب",
-   "label": "بانتظار معلومات المستفيد",
+   "format": "{} \u0637\u0644\u0628",
+   "label": "\u0628\u0627\u0646\u062a\u0638\u0627\u0631 \u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f",
    "link_to": "Consultation Request",
    "stats_filter": "{\"workflow_state\":[\"=\",\"Awaiting Beneficiary Information\"]}",
    "type": "DocType"
   },
   {
    "color": "Green",
-   "format": "{} طلب",
-   "label": "جاهزة للإسناد",
+   "format": "{} \u0637\u0644\u0628",
+   "label": "\u062c\u0627\u0647\u0632\u0629 \u0644\u0644\u0625\u0633\u0646\u0627\u062f",
    "link_to": "Consultation Request",
    "stats_filter": "{\"workflow_state\":[\"=\",\"Ready for Assignment\"]}",
    "type": "DocType"
   },
   {
    "color": "Green",
-   "format": "{} حالة",
-   "label": "الحالات النشطة",
+   "format": "{} \u062d\u0627\u0644\u0629",
+   "label": "\u0627\u0644\u062d\u0627\u0644\u0627\u062a \u0627\u0644\u0646\u0634\u0637\u0629",
    "link_to": "Consultation Case",
    "stats_filter": "{\"case_status\":[\"in\",[\"Assigned\",\"Awaiting Appointment\",\"Active\",\"On Hold\",\"Awaiting Report\",\"Under Supervisor Review\",\"Follow-up\"]]}",
    "type": "DocType"
   },
   {
    "color": "Blue",
-   "format": "{} موعد",
-   "label": "المواعيد القادمة",
+   "format": "{} \u0645\u0648\u0639\u062f",
+   "label": "\u0627\u0644\u0645\u0648\u0627\u0639\u064a\u062f \u0627\u0644\u0642\u0627\u062f\u0645\u0629",
    "link_to": "Consultation Appointment",
    "stats_filter": "{\"status\":[\"in\",[\"Pending Approval\",\"Confirmed\",\"Rescheduled\"]]}",
    "type": "DocType"
   },
   {
    "color": "Orange",
-   "format": "{} موافقة",
-   "label": "الموافقات المعلقة",
+   "format": "{} \u0645\u0648\u0627\u0641\u0642\u0629",
+   "label": "\u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0627\u062a \u0627\u0644\u0645\u0639\u0644\u0642\u0629",
    "link_to": "Consent Record",
    "stats_filter": "{\"status\":[\"=\",\"Pending\"]}",
    "type": "DocType"
   },
   {
    "color": "Green",
-   "format": "{} مستشار",
-   "label": "المستشارون النشطون",
+   "format": "{} \u0645\u0633\u062a\u0634\u0627\u0631",
+   "label": "\u0627\u0644\u0645\u0633\u062a\u0634\u0627\u0631\u0648\u0646 \u0627\u0644\u0646\u0634\u0637\u0648\u0646",
    "link_to": "Consultant",
    "stats_filter": "{\"active\":[\"=\",1]}",
    "type": "DocType"
   },
   {
-   "label": "واجهة الاستقبال والتشغيل",
+   "label": "\u0648\u0627\u062c\u0647\u0629 \u0627\u0644\u0627\u0633\u062a\u0642\u0628\u0627\u0644 \u0648\u0627\u0644\u062a\u0634\u063a\u064a\u0644",
    "type": "URL",
    "url": "/operations"
   },
   {
-   "label": "واجهة الإشراف والفرز",
+   "label": "\u0648\u0627\u062c\u0647\u0629 \u0627\u0644\u0625\u0634\u0631\u0627\u0641 \u0648\u0627\u0644\u0641\u0631\u0632",
    "type": "URL",
    "url": "/supervisor"
   },
   {
    "color": "Blue",
-   "label": "تحرير الصفحة الرئيسية",
+   "label": "\u062a\u062d\u0631\u064a\u0631 \u0627\u0644\u0635\u0641\u062d\u0629 \u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629",
    "type": "URL",
    "url": "/app/rushd-website-settings/Rushd%20Website%20Settings"
   },
   {
-   "label": "الموقع العام لرُشد",
+   "label": "\u0627\u0644\u0645\u0648\u0642\u0639 \u0627\u0644\u0639\u0627\u0645 \u0644\u0631\u064f\u0634\u062f",
    "type": "URL",
    "url": "/"
   }
  ],
- "title": "Rushd",
- "type": "Workspace"
+ "title": "Rushd"
 }

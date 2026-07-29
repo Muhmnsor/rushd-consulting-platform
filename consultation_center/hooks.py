@@ -5,7 +5,7 @@ app_description = "منصة رُشد للاستشارات الشبابية"
 app_email = "admin@rushd.local"
 app_license = "mit"
 app_logo_url = "/assets/consultation_center/images/rushd-logo.svg"
-rushd_asset_version = "20260728-13"
+rushd_asset_version = "20260729-8"
 brand_html = """
 <span class="rushd-brand-wordmark">
 	<img class="rushd-brand-symbol" src="/assets/consultation_center/images/rushd-logo.svg" alt="">
@@ -79,6 +79,11 @@ home_page = "index"
 
 signup_form_template = "consultation_center/templates/includes/rushd_signup.html"
 
+website_route_rules = [
+	{"from_route": "/admin", "to_route": "admin-router"},
+	{"from_route": "/admin/<path:admin_path>", "to_route": "admin-router"},
+]
+
 # website user home page (by Role)
 # role_home_page = {
 # 	"Role": "home_page"
@@ -151,6 +156,18 @@ permission_query_conditions = {
 	"Consultation Request": "consultation_center.permissions.request_query",
 	"Consultation Case": "consultation_center.permissions.case_query",
 	"Consultation Appointment": "consultation_center.permissions.appointment_query",
+	"Consultation Session": "consultation_center.permissions.session_query",
+	"Consultation Plan": "consultation_center.permissions.plan_query",
+	"Beneficiary Task": "consultation_center.permissions.beneficiary_task_query",
+	"Assessment Template": "consultation_center.permissions.assessment_template_query",
+	"Assessment Version": "consultation_center.permissions.assessment_version_query",
+	"Assessment Submission": "consultation_center.permissions.assessment_submission_query",
+	"Case Referral": "consultation_center.permissions.case_referral_query",
+	"Supervision Request": "consultation_center.permissions.supervision_request_query",
+	"Professional Escalation": "consultation_center.permissions.professional_escalation_query",
+	"Support Ticket": "consultation_center.permissions.support_ticket_query",
+	"Complaint": "consultation_center.permissions.complaint_query",
+	"Case Document": "consultation_center.permissions.case_document_query",
 }
 
 has_permission = {
@@ -164,6 +181,18 @@ has_permission = {
 	"Consultation Request": "consultation_center.permissions.has_permission",
 	"Consultation Case": "consultation_center.permissions.has_permission",
 	"Consultation Appointment": "consultation_center.permissions.has_permission",
+	"Consultation Session": "consultation_center.permissions.has_permission",
+	"Consultation Plan": "consultation_center.permissions.has_permission",
+	"Beneficiary Task": "consultation_center.permissions.has_permission",
+	"Assessment Template": "consultation_center.permissions.has_permission",
+	"Assessment Version": "consultation_center.permissions.has_permission",
+	"Assessment Submission": "consultation_center.permissions.has_permission",
+	"Case Referral": "consultation_center.permissions.has_permission",
+	"Supervision Request": "consultation_center.permissions.has_permission",
+	"Professional Escalation": "consultation_center.permissions.has_permission",
+	"Support Ticket": "consultation_center.permissions.has_permission",
+	"Complaint": "consultation_center.permissions.has_permission",
+	"Case Document": "consultation_center.permissions.has_permission",
 }
 
 # DocType Class

@@ -71,4 +71,11 @@ def grant_guardian_consent(consent_record: str, confirmed: int | str = 0):
 	doc.granted_at = now_datetime()
 	doc.grant_method = "Web"
 	doc.save(ignore_permissions=True)
+	frappe.db.set_value(
+		"Beneficiary",
+		doc.beneficiary,
+		"consent_status",
+		"Granted",
+		update_modified=False,
+	)
 	return {"name": doc.name, "message": "تم تسجيل موافقتك بنجاح"}

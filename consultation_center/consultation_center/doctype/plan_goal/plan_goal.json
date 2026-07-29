@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-07-28 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "goal_title",
+  "goal_description",
+  "indicator",
+  "column_break_1",
+  "baseline_value",
+  "target_value",
+  "current_value",
+  "target_date",
+  "status",
+  "beneficiary_visible"
+ ],
+ "fields": [
+  {
+   "fieldname": "goal_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Goal Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "goal_description",
+   "fieldtype": "Small Text",
+   "label": "Goal Description"
+  },
+  {
+   "fieldname": "indicator",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Progress Indicator"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "baseline_value",
+   "fieldtype": "Data",
+   "label": "Baseline Value"
+  },
+  {
+   "fieldname": "target_value",
+   "fieldtype": "Data",
+   "label": "Target Value"
+  },
+  {
+   "fieldname": "current_value",
+   "fieldtype": "Data",
+   "label": "Current Value"
+  },
+  {
+   "fieldname": "target_date",
+   "fieldtype": "Date",
+   "label": "Target Date"
+  },
+  {
+   "default": "Not Started",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Not Started\nIn Progress\nAchieved\nPaused\nCancelled"
+  },
+  {
+   "default": "1",
+   "fieldname": "beneficiary_visible",
+   "fieldtype": "Check",
+   "label": "Visible to Beneficiary"
+  }
+ ],
+ "istable": 1,
+ "modified": "2026-07-28 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Plan Goal",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

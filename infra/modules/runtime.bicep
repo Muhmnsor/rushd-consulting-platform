@@ -194,7 +194,8 @@ resource application 'Microsoft.App/containerApps@2025-01-01' = {
           name: 'backend'
           image: applicationImage
           command: [
-            '/usr/local/bin/start.sh'
+            'bash'
+            '${runtimeScriptPath}/start-backend.sh'
           ]
           env: concat(commonEnvironment, bootstrapEnvironment)
           resources: {
