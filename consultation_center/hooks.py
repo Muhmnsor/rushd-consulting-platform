@@ -5,7 +5,7 @@ app_description = "منصة رُشد للاستشارات الشبابية"
 app_email = "admin@rushd.local"
 app_license = "mit"
 app_logo_url = "/assets/consultation_center/images/rushd-logo.svg"
-rushd_asset_version = "20260729-19"
+rushd_asset_version = "20260802-20"
 brand_html = """
 <span class="rushd-brand-wordmark">
 	<img class="rushd-brand-symbol" src="/assets/consultation_center/images/rushd-logo.svg" alt="">

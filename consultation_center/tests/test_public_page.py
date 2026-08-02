@@ -273,6 +273,20 @@ class TestPublicPage(FrappeTestCase):
 			frappe.db.get_single_value("Website Settings", "favicon"),
 			RUSHD_LOGO_URL,
 		)
+
+	def test_arabic_font_does_not_flash_a_fallback_face(self):
+		app_path = Path(__file__).parents[1]
+		fonts_css = (app_path / "public" / "css" / "fonts.css").read_text()
+		preloads = (
+			app_path / "templates" / "includes" / "rushd_font_preload.html"
+		).read_text()
+
+		self.assertEqual(fonts_css.count("font-display: block"), 9)
+		self.assertNotIn("font-display: swap", fonts_css)
+		self.assertNotIn(".ttf')", fonts_css)
+		self.assertIn("NotoKufiArabic-Regular.woff2", fonts_css)
+		self.assertIn('rel="preload"', preloads)
+		self.assertIn('type="font/woff2"', preloads)
 		self.assertEqual(
 			frappe.db.get_value("User", "Administrator", "full_name"),
 			"مدير النظام",

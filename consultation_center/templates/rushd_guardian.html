@@ -1,7 +1,8 @@
 {% extends "templates/base.html" %}
 
 {% block head_include %}
-<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css">
+{% include "consultation_center/templates/includes/rushd_font_preload.html" %}
+<link rel="stylesheet" href="/assets/consultation_center/css/fonts.css?v=20260802-20">
 <link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css">
 <link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css">
 {% endblock %}
@@ -44,4 +45,3 @@
 	</div>
 </div>
 {% endblock %}
-
