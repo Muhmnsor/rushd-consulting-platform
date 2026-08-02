@@ -13,7 +13,13 @@ from consultation_center.website import (
 	ensure_rushd_website_settings,
 	get_rushd_website_settings,
 )
-from consultation_center.www.index import _get_portal_url, get_context
+from consultation_center.www.index import (
+	_get_portal_url,
+	_get_public_consultants,
+	_get_public_testimonials,
+	_get_service_request_url,
+	get_context,
+)
 
 
 class TestPublicPage(FrappeTestCase):
@@ -53,6 +59,12 @@ class TestPublicPage(FrappeTestCase):
 		)
 		self.assertEqual(guest_context.header_action_label, "اطلب استشارة")
 		self.assertEqual(guest_context.header_action_url, guest_context.request_url)
+		self.assertTrue(
+			all("redirect-to=" in service.request_url for service in guest_context.services)
+		)
+		self.assertTrue(
+			all(service.request_label == "اطلب الخدمة الآن" for service in guest_context.services)
+		)
 
 		beneficiary_context = self._build_context(
 			"beneficiary@example.com",
@@ -60,6 +72,12 @@ class TestPublicPage(FrappeTestCase):
 		)
 		self.assertTrue(beneficiary_context.can_request_consultation)
 		self.assertEqual(beneficiary_context.request_url, "/beneficiary/requests/new")
+		self.assertTrue(
+			all(
+				service.request_url.startswith("/beneficiary/requests/new?service=")
+				for service in beneficiary_context.services
+			)
+		)
 		self.assertEqual(beneficiary_context.header_action_label, "حسابي")
 		self.assertEqual(beneficiary_context.header_action_url, "/beneficiary")
 
@@ -71,12 +89,34 @@ class TestPublicPage(FrappeTestCase):
 		self.assertEqual(admin_context.primary_action_url, "/admin")
 		self.assertEqual(admin_context.header_action_label, "حسابي")
 		self.assertEqual(admin_context.header_action_url, "/admin")
+		self.assertTrue(
+			all(service.request_label == "اطلب الخدمة الآن" for service in admin_context.services)
+		)
+
+	def test_service_request_action_preserves_selected_service_through_login(self):
+		destination = "/beneficiary/requests/new?service=RUSHD-DIGITAL-BALANCE"
+		self.assertEqual(
+			_get_service_request_url("RUSHD-DIGITAL-BALANCE", True),
+			destination,
+		)
+		self.assertEqual(
+			_get_service_request_url("RUSHD-DIGITAL-BALANCE", False),
+			"/login?redirect-to=%2Fbeneficiary%2Frequests%2Fnew%3Fservice%3DRUSHD-DIGITAL-BALANCE",
+		)
+
+		public_template = (Path(__file__).parents[1] / "www" / "index.html").read_text()
+		request_template = (
+			Path(__file__).parents[1] / "www" / "beneficiary" / "requests" / "new.html"
+		).read_text()
+		self.assertIn("rushd-service-card__action", public_template)
+		self.assertIn("service.request_url", public_template)
+		self.assertIn("service.name == selected_service", request_template)
 
 	def test_every_public_navigation_anchor_has_a_target_section(self):
 		template_path = Path(__file__).parents[1] / "www" / "index.html"
 		template = template_path.read_text()
 
-		for section in ("services", "journey", "privacy", "faq"):
+		for section in ("services", "consultants", "testimonials", "journey", "privacy", "faq"):
 			self.assertIn(f'href="#{section}"', template)
 			self.assertIn(f'id="{section}"', template)
 
@@ -86,6 +126,8 @@ class TestPublicPage(FrappeTestCase):
 
 		self.assertTrue(frappe.db.exists("DocType", SETTINGS_DOCTYPE))
 		self.assertEqual(settings.hero_title, "نستمع إليك،")
+		self.assertEqual(settings.consultants_title, "مستشارون يستمعون قبل أن يوجّهوا")
+		self.assertEqual(settings.testimonials_title, "كلمات شاركها مستفيدون سابقون")
 		self.assertEqual(len(settings.journey_steps), 4)
 		self.assertEqual(len(settings.faqs), 4)
 
@@ -93,6 +135,89 @@ class TestPublicPage(FrappeTestCase):
 		self.assertEqual(context.website.page_title, settings.page_title)
 		self.assertEqual(context.title, settings.page_title)
 		self.assertLessEqual(len(context.services), settings.services_limit)
+
+	def test_only_approved_complete_consultant_profiles_are_public(self):
+		suffix = frappe.generate_hash(length=8).upper()
+		published_user = self._make_public_test_user(f"published-{suffix.lower()}@example.com")
+		hidden_user = self._make_public_test_user(f"hidden-{suffix.lower()}@example.com")
+		published = frappe.get_doc(
+			{
+				"doctype": "Consultant",
+				"consultant_name": f"مستشار منشور {suffix}",
+				"code": f"PUBLIC-{suffix}",
+				"user": published_user,
+				"active": 1,
+				"show_on_website": 1,
+				"public_title": "مستشار في الرفاه النفسي",
+				"public_bio": "يقدم دعمًا مهنيًا يركز على بناء المهارات وفهم الاحتياج.",
+				"specializations": "إدارة الضغوط، تطوير الذات",
+			}
+		).insert(ignore_permissions=True)
+		hidden = frappe.get_doc(
+			{
+				"doctype": "Consultant",
+				"consultant_name": f"مستشار غير منشور {suffix}",
+				"code": f"HIDDEN-{suffix}",
+				"user": hidden_user,
+				"active": 1,
+				"show_on_website": 0,
+				"public_title": "مستشار",
+				"public_bio": "نبذة غير مصرح بنشرها.",
+			}
+		).insert(ignore_permissions=True)
+
+		result = _get_public_consultants(12)
+		names = {row.name for row in result}
+		self.assertIn(published.name, names)
+		self.assertNotIn(hidden.name, names)
+		public_row = next(row for row in result if row.name == published.name)
+		self.assertEqual(public_row.specialty_tags, ["إدارة الضغوط", "تطوير الذات"])
+
+	def test_only_consented_published_testimonials_are_public(self):
+		suffix = frappe.generate_hash(length=8).upper()
+		published = frappe.get_doc(
+			{
+				"doctype": "Rushd Testimonial",
+				"quote": "ساعدتني الخطوات الواضحة على فهم ما أحتاج إليه.",
+				"display_name": "مستفيد من رُشد",
+				"service_label": "التوجيه الدراسي",
+				"active": 1,
+				"consent_confirmed": 1,
+				"consent_date": frappe.utils.nowdate(),
+				"source_reference": f"TEST-{suffix}",
+				"sort_order": 1,
+			}
+		).insert(ignore_permissions=True)
+		hidden = frappe.get_doc(
+			{
+				"doctype": "Rushd Testimonial",
+				"quote": "هذا الرأي غير منشور.",
+				"display_name": "مستفيد آخر",
+				"active": 0,
+				"consent_confirmed": 0,
+			}
+		).insert(ignore_permissions=True)
+
+		result = _get_public_testimonials(12)
+		names = {row.name for row in result}
+		self.assertIn(published.name, names)
+		self.assertNotIn(hidden.name, names)
+		public_row = next(row for row in result if row.name == published.name)
+		self.assertEqual(public_row.display_name, "مستفيد من رُشد")
+		self.assertEqual(public_row.service_label, "التوجيه الدراسي")
+
+	@staticmethod
+	def _make_public_test_user(email):
+		return frappe.get_doc(
+			{
+				"doctype": "User",
+				"email": email,
+				"first_name": "مستشار اختبار",
+				"enabled": 1,
+				"send_welcome_email": 0,
+				"user_type": "Website User",
+			}
+		).insert(ignore_permissions=True).name
 
 	def test_homepage_defaults_address_the_student_not_the_guardian(self):
 		public_copy = " ".join(
@@ -186,7 +311,8 @@ class TestPublicPage(FrappeTestCase):
 
 		self.assertIn("body[data-route='Workspaces/Rushd']", rtl_styles)
 		self.assertIn("--rushd-admin-canvas: #f4f3ef;", rtl_styles)
-		self.assertIn("background: #292d31;", rtl_styles)
+		self.assertIn("--rushd-admin-accent: #0d9488;", rtl_styles)
+		self.assertIn("background: var(--rushd-admin-accent-deep);", rtl_styles)
 		self.assertIn(".rushd-ux-section-heading", rtl_styles)
 		self.assertIn(".shortcut-widget-box", rtl_styles)
 		self.assertIn(".quick-list-widget-box", rtl_styles)

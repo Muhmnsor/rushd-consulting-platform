@@ -69,7 +69,11 @@ REQUEST_STATUS = {
 def require_portal_login() -> str:
 	user = frappe.session.user
 	if user == "Guest":
-		redirect_to = frappe.request.path if frappe.request else "/beneficiary"
+		redirect_to = (
+			frappe.request.full_path.rstrip("?")
+			if frappe.request
+			else "/beneficiary"
+		)
 		frappe.redirect(f"/login?{urlencode({'redirect-to': redirect_to})}")
 	return user
 

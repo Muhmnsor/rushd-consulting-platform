@@ -19,6 +19,15 @@ CASE_STATES = {
 	"Ready to Close",
 	"Closed",
 }
+VALID_WEEKDAYS = {
+	"Monday",
+	"Tuesday",
+	"Wednesday",
+	"Thursday",
+	"Friday",
+	"Saturday",
+	"Sunday",
+}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -27,6 +36,10 @@ def onboard_consultant(
 	email: str,
 	code: str | None = None,
 	specializations: str | None = None,
+	public_title: str | None = None,
+	public_bio: str | None = None,
+	profile_image: str | None = None,
+	show_on_website: int | str = 0,
 	services: str | list | None = None,
 	supervisor: str | None = None,
 	branch: str | None = None,
@@ -34,6 +47,7 @@ def onboard_consultant(
 	weekday: str | None = None,
 	start_time: str | None = None,
 	end_time: str | None = None,
+	availability_rules: str | list | None = None,
 ):
 	require_staff_access(ADMIN_ACCESS)
 	consultant_name = _clean(consultant_name, 140, "اسم المستشار")
@@ -65,6 +79,25 @@ def onboard_consultant(
 			frappe.throw(f"الخدمة {service} غير موجودة")
 	if supervisor and not frappe.db.exists("User", supervisor):
 		frappe.throw("المشرف المحدد غير موجود")
+	public_title = _clean(public_title, 140, "المسمى المهني العام")
+	public_bio = _clean(public_bio, 1000, "النبذة العامة")
+	profile_image = _clean(profile_image, 500, "مسار الصورة المهنية")
+	if profile_image and not profile_image.startswith(("/files/", "/assets/")):
+		frappe.throw("مسار الصورة المهنية غير صالح")
+	show_on_website = cint(show_on_website)
+	if show_on_website and (not public_title or not public_bio):
+		frappe.throw("أكمل المسمى المهني والنبذة قبل إظهار المستشار في الموقع")
+	availability = _normalize_availability_rules(availability_rules)
+	legacy_availability = [weekday, start_time, end_time]
+	if any(legacy_availability):
+		if not all(legacy_availability):
+			frappe.throw("أكمل يوم التوفر ووقت البداية والنهاية")
+		availability.extend(
+			_normalize_availability_rules(
+				[{"weekday": weekday, "start_time": start_time, "end_time": end_time}]
+			)
+		)
+	maximum_sessions = max(1, min(20, cint(maximum_daily_sessions) or 4))
 
 	consultant = frappe.get_doc(
 		{
@@ -76,32 +109,26 @@ def onboard_consultant(
 			"supervisor": supervisor or None,
 			"branch": _clean(branch, 120, "الفرع"),
 			"specializations": _clean(specializations, 1000, "التخصصات"),
+			"public_title": public_title,
+			"public_bio": public_bio,
+			"profile_image": profile_image or None,
+			"show_on_website": show_on_website,
 			"services": "\n".join(service_names),
-			"maximum_daily_sessions": max(1, min(20, cint(maximum_daily_sessions) or 4)),
+			"maximum_daily_sessions": maximum_sessions,
 		}
 	).insert(ignore_permissions=True)
 
-	if weekday and start_time and end_time:
-		if weekday not in {
-			"Monday",
-			"Tuesday",
-			"Wednesday",
-			"Thursday",
-			"Friday",
-			"Saturday",
-			"Sunday",
-		}:
-			frappe.throw("يوم التوفر غير صالح")
+	for rule in availability:
 		frappe.get_doc(
 			{
 				"doctype": "Consultant Availability Rule",
 				"consultant": consultant.name,
-				"weekday": weekday,
+				"weekday": rule["weekday"],
 				"active": 1,
-				"start_time": start_time,
-				"end_time": end_time,
+				"start_time": rule["start_time"],
+				"end_time": rule["end_time"],
 				"slot_duration": 60,
-				"capacity": consultant.maximum_daily_sessions,
+				"capacity": maximum_sessions,
 			}
 		).insert(ignore_permissions=True)
 
@@ -501,6 +528,53 @@ def _parse_list(value):
 	else:
 		parsed = value
 	return list(dict.fromkeys(_clean(item, 180, "القيمة") for item in parsed if _clean(item, 180, "القيمة")))
+
+
+def _normalize_availability_rules(value):
+	if not value:
+		return []
+	if isinstance(value, str):
+		try:
+			value = json.loads(value)
+		except (TypeError, ValueError):
+			frappe.throw("بيانات أوقات التوفر غير صالحة")
+	if not isinstance(value, list):
+		frappe.throw("بيانات أوقات التوفر غير صالحة")
+
+	result = []
+	for index, rule in enumerate(value, 1):
+		if not isinstance(rule, dict):
+			frappe.throw(f"فترة التوفر {index} غير صالحة")
+		weekday = _clean(rule.get("weekday"), 20, "يوم التوفر")
+		start_time = _clean(rule.get("start_time"), 8, "وقت البداية")
+		end_time = _clean(rule.get("end_time"), 8, "وقت النهاية")
+		if weekday not in VALID_WEEKDAYS:
+			frappe.throw(f"يوم فترة التوفر {index} غير صالح")
+		if not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?", start_time):
+			frappe.throw(f"وقت بداية فترة التوفر {index} غير صالح")
+		if not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?", end_time):
+			frappe.throw(f"وقت نهاية فترة التوفر {index} غير صالح")
+		start_time = start_time[:5]
+		end_time = end_time[:5]
+		if start_time >= end_time:
+			frappe.throw(f"وقت نهاية فترة التوفر {index} يجب أن يكون بعد وقت البداية")
+		result.append(
+			{
+				"weekday": weekday,
+				"start_time": start_time,
+				"end_time": end_time,
+			}
+		)
+
+	for weekday in VALID_WEEKDAYS:
+		day_rules = sorted(
+			(rule for rule in result if rule["weekday"] == weekday),
+			key=lambda rule: rule["start_time"],
+		)
+		for previous, current in zip(day_rules, day_rules[1:]):
+			if current["start_time"] < previous["end_time"]:
+				frappe.throw("توجد فترات توفر متداخلة في اليوم نفسه")
+	return result
 
 
 def _code(value, label):

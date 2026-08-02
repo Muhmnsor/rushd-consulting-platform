@@ -12,6 +12,8 @@ TEXT_DEFAULTS = {
 	"meta_description": "منصة رُشد تربط الشباب بمستشارين مختصين ضمن رحلة واضحة تحترم الخصوصية.",
 	"brand_subtitle": "للاستشارات الشبابية",
 	"services_nav_label": "مجالات الاستشارة",
+	"consultants_nav_label": "مستشارونا",
+	"testimonials_nav_label": "آراء المستفيدين",
 	"journey_nav_label": "كيف تعمل الخدمة؟",
 	"privacy_nav_label": "الخصوصية",
 	"faq_nav_label": "الأسئلة الشائعة",
@@ -37,6 +39,12 @@ TEXT_DEFAULTS = {
 	"service_card_fallback": "خدمة استشارية مهنية تقدم ضمن رحلة واضحة تحافظ على خصوصيتك.",
 	"empty_services_title": "الخدمات قيد الإعداد",
 	"empty_services_description": "سيتم نشر مجالات الاستشارة المعتمدة قريبًا.",
+	"consultants_eyebrow": "فريق مهني موثوق",
+	"consultants_title": "مستشارون يستمعون قبل أن يوجّهوا",
+	"consultants_description": "نعرض الملفات المهنية التي وافق أصحابها على النشر وراجعها المركز. يتم الإسناد حسب ملاءمة التخصص والتوفر واحتياج المستفيد.",
+	"testimonials_eyebrow": "أثر التجربة",
+	"testimonials_title": "كلمات شاركها مستفيدون سابقون",
+	"testimonials_description": "آراء حقيقية وافق أصحابها على النشر بعد إزالة أي تفاصيل تعريفية. تختلف التجربة والنتائج من شخص إلى آخر.",
 	"journey_eyebrow": "رحلة الاستشارة",
 	"journey_title": "نعرفك دائمًا أين وصلت",
 	"journey_description": "من لحظة إرسال الطلب إلى المتابعة، تظهر لك الحالة والخطوة التالية بوضوح.",
@@ -61,6 +69,8 @@ TEXT_DEFAULTS = {
 
 NUMERIC_DEFAULTS = {
 	"services_limit": 6,
+	"consultants_limit": 6,
+	"testimonials_limit": 6,
 }
 
 TABLE_DEFAULTS = {

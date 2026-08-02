@@ -47,8 +47,18 @@
 					<label>التصنيف <input name="category" maxlength="140" placeholder="مثال: الرفاه النفسي"></label>
 				</div>
 				<label>نوع الأداة
-					<select name="instrument_kind"><option value="Outcome Measure">مقياس متابعة للنتائج</option><option value="Safety Screener">فاحص سلامة</option><option value="Satisfaction Survey">استبيان رضا</option><option value="Administrative Form">نموذج إداري</option></select>
+					<select name="instrument_kind" data-instrument-kind><option value="Outcome Measure">مقياس متابعة للنتائج</option><option value="Safety Screener">فاحص سلامة</option><option value="Satisfaction Survey">استبيان رضا</option><option value="Administrative Form">نموذج إداري</option></select>
 				</label>
+				<aside class="rushd-scoring-explainer" data-instrument-explainer aria-live="polite">
+					<span data-instrument-symbol>↗</span>
+					<div>
+						<small>متى أستخدم هذا النوع؟</small>
+						<strong data-instrument-title>لمتابعة التغيّر قبل الخدمة وبعدها</strong>
+						<p data-instrument-description>يقيس حالة أو مهارة يمكن متابعتها في أكثر من نقطة زمنية لمعرفة مقدار التحسن أو التراجع.</p>
+						<code data-instrument-output>الناتج المعتاد: درجة قابلة للمقارنة بين القياسات</code>
+						<em data-instrument-guidance>الدرجة تساعد في المتابعة المهنية، لكنها لا تعني تشخيصًا طبيًا أو نفسيًا بمفردها.</em>
+					</div>
+				</aside>
 				<label>وصف مختصر <textarea name="description" rows="4" maxlength="1000"></textarea></label>
 			</section>
 			<section class="rushd-wizard-step" data-wizard-step="2">
@@ -72,8 +82,18 @@
 				</label>
 				<div class="rushd-form-grid">
 					<label>الفترة التي يجيب عنها <input name="timeframe" maxlength="140" placeholder="مثال: خلال الأسبوعين الماضيين"></label>
-					<label>طريقة الناتج <select name="scoring_method"><option value="Percentage">نسبة موحّدة</option><option value="Total">مجموع خام</option><option value="Average">متوسط خام</option><option value="No Automated Score">دون احتساب آلي</option></select></label>
+					<label>طريقة الناتج <select name="scoring_method" data-scoring-method><option value="Percentage">نسبة موحّدة</option><option value="Total">مجموع خام</option><option value="Average">متوسط خام</option><option value="No Automated Score">دون احتساب آلي</option></select></label>
 				</div>
+				<aside class="rushd-scoring-explainer" data-scoring-explainer aria-live="polite">
+					<span data-scoring-symbol>٪</span>
+					<div>
+						<small>ماذا سيظهر في النتيجة؟</small>
+						<strong data-scoring-title>نسبة من 0 إلى 100</strong>
+						<p data-scoring-description>تحوّل كل إجابة إلى نسبة موحّدة بحسب حدها الأدنى والأعلى، ثم تحسب المتوسط المرجّح بأوزان البنود.</p>
+						<code data-scoring-example>مثال: (25 + 75 + 100) ÷ 3 = 66.67٪</code>
+						<em data-scoring-guidance>مناسب لمقارنة بنود لها نطاقات مختلفة أو لمتابعة التغير عبر الزمن.</em>
+					</div>
+				</aside>
 				<div class="rushd-form-grid">
 					<label>الحد الأدنى للإجابة % <input name="minimum_answered_percent" type="number" min="0" max="100" value="80"></label>
 					<label>الإجابات المفقودة <select name="missing_answer_policy"><option value="Exclude Missing">استبعادها من الاحتساب</option><option value="Require Complete">اشتراط اكتمال الجميع</option><option value="Prorate">احتساب نسبي من المجاب</option></select></label>
@@ -144,5 +164,5 @@
 {% endblock %}
 
 {% block script %}
-<script src="/assets/consultation_center/js/rushd-admin-actions.js?v=20260729-12"></script>
+<script src="/assets/consultation_center/js/rushd-admin-actions.js?v=20260729-26"></script>
 {% endblock %}

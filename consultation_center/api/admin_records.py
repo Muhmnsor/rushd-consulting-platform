@@ -167,10 +167,21 @@ RESOURCE_SCHEMAS = {
 			_field("page_title", "عنوان الصفحة في المتصفح"),
 			_field("meta_description", "وصف محركات البحث", "Text"),
 			_field("brand_subtitle", "وصف العلامة"),
+			_field("services_nav_label", "رابط الخدمات"),
+			_field("consultants_nav_label", "رابط المستشارين"),
+			_field("testimonials_nav_label", "رابط آراء المستفيدين"),
 			_field("hero_eyebrow", "النص التمهيدي"),
 			_field("hero_title", "العنوان الرئيسي"),
 			_field("hero_emphasis", "السطر البارز"),
 			_field("hero_description", "وصف واجهة البداية", "Text"),
+			_field("consultants_eyebrow", "تمهيد قسم المستشارين"),
+			_field("consultants_title", "عنوان قسم المستشارين"),
+			_field("consultants_description", "وصف قسم المستشارين", "Text"),
+			_field("consultants_limit", "أقصى عدد للمستشارين", "Int", default=6),
+			_field("testimonials_eyebrow", "تمهيد قسم الآراء"),
+			_field("testimonials_title", "عنوان قسم الآراء"),
+			_field("testimonials_description", "وصف قسم الآراء", "Text"),
+			_field("testimonials_limit", "أقصى عدد للآراء", "Int", default=6),
 			_field("journey_title", "عنوان رحلة الاستشارة"),
 			_field("journey_description", "وصف رحلة الاستشارة", "Text"),
 			_field("privacy_title", "عنوان الخصوصية"),
@@ -178,6 +189,24 @@ RESOURCE_SCHEMAS = {
 			_field("faq_title", "عنوان الأسئلة الشائعة"),
 			_field("faq_description", "وصف الأسئلة الشائعة", "Text"),
 			_field("emergency_notice", "تنبيه الطوارئ", "Text"),
+		],
+	},
+	"testimonials": {
+		"doctype": "Rushd Testimonial",
+		"can_create": True,
+		"can_edit": True,
+		"can_delete": True,
+		"delete_label": "حذف الرأي",
+		"immutable_note": "لا تنشر أي رأي قبل توثيق موافقة صاحبه ومراجعة النص لإزالة البيانات التعريفية.",
+		"fields": [
+			_field("quote", "نص الرأي المصرح بنشره", "Text", required=True),
+			_field("display_name", "الاسم الظاهر", default="مستفيد من رُشد", required=True),
+			_field("service_label", "سياق الخدمة"),
+			_field("sort_order", "ترتيب الظهور", "Int", default=10),
+			_field("consent_confirmed", "موافقة النشر مؤكدة", "Check"),
+			_field("consent_date", "تاريخ الموافقة", "Date"),
+			_field("source_reference", "مرجع الموافقة الداخلي"),
+			_field("active", "نشر الرأي في الموقع", "Check"),
 		],
 	},
 	"privacy": {
@@ -257,6 +286,13 @@ def save_admin_record(resource: str, values: str | dict, name: str | None = None
 
 	for fieldname, value in cleaned.items():
 		doc.set(fieldname, value)
+	if config["doctype"] == "Rushd Testimonial" and cleaned.get("active"):
+		if not cleaned.get("consent_confirmed"):
+			frappe.throw("أكد موافقة المستفيد قبل نشر الرأي")
+		if not cleaned.get("consent_date"):
+			frappe.throw("حدد تاريخ موافقة المستفيد قبل نشر الرأي")
+		doc.reviewed_by = frappe.session.user
+		doc.reviewed_at = now_datetime()
 	if config["doctype"] == "Consent Record":
 		if cleaned.get("status") == "Withdrawn":
 			if not cleaned.get("withdrawal_reason"):

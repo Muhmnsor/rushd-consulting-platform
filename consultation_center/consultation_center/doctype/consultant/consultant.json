@@ -23,6 +23,12 @@
   "professional_profile_section",
   "qualifications",
   "experience_summary",
+  "public_profile_section",
+  "show_on_website",
+  "profile_image",
+  "column_break_public_profile",
+  "public_title",
+  "public_bio",
   "licenses",
   "suitable_groups",
   "credential_expiry",
@@ -132,6 +138,39 @@
    "fieldname": "experience_summary",
    "fieldtype": "Text",
    "label": "Experience Summary"
+  },
+  {
+   "fieldname": "public_profile_section",
+   "fieldtype": "Section Break",
+   "label": "الملف العام في الموقع"
+  },
+  {
+   "default": "0",
+   "description": "يُفعّل فقط بعد موافقة المستشار ومراجعة المحتوى المخصص للنشر.",
+   "fieldname": "show_on_website",
+   "fieldtype": "Check",
+   "label": "إظهار في الصفحة العامة"
+  },
+  {
+   "description": "صورة مهنية مناسبة للعرض العام.",
+   "fieldname": "profile_image",
+   "fieldtype": "Attach Image",
+   "label": "الصورة المهنية العامة"
+  },
+  {
+   "fieldname": "column_break_public_profile",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "public_title",
+   "fieldtype": "Data",
+   "label": "المسمى المهني العام"
+  },
+  {
+   "description": "نبذة موجزة مكتوبة خصيصًا للعرض العام.",
+   "fieldname": "public_bio",
+   "fieldtype": "Small Text",
+   "label": "النبذة العامة"
   },
   {
    "fieldname": "licenses",

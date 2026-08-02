@@ -48,6 +48,22 @@ class TestAdminPortal(FrappeTestCase):
 		self.assertIn("build_admin_context", admin_page)
 		self.assertNotIn('redirect_admin("/app/rushd")', admin_page)
 		self.assertIn("<small>{{ display_name }}</small>", staff_template)
+		self.assertIn("data-rushd-sidebar-toggle", staff_template)
+		self.assertIn("data-rushd-sidebar-backdrop", staff_template)
+		self.assertIn("rushd-mobile-search", staff_template)
+		assessment_page = (app_path / "www" / "admin" / "assessments" / "index.html").read_text()
+		self.assertIn("data-scoring-explainer", assessment_page)
+		self.assertIn("ماذا سيظهر في النتيجة؟", assessment_page)
+		self.assertIn("data-instrument-explainer", assessment_page)
+		self.assertIn("متى أستخدم هذا النوع؟", assessment_page)
+		consultant_page = (app_path / "www" / "admin" / "consultants" / "index.html").read_text()
+		self.assertIn("data-service-option", consultant_page)
+		self.assertIn("data-add-availability", consultant_page)
+		self.assertIn("data-availability-payload", consultant_page)
+		self.assertIn("show_on_website", consultant_page)
+		self.assertIn("بطاقة «مستشارونا»", consultant_page)
+		self.assertIn("data-profile-image-file", consultant_page)
+		self.assertIn("800 × 800", consultant_page)
 		for page in (
 			"users",
 			"roles",
@@ -56,6 +72,7 @@ class TestAdminPortal(FrappeTestCase):
 			"consents",
 			"forms",
 			"website",
+			"testimonials",
 			"announcements",
 			"resources",
 			"message-templates",
@@ -103,27 +120,49 @@ class TestAdminPortal(FrappeTestCase):
 
 	def test_onboard_consultant_connects_account_service_and_availability(self):
 		email = f"admin.consultant.{self.suffix.lower()}@example.com"
+		second_service = frappe.get_doc(
+			{
+				"doctype": "Consultation Service",
+				"service_name": f"خدمة ثانية {self.suffix}",
+				"service_code": f"_ADMIN-SECOND-{self.suffix}",
+				"duration_minutes": 45,
+				"active": 1,
+			}
+		).insert(ignore_permissions=True)
 		result = onboard_consultant(
 			consultant_name=f"مستشار الإدارة {self.suffix}",
 			email=email,
-			services=[self.service.name],
+			services=[self.service.name, second_service.name],
+			public_title="مستشار في الدعم النفسي",
+			public_bio="نبذة مهنية قصيرة مخصصة للعرض العام بعد موافقة المستشار.",
+			profile_image="/files/consultant-test.webp",
+			show_on_website=1,
 			maximum_daily_sessions=5,
-			weekday="Sunday",
-			start_time="09:00",
-			end_time="14:00",
+			availability_rules=[
+				{"weekday": "Sunday", "start_time": "09:00", "end_time": "12:00"},
+				{"weekday": "Sunday", "start_time": "16:00", "end_time": "20:00"},
+				{"weekday": "Monday", "start_time": "10:00", "end_time": "14:00"},
+			],
 		)
 
 		consultant = frappe.get_doc("Consultant", result["name"])
 		self.assertTrue(consultant.code.startswith("CONS-"))
 		self.assertEqual(consultant.user, email)
 		self.assertIn(self.service.name, consultant.services)
+		self.assertIn(second_service.name, consultant.services)
+		self.assertEqual(consultant.public_title, "مستشار في الدعم النفسي")
+		self.assertEqual(consultant.profile_image, "/files/consultant-test.webp")
+		self.assertEqual(consultant.show_on_website, 1)
 		self.assertEqual(consultant.maximum_daily_sessions, 5)
-		self.assertTrue(
-			frappe.db.exists(
-				"Consultant Availability Rule",
-				{"consultant": consultant.name, "weekday": "Sunday"},
-			)
+		availability = frappe.get_all(
+			"Consultant Availability Rule",
+			filters={"consultant": consultant.name},
+			fields=["weekday", "start_time", "end_time"],
+			order_by="weekday, start_time",
 		)
+		self.assertEqual(len(availability), 3)
+		self.assertEqual(sum(rule.weekday == "Sunday" for rule in availability), 2)
+		self.assertEqual(sum(rule.weekday == "Monday" for rule in availability), 1)
 
 	def test_create_assessment_builds_first_version_and_questions(self):
 		result = create_assessment(
@@ -222,6 +261,40 @@ class TestAdminPortal(FrappeTestCase):
 
 		delete_admin_record("announcements", created["name"])
 		self.assertFalse(frappe.db.exists("Internal Announcement", created["name"]))
+
+	def test_catalog_requires_consent_before_publishing_testimonial(self):
+		with self.assertRaises(frappe.ValidationError):
+			save_admin_record(
+				"testimonials",
+				{
+					"quote": "رأي لا يجوز نشره دون موافقة.",
+					"display_name": "مستفيد من رُشد",
+					"active": 1,
+				},
+			)
+
+		created = save_admin_record(
+			"testimonials",
+			{
+				"quote": "كانت الرحلة واضحة وشعرت أن الخطوة التالية مفهومة.",
+				"display_name": "مستفيد من رُشد",
+				"service_label": "دعم أكاديمي",
+				"sort_order": 2,
+				"consent_confirmed": 1,
+				"consent_date": nowdate(),
+				"source_reference": f"CONSENT-{self.suffix}",
+				"active": 1,
+			},
+		)
+		testimonial = frappe.get_doc("Rushd Testimonial", created["name"])
+		self.assertTrue(testimonial.active)
+		self.assertEqual(testimonial.reviewed_by, "Administrator")
+		self.assertTrue(testimonial.reviewed_at)
+
+		record = get_admin_record("testimonials", created["name"])
+		self.assertEqual(record["values"]["service_label"], "دعم أكاديمي")
+		delete_admin_record("testimonials", created["name"])
+		self.assertFalse(frappe.db.exists("Rushd Testimonial", created["name"]))
 
 	def test_catalog_can_update_and_delete_unlinked_service(self):
 		result = save_admin_record(

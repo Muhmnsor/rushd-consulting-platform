@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/assets/consultation_center/css/fonts.css">
 <link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css">
 <meta name="description" content="{{ website.meta_description }}">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-public.css?v=20260728-13">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-public.css?v=20260802-32">
 {% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -20,6 +20,8 @@
 			</a>
 			<nav class="rushd-public-nav" aria-label="التنقل الرئيسي">
 				<a href="#services">{{ website.services_nav_label }}</a>
+				<a href="#consultants">{{ website.consultants_nav_label }}</a>
+				<a href="#testimonials">{{ website.testimonials_nav_label }}</a>
 				<a href="#journey">{{ website.journey_nav_label }}</a>
 				<a href="#privacy">{{ website.privacy_nav_label }}</a>
 				<a href="#faq">{{ website.faq_nav_label }}</a>
@@ -107,7 +109,10 @@
 						<small>{{ service.category or website.service_category_fallback }}</small>
 						<h3>{{ service.service_name }}</h3>
 						<p>{{ service.description_text }}</p>
-						<footer><span>{{ service.mode_label }}</span><span>{{ service.duration_minutes or 60 }} دقيقة تقريبًا</span></footer>
+						<footer>
+							<div><span>{{ service.mode_label }}</span><span>{{ service.duration_minutes or 60 }} دقيقة تقريبًا</span></div>
+							<a class="rushd-service-card__action" href="{{ service.request_url }}" aria-label="{{ service.request_label }}: {{ service.service_name }}">{{ service.request_label }}<span aria-hidden="true">←</span></a>
+						</footer>
 					</article>
 					{% else %}
 					<article class="rushd-service-card rushd-service-card--empty"><h3>{{ website.empty_services_title }}</h3><p>{{ website.empty_services_description }}</p></article>
@@ -116,10 +121,77 @@
 			</div>
 		</section>
 
+		<section class="rushd-public-section rushd-consultants" id="consultants">
+			<div class="rushd-public-container">
+				<div class="rushd-public-section-heading">
+					<div><span class="rushd-public-section-number">03</span><span class="rushd-public-eyebrow">{{ website.consultants_eyebrow }}</span><h2>{{ website.consultants_title }}</h2></div>
+					<p>{{ website.consultants_description }}</p>
+				</div>
+				<div class="rushd-consultant-grid">
+					{% for consultant in consultants %}
+					<article class="rushd-consultant-card">
+						<figure>
+							{% if consultant.profile_image_url %}
+							<img src="{{ consultant.profile_image_url }}" alt="صورة {{ consultant.consultant_name }}" loading="lazy">
+							{% else %}
+							<span aria-hidden="true">{{ consultant.initials }}</span>
+							{% endif %}
+							<small><i>✓</i> ملف مهني مراجع</small>
+						</figure>
+						<div class="rushd-consultant-card__body">
+							<h3>{{ consultant.consultant_name }}</h3>
+							<strong>{{ consultant.public_title }}</strong>
+							<p>{{ consultant.public_bio }}</p>
+							{% if consultant.specialty_tags %}
+							<div class="rushd-consultant-card__tags">
+								{% for specialty in consultant.specialty_tags %}<span>{{ specialty }}</span>{% endfor %}
+							</div>
+							{% endif %}
+						</div>
+						<footer>يتم الإسناد حسب ملاءمة التخصص والتوفر واحتياج المستفيد.</footer>
+					</article>
+					{% else %}
+					<article class="rushd-consultants-empty">
+						<span>♙</span>
+						<div><h3>نعمل على استكمال الملفات المهنية</h3><p>ستظهر هنا الملفات التي وافق أصحابها على النشر بعد مراجعتها من المركز.</p></div>
+					</article>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		<section class="rushd-public-section rushd-testimonials" id="testimonials">
+			<div class="rushd-public-container">
+				<div class="rushd-public-section-heading rushd-public-section-heading--light">
+					<div><span class="rushd-public-section-number">04</span><span class="rushd-public-eyebrow">{{ website.testimonials_eyebrow }}</span><h2>{{ website.testimonials_title }}</h2></div>
+					<p>{{ website.testimonials_description }}</p>
+				</div>
+				<div class="rushd-testimonial-grid">
+					{% for testimonial in testimonials %}
+					<article class="rushd-testimonial-card">
+						<span class="rushd-testimonial-card__quote" aria-hidden="true">”</span>
+						<blockquote>{{ testimonial.quote }}</blockquote>
+						<footer>
+							<span class="rushd-testimonial-card__avatar" aria-hidden="true">{{ testimonial.initial }}</span>
+							<div><strong>{{ testimonial.display_name }}</strong>{% if testimonial.service_label %}<small>{{ testimonial.service_label }}</small>{% endif %}</div>
+							<i>رأي موثّق</i>
+						</footer>
+					</article>
+					{% else %}
+					<article class="rushd-testimonials-empty">
+						<span>“</span>
+						<div><h3>نراجع الآراء قبل نشرها</h3><p>ستظهر هنا الآراء التي وافق أصحابها على النشر بعد إزالة أي تفاصيل تعريفية.</p></div>
+					</article>
+					{% endfor %}
+				</div>
+				<p class="rushd-testimonials__disclaimer">الآراء تعبّر عن تجارب أصحابها، وقد تختلف التجربة والنتائج من مستفيد إلى آخر.</p>
+			</div>
+		</section>
+
 		<section class="rushd-public-section rushd-journey" id="journey">
 			<div class="rushd-public-container">
 				<div class="rushd-public-section-heading rushd-public-section-heading--light">
-					<div><span class="rushd-public-section-number">03</span><span class="rushd-public-eyebrow">{{ website.journey_eyebrow }}</span><h2>{{ website.journey_title }}</h2></div>
+					<div><span class="rushd-public-section-number">05</span><span class="rushd-public-eyebrow">{{ website.journey_eyebrow }}</span><h2>{{ website.journey_title }}</h2></div>
 					<p>{{ website.journey_description }}</p>
 				</div>
 				<div class="rushd-journey-steps">
@@ -140,7 +212,7 @@
 					<span class="rushd-privacy-chip rushd-privacy-chip--three">{{ website.consultant_label }}</span>
 				</div>
 				<div class="rushd-privacy__content">
-					<span class="rushd-public-section-number">04</span>
+					<span class="rushd-public-section-number">06</span>
 					<span class="rushd-public-eyebrow">{{ website.privacy_eyebrow }}</span>
 					<h2>{{ website.privacy_title }}<br>{{ website.privacy_emphasis }}</h2>
 					<p>{{ website.privacy_description }}</p>
@@ -157,7 +229,7 @@
 		<section class="rushd-public-section rushd-faq" id="faq">
 			<div class="rushd-public-container rushd-faq__grid">
 				<div class="rushd-faq__heading">
-					<span class="rushd-public-section-number">05</span>
+					<span class="rushd-public-section-number">07</span>
 					<span class="rushd-public-eyebrow">{{ website.faq_eyebrow }}</span>
 					<h2>{{ website.faq_title }}</h2>
 					<p>{{ website.faq_description }}</p>
@@ -184,7 +256,7 @@
 			<div class="rushd-public-footer__top">
 				<a class="rushd-public-brand rushd-public-brand--footer" href="/"><img src="/assets/consultation_center/images/rushd-logo.svg" alt=""><span><strong>رُشد</strong><small>{{ website.brand_subtitle }}</small></span></a>
 				<p>{{ website.footer_description }}</p>
-				<div><a href="{{ portal_url }}">{{ portal_label }}</a><a href="#services">{{ website.services_nav_label }}</a><a href="#privacy">{{ website.privacy_nav_label }}</a><a href="#faq">{{ website.faq_nav_label }}</a></div>
+				<div><a href="{{ portal_url }}">{{ portal_label }}</a><a href="#services">{{ website.services_nav_label }}</a><a href="#consultants">{{ website.consultants_nav_label }}</a><a href="#testimonials">{{ website.testimonials_nav_label }}</a><a href="#privacy">{{ website.privacy_nav_label }}</a><a href="#faq">{{ website.faq_nav_label }}</a></div>
 			</div>
 			<div class="rushd-public-footer__bottom">
 				<span>© {{ frappe.utils.now_datetime().year }} رُشد. {{ website.copyright_notice }}</span>

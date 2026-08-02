@@ -42,7 +42,7 @@
 				<select id="requested-service" name="requested_service" required>
 					<option value="">اختر مجال الاستشارة</option>
 					{% for service in services %}
-					<option value="{{ service.name }}">{{ service.service_name }}</option>
+					<option value="{{ service.name }}" {% if service.name == selected_service %}selected{% endif %}>{{ service.service_name }}</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -124,4 +124,3 @@
 {% block script %}
 <script src="/assets/consultation_center/js/rushd-request-form.js"></script>
 {% endblock %}
-

@@ -105,7 +105,7 @@ body,
 }
 
 .rushd-navbar-back:focus-visible {
-	outline: 2px solid var(--primary, #2490ef);
+	outline: 2px solid #0d9488;
 	outline-offset: 2px;
 }
 
@@ -335,9 +335,9 @@ table td,
 
 /* Rushd administration workspace */
 :is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد']) {
-	--rushd-admin-accent: #777c83;
-	--rushd-admin-accent-deep: #34383d;
-	--rushd-admin-accent-soft: #efefeb;
+	--rushd-admin-accent: #0d9488;
+	--rushd-admin-accent-deep: #0f766e;
+	--rushd-admin-accent-soft: #e6f6f4;
 	--rushd-admin-surface: #ffffff;
 	--rushd-admin-canvas: #f4f3ef;
 	--rushd-admin-border: #deded8;
@@ -346,7 +346,7 @@ table td,
 	--rushd-admin-muted: #686d73;
 	--rushd-admin-shadow: 0 18px 45px rgb(42 44 48 / 6%);
 	background:
-		radial-gradient(circle at 82% 8%, rgb(147 149 152 / 12%), transparent 28rem),
+		radial-gradient(circle at 82% 8%, rgb(13 148 136 / 12%), transparent 28rem),
 		var(--rushd-admin-canvas);
 }
 
@@ -404,7 +404,7 @@ table td,
 	border-inline: 1px solid var(--rushd-admin-border);
 	background:
 		linear-gradient(90deg, rgb(255 255 255 / 42%), transparent 52%),
-		radial-gradient(circle at 18% 18%, rgb(147 149 152 / 17%), transparent 29rem),
+		radial-gradient(circle at 18% 18%, rgb(13 148 136 / 15%), transparent 29rem),
 		var(--rushd-admin-canvas);
 }
 
@@ -543,7 +543,7 @@ table td,
 	position: absolute;
 	inset: 0 0 auto;
 	height: 0.22rem;
-	background: #8f9297;
+	background: var(--rushd-admin-accent);
 	content: '';
 	opacity: 0.9;
 }
@@ -648,8 +648,8 @@ table td,
 :is(body[data-route='Workspaces/Rushd'], body[data-route='Workspaces/رُشد'])
 	[data-rushd-action='1']
 	.shortcut-widget-box {
-	border-color: #292d31;
-	background: #292d31;
+	border-color: var(--rushd-admin-accent-deep);
+	background: var(--rushd-admin-accent-deep);
 	box-shadow: 0 16px 35px rgb(33 36 40 / 12%);
 }
 

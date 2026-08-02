@@ -13,4 +13,9 @@ def get_context(context):
 		fields=["name", "service_name", "description", "delivery_modes"],
 		order_by="service_name asc",
 	)
-
+	requested_service = frappe.form_dict.get("service")
+	context.selected_service = (
+		requested_service
+		if requested_service and any(service.name == requested_service for service in context.services)
+		else None
+	)

@@ -10,6 +10,8 @@ def save_professional_profile(
 	languages: str | None = None,
 	qualifications: str | None = None,
 	experience_summary: str | None = None,
+	public_title: str | None = None,
+	public_bio: str | None = None,
 	licenses: str | None = None,
 	suitable_groups: str | None = None,
 	credential_expiry: str | None = None,
@@ -22,6 +24,8 @@ def save_professional_profile(
 	doc.languages = _clean(languages, 1000)
 	doc.qualifications = _clean(qualifications, 5000)
 	doc.experience_summary = _clean(experience_summary, 5000)
+	doc.public_title = _clean(public_title, 140)
+	doc.public_bio = _clean(public_bio, 1000)
 	doc.licenses = _clean(licenses, 2000)
 	doc.suitable_groups = _clean(suitable_groups, 2000)
 	doc.credential_expiry = credential_expiry or None

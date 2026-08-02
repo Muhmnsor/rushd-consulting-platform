@@ -2,9 +2,10 @@
 
 {% block head_include %}
 <link rel="stylesheet" href="/assets/consultation_center/css/fonts.css?v=20260729-9">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css?v=20260729-9">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css?v=20260729-13">
-<link rel="stylesheet" href="/assets/consultation_center/css/rushd-staff.css?v=20260729-17">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-rtl.css?v=20260729-19">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-portal.css?v=20260729-24">
+<link rel="stylesheet" href="/assets/consultation_center/css/rushd-staff.css?v=20260802-32">
+<script defer src="/assets/consultation_center/js/rushd-responsive-sidebar.js?v=20260729-24"></script>
 {% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -12,7 +13,8 @@
 
 {% block content %}
 <div class="rushd-portal-shell rushd-staff-shell" dir="rtl">
-	<aside class="rushd-sidebar" aria-label="تنقل فريق رُشد">
+	<aside class="rushd-sidebar" id="rushd-staff-sidebar" aria-label="تنقل فريق رُشد" data-rushd-sidebar>
+		<button class="rushd-sidebar__close" type="button" aria-label="إغلاق القائمة" data-rushd-sidebar-close>×</button>
 		<a class="rushd-sidebar__brand" href="/{{ staff_section }}">
 			<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
 			<span>
@@ -43,6 +45,9 @@
 			</a>
 			<a class="rushd-nav-link {% if active_nav == 'admin-settings' %}is-active{% endif %}" href="/admin/settings">
 				<span class="rushd-nav-icon">⚙</span><span>تهيئة المنصة</span>
+			</a>
+			<a class="rushd-nav-link" href="/app/rushd">
+				<span class="rushd-nav-icon">⌁</span><span>الإدارة التقنية</span>
 			</a>
 		</nav>
 		{% elif staff_section == "operations" %}
@@ -158,21 +163,36 @@
 		</div>
 		<a class="rushd-sidebar__logout" href="/?cmd=web_logout"><span>↪</span>تسجيل الخروج</a>
 	</aside>
+	<button class="rushd-sidebar-backdrop" type="button" aria-label="إغلاق قائمة التنقل" tabindex="-1" data-rushd-sidebar-backdrop></button>
 
 	<div class="rushd-portal-main">
 		<header class="rushd-topbar">
-			<a class="rushd-mobile-brand" href="/{{ staff_section }}">
-				<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
-				<strong>رُشد</strong>
-			</a>
+			<div class="rushd-mobile-topbar">
+				<button class="rushd-sidebar-toggle" type="button" aria-controls="rushd-staff-sidebar" aria-expanded="false" data-rushd-sidebar-toggle>
+					<span aria-hidden="true"><i></i><i></i><i></i></span>
+					<b>القائمة</b>
+				</button>
+				<a class="rushd-mobile-brand" href="/{{ staff_section }}">
+					<img src="/assets/consultation_center/images/rushd-logo.svg" alt="">
+					<strong>رُشد</strong>
+				</a>
+			</div>
 			<div class="rushd-topbar__actions">
 				{% if staff_section == "admin" %}
+				<details class="rushd-mobile-search">
+					<summary aria-label="فتح البحث الشامل" title="بحث شامل"><span aria-hidden="true">⌕</span></summary>
+					<form action="/admin/cases" method="get" role="search">
+						<label class="sr-only" for="rushd-mobile-admin-search">بحث شامل</label>
+						<input id="rushd-mobile-admin-search" name="q" type="search" placeholder="اسم المستفيد أو الحالة أو المستشار">
+						<button type="submit">بحث</button>
+					</form>
+				</details>
 				<form class="rushd-admin-search" action="/admin/cases" method="get" role="search">
 					<label class="sr-only" for="rushd-admin-search">بحث شامل</label>
 					<input id="rushd-admin-search" name="q" type="search" placeholder="ابحث باسم المستفيد أو الحالة أو المستشار">
 					<button type="submit">بحث</button>
 				</form>
-				<a class="rushd-technical-link" href="/app/rushd">الإدارة التقنية</a>
+				<a class="rushd-technical-link" href="/app/rushd" aria-label="الإدارة التقنية" title="الإدارة التقنية"><span aria-hidden="true">⚙</span><b>الإدارة التقنية</b></a>
 				{% endif %}
 				<div class="rushd-user-chip">
 					<span class="rushd-user-chip__avatar">{{ display_name[:1] }}</span>

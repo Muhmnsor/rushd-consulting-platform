@@ -142,6 +142,8 @@ def get_admin_consultants():
 			"supervisor",
 			"branch",
 			"specializations",
+			"public_title",
+			"show_on_website",
 			"services",
 			"maximum_daily_sessions",
 			"credential_expiry",
@@ -410,6 +412,12 @@ def build_admin_catalog_context(context, section: str):
 			"إدارة الرسالة العامة والصفحات التي يراها الزائر قبل تسجيل الدخول.",
 			"/app/rushd-website-settings/Rushd%20Website%20Settings",
 		),
+		"testimonials": (
+			"آراء المستفيدين",
+			"المحتوى والتواصل",
+			"راجع موافقة النشر والصياغة العامة قبل إظهار أي رأي في الصفحة الرئيسية.",
+			"/app/rushd-testimonial",
+		),
 		"announcements": (
 			"الإعلانات",
 			"المحتوى والتواصل",
@@ -508,10 +516,33 @@ def _get_admin_catalog_rows(section):
 		]
 	if section == "website":
 		settings = frappe.get_single("Rushd Website Settings")
+		testimonial_count = frappe.db.count(
+			"Rushd Testimonial",
+			{"active": 1, "consent_confirmed": 1},
+		)
 		return [
 			_catalog_row("الصفحة الرئيسية", settings.hero_title or "رُشد", settings.hero_description or "لم يحدد وصف رئيسي", "منشورة", 1, "/"),
+			_catalog_row("آراء المستفيدين", "محتوى موثّق بموافقة", f"{testimonial_count} آراء منشورة", "منشورة" if testimonial_count else "بانتظار المحتوى", bool(testimonial_count), "/admin/testimonials"),
 			_catalog_row("رحلة المستفيد", "خطوات الموقع العامة", f"{len(settings.journey_steps or [])} خطوات معرفة", "منشورة", 1, "/#journey"),
 			_catalog_row("الأسئلة الشائعة", "محتوى مساعد للزوار", f"{len(settings.faqs or [])} أسئلة", "منشورة", 1, "/#faq"),
+		]
+	if section == "testimonials":
+		rows = frappe.db.get_all(
+			"Rushd Testimonial",
+			fields=["name", "display_name", "service_label", "quote", "active", "consent_confirmed", "consent_date"],
+			order_by="active desc, sort_order asc, modified desc",
+			limit=100,
+		)
+		return [
+			_catalog_row(
+				row.display_name or "مستفيد من رُشد",
+				row.service_label or "تجربة مع رُشد",
+				(row.quote or "دون نص")[:180],
+				"منشور" if row.active and row.consent_confirmed else "غير منشور",
+				row.active and row.consent_confirmed,
+				record_name=row.name,
+			)
+			for row in rows
 		]
 	if section == "announcements":
 		rows = frappe.db.get_all(

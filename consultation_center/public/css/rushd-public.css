@@ -6,7 +6,10 @@
 	--public-white: #fff;
 	--public-line: #deded8;
 	--public-dark: #292d31;
-	--public-accent: #777c83;
+	--public-accent: #0d9488;
+	--public-accent-strong: #0f766e;
+	--public-accent-soft: #e6f6f4;
+	--public-accent-rgb: 13, 148, 136;
 }
 
 html,
@@ -101,7 +104,7 @@ body.rushd-public-page {
 
 .rushd-public-nav a:hover,
 .rushd-public-link:hover {
-	color: var(--public-ink);
+	color: var(--public-accent-strong);
 	text-decoration: none;
 }
 
@@ -119,9 +122,9 @@ body.rushd-public-page {
 	justify-content: center;
 	gap: 12px;
 	padding: 12px 22px;
-	border: 1px solid var(--public-dark);
+	border: 1px solid var(--public-accent);
 	border-radius: 14px;
-	background: var(--public-dark);
+	background: var(--public-accent);
 	color: #fff;
 	font-size: 0.72rem;
 	font-weight: 800;
@@ -130,6 +133,8 @@ body.rushd-public-page {
 }
 
 .rushd-public-button:hover {
+	border-color: var(--public-accent-strong);
+	background: var(--public-accent-strong);
 	transform: translateY(-2px);
 	color: #fff;
 	text-decoration: none;
@@ -151,6 +156,8 @@ body.rushd-public-page {
 }
 
 .rushd-public-button--ghost:hover {
+	border-color: rgba(var(--public-accent-rgb), .4);
+	background: var(--public-accent-soft);
 	color: var(--public-ink);
 }
 
@@ -160,7 +167,7 @@ body.rushd-public-page {
 	padding: 165px 0 90px;
 	background:
 		linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 52%),
-		radial-gradient(circle at 18% 18%, rgba(147, 149, 152, 0.17), transparent 29rem),
+		radial-gradient(circle at 18% 18%, rgba(var(--public-accent-rgb), 0.15), transparent 29rem),
 		var(--public-paper);
 }
 
@@ -184,7 +191,7 @@ body.rushd-public-page {
 	display: inline-flex;
 	align-items: center;
 	gap: 9px;
-	color: var(--public-muted);
+	color: var(--public-accent-strong);
 	font-size: 0.64rem;
 	font-weight: 700;
 }
@@ -192,7 +199,7 @@ body.rushd-public-page {
 .rushd-public-eyebrow i {
 	width: 24px;
 	height: 1px;
-	background: var(--public-gray);
+	background: var(--public-accent);
 }
 
 .rushd-hero h1 {
@@ -204,7 +211,7 @@ body.rushd-public-page {
 }
 
 .rushd-hero h1 em {
-	color: var(--public-gray);
+	color: var(--public-accent);
 	font-style: normal;
 	font-weight: 500;
 }
@@ -232,7 +239,7 @@ body.rushd-public-page {
 
 .rushd-hero__trust span::before {
 	margin-inline-end: 7px;
-	color: var(--public-gray);
+	color: var(--public-accent);
 	content: '●';
 	font-size: 0.38rem;
 	vertical-align: middle;
@@ -333,8 +340,8 @@ body.rushd-public-page {
 	height: 8px;
 	margin-inline-start: 8px;
 	border-radius: 50%;
-	background: #5d8a75;
-	box-shadow: 0 0 0 5px rgba(93, 138, 117, 0.12);
+	background: var(--public-accent);
+	box-shadow: 0 0 0 5px rgba(var(--public-accent-rgb), 0.12);
 }
 
 .rushd-floating-card--privacy {
@@ -363,7 +370,7 @@ body.rushd-public-page {
 	width: 68%;
 	height: 100%;
 	border-radius: inherit;
-	background: var(--public-gray);
+	background: var(--public-accent);
 }
 
 .rushd-public-intro,
@@ -456,9 +463,9 @@ body.rushd-public-page {
 
 .rushd-service-card {
 	position: relative;
-	min-height: 365px;
+	min-height: 430px;
 	overflow: hidden;
-	padding: 28px;
+	padding: 28px 28px 124px;
 	border: 1px solid rgba(36, 39, 43, 0.09);
 	border-radius: 20px;
 	background: rgba(255, 255, 255, 0.68);
@@ -467,6 +474,7 @@ body.rushd-public-page {
 
 .rushd-service-card:hover {
 	transform: translateY(-5px);
+	border-color: rgba(var(--public-accent-rgb), .32);
 	background: #fff;
 	box-shadow: 0 22px 55px rgba(42, 44, 48, 0.08);
 }
@@ -495,7 +503,7 @@ body.rushd-public-page {
 	height: 58px;
 	transform-origin: center;
 	border-radius: 9px 9px 5px 5px;
-	background: var(--public-gray);
+	background: var(--public-accent);
 }
 
 .rushd-service-card__mark span:nth-child(1) {
@@ -536,13 +544,381 @@ body.rushd-public-page {
 	position: absolute;
 	inset-inline: 28px;
 	inset-block-end: 24px;
-	display: flex;
-	justify-content: space-between;
+	display: grid;
 	gap: 10px;
 	padding-top: 15px;
 	border-top: 1px solid var(--public-line);
 	color: var(--public-muted);
 	font-size: 0.54rem;
+}
+
+.rushd-service-card footer > div {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.rushd-service-card__action {
+	display: flex;
+	min-height: 42px;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 13px;
+	border-radius: 11px;
+	background: var(--public-accent);
+	color: #fff;
+	font-size: .59rem;
+	font-weight: 850;
+	text-decoration: none;
+	transition: background 160ms ease, transform 160ms ease;
+}
+
+.rushd-service-card__action:hover {
+	background: var(--public-accent-strong);
+	color: #fff;
+	transform: translateX(-2px);
+}
+
+.rushd-service-card__action span {
+	font-family: sans-serif;
+	font-size: .78rem;
+}
+
+.rushd-consultants {
+	background:
+		radial-gradient(circle at 12% 15%, rgba(var(--public-accent-rgb), .12), transparent 26rem),
+		#edf3f1;
+}
+
+.rushd-consultant-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 18px;
+}
+
+.rushd-consultant-card {
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	min-width: 0;
+	overflow: hidden;
+	border: 1px solid rgba(36, 39, 43, .1);
+	border-radius: 22px;
+	background: rgba(255, 255, 255, .88);
+	box-shadow: 0 18px 50px rgba(31, 44, 42, .06);
+	transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.rushd-consultant-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 24px 60px rgba(31, 44, 42, .11);
+}
+
+.rushd-consultant-card figure {
+	position: relative;
+	display: grid;
+	height: 250px;
+	margin: 0;
+	place-items: center;
+	overflow: hidden;
+	background:
+		linear-gradient(145deg, rgba(var(--public-accent-rgb), .16), rgba(255, 255, 255, .45)),
+		#dfeae7;
+}
+
+.rushd-consultant-card figure > img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center top;
+}
+
+.rushd-consultant-card figure > span {
+	display: grid;
+	width: 112px;
+	height: 112px;
+	place-items: center;
+	border: 1px solid rgba(255, 255, 255, .75);
+	border-radius: 36px;
+	background: rgba(255, 255, 255, .72);
+	color: var(--public-accent-strong);
+	font-size: 1.8rem;
+	font-weight: 900;
+	box-shadow: 0 18px 45px rgba(41, 74, 69, .12);
+}
+
+.rushd-consultant-card figure small {
+	position: absolute;
+	inset-inline-start: 16px;
+	inset-block-end: 14px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 7px 10px;
+	border: 1px solid rgba(255, 255, 255, .75);
+	border-radius: 99px;
+	background: rgba(255, 255, 255, .9);
+	color: var(--public-accent-strong);
+	font-size: .5rem;
+	font-weight: 850;
+	backdrop-filter: blur(10px);
+}
+
+.rushd-consultant-card figure small i {
+	display: grid;
+	width: 17px;
+	height: 17px;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--public-accent);
+	color: #fff;
+	font-style: normal;
+}
+
+.rushd-consultant-card__body {
+	padding: 22px 22px 16px;
+}
+
+.rushd-consultant-card__body h3 {
+	margin: 0;
+	font-size: .95rem;
+	font-weight: 900;
+}
+
+.rushd-consultant-card__body > strong {
+	display: block;
+	margin-top: 5px;
+	color: var(--public-accent-strong);
+	font-size: .6rem;
+	line-height: 1.6;
+}
+
+.rushd-consultant-card__body > p {
+	margin: 14px 0 0;
+	color: var(--public-muted);
+	font-size: .61rem;
+	line-height: 1.9;
+}
+
+.rushd-consultant-card__tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 16px;
+}
+
+.rushd-consultant-card__tags span {
+	padding: 5px 8px;
+	border-radius: 99px;
+	background: var(--public-accent-soft);
+	color: var(--public-accent-strong);
+	font-size: .48rem;
+	font-weight: 750;
+}
+
+.rushd-consultant-card > footer {
+	margin: 0 22px;
+	padding: 14px 0 20px;
+	border-top: 1px solid var(--public-line);
+	color: var(--public-gray);
+	font-size: .49rem;
+	line-height: 1.65;
+}
+
+.rushd-consultants-empty {
+	display: flex;
+	grid-column: 1 / -1;
+	align-items: center;
+	gap: 18px;
+	padding: 26px;
+	border: 1px dashed rgba(var(--public-accent-rgb), .35);
+	border-radius: 18px;
+	background: rgba(255, 255, 255, .62);
+}
+
+.rushd-consultants-empty > span {
+	display: grid;
+	width: 52px;
+	height: 52px;
+	flex: 0 0 auto;
+	place-items: center;
+	border-radius: 15px;
+	background: var(--public-accent-soft);
+	color: var(--public-accent-strong);
+	font-size: 1rem;
+}
+
+.rushd-consultants-empty h3,
+.rushd-consultants-empty p {
+	margin: 0;
+}
+
+.rushd-consultants-empty h3 {
+	font-size: .76rem;
+}
+
+.rushd-consultants-empty p {
+	margin-top: 5px;
+	color: var(--public-muted);
+	font-size: .57rem;
+	line-height: 1.8;
+}
+
+.rushd-testimonials {
+	position: relative;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 15% 20%, rgba(var(--public-accent-rgb), .2), transparent 28%),
+		var(--public-dark);
+	color: #fff;
+}
+
+.rushd-testimonials::before {
+	position: absolute;
+	inset-block-start: -130px;
+	inset-inline-start: -80px;
+	width: 330px;
+	height: 330px;
+	border: 1px solid rgba(255, 255, 255, .08);
+	border-radius: 50%;
+	content: "";
+}
+
+.rushd-testimonials .rushd-public-section-heading h2 {
+	color: #fff;
+}
+
+.rushd-testimonial-grid {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 18px;
+}
+
+.rushd-testimonial-card {
+	display: flex;
+	min-height: 300px;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 30px;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 22px;
+	background: rgba(255, 255, 255, .055);
+	box-shadow: 0 22px 55px rgba(0, 0, 0, .14);
+	backdrop-filter: blur(8px);
+}
+
+.rushd-testimonial-card__quote {
+	display: block;
+	height: 52px;
+	color: #75d7cd;
+	font-family: Georgia, serif;
+	font-size: 4.6rem;
+	line-height: .95;
+}
+
+.rushd-testimonial-card blockquote {
+	margin: 12px 0 34px;
+	color: rgba(255, 255, 255, .9);
+	font-size: .8rem;
+	font-weight: 650;
+	line-height: 2;
+}
+
+.rushd-testimonial-card footer {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: 12px;
+	align-items: center;
+	padding-top: 20px;
+	border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.rushd-testimonial-card__avatar {
+	display: grid;
+	width: 42px;
+	height: 42px;
+	place-items: center;
+	border: 1px solid rgba(117, 215, 205, .45);
+	border-radius: 50%;
+	background: rgba(var(--public-accent-rgb), .18);
+	color: #a2e7df;
+	font-size: .72rem;
+	font-weight: 850;
+}
+
+.rushd-testimonial-card footer strong,
+.rushd-testimonial-card footer small {
+	display: block;
+}
+
+.rushd-testimonial-card footer strong {
+	color: #fff;
+	font-size: .62rem;
+}
+
+.rushd-testimonial-card footer small {
+	margin-top: 3px;
+	color: rgba(255, 255, 255, .48);
+	font-size: .52rem;
+}
+
+.rushd-testimonial-card footer i {
+	padding: 6px 9px;
+	border-radius: 999px;
+	background: rgba(var(--public-accent-rgb), .18);
+	color: #a2e7df;
+	font-size: .48rem;
+	font-style: normal;
+	font-weight: 800;
+}
+
+.rushd-testimonials-empty {
+	display: flex;
+	grid-column: 1 / -1;
+	gap: 18px;
+	align-items: center;
+	padding: 28px;
+	border: 1px dashed rgba(255, 255, 255, .2);
+	border-radius: 20px;
+	background: rgba(255, 255, 255, .04);
+}
+
+.rushd-testimonials-empty > span {
+	display: grid;
+	width: 52px;
+	height: 52px;
+	flex: 0 0 52px;
+	place-items: center;
+	border-radius: 16px;
+	background: rgba(var(--public-accent-rgb), .18);
+	color: #8ce2da;
+	font-family: Georgia, serif;
+	font-size: 2rem;
+}
+
+.rushd-testimonials-empty h3,
+.rushd-testimonials-empty p {
+	margin: 0;
+}
+
+.rushd-testimonials-empty h3 {
+	color: #fff;
+	font-size: .72rem;
+}
+
+.rushd-testimonials-empty p {
+	margin-top: 5px;
+	color: rgba(255, 255, 255, .52);
+	font-size: .57rem;
+	line-height: 1.8;
+}
+
+.rushd-testimonials__disclaimer {
+	margin: 20px 0 0;
+	color: rgba(255, 255, 255, .45);
+	font-size: .52rem;
+	line-height: 1.8;
 }
 
 .rushd-journey {
@@ -582,9 +958,10 @@ body.rushd-public-page {
 	width: 40px;
 	height: 40px;
 	place-items: center;
-	border: 1px solid rgba(255, 255, 255, 0.25);
+	border: 1px solid rgba(var(--public-accent-rgb), .7);
 	border-radius: 50%;
-	color: rgba(255, 255, 255, 0.72);
+	background: rgba(var(--public-accent-rgb), .15);
+	color: #8ce2da;
 	font-size: 0.66rem;
 }
 
@@ -694,8 +1071,8 @@ body.rushd-public-page {
 	margin-inline-end: 8px;
 	place-items: center;
 	border-radius: 50%;
-	background: #e4e4df;
-	color: var(--public-dark);
+	background: var(--public-accent-soft);
+	color: var(--public-accent-strong);
 }
 
 .rushd-privacy__content > a {
@@ -742,7 +1119,7 @@ body.rushd-public-page {
 }
 
 .rushd-faq summary span {
-	color: var(--public-gray);
+	color: var(--public-accent);
 	font-family: sans-serif;
 	font-size: 1.2rem;
 	font-weight: 300;
@@ -762,7 +1139,7 @@ body.rushd-public-page {
 
 .rushd-public-cta {
 	padding: 70px 0;
-	background: var(--public-gray);
+	background: var(--public-accent-strong);
 	color: #fff;
 }
 
@@ -892,6 +1269,14 @@ body.rushd-public-page {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
+	.rushd-consultant-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.rushd-testimonial-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
 	.rushd-journey-steps {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -1012,6 +1397,8 @@ body.rushd-public-page {
 
 	.rushd-public-promises,
 	.rushd-service-grid,
+	.rushd-consultant-grid,
+	.rushd-testimonial-grid,
 	.rushd-journey-steps {
 		grid-template-columns: 1fr;
 	}
@@ -1023,7 +1410,7 @@ body.rushd-public-page {
 	}
 
 	.rushd-service-card {
-		min-height: 340px;
+		min-height: 405px;
 	}
 
 	.rushd-journey-steps article,

@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:TEST-{#####}",
+ "creation": "2026-08-02 00:00:00.000000",
+ "description": "آراء مختارة للنشر العام بعد موافقة المستفيد ومراجعة المركز.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "quote",
+  "display_name",
+  "service_label",
+  "column_break_publication",
+  "active",
+  "sort_order",
+  "consent_section",
+  "consent_confirmed",
+  "consent_date",
+  "source_reference",
+  "review_section",
+  "reviewed_by",
+  "reviewed_at"
+ ],
+ "fields": [
+  {
+   "description": "اكتب الرأي كما وافق المستفيد على نشره، دون تفاصيل قد تكشف هويته أو حالته.",
+   "fieldname": "quote",
+   "fieldtype": "Small Text",
+   "label": "نص الرأي",
+   "reqd": 1
+  },
+  {
+   "default": "مستفيد من رُشد",
+   "description": "استخدم وصفًا عامًا أو الاسم الأول فقط إذا وافق المستفيد صراحة.",
+   "fieldname": "display_name",
+   "fieldtype": "Data",
+   "label": "الاسم الظاهر",
+   "reqd": 1
+  },
+  {
+   "description": "مثال: استشارة دراسية أو دعم في إدارة الضغوط.",
+   "fieldname": "service_label",
+   "fieldtype": "Data",
+   "label": "سياق الخدمة"
+  },
+  {
+   "fieldname": "column_break_publication",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "لن يظهر الرأي في الصفحة العامة إلا بعد إثبات الموافقة.",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "منشور في الموقع"
+  },
+  {
+   "default": "10",
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "ترتيب الظهور"
+  },
+  {
+   "fieldname": "consent_section",
+   "fieldtype": "Section Break",
+   "label": "الموافقة والخصوصية"
+  },
+  {
+   "default": "0",
+   "description": "أؤكد أن المستفيد وافق على نشر هذا النص بهذه الصياغة.",
+   "fieldname": "consent_confirmed",
+   "fieldtype": "Check",
+   "label": "موافقة النشر مؤكدة"
+  },
+  {
+   "fieldname": "consent_date",
+   "fieldtype": "Date",
+   "label": "تاريخ الموافقة"
+  },
+  {
+   "description": "مرجع داخلي اختياري لإثبات مصدر الموافقة، ولا يظهر للزائر.",
+   "fieldname": "source_reference",
+   "fieldtype": "Data",
+   "label": "مرجع الموافقة الداخلي"
+  },
+  {
+   "fieldname": "review_section",
+   "fieldtype": "Section Break",
+   "label": "المراجعة الإدارية"
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "راجعه",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_at",
+   "fieldtype": "Datetime",
+   "label": "وقت المراجعة",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-02 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consultation Center",
+ "name": "Rushd Testimonial",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Center Director",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Content Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "sort_order",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}
