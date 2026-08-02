@@ -83,6 +83,11 @@ def configure_site_identity():
 		"app_name": RUSHD_APP_NAME,
 		"language": "ar",
 	}
+	regional_defaults = {
+		"country": "Saudi Arabia",
+		"time_zone": "Asia/Riyadh",
+		"currency": "SAR",
+	}
 	website_settings = {
 		"app_name": RUSHD_APP_NAME,
 		"title_prefix": RUSHD_APP_NAME,
@@ -102,6 +107,15 @@ def configure_site_identity():
 			value,
 			update_modified=False,
 		)
+
+	for fieldname, value in regional_defaults.items():
+		if not frappe.db.get_single_value("System Settings", fieldname):
+			frappe.db.set_single_value(
+				"System Settings",
+				fieldname,
+				value,
+				update_modified=False,
+			)
 
 	for fieldname, value in website_settings.items():
 		frappe.db.set_single_value(

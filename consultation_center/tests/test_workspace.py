@@ -236,3 +236,41 @@ class TestRushdWorkspace(FrappeTestCase):
 		self.assertIn("rushd_display_translations", rtl_script)
 		self.assertIn("website_theme", rtl_script)
 		self.assertIn("frappe._messages", rtl_script)
+
+	def test_setup_wizard_is_arabic_and_returns_to_rushd_admin(self):
+		hooks = (APP_ROOT / "hooks.py").read_text()
+		setup_script = (APP_ROOT / "public" / "js" / "rushd-setup-wizard.js").read_text()
+		rtl_styles = (APP_ROOT / "public" / "css" / "rushd-rtl.css").read_text()
+		required_translations = {
+			"Welcome",
+			"Your Language",
+			"Select Language",
+			"Your Country",
+			"Select Country",
+			"Time Zone",
+			"Select Time Zone",
+			"Currency",
+			"Select Currency",
+			"Let's set up your account",
+			"Full Name",
+			"Will be your login ID",
+			"Previous",
+			"Next",
+			"Complete Setup",
+			"Setting up your system",
+			"Setup Complete",
+			"Failed to complete setup",
+			"Updating global settings",
+			"Wrapping up",
+		}
+		with (APP_ROOT / "translations" / "ar.csv").open(newline="") as translations_file:
+			translated = {row[0] for row in csv.reader(translations_file) if row}
+
+		self.assertIn('page_js = {"setup-wizard": "public/js/rushd-setup-wizard.js"}', hooks)
+		self.assertTrue(required_translations <= translated)
+		self.assertIn('default: "Arabic"', setup_script)
+		self.assertIn('default: "Saudi Arabia"', setup_script)
+		self.assertIn('default: "Asia/Riyadh"', setup_script)
+		self.assertIn('default: "SAR"', setup_script)
+		self.assertIn('window.location.assign("/admin")', setup_script)
+		self.assertIn("#page-setup-wizard", rtl_styles)

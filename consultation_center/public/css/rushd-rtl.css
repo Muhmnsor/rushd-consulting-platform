@@ -159,6 +159,7 @@ input[type='email'],
 input[type='url'],
 input[type='tel'],
 input[type='number'],
+input[type='password'],
 .text-monospace,
 .code,
 code,
@@ -167,6 +168,47 @@ kbd {
 	direction: ltr !important;
 	text-align: left !important;
 	unicode-bidi: embed;
+}
+
+/* Arabic-first setup wizard */
+#page-setup-wizard,
+#page-setup-wizard .slides-wrapper,
+#page-setup-wizard .slide-container,
+#page-setup-wizard .slide-wrapper,
+#page-setup-wizard .form-wrapper,
+#page-setup-wizard .slide-footer {
+	direction: rtl !important;
+	text-align: right !important;
+}
+
+#page-setup-wizard .slide-title,
+#page-setup-wizard .setup-message,
+#page-setup-wizard .add-more {
+	text-align: center !important;
+}
+
+#page-setup-wizard .slide-footer .row {
+	direction: rtl !important;
+}
+
+@media (min-width: 768px) {
+	#page-setup-wizard .slide-footer .prev-div,
+	#page-setup-wizard .slide-footer .next-div {
+		float: right;
+	}
+}
+
+#page-setup-wizard .slide-footer .prev-div {
+	text-align: right !important;
+}
+
+#page-setup-wizard .slide-footer .next-div {
+	text-align: left !important;
+}
+
+#page-setup-wizard .toggle-theme-btn {
+	right: auto;
+	left: var(--margin-lg);
 }
 
 table,

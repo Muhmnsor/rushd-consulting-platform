@@ -59,6 +59,7 @@ web_include_js = [
 
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
+page_js = {"setup-wizard": "public/js/rushd-setup-wizard.js"}
 
 # include js in doctype views
 doctype_js = {"User": "public/js/rushd-user-admin.js"}

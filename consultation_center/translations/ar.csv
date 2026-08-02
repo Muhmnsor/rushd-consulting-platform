@@ -355,6 +355,36 @@ Login with Frappe Cloud,تسجيل الدخول عبر Frappe Cloud
 Login with {0},تسجيل الدخول عبر {0}
 Home,الرئيسية
 Javascript is disabled on your browser,جافاسكربت معطلة في متصفحك
+Welcome,مرحبًا بك في رُشد
+Your Language,لغة المنصة
+Select Language,اختر اللغة
+Your Country,الدولة
+Select Country,اختر الدولة
+Time Zone,المنطقة الزمنية
+Select Time Zone,اختر المنطقة الزمنية
+Currency,العملة
+Select Currency,اختر العملة
+Allow sending usage data for improving applications,السماح بإرسال بيانات استخدام مجهولة لتحسين المنصة
+Let's set up your account,لنُكمل إعداد حسابك
+Full Name,الاسم الكامل
+Will be your login ID,سيُستخدم لتسجيل الدخول
+Update Password,تحديث كلمة المرور
+Previous,السابق,Go to previous slide
+Next,التالي,Go to next slide
+Complete Setup,إكمال الإعداد,Finish the setup wizard
+Setting up your system,جارٍ إعداد منصة رُشد
+Starting Frappe ...,جارٍ تجهيز رُشد…
+Retry,إعادة المحاولة
+Setup Complete,اكتمل إعداد رُشد
+Refreshing...,جارٍ فتح مركز الإدارة…
+Failed to complete setup,تعذر إكمال إعداد المنصة
+Could not start up:,تعذر بدء الإعداد:
+Setup failed,تعذر الإعداد
+Updating global settings,جارٍ تحديث إعدادات المنصة
+Failed to update global settings,تعذر تحديث إعدادات المنصة
+Wrapping up,جارٍ إنهاء الإعداد
+starting the setup...,جارٍ بدء الإعداد…
+Add More,إضافة المزيد
 You need to enable JavaScript for your app to work.,يجب تفعيل جافاسكربت ليعمل التطبيق.
 To enable it follow the instructions in the following link: {0},لتفعيلها اتبع التعليمات في الرابط التالي: {0}
 Valid email and name required,يلزم إدخال بريد إلكتروني واسم صالحين

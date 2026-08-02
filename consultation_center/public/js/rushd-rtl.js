@@ -4,6 +4,39 @@
 	const RUSHD_NAME = "رُشد";
 	const ARABIC_LANGUAGE = "ar";
 	const TEXT_TRANSLATIONS = Object.freeze({
+		Welcome: "مرحبًا بك في رُشد",
+		"Your Language": "لغة المنصة",
+		"Select Language": "اختر اللغة",
+		"Your Country": "الدولة",
+		"Select Country": "اختر الدولة",
+		"Time Zone": "المنطقة الزمنية",
+		"Select Time Zone": "اختر المنطقة الزمنية",
+		Currency: "العملة",
+		"Select Currency": "اختر العملة",
+		"Allow sending usage data for improving applications":
+			"السماح بإرسال بيانات استخدام مجهولة لتحسين المنصة",
+		"Let's set up your account": "لنُكمل إعداد حسابك",
+		"Full Name": "الاسم الكامل",
+		"Email Address": "البريد الإلكتروني",
+		"Will be your login ID": "سيُستخدم لتسجيل الدخول",
+		Password: "كلمة المرور",
+		"Update Password": "تحديث كلمة المرور",
+		Previous: "السابق",
+		Next: "التالي",
+		"Complete Setup": "إكمال الإعداد",
+		"Setting up your system": "جارٍ إعداد منصة رُشد",
+		"Starting Frappe ...": "جارٍ تجهيز رُشد…",
+		Retry: "إعادة المحاولة",
+		"Setup Complete": "اكتمل إعداد رُشد",
+		"Refreshing...": "جارٍ فتح مركز الإدارة…",
+		"Failed to complete setup": "تعذر إكمال إعداد المنصة",
+		"Could not start up:": "تعذر بدء الإعداد:",
+		"Setup failed": "تعذر الإعداد",
+		"Updating global settings": "جارٍ تحديث إعدادات المنصة",
+		"Failed to update global settings": "تعذر تحديث إعدادات المنصة",
+		"Wrapping up": "جارٍ إنهاء الإعداد",
+		"starting the setup...": "جارٍ بدء الإعداد…",
+		"Add More": "إضافة المزيد",
 		"Search or type a command ({0})": "ابحث أو اكتب أمرًا ({0})",
 		"Begin typing for results.": "ابدأ الكتابة لعرض النتائج.",
 		"Clear all filters": "إزالة جميع المرشحات",
@@ -140,6 +173,14 @@
 						displayTranslations[displayValue]
 					}`;
 				}
+			}
+		}
+
+		if (translated === null) {
+			const resultCount = source.match(/^(\d+)\s+results? found$/i);
+			if (resultCount) {
+				const count = Number(resultCount[1]);
+				translated = count === 1 ? "نتيجة واحدة" : `${count} نتائج`;
 			}
 		}
 
