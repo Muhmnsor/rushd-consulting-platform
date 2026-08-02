@@ -5,10 +5,7 @@ from frappe.auth import check_password
 from frappe.tests.utils import FrappeTestCase
 
 from consultation_center.api.auth import sign_up
-from consultation_center.localization import (
-	force_arabic_for_guests,
-	should_redirect_completed_admin_setup,
-)
+from consultation_center.localization import force_arabic_for_guests
 
 
 class TestRushdSignUp(FrappeTestCase):
@@ -28,32 +25,6 @@ class TestRushdSignUp(FrappeTestCase):
 		force_arabic_for_guests()
 
 		self.assertEqual(frappe.local.lang, "en")
-
-	def test_completed_administrator_setup_routes_to_simplified_admin(self):
-		self.assertTrue(
-			should_redirect_completed_admin_setup(
-				user="Administrator",
-				roles={"System Manager"},
-				path="/desk",
-				setup_complete=True,
-			)
-		)
-		self.assertFalse(
-			should_redirect_completed_admin_setup(
-				user="supervisor@example.com",
-				roles={"Consultation Supervisor"},
-				path="/desk",
-				setup_complete=True,
-			)
-		)
-		self.assertFalse(
-			should_redirect_completed_admin_setup(
-				user="Administrator",
-				roles={"System Manager"},
-				path="/desk",
-				setup_complete=False,
-			)
-		)
 
 	def test_signup_creates_beneficiary_account_and_profile(self):
 		email = f"rushd-signup-{frappe.generate_hash(length=8)}@example.com"

@@ -5,7 +5,7 @@ app_description = "منصة رُشد للاستشارات الشبابية"
 app_email = "admin@rushd.local"
 app_license = "mit"
 app_logo_url = "/assets/consultation_center/images/rushd-logo.svg"
-rushd_asset_version = "20260802-20"
+rushd_asset_version = "20260802-22"
 brand_html = """
 <span class="rushd-brand-wordmark">
 	<img class="rushd-brand-symbol" src="/assets/consultation_center/images/rushd-logo.svg" alt="">
@@ -36,9 +36,10 @@ app_include_css = [
 	f"/assets/consultation_center/css/fonts.css?v={rushd_asset_version}",
 	f"/assets/consultation_center/css/rushd-rtl.css?v={rushd_asset_version}",
 ]
-app_include_js = (
-	f"/assets/consultation_center/js/rushd-rtl.js?v={rushd_asset_version}"
-)
+app_include_js = [
+	f"/assets/consultation_center/js/rushd-rtl.js?v={rushd_asset_version}",
+	f"/assets/consultation_center/js/rushd-admin-entry.js?v={rushd_asset_version}",
+]
 
 # include js, css files in header of web template
 web_include_css = [

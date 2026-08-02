@@ -240,6 +240,7 @@ class TestRushdWorkspace(FrappeTestCase):
 	def test_setup_wizard_is_arabic_and_returns_to_rushd_admin(self):
 		hooks = (APP_ROOT / "hooks.py").read_text()
 		setup_script = (APP_ROOT / "public" / "js" / "rushd-setup-wizard.js").read_text()
+		admin_entry_script = (APP_ROOT / "public" / "js" / "rushd-admin-entry.js").read_text()
 		rtl_styles = (APP_ROOT / "public" / "css" / "rushd-rtl.css").read_text()
 		required_translations = {
 			"Welcome",
@@ -275,4 +276,7 @@ class TestRushdWorkspace(FrappeTestCase):
 		self.assertIn('window.location.assign("/admin")', setup_script)
 		self.assertIn('window.location.replace("/admin")', setup_script)
 		self.assertIn("redirectCompletedSetupToRushdAdmin", setup_script)
+		self.assertIn("rushd-admin-entry.js", hooks)
+		self.assertIn('"/desk"', admin_entry_script)
+		self.assertIn('window.location.replace("/admin")', admin_entry_script)
 		self.assertIn("#page-setup-wizard", rtl_styles)
