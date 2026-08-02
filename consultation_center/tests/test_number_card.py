@@ -3,10 +3,24 @@ from unittest.mock import patch
 import frappe
 from frappe.tests.utils import FrappeTestCase
 
-from consultation_center.api.number_card import get_result
+from consultation_center.api.number_card import _aggregate_fields, get_result
 
 
 class TestNumberCardCompatibility(FrappeTestCase):
+	def test_frappe_16_uses_structured_aggregate_fields(self):
+		with patch.object(frappe, "__version__", "16.22.0"):
+			self.assertEqual(
+				_aggregate_fields("COUNT", "*"),
+				[{"COUNT": "*", "as": "result"}],
+			)
+
+	def test_frappe_15_uses_legacy_aggregate_fields(self):
+		with patch.object(frappe, "__version__", "15.116.0"):
+			self.assertEqual(
+				_aggregate_fields("COUNT", "*"),
+				["COUNT(*) as result"],
+			)
+
 	def test_website_user_count_executes_on_postgres(self):
 		doc = frappe._dict(
 			function="Count",

@@ -24,7 +24,7 @@ def get_result(
 
 	function = sql_function_map[doc.function]
 	argument = "*" if function == "COUNT" else doc.aggregate_function_based_on
-	fields = [f"{function}({argument}) as result"]
+	fields = _aggregate_fields(function, argument)
 
 	if not filters:
 		filters = []
@@ -46,3 +46,16 @@ def get_result(
 	)
 
 	return flt(result[0]["result"] if result else 0)
+
+
+def _aggregate_fields(function: str, argument: str):
+	"""Use the aggregate field format supported by the installed Frappe major version."""
+	try:
+		frappe_major_version = int(str(getattr(frappe, "__version__", "16")).split(".", 1)[0])
+	except ValueError:
+		frappe_major_version = 16
+
+	if frappe_major_version >= 16:
+		return [{function: argument, "as": "result"}]
+
+	return [f"{function}({argument}) as result"]
