@@ -273,4 +273,6 @@ class TestRushdWorkspace(FrappeTestCase):
 		self.assertIn('default: "Asia/Riyadh"', setup_script)
 		self.assertIn('default: "SAR"', setup_script)
 		self.assertIn('window.location.assign("/admin")', setup_script)
+		self.assertIn('window.location.replace("/admin")', setup_script)
+		self.assertIn("redirectCompletedSetupToRushdAdmin", setup_script)
 		self.assertIn("#page-setup-wizard", rtl_styles)

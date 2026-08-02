@@ -104,9 +104,25 @@
 		};
 	}
 
+	function redirectCompletedSetupToRushdAdmin() {
+		const page = frappe.pages?.["setup-wizard"];
+		if (!page?.on_page_load || page.rushdSetupRedirectInstalled) return;
+
+		const originalOnPageLoad = page.on_page_load;
+		page.rushdSetupRedirectInstalled = true;
+		page.on_page_load = function (wrapper) {
+			if (frappe.boot?.setup_complete) {
+				window.location.replace("/admin");
+				return;
+			}
+			return originalOnPageLoad.call(this, wrapper);
+		};
+	}
+
 	installTranslations();
 	configureSlides();
 	redirectToRushdAdmin();
+	redirectCompletedSetupToRushdAdmin();
 	document.documentElement.setAttribute("dir", "rtl");
 	document.documentElement.setAttribute("lang", "ar");
 })();
