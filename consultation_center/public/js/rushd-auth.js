@@ -2,6 +2,8 @@
 	const SIGNUP_METHOD = "frappe.core.doctype.user.user.sign_up";
 	const DEFAULT_DESTINATION = "/beneficiary";
 	const LOGOUT_DESTINATION = "/login#login";
+	const LOGOUT_SELECTOR =
+		'[data-rushd-logout], a[href*="cmd=web_logout"], a[href*="cmd=logout"]';
 
 	const safeDestination = () => {
 		const destination = new URLSearchParams(window.location.search).get("redirect-to");
@@ -73,7 +75,7 @@
 	document.addEventListener(
 		"click",
 		(event) => {
-			const link = event.target.closest("[data-rushd-logout]");
+			const link = event.target.closest(LOGOUT_SELECTOR);
 			if (!link) return;
 
 			event.preventDefault();

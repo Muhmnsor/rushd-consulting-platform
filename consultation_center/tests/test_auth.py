@@ -16,6 +16,7 @@ class TestRushdSignUp(FrappeTestCase):
 
 		self.assertIn('method: "logout"', auth_script)
 		self.assertIn("data-rushd-logout", auth_script)
+		self.assertIn('a[href*="cmd=web_logout"]', auth_script)
 		for template_name in (
 			"rushd_portal.html",
 			"rushd_staff.html",
