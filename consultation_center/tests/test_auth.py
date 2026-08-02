@@ -1,3 +1,4 @@
+from pathlib import Path
 from unittest.mock import patch
 
 import frappe
@@ -9,6 +10,21 @@ from consultation_center.localization import force_arabic_for_guests
 
 
 class TestRushdSignUp(FrappeTestCase):
+	def test_portal_logout_uses_post_request_instead_of_legacy_get_link(self):
+		app_path = Path(frappe.get_app_path("consultation_center"))
+		auth_script = (app_path / "public" / "js" / "rushd-auth.js").read_text()
+
+		self.assertIn('method: "logout"', auth_script)
+		self.assertIn("data-rushd-logout", auth_script)
+		for template_name in (
+			"rushd_portal.html",
+			"rushd_staff.html",
+			"rushd_guardian.html",
+		):
+			template = (app_path / "templates" / template_name).read_text()
+			self.assertIn("data-rushd-logout", template)
+			self.assertNotIn("cmd=web_logout", template)
+
 	def test_guest_pages_are_rendered_in_arabic(self):
 		frappe.set_user("Guest")
 		self.addCleanup(frappe.set_user, "Administrator")
