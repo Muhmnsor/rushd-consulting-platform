@@ -5,7 +5,7 @@ app_description = "منصة رُشد للاستشارات الشبابية"
 app_email = "admin@rushd.local"
 app_license = "mit"
 app_logo_url = "/assets/consultation_center/images/rushd-logo.svg"
-rushd_asset_version = "20260802-22"
+rushd_asset_version = "20260802-23"
 brand_html = """
 <span class="rushd-brand-wordmark">
 	<img class="rushd-brand-symbol" src="/assets/consultation_center/images/rushd-logo.svg" alt="">
@@ -244,6 +244,7 @@ has_permission = {
 override_whitelisted_methods = {
 	"frappe.core.doctype.user.user.sign_up": "consultation_center.api.auth.sign_up",
 	"frappe.desk.doctype.number_card.number_card.get_result": "consultation_center.api.number_card.get_result",
+	"frappe.desk.doctype.number_card.number_card.get_percentage_difference": "consultation_center.api.number_card.get_percentage_difference",
 }
 #
 # each overriding function accepts a `data` argument;

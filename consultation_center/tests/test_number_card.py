@@ -3,10 +3,34 @@ from unittest.mock import patch
 import frappe
 from frappe.tests.utils import FrappeTestCase
 
-from consultation_center.api.number_card import _aggregate_fields, get_result
+from consultation_center.api.number_card import (
+	_aggregate_fields,
+	get_percentage_difference,
+	get_result,
+)
 
 
 class TestNumberCardCompatibility(FrappeTestCase):
+	def test_percentage_difference_uses_compatible_result_query(self):
+		doc = frappe._dict(
+			name="Total Website Users",
+			show_percentage_stats=1,
+			stats_time_interval="Daily",
+		)
+
+		with (
+			patch("consultation_center.api.number_card.frappe.get_doc", return_value=doc),
+			patch("consultation_center.api.number_card.get_result", return_value=2) as get_card_result,
+		):
+			percentage = get_percentage_difference(
+				frappe._dict(name=doc.name),
+				filters='[["User", "user_type", "=", "Website User"]]',
+				result="3",
+			)
+
+		self.assertEqual(percentage, 50)
+		get_card_result.assert_called_once()
+
 	def test_frappe_16_uses_structured_aggregate_fields(self):
 		with patch.object(frappe, "__version__", "16.22.0"):
 			self.assertEqual(

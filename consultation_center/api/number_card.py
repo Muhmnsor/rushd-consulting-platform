@@ -48,6 +48,45 @@ def get_result(
 	return flt(result[0]["result"] if result else 0)
 
 
+@frappe.whitelist()
+def get_percentage_difference(
+	doc: str | dict[str, Any],
+	filters: str | list | dict[str, Any],
+	result: float | int | str,
+):
+	"""Calculate Number Card trends through the PostgreSQL-safe aggregate query."""
+	doc = frappe.parse_json(doc)
+	result = frappe.parse_json(result)
+	doc = frappe.get_doc("Number Card", doc.name)
+
+	if not doc.get("show_percentage_stats"):
+		return None
+
+	previous_result = _calculate_previous_result(doc, filters)
+	if previous_result == 0:
+		return None
+	if result == previous_result:
+		return 0
+
+	return ((result / previous_result) - 1) * 100.0
+
+
+def _calculate_previous_result(doc, filters):
+	from frappe.utils import add_to_date
+
+	current_date = frappe.utils.now()
+	if doc.stats_time_interval == "Daily":
+		previous_date = add_to_date(current_date, days=-1)
+	elif doc.stats_time_interval == "Weekly":
+		previous_date = add_to_date(current_date, weeks=-1)
+	elif doc.stats_time_interval == "Monthly":
+		previous_date = add_to_date(current_date, months=-1)
+	else:
+		previous_date = add_to_date(current_date, years=-1)
+
+	return get_result(doc, filters, previous_date)
+
+
 def _aggregate_fields(function: str, argument: str):
 	"""Use the aggregate field format supported by the installed Frappe major version."""
 	try:
