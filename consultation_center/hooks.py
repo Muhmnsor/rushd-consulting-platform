@@ -243,6 +243,7 @@ has_permission = {
 #
 override_whitelisted_methods = {
 	"frappe.core.doctype.user.user.sign_up": "consultation_center.api.auth.sign_up",
+	"frappe.desk.doctype.number_card.number_card.get_result": "consultation_center.api.number_card.get_result",
 }
 #
 # each overriding function accepts a `data` argument;
