@@ -73,12 +73,20 @@ frappe.ready(() => {
 		event.preventDefault();
 		const form = event.currentTarget;
 		const submit = form.querySelector('[type="submit"]');
+		if (form.elements.new_password.value !== form.elements.confirm_password.value) {
+			showMessage(form, "كلمتا المرور غير متطابقتين. أعد كتابتهما ثم حاول مجددًا.", "error");
+			form.elements.confirm_password.focus();
+			return;
+		}
+		const args = formArgs(form);
+		delete args.confirm_password;
 		submit.disabled = true;
 		showMessage(form, "جارٍ تعيين كلمة المرور…");
 		try {
-			const result = await call("consultation_center.api.user_admin.set_user_password", formArgs(form));
+			const result = await call("consultation_center.api.user_admin.set_user_password", args);
 			showMessage(form, result.message, "success");
 			form.elements.new_password.value = "";
+			form.elements.confirm_password.value = "";
 			submit.disabled = false;
 		} catch (error) {
 			showMessage(form, serverMessage(error), "error");

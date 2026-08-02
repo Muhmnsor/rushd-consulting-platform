@@ -64,6 +64,9 @@ class TestAdminPortal(FrappeTestCase):
 		self.assertIn("بطاقة «مستشارونا»", consultant_page)
 		self.assertIn("data-profile-image-file", consultant_page)
 		self.assertIn("800 × 800", consultant_page)
+		users_page = (app_path / "www" / "admin" / "users" / "index.html").read_text()
+		self.assertIn("can_change_administrator_password", users_page)
+		self.assertIn('name="confirm_password"', users_page)
 		for page in (
 			"users",
 			"roles",

@@ -82,6 +82,23 @@ class TestUserPasswordAdministration(FrappeTestCase):
 		with self.assertRaises(frappe.PermissionError):
 			set_user_password("Administrator", "Secure-Rushd!2026-C9")
 
+	def test_administrator_can_change_own_password_without_email(self):
+		frappe.set_user("Administrator")
+		password = "Secure-Rushd!2026-D0"
+		with (
+			patch("consultation_center.api.user_admin.update_password") as update_password,
+			patch("frappe.sendmail") as sendmail,
+		):
+			result = set_user_password("Administrator", password, logout_all_sessions=1)
+
+		self.assertEqual(result["user"], "Administrator")
+		update_password.assert_called_once_with(
+			"Administrator",
+			password,
+			logout_all_sessions=1,
+		)
+		sendmail.assert_not_called()
+
 	def test_admin_can_create_staff_and_manage_status_and_roles(self):
 		frappe.set_user("Administrator")
 		suffix = frappe.generate_hash(length=8).lower()

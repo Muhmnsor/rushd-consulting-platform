@@ -293,6 +293,7 @@ def get_admin_users(query: str | None = None):
 			frappe.session.user == "Administrator"
 			or "System Manager" in frappe.get_roles(frappe.session.user)
 		),
+		can_change_administrator_password=frappe.session.user == "Administrator",
 		roles=[
 			frappe._dict(name=name, label=label)
 			for name, label, _ in ROLE_CATALOG
