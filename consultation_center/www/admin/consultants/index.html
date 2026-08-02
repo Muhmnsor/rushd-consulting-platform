@@ -18,7 +18,7 @@
 		</div>
 		<div class="rushd-responsive-table">
 			<table class="rushd-admin-table">
-				<thead><tr><th>المستشار</th><th>الخدمة والتخصص</th><th>الإشراف</th><th>الطاقة</th><th>الحالة</th></tr></thead>
+				<thead><tr><th>المستشار</th><th>الخدمة والتخصص</th><th>الإشراف</th><th>الطاقة</th><th>الحالة</th><th>الإدارة</th></tr></thead>
 				<tbody>
 				{% for item in consultants %}
 				<tr data-directory-row data-search="{{ item.consultant_name }} {{ item.specializations or '' }} {{ item.branch or '' }} {{ item.services or '' }}">
@@ -27,9 +27,10 @@
 					<td><span>{{ item.supervisor_name }}</span><small>انتهاء الاعتماد: {{ item.credential_expiry_label }}</small></td>
 					<td><strong>{{ item.active_cases }} حالات نشطة</strong><small>{{ item.maximum_daily_sessions or 4 }} جلسات يوميًا</small></td>
 					<td><span class="rushd-status {% if item.active %}rushd-status--green{% else %}rushd-status--amber{% endif %}">{% if item.active %}نشط{% else %}موقوف{% endif %}</span><small>{% if item.show_on_website %}ظاهر في «مستشارونا»{% else %}ملفه غير منشور{% endif %}</small></td>
+					<td><a class="rushd-table-link" href="/admin/consultants?edit={{ item.name|urlencode }}">تعديل الملف</a><a class="rushd-table-link" href="/admin/users?q={{ item.user|urlencode }}">بيانات الدخول</a></td>
 				</tr>
 				{% else %}
-				<tr><td colspan="5"><div class="rushd-admin-empty"><span>♙</span><strong>لم يُضف مستشارون بعد</strong><small>أضف أول مستشار واربطه بخدماته.</small></div></td></tr>
+				<tr><td colspan="6"><div class="rushd-admin-empty"><span>♙</span><strong>لم يُضف مستشارون بعد</strong><small>أضف أول مستشار واربطه بخدماته.</small></div></td></tr>
 				{% endfor %}
 				</tbody>
 			</table>
@@ -38,7 +39,7 @@
 
 	<aside class="rushd-admin-wizard {% if open_wizard %}is-open{% endif %}" data-admin-wizard="consultant">
 		<div class="rushd-admin-wizard__header">
-			<div><small>معالج مبسّط</small><h2>تجهيز مستشار</h2><p>سينشئ حساب الدخول والملف المهني والجدول معًا.</p></div>
+			<div><small>معالج مبسّط</small><h2>{% if edit_consultant %}تعديل ملف المستشار{% else %}تجهيز مستشار{% endif %}</h2><p>{% if edit_consultant %}حدّث البيانات المهنية والخدمات والتوفر من مكان واحد.{% else %}سينشئ حساب الدخول والملف المهني والجدول معًا.{% endif %}</p></div>
 			<button type="button" aria-label="إغلاق" data-close-wizard>×</button>
 		</div>
 		<ol class="rushd-wizard-progress">
@@ -46,22 +47,23 @@
 			<li data-progress-step="2"><span>2</span>الدور</li>
 			<li data-progress-step="3"><span>3</span>التوفر</li>
 		</ol>
-		<form data-admin-form data-method="consultation_center.api.admin_portal.onboard_consultant">
+		<form data-admin-form data-method="consultation_center.api.admin_portal.{% if edit_consultant %}update_consultant{% else %}onboard_consultant{% endif %}">
+			{% if edit_consultant %}<input type="hidden" name="consultant" value="{{ edit_consultant.name }}">{% endif %}
 			<section class="rushd-wizard-step is-active" data-wizard-step="1">
 				<h3>بيانات الدخول</h3>
-				<label>اسم المستشار <input name="consultant_name" required maxlength="140"></label>
-				<label>البريد الإلكتروني <input name="email" type="email" required maxlength="140" dir="ltr"></label>
-				<label>رمز المستشار <input name="code" readonly placeholder="يُنشأ تلقائيًا عند الحفظ" dir="ltr"><small>تولّده المنصة لضمان عدم التكرار.</small></label>
+				<label>اسم المستشار <input name="consultant_name" required maxlength="140" value="{{ edit_consultant.consultant_name if edit_consultant else '' }}"></label>
+				<label>البريد الإلكتروني <input name="email" type="email" required maxlength="140" dir="ltr" value="{{ edit_consultant.email if edit_consultant else '' }}" {% if edit_consultant %}readonly{% endif %}><small>{% if edit_consultant %}لتغيير البريد الأساسي استخدم «بيانات الدخول» من جدول المستشارين.{% endif %}</small></label>
+				<label>رمز المستشار <input name="code" readonly placeholder="يُنشأ تلقائيًا عند الحفظ" dir="ltr" value="{{ edit_consultant.code if edit_consultant else '' }}"><small>تولّده المنصة لضمان عدم التكرار.</small></label>
 			</section>
 			<section class="rushd-wizard-step" data-wizard-step="2">
 				<h3>ماذا سيقدم؟ ومن يشرف عليه؟</h3>
-				<label>التخصصات <input name="specializations" maxlength="1000" placeholder="مثال: إرشاد نفسي، إرشاد أسري"></label>
+				<label>التخصصات <input name="specializations" maxlength="1000" placeholder="مثال: إرشاد نفسي، إرشاد أسري" value="{{ edit_consultant.specializations if edit_consultant else '' }}"></label>
 				<fieldset class="rushd-multi-choice" data-service-options>
 					<legend>الخدمات <small>اختر كل الخدمات التي يستطيع المستشار تقديمها.</small></legend>
 					<div class="rushd-service-choice-grid">
 						{% for service in services %}
 						<label class="rushd-service-choice">
-							<input type="checkbox" value="{{ service.name }}" data-service-option>
+							<input type="checkbox" value="{{ service.name }}" data-service-option {% if edit_consultant and service.name in edit_consultant.service_names %}checked{% endif %}>
 							<span>{{ service.service_name }}</span>
 						</label>
 						{% else %}
@@ -74,48 +76,57 @@
 					<summary>بطاقة «مستشارونا» في الموقع <span>اختياري</span></summary>
 					<div>
 						<label class="rushd-check-field">
-							<input type="checkbox" name="show_on_website" value="1">
+							<input type="checkbox" name="show_on_website" value="1" {% if edit_consultant and edit_consultant.show_on_website %}checked{% endif %}>
 							<span><strong>إظهار المستشار في الصفحة العامة</strong><small>فعّلها فقط بعد موافقة المستشار ومراجعة النص المخصص للنشر.</small></span>
 						</label>
-						<label>المسمى المهني العام <input name="public_title" maxlength="140" placeholder="مثال: مستشار في الإرشاد النفسي والأسري"></label>
-						<label>نبذة مختصرة للنشر <textarea name="public_bio" rows="3" maxlength="1000" placeholder="خبرة المستشار ومنهجه والفئات التي يعمل معها، دون بيانات شخصية أو وسائل تواصل."></textarea></label>
+						<label>المسمى المهني العام <input name="public_title" maxlength="140" placeholder="مثال: مستشار في الإرشاد النفسي والأسري" value="{{ edit_consultant.public_title if edit_consultant else '' }}"></label>
+						<label>نبذة مختصرة للنشر <textarea name="public_bio" rows="3" maxlength="1000" placeholder="خبرة المستشار ومنهجه والفئات التي يعمل معها، دون بيانات شخصية أو وسائل تواصل.">{{ edit_consultant.public_bio if edit_consultant else '' }}</textarea></label>
 						<div class="rushd-profile-image-uploader" data-profile-image-uploader>
-							<div class="rushd-profile-image-uploader__preview" data-profile-image-preview><span>صورة</span><img alt="معاينة الصورة المهنية" hidden></div>
+							<div class="rushd-profile-image-uploader__preview" data-profile-image-preview><span {% if edit_consultant and edit_consultant.profile_image %}hidden{% endif %}>صورة</span><img alt="معاينة الصورة المهنية" {% if edit_consultant and edit_consultant.profile_image %}src="{{ edit_consultant.profile_image }}"{% else %}hidden{% endif %}></div>
 							<div>
 								<strong>الصورة المهنية</strong>
 								<p>صورة مربعة وواضحة، الوجه في المنتصف، وإضاءة طبيعية وخلفية هادئة.</p>
 								<ul><li>المقاس الموصى به: 800 × 800 بكسل</li><li>الحد الأدنى: 600 × 600 بكسل</li><li>JPG أو PNG أو WebP، وبحد أقصى 2 ميجابايت</li></ul>
 								<label class="rushd-image-upload-button">اختيار صورة<input type="file" accept="image/jpeg,image/png,image/webp" data-profile-image-file></label>
 								<small data-profile-image-message>إذا لم تُضف صورة، تظهر الأحرف الأولى من اسم المستشار.</small>
-								<input type="hidden" name="profile_image" data-profile-image-url>
+								<input type="hidden" name="profile_image" data-profile-image-url value="{{ edit_consultant.profile_image if edit_consultant else '' }}">
 							</div>
 						</div>
 					</div>
 				</details>
 				<div class="rushd-form-grid">
 					<label>المشرف
-						<select name="supervisor"><option value="">يحدد لاحقًا</option>{% for supervisor in supervisors %}<option value="{{ supervisor.name }}">{{ supervisor.full_name }}</option>{% endfor %}</select>
+						<select name="supervisor"><option value="">يحدد لاحقًا</option>{% for supervisor in supervisors %}<option value="{{ supervisor.name }}" {% if edit_consultant and edit_consultant.supervisor == supervisor.name %}selected{% endif %}>{{ supervisor.full_name }}</option>{% endfor %}</select>
 					</label>
-					<label>الفرع <input name="branch" maxlength="120"></label>
+					<label>الفرع <input name="branch" maxlength="120" value="{{ edit_consultant.branch if edit_consultant else '' }}"></label>
 				</div>
 			</section>
 			<section class="rushd-wizard-step" data-wizard-step="3">
 				<h3>الطاقة وأوقات التوفر</h3>
-				<label>الحد الأعلى للجلسات يوميًا <input name="maximum_daily_sessions" type="number" min="1" max="20" value="4"></label>
+				<label>الحد الأعلى للجلسات يوميًا <input name="maximum_daily_sessions" type="number" min="1" max="20" value="{{ edit_consultant.maximum_daily_sessions or 4 if edit_consultant else 4 }}"></label>
 				<section class="rushd-availability-builder" data-availability-builder>
 					<header>
 						<div><strong>جدول التوفر الأسبوعي</strong><small>أضف عدة أيام أو أكثر من فترة في اليوم نفسه.</small></div>
 						<button type="button" data-add-availability><span>＋</span> إضافة فترة</button>
 					</header>
 					<div class="rushd-availability-list" data-availability-list>
+						{% if edit_consultant and edit_consultant.availability_rules %}{% for rule in edit_consultant.availability_rules %}
 						<div class="rushd-availability-row" data-availability-row>
 							<label>اليوم
-								<select data-availability-field="weekday"><option value="">اختر اليوم</option><option value="Sunday">الأحد</option><option value="Monday">الاثنين</option><option value="Tuesday">الثلاثاء</option><option value="Wednesday">الأربعاء</option><option value="Thursday">الخميس</option><option value="Friday">الجمعة</option><option value="Saturday">السبت</option></select>
+								<select data-availability-field="weekday"><option value="">اختر اليوم</option><option value="Sunday" {% if rule.weekday == 'Sunday' %}selected{% endif %}>الأحد</option><option value="Monday" {% if rule.weekday == 'Monday' %}selected{% endif %}>الاثنين</option><option value="Tuesday" {% if rule.weekday == 'Tuesday' %}selected{% endif %}>الثلاثاء</option><option value="Wednesday" {% if rule.weekday == 'Wednesday' %}selected{% endif %}>الأربعاء</option><option value="Thursday" {% if rule.weekday == 'Thursday' %}selected{% endif %}>الخميس</option><option value="Friday" {% if rule.weekday == 'Friday' %}selected{% endif %}>الجمعة</option><option value="Saturday" {% if rule.weekday == 'Saturday' %}selected{% endif %}>السبت</option></select>
 							</label>
+							<label>من <input type="time" data-availability-field="start_time" value="{{ rule.start_time_value }}"></label>
+							<label>إلى <input type="time" data-availability-field="end_time" value="{{ rule.end_time_value }}"></label>
+							<button type="button" class="rushd-remove-availability" aria-label="حذف فترة التوفر" data-remove-availability>×</button>
+						</div>
+						{% endfor %}{% else %}
+						<div class="rushd-availability-row" data-availability-row>
+							<label>اليوم <select data-availability-field="weekday"><option value="">اختر اليوم</option><option value="Sunday">الأحد</option><option value="Monday">الاثنين</option><option value="Tuesday">الثلاثاء</option><option value="Wednesday">الأربعاء</option><option value="Thursday">الخميس</option><option value="Friday">الجمعة</option><option value="Saturday">السبت</option></select></label>
 							<label>من <input type="time" data-availability-field="start_time"></label>
 							<label>إلى <input type="time" data-availability-field="end_time"></label>
 							<button type="button" class="rushd-remove-availability" aria-label="حذف فترة التوفر" data-remove-availability>×</button>
 						</div>
+						{% endif %}
 					</div>
 					<input type="hidden" name="availability_rules" value="[]" data-availability-payload>
 					<p>يمكن ترك الجدول فارغًا وإضافته لاحقًا من ملف المستشار.</p>
@@ -126,7 +137,7 @@
 			<footer class="rushd-wizard-actions">
 				<button class="rushd-button rushd-button--secondary" type="button" data-wizard-prev disabled>السابق</button>
 				<button class="rushd-button rushd-button--primary" type="button" data-wizard-next>التالي</button>
-				<button class="rushd-button rushd-button--primary" type="submit" data-wizard-submit hidden>إنشاء المستشار</button>
+				<button class="rushd-button rushd-button--primary" type="submit" data-wizard-submit hidden>{% if edit_consultant %}حفظ التعديلات{% else %}إنشاء المستشار{% endif %}</button>
 			</footer>
 		</form>
 	</aside>

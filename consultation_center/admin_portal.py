@@ -143,6 +143,8 @@ def get_admin_consultants():
 			"branch",
 			"specializations",
 			"public_title",
+			"public_bio",
+			"profile_image",
 			"show_on_website",
 			"services",
 			"maximum_daily_sessions",
@@ -168,6 +170,44 @@ def get_admin_consultants():
 			format_date(row.credential_expiry) if row.credential_expiry else "غير محدد"
 		)
 	return rows
+
+
+def get_admin_consultant_for_edit(consultant_name: str):
+	row = frappe.db.get_value(
+		"Consultant",
+		consultant_name,
+		[
+			"name",
+			"consultant_name",
+			"code",
+			"user",
+			"supervisor",
+			"branch",
+			"specializations",
+			"services",
+			"public_title",
+			"public_bio",
+			"profile_image",
+			"show_on_website",
+			"maximum_daily_sessions",
+		],
+		as_dict=True,
+	)
+	if not row:
+		return None
+
+	row.email = frappe.db.get_value("User", row.user, "email") or row.user
+	row.service_names = [value.strip() for value in (row.services or "").splitlines() if value.strip()]
+	row.availability_rules = frappe.db.get_all(
+		"Consultant Availability Rule",
+		filters={"consultant": row.name, "active": 1},
+		fields=["weekday", "start_time", "end_time"],
+		order_by="weekday asc, start_time asc",
+	)
+	for rule in row.availability_rules:
+		rule.start_time_value = str(rule.start_time or "")[:5]
+		rule.end_time_value = str(rule.end_time or "")[:5]
+	return row
 
 
 def get_admin_beneficiaries():

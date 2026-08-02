@@ -32,7 +32,7 @@
 			<div class="rushd-admin-user-actions">
 				{% if users_data.can_manage and not user.protected %}
 				<button type="button" data-manage-roles data-user="{{ user.name }}" data-roles="{{ user.roles|tojson|forceescape }}">الأدوار</button>
-				<button type="button" data-set-password data-user="{{ user.name }}" data-label="{{ user.full_name or user.email }}">كلمة المرور</button>
+				<button type="button" data-set-password data-user="{{ user.name }}" data-label="{{ user.full_name or user.email }}">{% if 'Consultant' in user.roles %}بيانات الدخول{% else %}كلمة المرور{% endif %}</button>
 				<button type="button" data-user-status data-user="{{ user.name }}" data-enabled="{{ 0 if user.enabled else 1 }}">{% if user.enabled %}إيقاف{% else %}تفعيل{% endif %}</button>
 				{% elif user.protected and users_data.can_change_administrator_password %}
 				<button type="button" data-set-password data-user="{{ user.name }}" data-label="{{ user.full_name or user.email }}">تغيير كلمة المرور</button>
@@ -67,6 +67,12 @@
 		<div class="rushd-form-message" data-form-message></div>
 		<button class="rushd-button rushd-button--primary" type="submit">تعيين كلمة المرور</button>
 	</form>
+	<section class="rushd-admin-note" data-login-handoff hidden>
+		<strong>رسالة جاهزة للإرسال</strong>
+		<textarea data-login-handoff-text rows="7" readonly></textarea>
+		<button class="rushd-button rushd-button--secondary" type="button" data-copy-login-handoff>نسخ بيانات الدخول</button>
+		<small>تظهر كلمة المرور هنا بعد تعيينها في هذه الجلسة فقط، ولا تحفظها المنصة كنص قابل للقراءة.</small>
+	</section>
 </dialog>
 
 <dialog class="rushd-admin-dialog" data-roles-dialog>
@@ -81,4 +87,4 @@
 </dialog>
 {% endblock %}
 
-{% block script %}<script src="/assets/consultation_center/js/rushd-user-management.js?v=20260802-14"></script>{% endblock %}
+{% block script %}<script src="/assets/consultation_center/js/rushd-user-management.js?v=20260802-15"></script>{% endblock %}

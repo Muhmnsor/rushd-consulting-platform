@@ -10,6 +10,7 @@ from consultation_center.api.admin_portal import (
 	create_assessment,
 	onboard_beneficiary,
 	onboard_consultant,
+	update_consultant,
 )
 from consultation_center.api.admin_records import (
 	delete_admin_record,
@@ -18,6 +19,7 @@ from consultation_center.api.admin_records import (
 	save_admin_record,
 )
 from consultation_center.staff import get_staff_display_name
+from consultation_center.www.admin.consultants.index import get_context as get_consultants_page_context
 
 
 class TestAdminPortal(FrappeTestCase):
@@ -64,9 +66,13 @@ class TestAdminPortal(FrappeTestCase):
 		self.assertIn("بطاقة «مستشارونا»", consultant_page)
 		self.assertIn("data-profile-image-file", consultant_page)
 		self.assertIn("800 × 800", consultant_page)
+		self.assertIn("تعديل الملف", consultant_page)
+		self.assertIn("بيانات الدخول", consultant_page)
+		self.assertIn("update_consultant", consultant_page)
 		users_page = (app_path / "www" / "admin" / "users" / "index.html").read_text()
 		self.assertIn("can_change_administrator_password", users_page)
 		self.assertIn('name="confirm_password"', users_page)
+		self.assertIn("data-login-handoff", users_page)
 		for page in (
 			"users",
 			"roles",
@@ -166,6 +172,61 @@ class TestAdminPortal(FrappeTestCase):
 		self.assertEqual(len(availability), 3)
 		self.assertEqual(sum(rule.weekday == "Sunday" for rule in availability), 2)
 		self.assertEqual(sum(rule.weekday == "Monday" for rule in availability), 1)
+
+	def test_update_consultant_changes_profile_and_replaces_availability(self):
+		email = f"admin.consultant.edit.{self.suffix.lower()}@example.com"
+		created = onboard_consultant(
+			consultant_name=f"مستشار قبل التعديل {self.suffix}",
+			email=email,
+			services=[self.service.name],
+			maximum_daily_sessions=3,
+			availability_rules=[
+				{"weekday": "Sunday", "start_time": "09:00", "end_time": "12:00"},
+			],
+		)
+
+		result = update_consultant(
+			consultant=created["name"],
+			consultant_name=f"مستشار بعد التعديل {self.suffix}",
+			specializations="إرشاد نفسي وأسري",
+			services=[self.service.name],
+			branch="الرياض",
+			maximum_daily_sessions=6,
+			availability_rules=[
+				{"weekday": "Monday", "start_time": "14:00", "end_time": "18:00"},
+				{"weekday": "Wednesday", "start_time": "10:00", "end_time": "13:00"},
+			],
+		)
+
+		consultant = frappe.get_doc("Consultant", created["name"])
+		self.assertEqual(result["user"], email)
+		self.assertEqual(consultant.consultant_name, f"مستشار بعد التعديل {self.suffix}")
+		self.assertEqual(consultant.branch, "الرياض")
+		self.assertEqual(consultant.maximum_daily_sessions, 6)
+		self.assertEqual(frappe.db.get_value("User", email, "first_name"), consultant.consultant_name)
+		availability = frappe.get_all(
+			"Consultant Availability Rule",
+			filters={"consultant": consultant.name},
+			fields=["weekday", "capacity"],
+			order_by="weekday asc",
+		)
+		self.assertEqual([row.weekday for row in availability], ["Monday", "Wednesday"])
+		self.assertTrue(all(row.capacity == 6 for row in availability))
+		previous_form_dict = frappe.local.form_dict
+		try:
+			frappe.local.form_dict = frappe._dict(edit=consultant.name)
+			context = frappe._dict()
+			get_consultants_page_context(context)
+			context.boot = frappe._dict(lang="ar")
+			html = frappe.render_template(
+				"consultation_center/www/admin/consultants/index.html",
+				context,
+			)
+		finally:
+			frappe.local.form_dict = previous_form_dict
+		self.assertIn("تعديل ملف المستشار", html)
+		self.assertIn("consultation_center.api.admin_portal.update_consultant", html)
+		self.assertIn(f"مستشار بعد التعديل {self.suffix}", html)
 
 	def test_create_assessment_builds_first_version_and_questions(self):
 		result = create_assessment(

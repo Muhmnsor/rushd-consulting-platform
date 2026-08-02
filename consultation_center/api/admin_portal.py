@@ -119,24 +119,105 @@ def onboard_consultant(
 	).insert(ignore_permissions=True)
 
 	for rule in availability:
-		frappe.get_doc(
-			{
-				"doctype": "Consultant Availability Rule",
-				"consultant": consultant.name,
-				"weekday": rule["weekday"],
-				"active": 1,
-				"start_time": rule["start_time"],
-				"end_time": rule["end_time"],
-				"slot_duration": 60,
-				"capacity": maximum_sessions,
-			}
-		).insert(ignore_permissions=True)
+		_create_consultant_availability(consultant.name, rule, maximum_sessions)
 
 	return {
 		"name": consultant.name,
 		"user": user_name,
 		"message": "تم إنشاء حساب المستشار وربطه بالخدمات والتوفر",
 	}
+
+
+@frappe.whitelist(methods=["POST"])
+def update_consultant(
+	consultant: str,
+	consultant_name: str,
+	email: str | None = None,
+	code: str | None = None,
+	specializations: str | None = None,
+	public_title: str | None = None,
+	public_bio: str | None = None,
+	profile_image: str | None = None,
+	show_on_website: int | str = 0,
+	services: str | list | None = None,
+	supervisor: str | None = None,
+	branch: str | None = None,
+	maximum_daily_sessions: int | str = 4,
+	availability_rules: str | list | None = None,
+):
+	require_staff_access(ADMIN_ACCESS)
+	doc = frappe.get_doc("Consultant", consultant)
+	consultant_name = _clean(consultant_name, 140, "اسم المستشار")
+	if not consultant_name:
+		frappe.throw("اكتب اسم المستشار")
+
+	service_names = _parse_list(services)
+	for service in service_names:
+		if not frappe.db.exists("Consultation Service", service):
+			frappe.throw(f"الخدمة {service} غير موجودة")
+	if supervisor and not frappe.db.exists("User", supervisor):
+		frappe.throw("المشرف المحدد غير موجود")
+
+	public_title = _clean(public_title, 140, "المسمى المهني العام")
+	public_bio = _clean(public_bio, 1000, "النبذة العامة")
+	profile_image = _clean(profile_image, 500, "مسار الصورة المهنية")
+	if profile_image and not profile_image.startswith(("/files/", "/assets/")):
+		frappe.throw("مسار الصورة المهنية غير صالح")
+	show_on_website = cint(show_on_website)
+	if show_on_website and (not public_title or not public_bio):
+		frappe.throw("أكمل المسمى المهني والنبذة قبل إظهار المستشار في الموقع")
+
+	availability = _normalize_availability_rules(availability_rules)
+	maximum_sessions = max(1, min(20, cint(maximum_daily_sessions) or 4))
+	doc.update(
+		{
+			"consultant_name": consultant_name,
+			"supervisor": supervisor or None,
+			"branch": _clean(branch, 120, "الفرع"),
+			"specializations": _clean(specializations, 1000, "التخصصات"),
+			"public_title": public_title,
+			"public_bio": public_bio,
+			"profile_image": profile_image or None,
+			"show_on_website": show_on_website,
+			"services": "\n".join(service_names),
+			"maximum_daily_sessions": maximum_sessions,
+		}
+	)
+	doc.save(ignore_permissions=True)
+
+	user = frappe.get_doc("User", doc.user)
+	user.first_name = consultant_name
+	user.save(ignore_permissions=True)
+
+	for rule_name in frappe.get_all(
+		"Consultant Availability Rule",
+		filters={"consultant": doc.name},
+		pluck="name",
+	):
+		frappe.delete_doc("Consultant Availability Rule", rule_name, ignore_permissions=True)
+	for rule in availability:
+		_create_consultant_availability(doc.name, rule, maximum_sessions)
+
+	return {
+		"name": doc.name,
+		"user": doc.user,
+		"message": "تم تحديث ملف المستشار وجدول توفره",
+	}
+
+
+def _create_consultant_availability(consultant: str, rule: dict, maximum_sessions: int):
+	return frappe.get_doc(
+		{
+			"doctype": "Consultant Availability Rule",
+			"consultant": consultant,
+			"weekday": rule["weekday"],
+			"active": 1,
+			"start_time": rule["start_time"],
+			"end_time": rule["end_time"],
+			"slot_duration": 60,
+			"capacity": maximum_sessions,
+		}
+	).insert(ignore_permissions=True)
 
 
 @frappe.whitelist(methods=["POST"])

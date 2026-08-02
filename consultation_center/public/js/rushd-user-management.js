@@ -61,9 +61,13 @@ frappe.ready(() => {
 
 	const passwordDialog = document.querySelector("[data-password-dialog]");
 	const passwordForm = document.querySelector("[data-password-form]");
+	const loginHandoff = document.querySelector("[data-login-handoff]");
+	const loginHandoffText = document.querySelector("[data-login-handoff-text]");
 	document.querySelectorAll("[data-set-password]").forEach((button) => {
 		button.addEventListener("click", () => {
 			passwordForm.reset();
+			loginHandoff.hidden = true;
+			loginHandoffText.value = "";
 			passwordForm.elements.user.value = button.dataset.user;
 			document.querySelector("[data-password-user-label]").textContent = button.dataset.label;
 			passwordDialog.showModal();
@@ -80,11 +84,21 @@ frappe.ready(() => {
 		}
 		const args = formArgs(form);
 		delete args.confirm_password;
+		const temporaryPassword = args.new_password;
 		submit.disabled = true;
 		showMessage(form, "جارٍ تعيين كلمة المرور…");
 		try {
 			const result = await call("consultation_center.api.user_admin.set_user_password", args);
 			showMessage(form, result.message, "success");
+			loginHandoffText.value = [
+				`مرحبًا ${document.querySelector("[data-password-user-label]").textContent}،`,
+				"تم تجهيز حسابك في منصة رُشد.",
+				`رابط الدخول: ${window.location.origin}/login`,
+				`اسم الدخول: ${args.user}`,
+				`كلمة المرور المؤقتة: ${temporaryPassword}`,
+				"يرجى تسجيل الدخول والمحافظة على سرية بيانات الحساب.",
+			].join("\n");
+			loginHandoff.hidden = false;
 			form.elements.new_password.value = "";
 			form.elements.confirm_password.value = "";
 			submit.disabled = false;
@@ -92,6 +106,17 @@ frappe.ready(() => {
 			showMessage(form, serverMessage(error), "error");
 			submit.disabled = false;
 		}
+	});
+	document.querySelector("[data-copy-login-handoff]")?.addEventListener("click", async (event) => {
+		const button = event.currentTarget;
+		try {
+			await navigator.clipboard.writeText(loginHandoffText.value);
+		} catch {
+			loginHandoffText.select();
+			document.execCommand("copy");
+		}
+		button.textContent = "تم النسخ";
+		window.setTimeout(() => { button.textContent = "نسخ بيانات الدخول"; }, 1200);
 	});
 
 	const rolesDialog = document.querySelector("[data-roles-dialog]");
