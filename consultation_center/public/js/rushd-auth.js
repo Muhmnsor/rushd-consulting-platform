@@ -42,7 +42,7 @@
 
 		if (window.frappe?.call) {
 			frappe.call({
-				method: "logout",
+				method: "consultation_center.api.auth.logout",
 				callback: finishLogout,
 				error: () => {
 					link.dataset.rushdLogoutBusy = "0";
@@ -53,7 +53,7 @@
 			return;
 		}
 
-		fetch("/api/method/logout", {
+		fetch("/api/method/consultation_center.api.auth.logout", {
 			method: "POST",
 			credentials: "same-origin",
 			headers: {

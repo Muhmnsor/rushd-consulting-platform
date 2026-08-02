@@ -2,6 +2,22 @@ import frappe
 from frappe.core.doctype.user.user import sign_up as frappe_sign_up
 
 
+LOGIN_DESTINATION = "/login#login"
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET", "POST"])
+def logout():
+	"""End the current session and safely return portal users to Rushd login."""
+	frappe.local.login_manager.logout()
+	frappe.db.commit()
+
+	if frappe.request.method == "GET":
+		frappe.local.response["type"] = "redirect"
+		frappe.local.response["location"] = LOGIN_DESTINATION
+
+	return {"redirect_to": LOGIN_DESTINATION}
+
+
 @frappe.whitelist(allow_guest=True)
 def sign_up(
 	email: str,

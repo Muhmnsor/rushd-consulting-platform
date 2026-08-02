@@ -120,6 +120,171 @@
 		"To use Google Indexing, enable": "لاستخدام فهرسة جوجل، فعّل",
 		"Google Settings": "إعدادات جوجل",
 		Standard: "قياسي",
+		"Frappe Framework": "منصة رُشد",
+		"Role Permissions Manager": "مدير صلاحيات الأدوار",
+		"Set User Permissions": "تقييد وصول المستخدمين",
+		"View Permitted Documents": "عرض السجلات المسموح بها",
+		"View Doctype Permissions": "عرض صلاحيات أنواع السجلات",
+		"Permissions > Set User Permissions": "الصلاحيات ← تقييد وصول المستخدمين",
+		"Restore Original Permissions": "استعادة الصلاحيات الأصلية",
+		Actions: "الإجراءات",
+		Permissions: "الصلاحيات",
+		"Permission Inspector": "فاحص الصلاحيات",
+		Audits: "سجلات المراجعة",
+		"Activity Log": "سجل النشاط",
+		"Permission Log": "سجل الصلاحيات",
+		"Access Log": "سجل الوصول",
+		Search: "بحث",
+		Notification: "الإشعارات",
+		"Add Sidebar Item": "إضافة عنصر إلى القائمة الجانبية",
+		Discard: "تجاهل التغييرات",
+		Save: "حفظ",
+		"Getting Started": "دليل البدء",
+		"User Menu": "قائمة المستخدم",
+		"Toggle Sidebar": "إظهار أو إخفاء القائمة الجانبية",
+		"Looks like you haven’t received any notifications.":
+			"لا توجد إشعارات جديدة.",
+		"There are no upcoming events for you.": "لا توجد أحداث قادمة.",
+		"There is nothing new to show you right now.":
+			"لا توجد تحديثات جديدة حاليًا.",
+		Menu: "القائمة",
+		Report: "التقارير",
+		Export: "تصدير",
+		Print: "طباعة",
+		Email: "البريد الإلكتروني",
+		Select: "اختيار",
+		Read: "قراءة",
+		Write: "تعديل",
+		Create: "إنشاء",
+		Delete: "حذف",
+		Submit: "اعتماد",
+		Cancel: "إلغاء",
+		Amend: "تعديل بعد الاعتماد",
+		Share: "مشاركة",
+		Import: "استيراد",
+		Mask: "إخفاء البيانات الحساسة",
+		Permission: "الصلاحية",
+		Description: "الوصف",
+		Example: "مثال",
+		"Document Type": "نوع السجل",
+		Role: "الدور",
+		Level: "المستوى",
+		Loading: "جارٍ التحميل…",
+		"No Permissions set for this criteria.":
+			"لا توجد صلاحيات مطابقة للاختيار الحالي.",
+		"Only if Creator": "فقط إذا أنشأ المستخدم السجل",
+		"Add A New Rule": "إضافة قاعدة صلاحية",
+		"Add New Permission Rule": "إضافة قاعدة صلاحية جديدة",
+		"Permission Level": "مستوى الصلاحية",
+		"Level 0 is for document level permissions, higher levels for field level permissions.":
+			"المستوى 0 لصلاحيات السجل كاملة، والمستويات الأعلى لصلاحيات الحقول.",
+		Add: "إضافة",
+		"Did not add": "تعذرت إضافة قاعدة الصلاحية",
+		"Did not remove": "تعذر حذف قاعدة الصلاحية",
+		"Reset Permissions for {0}?": "هل تريد استعادة الصلاحيات الأصلية لـ {0}؟",
+		"Standard Permissions": "الصلاحيات الأصلية",
+		Users: "المستخدمون",
+		User: "مستخدم",
+		"No user has the role <strong>{0}</strong>":
+			"لا يوجد مستخدم مسند إليه الدور <strong>{0}</strong>",
+		"{0} with the role <strong>{1}</strong>":
+			"{0} بالدور <strong>{1}</strong>",
+		"View all {0} users": "عرض المستخدمين وعددهم {0}",
+		"Select Document Type or Role to start.":
+			"اختر نوع السجل أو الدور للبدء.",
+		Roles: "الدور",
+		"Quick Help for Setting Permissions:": "دليل مبسط لضبط الصلاحيات:",
+		"Permissions are set on Roles and Document Types (called DocTypes) by setting rights like Read, Write, Create, Delete, Submit, Cancel, Amend, Report, Import, Export, Print, Email and Set User Permissions.":
+			"تُضبط صلاحيات كل دور على أنواع السجلات، مثل القراءة والتعديل والإنشاء والحذف والاعتماد والتقارير والاستيراد والتصدير والطباعة والبريد وتقييد الوصول.",
+		"Permissions get applied on Users based on what Roles they are assigned.":
+			"تُطبّق الصلاحيات على المستخدم بحسب الأدوار المسندة إليه.",
+		"Roles can be set for users from their User page.":
+			"يمكن إسناد الأدوار للمستخدم من صفحة حسابه.",
+		"Setup > User": "تهيئة المنصة ← المستخدمون",
+		"The system provides many pre-defined roles. You can add new roles to set finer permissions.":
+			"توفر المنصة أدوارًا جاهزة، ويمكن إضافة دور جديد عند الحاجة إلى نطاق أدق.",
+		"Add a New Role": "إضافة دور جديد",
+		"Permissions are automatically applied to Standard Reports and searches.":
+			"تُطبّق الصلاحيات تلقائيًا على التقارير القياسية ونتائج البحث.",
+		"As a best practice, do not assign the same set of permission rule to different Roles. Instead, set multiple Roles to the same User.":
+			"لإدارة أوضح، لا تكرر قواعد الصلاحية نفسها في عدة أدوار؛ أسند للمستخدم أكثر من دور عند الحاجة.",
+		"Meaning of Different Permission Types:": "معنى أنواع الصلاحيات:",
+		"Allows the user to search and see records.":
+			"تسمح للمستخدم بالبحث عن السجلات ورؤيتها في حقول الاختيار.",
+		"Allows the user to view the document.": "تسمح للمستخدم بعرض السجل.",
+		"Allows the user to edit existing records they have access to.":
+			"تسمح للمستخدم بتعديل السجلات التي يمكنه الوصول إليها.",
+		"Allows the user to create new documents.": "تسمح للمستخدم بإنشاء سجلات جديدة.",
+		"Allows the user to delete documents.": "تسمح للمستخدم بحذف السجلات.",
+		"Allows printing or PDF download of documents.":
+			"تسمح بطباعة السجل أو تنزيله بصيغة PDF.",
+		"Allows the user to email from the document.":
+			"تسمح بإرسال البريد الإلكتروني من داخل السجل.",
+		"Allows the user to access reports related to the document.":
+			"تسمح بالوصول إلى التقارير المرتبطة بنوع السجل.",
+		"Allows the user to export data from the Report view.":
+			"تسمح بتصدير البيانات من شاشة التقرير.",
+		"Allows the user to use Data Import tool to create / update records.":
+			"تسمح باستخدام أداة الاستيراد لإنشاء السجلات أو تحديثها.",
+		"Allows sharing document access with other users.":
+			"تسمح بمشاركة الوصول إلى السجل مع مستخدمين آخرين.",
+		"Allows users to enable the mask property for any field of the respective doctype.":
+			"تسمح بإخفاء قيمة الحقول الحساسة عن العرض الكامل.",
+		"The user can select a Customer in Sales Order but cannot open the Customer master.":
+			"يمكن للمستخدم اختيار سجل مرتبط داخل الطلب، لكنه لا يستطيع فتح السجل نفسه.",
+		"The user can view Sales Invoices but cannot modify any field values in them.":
+			"يمكن للمستخدم عرض السجل، لكنه لا يستطيع تعديل قيمه.",
+		"The user can update a customer or any other fields in an existing Sales Order but cannot create a new Sales Order.":
+			"يمكن للمستخدم تحديث سجل موجود، لكنه لا يستطيع إنشاء سجل جديد.",
+		"The user can create a new Item but cannot edit existing items.":
+			"يمكن للمستخدم إنشاء سجل جديد، لكنه لا يستطيع تعديل السجلات الموجودة.",
+		"The user can delete Draft / Cancelled documents.":
+			"يمكن للمستخدم حذف السجلات المسودة أو الملغاة.",
+		"The print button is enabled for the user in the document.":
+			"يظهر زر الطباعة للمستخدم داخل السجل.",
+		"The email button is enabled for the user in the document.":
+			"يظهر زر البريد الإلكتروني للمستخدم داخل السجل.",
+		"If the user has access to Employee and Report is enabled, they can view Employee-based reports.":
+			"إذا كان للمستخدم وصول إلى نوع السجل وفُعّلت التقارير، فيمكنه عرض تقاريره.",
+		"The user can export report data.": "يمكن للمستخدم تصدير بيانات التقرير.",
+		"The user can import new records or update existing data for the document.":
+			"يمكن للمستخدم استيراد سجلات جديدة أو تحديث السجلات الموجودة.",
+		"The user can share document access with another user.":
+			"يمكن للمستخدم مشاركة الوصول إلى السجل مع مستخدم آخر.",
+		"If the user enables the mask property for the phone number field, the value will be displayed in a masked format (e.g., 811XXXXXXX).":
+			"عند تفعيل الإخفاء على حقل حساس، تظهر القيمة بشكل محجوب جزئيًا.",
+		"Permission Levels:": "مستويات الصلاحية:",
+		"Permissions at level 0 are Document Level permissions, i.e. they are primary for access to the document.":
+			"صلاحيات المستوى 0 هي صلاحيات السجل الأساسية التي تحدد إمكانية الوصول إليه.",
+		"If a Role does not have access at Level 0, then higher levels are meaningless.":
+			"إذا لم يملك الدور وصولًا في المستوى 0 فلن يكون للمستويات الأعلى أثر.",
+		"Permissions at higher levels are Field Level permissions. All Fields have a Permission Level set against them and the rules defined at that permissions apply to the field. This is useful in case you want to hide or make certain field read-only for certain Roles.":
+			"المستويات الأعلى تخص الحقول؛ وتفيد في إخفاء حقول محددة أو جعلها للقراءة فقط بحسب الدور.",
+		"You can use Customize Form to set levels on fields.":
+			"يمكن ضبط مستوى كل حقل من شاشة تخصيص النماذج.",
+		"Setup > Customize Form": "تهيئة المنصة ← تخصيص النماذج",
+		"User Permissions:": "قيود وصول المستخدم:",
+		"User Permissions are used to limit users to specific records.":
+			"تُستخدم قيود الوصول لحصر المستخدم في سجلات محددة.",
+		"Setup > User Permissions": "تهيئة المنصة ← قيود وصول المستخدمين",
+		"Select Document Types to set which User Permissions are used to limit access.":
+			"اختر أنواع السجلات التي ستُطبّق عليها قيود الوصول.",
+		"Once you have set this, the users will only be able access documents (eg. Blog Post) where the link exists (eg. Blogger).":
+			"بعد ضبطها، لن يصل المستخدم إلا إلى السجلات المرتبطة بالقيمة المسموح له بها.",
+		"Apart from System Manager, roles with Set User Permissions right can set permissions for other users for that Document Type.":
+			"إضافة إلى مسؤول النظام، يمكن للأدوار المخولة بتقييد الوصول ضبط هذه القيود للمستخدمين الآخرين.",
+		"Submit an Issue": "العودة إلى إدارة الأدوار",
+		"If these instructions where not helpful, please add in your suggestions on GitHub Issues.":
+			"إذا احتجت إلى مساعدة تشغيلية، ارجع إلى صفحة إدارة الأدوار المبسطة.",
+		"System Health": "صحة النظام",
+		Logout: "تسجيل الخروج",
+		"You do not have enough permissions to complete the action":
+			"لا تملك الصلاحية الكافية لإكمال هذا الإجراء.",
+		"You do not have enough permissions to access this resource. Please contact your manager to get access.":
+			"لا تملك الصلاحية للوصول إلى هذه الصفحة. تواصل مع مسؤول النظام إذا كنت تحتاج إليها.",
+		"Show Error": "عرض التفاصيل التقنية",
+		"Not permitted": "غير مسموح",
+		Today: "اليوم",
 		undefined: "",
 	});
 	const INLINE_TRANSLATIONS = Object.freeze({
@@ -293,6 +458,75 @@
 			frappe.boot?.rushd_display_translations || {},
 		);
 		Object.assign(frappe._messages, TEXT_TRANSLATIONS);
+	}
+
+	function applyRushdDeskBrand(root = document) {
+		root
+			.querySelectorAll?.(
+				'.body-sidebar .header-logo img, img[src*="frappe-framework-logo.svg"]',
+			)
+			.forEach((logo) => {
+				logo.src = "/assets/consultation_center/images/rushd-logo.svg";
+				logo.alt = RUSHD_NAME;
+			});
+
+		root.querySelectorAll?.(".body-sidebar .header-subtitle").forEach((label) => {
+			if (label.textContent.trim() === "Frappe Framework") {
+				label.textContent = "منصة رُشد";
+			}
+		});
+	}
+
+	function installPermissionManagerIdentity() {
+		const page = document.querySelector("#page-permission-manager");
+		if (!page) return;
+
+		page.classList.add("rushd-permission-manager");
+		const permissionActions = {
+			"Set User Permissions": "تقييد وصول المستخدمين",
+			"Restore Original Permissions": "استعادة الصلاحيات الأصلية",
+			Actions: "الإجراءات",
+		};
+		page.querySelectorAll("[data-label]").forEach((element) => {
+			let source = element.dataset.label || "";
+			try {
+				source = decodeURIComponent(source);
+			} catch (_error) {
+				return;
+			}
+			if (permissionActions[source]) {
+				if (element.textContent.trim() !== permissionActions[source]) {
+					element.textContent = permissionActions[source];
+				}
+			}
+		});
+		const issueLink = [...page.querySelectorAll("a")].find(
+			(link) =>
+				["Submit an Issue", "العودة إلى إدارة الأدوار"].includes(
+					link.textContent.trim(),
+				),
+		);
+		if (issueLink) {
+			issueLink.href = "/admin/roles";
+			issueLink.removeAttribute("target");
+			issueLink.removeAttribute("rel");
+		}
+
+		if (page.querySelector(".rushd-permission-page-intro")) return;
+		const content = page.querySelector(".page-content, .layout-main-section-wrapper");
+		if (!content) return;
+
+		const intro = document.createElement("section");
+		intro.className = "rushd-permission-page-intro";
+		intro.innerHTML = `
+			<div>
+				<span>إعداد متقدم لمسؤول النظام</span>
+				<strong>صلاحيات واضحة وآمنة لكل دور</strong>
+				<p>اختر نوع السجل والدور، ثم فعّل أقل قدر من الصلاحيات اللازمة للعمل. التغييرات هنا تؤثر مباشرة في وصول المستخدمين إلى بيانات المنصة.</p>
+			</div>
+			<a href="/admin/roles">العودة إلى إدارة الأدوار</a>
+		`;
+		content.prepend(intro);
 	}
 
 	function localizeWorkspaceSidebarSections(root = document) {
@@ -648,6 +882,8 @@
 			installDeskBackButton();
 			installWebsiteSettingsEntry();
 			decorateRushdWorkspace();
+			applyRushdDeskBrand(document.body);
+			installPermissionManagerIdentity();
 			localizeElement(document.body);
 			localizeWorkspaceSidebarSections(document.body);
 		}
@@ -685,6 +921,8 @@
 			installDeskBackButton();
 			installWebsiteSettingsEntry();
 			decorateRushdWorkspace();
+			applyRushdDeskBrand(document.body);
+			installPermissionManagerIdentity();
 			for (const mutation of mutations) {
 				if (mutation.type === "characterData" && mutation.target.parentElement) {
 					localizeElement(mutation.target.parentElement);
@@ -698,6 +936,7 @@
 				}
 			}
 			localizeWorkspaceSidebarSections(document.body);
+			applyRushdDeskBrand(document.body);
 		});
 
 		observer.observe(document.body, {

@@ -841,6 +841,88 @@ table td,
 	font-weight: 700;
 }
 
+/* Branded, Arabic-first wrapper for the advanced role permission screen. */
+.body-sidebar .header-logo img[src*='rushd-logo.svg'] {
+	width: 2rem;
+	height: 2rem;
+	object-fit: contain;
+}
+
+#page-permission-manager .rushd-permission-page-intro {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.25rem;
+	margin-block: 0 1.25rem;
+	padding: 1.25rem 1.4rem;
+	border: 1px solid #b9ded7;
+	border-radius: 1rem;
+	background: linear-gradient(135deg, #ecf9f6 0%, #ffffff 72%);
+	box-shadow: 0 0.4rem 1.2rem rgba(13, 148, 136, 0.08);
+}
+
+#page-permission-manager .rushd-permission-page-intro > div {
+	min-width: 0;
+}
+
+#page-permission-manager .rushd-permission-page-intro span,
+#page-permission-manager .rushd-permission-page-intro strong,
+#page-permission-manager .rushd-permission-page-intro p {
+	display: block;
+}
+
+#page-permission-manager .rushd-permission-page-intro span {
+	margin-block-end: 0.25rem;
+	color: #0d766e;
+	font-size: 0.75rem;
+	font-weight: 800;
+}
+
+#page-permission-manager .rushd-permission-page-intro strong {
+	color: #173f3a;
+	font-size: 1.12rem;
+}
+
+#page-permission-manager .rushd-permission-page-intro p {
+	max-width: 54rem;
+	margin: 0.4rem 0 0;
+	color: #536b67;
+	line-height: 1.75;
+}
+
+#page-permission-manager .rushd-permission-page-intro a {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.5rem;
+	padding-inline: 1rem;
+	border-radius: 0.7rem;
+	background: #0d9488;
+	color: #fff;
+	font-weight: 800;
+}
+
+#page-permission-manager .rushd-permission-page-intro a:hover,
+#page-permission-manager .rushd-permission-page-intro a:focus-visible {
+	background: #0b766e;
+	color: #fff;
+	text-decoration: none;
+}
+
+#page-permission-manager .p-3 > .table,
+#page-permission-manager .p-3 > ol > .table {
+	width: 100% !important;
+	min-width: 42rem;
+}
+
+#page-permission-manager .p-3 {
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	scrollbar-color: #0d9488 #e5f3f0;
+	scrollbar-width: thin;
+}
+
 /* Keep Frappe's fixed-width activity heatmap inside tablet viewports. */
 #page-user-profile .layout-main,
 #page-user-profile .layout-main-section-wrapper,
@@ -937,6 +1019,16 @@ table td,
 
 	.rushd-website-settings-entry__actions .btn {
 		flex: 1 1 8rem;
+	}
+
+	#page-permission-manager .rushd-permission-page-intro {
+		align-items: stretch;
+		flex-direction: column;
+		padding: 1rem;
+	}
+
+	#page-permission-manager .rushd-permission-page-intro a {
+		width: 100%;
 	}
 }
 

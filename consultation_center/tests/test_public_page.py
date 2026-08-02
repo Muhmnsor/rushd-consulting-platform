@@ -262,6 +262,21 @@ class TestPublicPage(FrappeTestCase):
 		self.assertIn('"مساحاتي الخاصة"', script)
 		self.assertIn("localizeWorkspaceSidebarSections", script)
 
+	def test_advanced_permission_manager_uses_rushd_identity_and_arabic_copy(self):
+		app_path = Path(__file__).parents[1]
+		desk_script = (app_path / "public" / "js" / "rushd-rtl.js").read_text()
+		rtl_styles = (app_path / "public" / "css" / "rushd-rtl.css").read_text()
+		roles_page = (app_path / "www" / "admin" / "roles" / "index.html").read_text()
+
+		self.assertIn("installPermissionManagerIdentity", desk_script)
+		self.assertIn("applyRushdDeskBrand", desk_script)
+		self.assertIn('"Role Permissions Manager": "مدير صلاحيات الأدوار"', desk_script)
+		self.assertIn('"Frappe Framework": "منصة رُشد"', desk_script)
+		self.assertIn("/assets/consultation_center/images/rushd-logo.svg", desk_script)
+		self.assertIn("#page-permission-manager .rushd-permission-page-intro", rtl_styles)
+		self.assertIn('href="/app/permission-manager"', roles_page)
+		self.assertNotIn('href="/app/role-permission-manager"', roles_page)
+
 	def test_site_loading_screen_uses_rushd_logo(self):
 		configure_site_identity()
 
