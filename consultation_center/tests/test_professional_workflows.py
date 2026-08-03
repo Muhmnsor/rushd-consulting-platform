@@ -17,7 +17,9 @@ from consultation_center.api.consultant_settings import (
 	save_professional_profile,
 	update_capacity,
 )
+from consultation_center.consultant_portal import get_current_consultant
 from consultation_center.staff import get_supervised_cases
+from consultation_center.www.consultant.professional_profile import get_context as get_profile_page_context
 
 
 class TestProfessionalWorkflows(FrappeTestCase):
@@ -45,22 +47,34 @@ class TestProfessionalWorkflows(FrappeTestCase):
 			"rushd.professional.beneficiary@example.com",
 			"Beneficiary",
 		)
-		cls.service = frappe.get_doc(
-			{
-				"doctype": "Consultation Service",
-				"service_name": "اختبار التنسيق والإشراف",
-				"service_code": "_RUSHD-PROFESSIONAL-WORKFLOW",
-				"duration_minutes": 60,
-				"active": 1,
-			}
-		).insert(ignore_permissions=True)
-		cls.beneficiary = frappe.get_doc(
-			{
-				"doctype": "Beneficiary",
-				"beneficiary_name": "مستفيد اختبار التنسيق المهني",
-				"portal_user": cls.beneficiary_user,
-			}
-		).insert(ignore_permissions=True)
+		service_name = frappe.db.exists(
+			"Consultation Service", {"service_code": "_RUSHD-PROFESSIONAL-WORKFLOW"}
+		)
+		cls.service = (
+			frappe.get_doc("Consultation Service", service_name)
+			if service_name
+			else frappe.get_doc(
+				{
+					"doctype": "Consultation Service",
+					"service_name": "اختبار التنسيق والإشراف",
+					"service_code": "_RUSHD-PROFESSIONAL-WORKFLOW",
+					"duration_minutes": 60,
+					"active": 1,
+				}
+			).insert(ignore_permissions=True)
+		)
+		beneficiary_name = frappe.db.exists("Beneficiary", {"portal_user": cls.beneficiary_user})
+		cls.beneficiary = (
+			frappe.get_doc("Beneficiary", beneficiary_name)
+			if beneficiary_name
+			else frappe.get_doc(
+				{
+					"doctype": "Beneficiary",
+					"beneficiary_name": "مستفيد اختبار التنسيق المهني",
+					"portal_user": cls.beneficiary_user,
+				}
+			).insert(ignore_permissions=True)
+		)
 		cls.consultant = cls._make_consultant(
 			"_RUSHD-PROFESSIONAL-CONSULTANT",
 			cls.consultant_user,
@@ -72,6 +86,12 @@ class TestProfessionalWorkflows(FrappeTestCase):
 
 	@staticmethod
 	def _make_user(email, role):
+		if frappe.db.exists("User", email):
+			user = frappe.get_doc("User", email)
+			user.enabled = 1
+			user.save(ignore_permissions=True)
+			user.add_roles(role)
+			return user.name
 		user = frappe.get_doc(
 			{
 				"doctype": "User",
@@ -87,6 +107,12 @@ class TestProfessionalWorkflows(FrappeTestCase):
 
 	@classmethod
 	def _make_consultant(cls, code, user):
+		consultant_name = frappe.db.exists("Consultant", {"code": code})
+		if consultant_name:
+			doc = frappe.get_doc("Consultant", consultant_name)
+			doc.update({"user": user, "active": 1, "services": cls.service.name})
+			doc.save(ignore_permissions=True)
+			return doc
 		return frappe.get_doc(
 			{
 				"doctype": "Consultant",
@@ -340,11 +366,19 @@ class TestProfessionalWorkflows(FrappeTestCase):
 
 	def test_consultant_updates_professional_profile_and_capacity(self):
 		frappe.set_user(self.consultant_user)
+		frappe.db.set_value(
+			"Consultant",
+			self.consultant.name,
+			{"show_on_website": 1, "public_title": "", "public_bio": "", "profile_image": ""},
+		)
 		result = save_professional_profile(
-			specializations="<b>الإرشاد الشبابي</b>",
-			languages="العربية، الإنجليزية",
-			qualifications="ماجستير في الإرشاد",
+			specializations="<b>الإرشاد الشبابي</b>\nالإرشاد الأسري",
+			languages="العربية\nالإنجليزية",
+			qualifications="ماجستير في الإرشاد\nدبلوم الإرشاد الأسري",
 			experience_summary="خبرة في الاستشارات الفردية.",
+			public_title="مستشار الإرشاد الشبابي",
+			public_bio="خبرة مهنية في مساندة الشباب وبناء الخطط المناسبة.",
+			profile_image="/files/consultant-profile.webp",
 			licenses="اعتماد مهني تجريبي",
 			suitable_groups="الشباب من 18 إلى 30 عامًا",
 			credential_expiry="2027-08-30",
@@ -352,6 +386,7 @@ class TestProfessionalWorkflows(FrappeTestCase):
 			events_platform_url="https://events.example.com",
 		)
 		self.assertEqual(result["name"], self.consultant.name)
+		self.assertTrue(result["requires_review"])
 		update_capacity(
 			maximum_daily_sessions=7,
 			default_duration=50,
@@ -359,9 +394,25 @@ class TestProfessionalWorkflows(FrappeTestCase):
 			buffer_after=5,
 		)
 		doc = frappe.get_doc("Consultant", self.consultant.name)
-		self.assertEqual(doc.specializations, "الإرشاد الشبابي")
+		self.assertEqual(doc.specializations, "الإرشاد الشبابي\nالإرشاد الأسري")
+		self.assertEqual(doc.profile_image, "/files/consultant-profile.webp")
+		self.assertEqual(doc.public_title, "مستشار الإرشاد الشبابي")
+		self.assertFalse(doc.show_on_website)
 		self.assertEqual(doc.maximum_daily_sessions, 7)
 		self.assertEqual(doc.default_duration, 50)
+		profile = get_current_consultant()
+		self.assertEqual(profile.specialization_items, ["الإرشاد الشبابي", "الإرشاد الأسري"])
+		self.assertEqual(profile.language_items, ["العربية", "الإنجليزية"])
+		self.assertEqual(profile.qualification_items, ["ماجستير في الإرشاد", "دبلوم الإرشاد الأسري"])
+		context = frappe._dict(boot=frappe._dict(lang="ar"))
+		get_profile_page_context(context)
+		html = frappe.render_template(
+			"consultation_center/www/consultant/professional-profile.html",
+			context,
+		)
+		self.assertIn("data-repeatable-field", html)
+		self.assertIn("data-profile-image-file", html)
+		self.assertIn("مستشار الإرشاد الشبابي", html)
 
 	def test_consultant_manages_only_own_availability(self):
 		frappe.set_user(self.consultant_user)

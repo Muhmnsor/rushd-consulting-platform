@@ -12,6 +12,7 @@ def save_professional_profile(
 	experience_summary: str | None = None,
 	public_title: str | None = None,
 	public_bio: str | None = None,
+	profile_image: str | None = None,
 	licenses: str | None = None,
 	suitable_groups: str | None = None,
 	credential_expiry: str | None = None,
@@ -20,19 +21,42 @@ def save_professional_profile(
 ):
 	consultant = _require_consultant()
 	doc = frappe.get_doc("Consultant", consultant.name)
+	public_title = _clean(public_title, 140)
+	public_bio = _clean(public_bio, 1000)
+	profile_image = _clean(profile_image, 500)
+	if profile_image and not profile_image.startswith(("/files/", "/assets/")):
+		frappe.throw("مسار الصورة المهنية غير صالح")
+	public_profile_changed = any(
+		[
+			(doc.public_title or "") != public_title,
+			(doc.public_bio or "") != public_bio,
+			(doc.profile_image or "") != profile_image,
+		]
+	)
 	doc.specializations = _clean(specializations, 2000)
 	doc.languages = _clean(languages, 1000)
 	doc.qualifications = _clean(qualifications, 5000)
 	doc.experience_summary = _clean(experience_summary, 5000)
-	doc.public_title = _clean(public_title, 140)
-	doc.public_bio = _clean(public_bio, 1000)
+	doc.public_title = public_title
+	doc.public_bio = public_bio
+	doc.profile_image = profile_image or None
+	if public_profile_changed:
+		doc.show_on_website = 0
 	doc.licenses = _clean(licenses, 2000)
 	doc.suitable_groups = _clean(suitable_groups, 2000)
 	doc.credential_expiry = credential_expiry or None
 	doc.development_requirements = _clean(development_requirements, 5000)
 	doc.events_platform_url = _clean(events_platform_url, 500)
 	doc.save(ignore_permissions=True)
-	return {"name": doc.name, "message": "تم حفظ الملف المهني"}
+	return {
+		"name": doc.name,
+		"requires_review": public_profile_changed,
+		"message": (
+			"تم حفظ الملف المهني وإرسال تعديلات البطاقة إلى الإدارة للمراجعة"
+			if public_profile_changed
+			else "تم حفظ الملف المهني"
+		),
+	}
 
 
 @frappe.whitelist(methods=["POST"])

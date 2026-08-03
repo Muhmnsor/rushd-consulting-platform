@@ -1,3 +1,4 @@
+import re
 from urllib.parse import urlencode
 
 import frappe
@@ -142,7 +143,7 @@ def get_current_consultant():
 	user = frappe.session.user
 	if user in {"Guest", "Administrator"}:
 		return None
-	return frappe.db.get_value(
+	consultant = frappe.db.get_value(
 		"Consultant",
 		{"user": user, "active": 1},
 		[
@@ -156,6 +157,9 @@ def get_current_consultant():
 			"services",
 			"qualifications",
 			"experience_summary",
+			"profile_image",
+			"public_title",
+			"public_bio",
 			"licenses",
 			"suitable_groups",
 			"credential_expiry",
@@ -165,6 +169,21 @@ def get_current_consultant():
 		],
 		as_dict=True,
 	)
+	if not consultant:
+		return None
+	for fieldname, item_fieldname in (
+		("specializations", "specialization_items"),
+		("languages", "language_items"),
+		("qualifications", "qualification_items"),
+		("licenses", "license_items"),
+		("suitable_groups", "suitable_group_items"),
+	):
+		consultant[item_fieldname] = _split_profile_items(consultant.get(fieldname))
+	return consultant
+
+
+def _split_profile_items(value: str | None) -> list[str]:
+	return [item.strip() for item in re.split(r"[\n،,]+", value or "") if item.strip()]
 
 
 def get_consultant_cases(consultant: str, limit: int | None = None):

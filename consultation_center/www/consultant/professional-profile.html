@@ -1,10 +1,101 @@
 {% extends "consultation_center/templates/rushd_staff.html" %}
 {% block staff_content %}
-<section class="rushd-page-heading"><div><span class="rushd-page-heading__eyebrow">الهوية المهنية</span><h1>الملف المهني للمستشار</h1><p>حدّث تخصصاتك ومؤهلاتك وخبراتك ورخصك والفئات التي تناسب خبرتك.</p></div></section>
-{% if consultant_ready %}<form class="rushd-card rushd-settings-form" data-professional-profile-form><div class="rushd-card__header"><div><h2>{{ consultant.consultant_name }}</h2><p>{{ consultant.name }} — {{ consultant.branch or "دون فرع" }}</p></div></div><div class="rushd-staff-fields">
-<div class="rushd-staff-field"><label>التخصصات</label><textarea name="specializations">{{ consultant.specializations or "" }}</textarea></div><div class="rushd-staff-field"><label>اللغات</label><textarea name="languages">{{ consultant.languages or "" }}</textarea></div><div class="rushd-staff-field rushd-staff-field--full"><label>المؤهلات</label><textarea name="qualifications">{{ consultant.qualifications or "" }}</textarea></div><div class="rushd-staff-field rushd-staff-field--full"><label>ملخص الخبرات</label><textarea name="experience_summary">{{ consultant.experience_summary or "" }}</textarea></div>
-<div class="rushd-staff-field"><label>المسمى الظاهر في الموقع</label><input name="public_title" maxlength="140" value="{{ consultant.public_title or '' }}" placeholder="مثال: مستشار في الإرشاد النفسي والأسري"></div><div class="rushd-staff-field rushd-staff-field--full"><label>النبذة المختصرة للنشر</label><textarea name="public_bio" maxlength="1000" placeholder="اكتب نبذة مهنية مخصصة للزوار دون وسائل تواصل أو بيانات شخصية.">{{ consultant.public_bio or "" }}</textarea><small>لا تظهر البطاقة إلا بعد مراجعة الإدارة وتفعيل النشر. تستخدم صورة حسابك المهنية، أو الأحرف الأولى عند عدم توفر صورة.</small></div>
-<div class="rushd-staff-field"><label>الرخص والاعتمادات</label><textarea name="licenses">{{ consultant.licenses or "" }}</textarea></div><div class="rushd-staff-field"><label>الفئات المناسبة</label><textarea name="suitable_groups">{{ consultant.suitable_groups or "" }}</textarea></div><div class="rushd-staff-field"><label>انتهاء أقرب اعتماد</label><input type="date" name="credential_expiry" value="{{ consultant.credential_expiry or '' }}"></div><div class="rushd-staff-field"><label>رابط منصة الفعاليات</label><input type="url" name="events_platform_url" value="{{ consultant.events_platform_url or '' }}"></div><div class="rushd-staff-field rushd-staff-field--full"><label>متطلبات التطوير الحالية</label><textarea name="development_requirements">{{ consultant.development_requirements or "" }}</textarea></div>
-</div><div class="rushd-form-actions"><button class="rushd-button rushd-button--primary" type="submit">حفظ الملف المهني</button></div><div class="rushd-form-message" data-form-message></div></form>{% else %}<section class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">!</span><h2>الملف المهني غير مربوط</h2></div></section>{% endif %}
+<section class="rushd-page-heading rushd-page-heading--with-action">
+	<div><span class="rushd-page-heading__eyebrow">هويتك المهنية</span><h1>الملف المهني</h1><p>نظّم معلوماتك على شكل عناصر واضحة، وحدّث البطاقة التي يراجعها فريق رُشد قبل نشرها للزوار.</p></div>
+	{% if consultant_ready %}<span class="rushd-profile-completeness" data-profile-completeness><strong data-profile-completeness-value>0%</strong><small>اكتمال الملف</small></span>{% endif %}
+</section>
+
+{% if consultant_ready %}
+<form class="rushd-card rushd-settings-form rushd-professional-profile-editor" data-professional-profile-form>
+	<header class="rushd-professional-profile-editor__hero">
+		<div class="rushd-professional-profile-editor__identity">
+			<div class="rushd-professional-avatar" data-profile-image-preview>
+				<span {% if consultant.profile_image %}hidden{% endif %}>{{ consultant.consultant_name[:1] }}</span>
+				<img alt="الصورة المهنية للمستشار" {% if consultant.profile_image %}src="{{ consultant.profile_image }}"{% else %}hidden{% endif %}>
+			</div>
+			<div><small>ملف المستشار</small><h2>{{ consultant.consultant_name }}</h2><p>{{ consultant.name }} · {{ consultant.branch or "دون فرع" }}</p></div>
+		</div>
+		<div class="rushd-profile-review-note"><span>✓</span><p><strong>أنت تتحكم بالمحتوى</strong><small>النشر العام يبقى بيد الإدارة بعد المراجعة والموافقة.</small></p></div>
+	</header>
+
+	<section class="rushd-profile-section rushd-profile-section--image" data-profile-image-uploader>
+		<div class="rushd-profile-section__heading"><span>01</span><div><h3>الصورة المهنية</h3><p>هذه الصورة تستخدم في بطاقة «مستشارونا» وفي واجهاتك المهنية.</p></div></div>
+		<div class="rushd-profile-image-control">
+			<div>
+				<strong>صورة مربعة وواضحة</strong>
+				<p>الوجه في المنتصف، إضاءة طبيعية، خلفية هادئة، ومن دون شعارات أو نصوص على الصورة.</p>
+				<ul><li>الموصى به 800 × 800 بكسل</li><li>الحد الأدنى 600 × 600 بكسل</li><li>JPG أو PNG أو WebP · بحد أقصى 2 ميجابايت</li></ul>
+			</div>
+			<div class="rushd-profile-image-control__actions">
+				<label class="rushd-image-upload-button">اختيار صورة<input type="file" accept="image/jpeg,image/png,image/webp" data-profile-image-file></label>
+				<button type="button" class="rushd-button rushd-button--secondary" data-remove-profile-image {% if not consultant.profile_image %}hidden{% endif %}>إزالة الصورة</button>
+			</div>
+			<small data-profile-image-message>{% if consultant.profile_image %}الصورة الحالية محفوظة ويمكن استبدالها.{% else %}لم ترفع صورة بعد؛ ستظهر الأحرف الأولى من اسمك مؤقتًا.{% endif %}</small>
+			<input type="hidden" name="profile_image" value="{{ consultant.profile_image or '' }}" data-profile-image-url>
+		</div>
+	</section>
+
+	<section class="rushd-profile-section">
+		<div class="rushd-profile-section__heading"><span>02</span><div><h3>مجالات العمل والخبرة</h3><p>أضف كل معلومة في سطر مستقل لتكون أسهل في القراءة والتحديث.</p></div></div>
+		<div class="rushd-profile-fields-grid">
+			<div class="rushd-repeatable-field" data-repeatable-field data-field-name="specializations" data-placeholder="مثال: الإرشاد النفسي">
+				<div class="rushd-repeatable-field__header"><div><label>التخصصات</label><small>المجالات المهنية الأساسية</small></div><button type="button" data-add-repeatable>＋ إضافة تخصص</button></div>
+				<div class="rushd-repeatable-list" data-repeatable-list>{% for item in consultant.specialization_items %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="240" value="{{ item }}" data-repeatable-input><button type="button" aria-label="حذف التخصص" data-remove-repeatable>×</button></div>{% else %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="240" placeholder="مثال: الإرشاد النفسي" data-repeatable-input><button type="button" aria-label="حذف التخصص" data-remove-repeatable>×</button></div>{% endfor %}</div>
+				<input type="hidden" name="specializations" value="{{ consultant.specializations or '' }}" data-repeatable-output>
+			</div>
+			<div class="rushd-repeatable-field" data-repeatable-field data-field-name="languages" data-placeholder="مثال: العربية — متقن">
+				<div class="rushd-repeatable-field__header"><div><label>اللغات</label><small>اكتب مستوى الإتقان عند الحاجة</small></div><button type="button" data-add-repeatable>＋ إضافة لغة</button></div>
+				<div class="rushd-repeatable-list" data-repeatable-list>{% for item in consultant.language_items %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="160" value="{{ item }}" data-repeatable-input><button type="button" aria-label="حذف اللغة" data-remove-repeatable>×</button></div>{% else %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="160" placeholder="مثال: العربية — متقن" data-repeatable-input><button type="button" aria-label="حذف اللغة" data-remove-repeatable>×</button></div>{% endfor %}</div>
+				<input type="hidden" name="languages" value="{{ consultant.languages or '' }}" data-repeatable-output>
+			</div>
+			<div class="rushd-repeatable-field rushd-profile-field--full" data-repeatable-field data-field-name="qualifications" data-placeholder="مثال: ماجستير الإرشاد النفسي — جامعة الملك سعود — 2022">
+				<div class="rushd-repeatable-field__header"><div><label>المؤهلات العلمية</label><small>الدرجة، التخصص، الجهة، وسنة التخرج إن أمكن</small></div><button type="button" data-add-repeatable>＋ إضافة مؤهل</button></div>
+				<div class="rushd-repeatable-list" data-repeatable-list>{% for item in consultant.qualification_items %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="500" value="{{ item }}" data-repeatable-input><button type="button" aria-label="حذف المؤهل" data-remove-repeatable>×</button></div>{% else %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="500" placeholder="مثال: ماجستير الإرشاد النفسي — جامعة الملك سعود — 2022" data-repeatable-input><button type="button" aria-label="حذف المؤهل" data-remove-repeatable>×</button></div>{% endfor %}</div>
+				<input type="hidden" name="qualifications" value="{{ consultant.qualifications or '' }}" data-repeatable-output>
+			</div>
+			<div class="rushd-staff-field rushd-profile-field--full"><label>ملخص الخبرات</label><textarea name="experience_summary" maxlength="5000" rows="5" placeholder="لخّص نوع الخبرة، سنوات الممارسة، وأبرز مجالات العمل دون بيانات سرية.">{{ consultant.experience_summary or "" }}</textarea><small>اكتب ملخصًا مهنيًا مترابطًا؛ لا حاجة لتكرار المؤهلات أو الرخص هنا.</small></div>
+		</div>
+	</section>
+
+	<section class="rushd-profile-section rushd-profile-section--public">
+		<div class="rushd-profile-section__heading"><span>03</span><div><h3>بطاقة الظهور في الموقع</h3><p>نص مختصر موجّه للمستفيد يساعده على فهم خبرتك واختيار الخدمة المناسبة.</p></div></div>
+		<div class="rushd-profile-fields-grid">
+			<div class="rushd-staff-field"><label>المسمى الظاهر في الموقع</label><input name="public_title" maxlength="140" value="{{ consultant.public_title or '' }}" placeholder="مثال: مستشار في الإرشاد النفسي والأسري"><small>استخدم مسمى واضحًا بلا مبالغة أو ألقاب غير معتمدة.</small></div>
+			<div class="rushd-public-card-preview" data-public-card-preview><small>معاينة البطاقة</small><strong data-preview-title>{{ consultant.public_title or "المسمى المهني" }}</strong><p data-preview-bio>{{ consultant.public_bio or "ستظهر هنا نبذة تعريفية قصيرة وواضحة للمستفيد." }}</p></div>
+			<div class="rushd-staff-field rushd-profile-field--full"><label>النبذة المختصرة للنشر</label><textarea name="public_bio" maxlength="1000" rows="4" placeholder="عرّف بخبرتك ومنهجك والفئات التي تعمل معها دون وسائل تواصل أو بيانات شخصية.">{{ consultant.public_bio or "" }}</textarea><div class="rushd-field-meta"><small>تراجع الإدارة البطاقة قبل تفعيل ظهورها.</small><small><span data-bio-count>0</span>/1000</small></div></div>
+		</div>
+	</section>
+
+	<section class="rushd-profile-section">
+		<div class="rushd-profile-section__heading"><span>04</span><div><h3>الاعتمادات والفئات المناسبة</h3><p>افصل كل اعتماد وكل فئة في عنصر مستقل حتى يسهل تدقيقها.</p></div></div>
+		<div class="rushd-profile-fields-grid">
+			<div class="rushd-repeatable-field rushd-profile-field--full" data-repeatable-field data-field-name="licenses" data-placeholder="مثال: رخصة ممارس — الجهة — رقم الرخصة">
+				<div class="rushd-repeatable-field__header"><div><label>الرخص والاعتمادات</label><small>اسم الاعتماد، الجهة المانحة، والرقم إن وجد</small></div><button type="button" data-add-repeatable>＋ إضافة اعتماد</button></div>
+				<div class="rushd-repeatable-list" data-repeatable-list>{% for item in consultant.license_items %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="360" value="{{ item }}" data-repeatable-input><button type="button" aria-label="حذف الاعتماد" data-remove-repeatable>×</button></div>{% else %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="360" placeholder="مثال: رخصة ممارس — الجهة — رقم الرخصة" data-repeatable-input><button type="button" aria-label="حذف الاعتماد" data-remove-repeatable>×</button></div>{% endfor %}</div>
+				<input type="hidden" name="licenses" value="{{ consultant.licenses or '' }}" data-repeatable-output>
+			</div>
+			<div class="rushd-repeatable-field" data-repeatable-field data-field-name="suitable_groups" data-placeholder="مثال: اليافعون من 15 إلى 18 عامًا">
+				<div class="rushd-repeatable-field__header"><div><label>الفئات المناسبة</label><small>الفئات التي تلائم خبرتك وخدماتك</small></div><button type="button" data-add-repeatable>＋ إضافة فئة</button></div>
+				<div class="rushd-repeatable-list" data-repeatable-list>{% for item in consultant.suitable_group_items %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="260" value="{{ item }}" data-repeatable-input><button type="button" aria-label="حذف الفئة" data-remove-repeatable>×</button></div>{% else %}<div class="rushd-repeatable-row" data-repeatable-row><input type="text" maxlength="260" placeholder="مثال: اليافعون من 15 إلى 18 عامًا" data-repeatable-input><button type="button" aria-label="حذف الفئة" data-remove-repeatable>×</button></div>{% endfor %}</div>
+				<input type="hidden" name="suitable_groups" value="{{ consultant.suitable_groups or '' }}" data-repeatable-output>
+			</div>
+			<div class="rushd-staff-field"><label>انتهاء أقرب اعتماد</label><input type="date" name="credential_expiry" value="{{ consultant.credential_expiry or '' }}"><small>يساعد فريق التشغيل على التنبيه قبل انتهاء الاعتماد.</small></div>
+		</div>
+	</section>
+
+	<section class="rushd-profile-section">
+		<div class="rushd-profile-section__heading"><span>05</span><div><h3>التطوير المهني</h3><p>سجّل الاحتياج الحالي والرابط المرجعي للفعاليات أو الدورات.</p></div></div>
+		<div class="rushd-profile-fields-grid">
+			<div class="rushd-staff-field rushd-profile-field--full"><label>متطلبات التطوير الحالية</label><textarea name="development_requirements" maxlength="5000" rows="4" placeholder="مثال: استكمال دورة في إدارة مخاطر الحالات عالية الحساسية.">{{ consultant.development_requirements or "" }}</textarea></div>
+			<div class="rushd-staff-field rushd-profile-field--full"><label>رابط منصة الفعاليات</label><input type="url" name="events_platform_url" value="{{ consultant.events_platform_url or '' }}" placeholder="https://"><small>رابط اختياري لمنصة التدريب أو ملف الفعاليات المهنية.</small></div>
+		</div>
+	</section>
+
+	<footer class="rushd-professional-profile-editor__actions"><div><strong>راجع المعلومات قبل الحفظ</strong><small>يمكنك العودة وتعديلها في أي وقت.</small></div><button class="rushd-button rushd-button--primary" type="submit">حفظ الملف المهني</button></footer>
+	<div class="rushd-form-message" data-form-message></div>
+</form>
+{% else %}
+<section class="rushd-card rushd-empty-state"><div><span class="rushd-empty-state__mark">!</span><h2>الملف المهني غير مربوط</h2><p>تواصل مع مسؤول النظام لربط حسابك بملف مستشار نشط.</p></div></section>
+{% endif %}
 {% endblock %}
-{% block script %}<script src="/assets/consultation_center/js/rushd-consultant-settings.js?v=20260729-8"></script>{% endblock %}
+{% block script %}<script src="/assets/consultation_center/js/rushd-consultant-settings.js?v=20260803-1"></script>{% endblock %}
